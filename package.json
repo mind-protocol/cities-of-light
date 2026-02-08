@@ -1,0 +1,20 @@
+{
+  "name": "cities-of-light",
+  "version": "0.1.0",
+  "description": "Shared virtual world where humans and AIs coexist as embodied citizens",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview --host",
+    "server": "node src/server/index.js"
+  },
+  "dependencies": {
+    "three": "^0.170.0",
+    "ws": "^8.18.0",
+    "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}

@@ -1,0 +1,14 @@
+# Mind runtime
+.mind/runtime/
+.mind/work/
+.mind/traces/
+.mcp.json
+.env
+
+# Node
+node_modules/
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
