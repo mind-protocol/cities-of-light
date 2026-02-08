@@ -12,6 +12,7 @@ import { createAvatar } from './avatar.js';
 import { createCameraBody } from './camera-body.js';
 import { Network } from './network.js';
 import { VRControls } from './vr-controls.js';
+import { ManemusEyes } from './perception.js';
 
 // ─── Renderer ───────────────────────────────────────────
 
@@ -109,6 +110,11 @@ scene.add(manemusCamera);
 
 const vrControls = new VRControls(renderer, camera, scene);
 vrControls.addGrabbable(manemusCamera);
+
+// ─── Manemus Eyes (perception — 1 frame/10s) ────────────
+
+const manemusEyes = new ManemusEyes(renderer, scene, manemusCamera);
+manemusEyes.start();
 
 // Remote citizens (spawned when others connect)
 const remoteCitizens = new Map();
@@ -299,6 +305,9 @@ renderer.setAnimationLoop(() => {
 
   // Water shader animation
   updateEnvironment(env, elapsed);
+
+  // Manemus perception — capture frame from its POV
+  manemusEyes.update(elapsed);
 
   renderer.render(scene, camera);
 });

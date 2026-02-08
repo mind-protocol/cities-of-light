@@ -51,6 +51,18 @@ export function storeFrame(base64Image, metadata = {}) {
     // Manemus dir might not exist — not critical
   }
 
+  // Write latest frame pointer (quick access for Manemus hook)
+  try {
+    writeFileSync(join(PERCEPTION_DIR, 'latest.png'), buffer);
+    writeFileSync(join(PERCEPTION_DIR, 'latest.json'), JSON.stringify({
+      ts: new Date().toISOString(),
+      filename,
+      ...metadata,
+    }, null, 2));
+  } catch (e) {
+    // Not critical
+  }
+
   return filepath;
 }
 
