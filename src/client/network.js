@@ -12,6 +12,9 @@ export class Network {
     this.onCitizenLeft = null;
     this.onVoice = null;
     this.onVoiceResponse = null;
+    this.onVoiceStreamStart = null;
+    this.onVoiceStreamData = null;
+    this.onVoiceStreamEnd = null;
     this._reconnectTimer = null;
     this._positionInterval = null;
   }
@@ -58,6 +61,15 @@ export class Network {
             break;
           case 'voice_response':
             if (this.onVoiceResponse) this.onVoiceResponse(msg);
+            break;
+          case 'voice_stream_start':
+            if (this.onVoiceStreamStart) this.onVoiceStreamStart(msg);
+            break;
+          case 'voice_stream_data':
+            if (this.onVoiceStreamData) this.onVoiceStreamData(msg);
+            break;
+          case 'voice_stream_end':
+            if (this.onVoiceStreamEnd) this.onVoiceStreamEnd(msg);
             break;
         }
       } catch (e) {

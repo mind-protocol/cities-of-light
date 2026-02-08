@@ -65,6 +65,38 @@
     }
     #status .connected { color: rgba(0, 255, 136, 0.6); }
     #status .disconnected { color: rgba(255, 68, 68, 0.6); }
+
+    #voice-status {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 14px;
+      font-family: 'Courier New', monospace;
+      z-index: 100;
+      pointer-events: none;
+      display: none;
+      text-shadow: 0 0 10px currentColor;
+    }
+
+    #transcription {
+      position: fixed;
+      bottom: 140px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 13px;
+      font-family: 'Courier New', monospace;
+      color: rgba(255, 255, 255, 0.8);
+      z-index: 100;
+      pointer-events: none;
+      display: none;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 8px 16px;
+      border-radius: 6px;
+      max-width: 600px;
+      text-align: center;
+      backdrop-filter: blur(5px);
+    }
   </style>
 </head>
 <body>
@@ -72,12 +104,14 @@
     <div class="title">Cities of Light</div>
     Phase 1 — First Encounter
     <div class="controls">
-      WASD / Arrows — Move &nbsp;|&nbsp; Mouse — Look &nbsp;|&nbsp; Scroll — Zoom
+      WASD — Move &nbsp;|&nbsp; Mouse — Look &nbsp;|&nbsp; Space — Talk to Manemus
     </div>
   </div>
   <div id="status">
     <span class="disconnected">offline</span>
   </div>
+  <div id="voice-status"></div>
+  <div id="transcription"></div>
   <button id="enter-vr" disabled>Checking WebXR...</button>
   <script type="module" src="./main.js"></script>
 </body>

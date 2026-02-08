@@ -10,7 +10,7 @@ import express from 'express';
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import { perceptionRoutes } from './perception.js';
-import { processVoice } from './voice.js';
+import { processVoice, processVoiceStreaming } from './voice.js';
 
 const PORT = 8800;
 const WS_PORT = 8801;
@@ -124,28 +124,17 @@ wss.on('connection', (ws) => {
         }
 
         case 'voice': {
-          // Voice message → STT → Claude → TTS pipeline
+          // Voice message → STT → Claude → streaming TTS
           if (msg.audio) {
             const audioBuffer = Buffer.from(msg.audio, 'base64');
             console.log(`🎤 Voice from ${citizenId} (${audioBuffer.length} bytes)`);
 
-            processVoice(audioBuffer).then((result) => {
-              if (!result) return;
+            // Stream TTS chunks directly to the client
+            const send = (obj) => {
+              if (ws.readyState === 1) ws.send(JSON.stringify(obj));
+            };
 
-              // Send response back to the speaking citizen
-              if (ws.readyState === 1) {
-                ws.send(JSON.stringify({
-                  type: 'voice_response',
-                  transcription: result.transcription,
-                  response: result.response,
-                  audio: result.audio,
-                  format: result.format,
-                  latency: result.latency,
-                }));
-              }
-
-              console.log(`🔊 Response sent (${result.latency}ms round-trip)`);
-            }).catch((e) => {
+            processVoiceStreaming(audioBuffer, send).catch((e) => {
               console.error('Voice pipeline error:', e.message);
             });
           }

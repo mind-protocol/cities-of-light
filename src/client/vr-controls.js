@@ -171,6 +171,9 @@ export class VRControls {
   _locomotion(stickX, stickY, delta) {
     if (Math.abs(stickX) < 0.15 && Math.abs(stickY) < 0.15) return;
 
+    // Force matrix update so direction reflects current headset orientation
+    this.dolly.updateMatrixWorld(true);
+
     const dir = new THREE.Vector3();
     this.camera.getWorldDirection(dir);
     dir.y = 0;

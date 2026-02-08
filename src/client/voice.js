@@ -21,6 +21,15 @@ export class SpatialVoice {
     this.onRecordingComplete = null; // (base64Audio) => void
     this.onSpeechStart = null;
     this.onSpeechEnd = null;
+
+    // Streaming TTS state
+    this._streamChunks = [];
+    this._streamPosition = null; // THREE.Vector3 — where to play from
+
+    // UI elements
+    this._statusEl = document.getElementById('voice-status');
+    this._transcriptionEl = document.getElementById('transcription');
+    this._transcriptionTimer = null;
   }
 
   /** Request mic access and set up spatial audio. Call once on user gesture. */
@@ -88,6 +97,7 @@ export class SpatialVoice {
 
     this.recorder.start();
     this.isRecording = true;
+    this._showStatus('recording');
     if (this.onSpeechStart) this.onSpeechStart();
     console.log('🎤 Recording...');
   }
@@ -98,6 +108,7 @@ export class SpatialVoice {
 
     this.recorder.stop();
     this.isRecording = false;
+    this._showStatus('processing');
     if (this.onSpeechEnd) this.onSpeechEnd();
     console.log('🎤 Recording stopped');
   }
@@ -136,7 +147,11 @@ export class SpatialVoice {
     source.connect(this.pannerNode);
 
     this.isPlaying = true;
-    source.onended = () => { this.isPlaying = false; };
+    this._showStatus('speaking');
+    source.onended = () => {
+      this.isPlaying = false;
+      this._showStatus('idle');
+    };
     source.start();
   }
 
@@ -176,6 +191,43 @@ export class SpatialVoice {
     } else {
       listener.setOrientation(fwd.x, fwd.y, fwd.z, up.x, up.y, up.z);
     }
+  }
+
+  // ─── UI ────────────────────────────────────────────────
+
+  _showStatus(state) {
+    if (!this._statusEl) return;
+    switch (state) {
+      case 'recording':
+        this._statusEl.textContent = '🔴 Listening...';
+        this._statusEl.style.display = 'block';
+        this._statusEl.style.color = '#ff4444';
+        break;
+      case 'processing':
+        this._statusEl.textContent = '⏳ Thinking...';
+        this._statusEl.style.display = 'block';
+        this._statusEl.style.color = '#ffaa00';
+        break;
+      case 'speaking':
+        this._statusEl.textContent = '🔊 Manemus';
+        this._statusEl.style.display = 'block';
+        this._statusEl.style.color = '#ff8800';
+        break;
+      default:
+        this._statusEl.style.display = 'none';
+    }
+  }
+
+  showTranscription(userText, manemusText) {
+    if (!this._transcriptionEl) return;
+    this._transcriptionEl.innerHTML =
+      `<span style="color:#00ff88">You:</span> ${userText}<br>` +
+      `<span style="color:#ff8800">Manemus:</span> ${manemusText}`;
+    this._transcriptionEl.style.display = 'block';
+    clearTimeout(this._transcriptionTimer);
+    this._transcriptionTimer = setTimeout(() => {
+      this._transcriptionEl.style.display = 'none';
+    }, 8000);
   }
 
   // ─── Utils ──────────────────────────────────────────────

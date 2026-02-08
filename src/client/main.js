@@ -117,7 +117,14 @@ vrControls.addGrabbable(manemusCamera);
 const manemusEyes = new ManemusEyes(renderer, scene, manemusCamera);
 manemusEyes.start();
 
-// ─── Spatial Voice (STT → Claude → TTS) ─────────────────
+// Remote citizens (spawned when others connect)
+const remoteCitizens = new Map();
+
+// ─── Network ────────────────────────────────────────────
+
+const network = new Network();
+
+// ─── Spatial Voice (STT → LLM → TTS) ────────────────────
 
 const spatialVoice = new SpatialVoice();
 
@@ -126,7 +133,6 @@ async function initVoice() {
   if (spatialVoice.audioContext) return;
   const ok = await spatialVoice.init();
   if (ok) {
-    // Recording complete → send to server via WebSocket
     spatialVoice.onRecordingComplete = (base64) => {
       network.sendVoice(base64);
     };
@@ -144,6 +150,7 @@ vrControls.onPushToTalkEnd = () => {
 // Desktop push-to-talk: hold Space bar
 document.addEventListener('keydown', (e) => {
   if (e.code === 'Space' && !e.repeat && !renderer.xr.isPresenting) {
+    e.preventDefault();
     initVoice().then(() => spatialVoice.startRecording());
   }
 });
@@ -158,17 +165,13 @@ network.onVoiceResponse = (msg) => {
   if (msg.audio) {
     spatialVoice.playAtPosition(msg.audio, manemusCamera.position);
   }
+  if (msg.transcription && msg.response) {
+    spatialVoice.showTranscription(msg.transcription, msg.response);
+  }
   if (msg.transcription) console.log(`🗣️ You: ${msg.transcription}`);
-  if (msg.response) console.log(`🤖 Marco: ${msg.response}`);
+  if (msg.response) console.log(`🤖 Manemus: ${msg.response}`);
   if (msg.latency) console.log(`⏱️ ${msg.latency}ms round-trip`);
 };
-
-// Remote citizens (spawned when others connect)
-const remoteCitizens = new Map();
-
-// ─── Network ────────────────────────────────────────────
-
-const network = new Network();
 
 network.onCitizenJoined = (msg) => {
   if (remoteCitizens.has(msg.citizenId)) return;
@@ -334,6 +337,10 @@ renderer.setAnimationLoop(() => {
 
   // In XR mode, avatar follows headset position
   if (renderer.xr.isPresenting) {
+    // Force world matrix update — XR pose is applied before callback but
+    // dolly movement this frame hasn't propagated to children yet
+    vrControls.dolly.updateMatrixWorld(true);
+
     const xrCamera = renderer.xr.getCamera();
     const worldPos = new THREE.Vector3();
     const worldQuat = new THREE.Quaternion();
