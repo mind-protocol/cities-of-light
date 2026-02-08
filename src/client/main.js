@@ -27,7 +27,7 @@ document.body.appendChild(renderer.domElement);
 // ─── Scene ──────────────────────────────────────────────
 
 const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x8faabe, 0.002); // Light atmospheric fog
+// No scene fog — Sky shader handles the horizon
 
 // ─── Camera (human's eyes in VR, or orbit in desktop) ───
 
