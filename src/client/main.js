@@ -165,6 +165,52 @@ try {
   console.log('Server not available, running offline');
 }
 
+// ─── Desktop Manemus Drag (click + drag to reposition in 3D) ─
+
+const raycaster = new THREE.Raycaster();
+const mouseVec = new THREE.Vector2();
+const dragPlane = new THREE.Plane();
+let isDraggingManemus = false;
+
+renderer.domElement.addEventListener('pointerdown', (e) => {
+  if (renderer.xr.isPresenting) return;
+
+  mouseVec.x = (e.clientX / window.innerWidth) * 2 - 1;
+  mouseVec.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouseVec, camera);
+  const hits = raycaster.intersectObject(manemusCamera, true);
+
+  if (hits.length > 0) {
+    isDraggingManemus = true;
+    controls.enabled = false;
+    // Drag plane perpendicular to camera at Manemus position
+    const normal = new THREE.Vector3();
+    camera.getWorldDirection(normal);
+    dragPlane.setFromNormalAndCoplanarPoint(normal, manemusCamera.position);
+  }
+});
+
+renderer.domElement.addEventListener('pointermove', (e) => {
+  if (!isDraggingManemus) return;
+
+  mouseVec.x = (e.clientX / window.innerWidth) * 2 - 1;
+  mouseVec.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouseVec, camera);
+  const target = new THREE.Vector3();
+  if (raycaster.ray.intersectPlane(dragPlane, target)) {
+    manemusCamera.position.copy(target);
+  }
+});
+
+renderer.domElement.addEventListener('pointerup', () => {
+  if (isDraggingManemus) {
+    isDraggingManemus = false;
+    controls.enabled = true;
+  }
+});
+
 // ─── WebXR Setup ────────────────────────────────────────
 
 const vrButton = document.getElementById('enter-vr');
@@ -178,8 +224,7 @@ if ('xr' in navigator) {
       vrButton.addEventListener('click', async () => {
         try {
           const session = await navigator.xr.requestSession('immersive-vr', {
-            requiredFeatures: ['local-floor'],
-            optionalFeatures: ['hand-tracking'],
+            optionalFeatures: ['local-floor', 'hand-tracking'],
           });
           renderer.xr.setSession(session);
           vrButton.style.display = 'none';
@@ -217,8 +262,9 @@ renderer.setAnimationLoop(() => {
   // VR locomotion + snap turn + grab
   vrControls.update(delta);
 
-  // Manemus auto-behavior (skip when grabbed — player is positioning it)
-  if (!vrControls.isGrabbed(manemusCamera)) {
+  // Manemus auto-behavior (skip when grabbed or dragged)
+  const manemusControlled = vrControls.isGrabbed(manemusCamera) || isDraggingManemus;
+  if (!manemusControlled) {
     // Gentle floating bob
     manemusCamera.position.y = 1.5 + Math.sin(elapsed * 0.5) * 0.1;
 
@@ -233,14 +279,22 @@ renderer.setAnimationLoop(() => {
   const ring = manemusCamera.children.find(c => c.geometry?.type === 'TorusGeometry');
   if (ring) ring.rotation.z = elapsed * 0.3;
 
-  // In XR mode, update avatar from headset (world position via dolly)
+  // In XR mode, avatar follows headset position
   if (renderer.xr.isPresenting) {
     const xrCamera = renderer.xr.getCamera();
     const worldPos = new THREE.Vector3();
+    const worldQuat = new THREE.Quaternion();
     xrCamera.getWorldPosition(worldPos);
+    xrCamera.getWorldQuaternion(worldQuat);
     nicolasAvatar.position.set(worldPos.x, 0, worldPos.z);
-    // Head tracking
-    nicolasAvatar.children[0]?.quaternion.copy(xrCamera.quaternion);
+    // Head follows headset rotation
+    const head = nicolasAvatar.children[0];
+    if (head) {
+      head.quaternion.copy(worldQuat);
+      head.position.y = worldPos.y; // Head at actual eye height
+    }
+    // Hide body in first person (others see it via network)
+    nicolasAvatar.visible = true; // Keep visible for network sync
   }
 
   // Water shader animation
