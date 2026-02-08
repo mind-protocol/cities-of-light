@@ -10,8 +10,11 @@
     "server": "node src/server/index.js"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.74.0",
     "@vitejs/plugin-basic-ssl": "^2.1.4",
+    "dotenv": "^17.2.4",
     "express": "^4.21.0",
+    "openai": "^6.18.0",
     "three": "^0.170.0",
     "ws": "^8.18.0"
   },

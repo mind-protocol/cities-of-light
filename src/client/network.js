@@ -11,6 +11,7 @@ export class Network {
     this.onCitizenMoved = null;
     this.onCitizenLeft = null;
     this.onVoice = null;
+    this.onVoiceResponse = null;
     this._reconnectTimer = null;
     this._positionInterval = null;
   }
@@ -55,6 +56,9 @@ export class Network {
           case 'voice':
             if (this.onVoice) this.onVoice(msg);
             break;
+          case 'voice_response':
+            if (this.onVoiceResponse) this.onVoiceResponse(msg);
+            break;
         }
       } catch (e) {
         console.error('Message parse error:', e);
@@ -77,6 +81,16 @@ export class Network {
         type: 'position',
         position: { x: position.x, y: position.y, z: position.z },
         rotation: rotation ? { x: rotation.x, y: rotation.y, z: rotation.z, w: rotation.w } : null,
+      }));
+    }
+  }
+
+  /** Send voice audio to server for STT → Claude → TTS processing */
+  sendVoice(base64Audio) {
+    if (this.ws?.readyState === WebSocket.OPEN) {
+      this.ws.send(JSON.stringify({
+        type: 'voice',
+        audio: base64Audio,
       }));
     }
   }

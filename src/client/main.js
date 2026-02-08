@@ -13,6 +13,7 @@ import { createCameraBody } from './camera-body.js';
 import { Network } from './network.js';
 import { VRControls } from './vr-controls.js';
 import { ManemusEyes } from './perception.js';
+import { SpatialVoice } from './voice.js';
 
 // ─── Renderer ───────────────────────────────────────────
 
@@ -115,6 +116,52 @@ vrControls.addGrabbable(manemusCamera);
 
 const manemusEyes = new ManemusEyes(renderer, scene, manemusCamera);
 manemusEyes.start();
+
+// ─── Spatial Voice (STT → Claude → TTS) ─────────────────
+
+const spatialVoice = new SpatialVoice();
+
+// Init mic on first user gesture (browser requirement)
+async function initVoice() {
+  if (spatialVoice.audioContext) return;
+  const ok = await spatialVoice.init();
+  if (ok) {
+    // Recording complete → send to server via WebSocket
+    spatialVoice.onRecordingComplete = (base64) => {
+      network.sendVoice(base64);
+    };
+  }
+}
+
+// Push-to-talk (VR: A button on right controller)
+vrControls.onPushToTalkStart = () => {
+  initVoice().then(() => spatialVoice.startRecording());
+};
+vrControls.onPushToTalkEnd = () => {
+  spatialVoice.stopRecording();
+};
+
+// Desktop push-to-talk: hold Space bar
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'Space' && !e.repeat && !renderer.xr.isPresenting) {
+    initVoice().then(() => spatialVoice.startRecording());
+  }
+});
+document.addEventListener('keyup', (e) => {
+  if (e.code === 'Space' && !renderer.xr.isPresenting) {
+    spatialVoice.stopRecording();
+  }
+});
+
+// Voice response → play spatially at Manemus position
+network.onVoiceResponse = (msg) => {
+  if (msg.audio) {
+    spatialVoice.playAtPosition(msg.audio, manemusCamera.position);
+  }
+  if (msg.transcription) console.log(`🗣️ You: ${msg.transcription}`);
+  if (msg.response) console.log(`🤖 Marco: ${msg.response}`);
+  if (msg.latency) console.log(`⏱️ ${msg.latency}ms round-trip`);
+};
 
 // Remote citizens (spawned when others connect)
 const remoteCitizens = new Map();
@@ -308,6 +355,9 @@ renderer.setAnimationLoop(() => {
 
   // Manemus perception — capture frame from its POV
   manemusEyes.update(elapsed);
+
+  // Spatial audio listener follows camera/headset
+  spatialVoice.updateListener(camera);
 
   renderer.render(scene, camera);
 });

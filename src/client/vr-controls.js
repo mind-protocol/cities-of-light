@@ -44,6 +44,11 @@ export class VRControls {
     // ─── Snap turn ──────────────────────────────────────
     this._snapReady = true;
 
+    // ─── Push-to-talk (A button, right controller) ──────
+    this._pttActive = false;
+    this.onPushToTalkStart = null;
+    this.onPushToTalkEnd = null;
+
     // ─── Config ─────────────────────────────────────────
     this.moveSpeed = 3.0;       // m/s
     this.snapAngle = Math.PI / 6; // 30°
@@ -113,6 +118,16 @@ export class VRControls {
         this._locomotion(stickX, stickY, delta);
       } else if (source.handedness === 'right') {
         this._snapTurn(stickX);
+
+        // A button (buttons[4]) — push-to-talk
+        const aButton = source.gamepad.buttons[4];
+        if (aButton?.pressed && !this._pttActive) {
+          this._pttActive = true;
+          if (this.onPushToTalkStart) this.onPushToTalkStart();
+        } else if (!aButton?.pressed && this._pttActive) {
+          this._pttActive = false;
+          if (this.onPushToTalkEnd) this.onPushToTalkEnd();
+        }
       }
     }
 
