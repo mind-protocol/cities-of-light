@@ -7,7 +7,7 @@
 
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { createIsland } from './scene.js';
+import { createEnvironment, updateEnvironment } from './scene.js';
 import { createAvatar } from './avatar.js';
 import { createCameraBody } from './camera-body.js';
 import { Network } from './network.js';
@@ -19,7 +19,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.xr.enabled = true;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 0.8;
+renderer.toneMappingExposure = 0.5;
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.body.appendChild(renderer.domElement);
@@ -27,8 +27,7 @@ document.body.appendChild(renderer.domElement);
 // ─── Scene ──────────────────────────────────────────────
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x0d1b2a);
-scene.fog = new THREE.FogExp2(0x0d1b2a, 0.006);
+scene.fog = new THREE.FogExp2(0x8faabe, 0.002); // Light atmospheric fog
 
 // ─── Camera (human's eyes in VR, or orbit in desktop) ───
 
@@ -85,39 +84,15 @@ function updateDesktopMovement(delta) {
   }
 }
 
-// ─── Lighting ───────────────────────────────────────────
+// ─── Lighting (ambient — sun comes from environment) ────
 
-// Warm ambient — dawn light
-const ambient = new THREE.AmbientLight(0x334455, 0.5);
-scene.add(ambient);
-
-// Main light — low sun, golden
-const sun = new THREE.DirectionalLight(0xffaa44, 1.5);
-sun.position.set(-20, 15, -10);
-sun.castShadow = true;
-sun.shadow.mapSize.width = 2048;
-sun.shadow.mapSize.height = 2048;
-sun.shadow.camera.near = 0.5;
-sun.shadow.camera.far = 60;
-sun.shadow.camera.left = -20;
-sun.shadow.camera.right = 20;
-sun.shadow.camera.top = 20;
-sun.shadow.camera.bottom = -20;
-scene.add(sun);
-
-// Rim light — cool blue from opposite side
-const rim = new THREE.DirectionalLight(0x4488ff, 0.3);
-rim.position.set(20, 10, 10);
-scene.add(rim);
-
-// Hemisphere light for natural sky/ground color
-const hemi = new THREE.HemisphereLight(0x2244aa, 0x332211, 0.3);
+const hemi = new THREE.HemisphereLight(0x87ceeb, 0xc9a96e, 0.4);
 scene.add(hemi);
 
-// ─── World ──────────────────────────────────────────────
+// ─── World (sky + water + island) ───────────────────────
 
-const island = createIsland();
-scene.add(island);
+const env = createEnvironment(scene, renderer);
+scene.add(env.group);
 
 // ─── Citizens ───────────────────────────────────────────
 
@@ -255,23 +230,8 @@ renderer.setAnimationLoop(() => {
     nicolasAvatar.children[0]?.quaternion.copy(xrCamera.quaternion);
   }
 
-  // Water shimmer (animate vertices slightly)
-  const waterMesh = island.children[0]; // First child is water
-  if (waterMesh?.geometry) {
-    const pos = waterMesh.geometry.attributes.position;
-    for (let i = 0; i < pos.count; i++) {
-      const x = pos.getX(i);
-      const z = pos.getZ(i);
-      // Only animate if not in the island center
-      const dist = Math.sqrt(x * x + z * z);
-      if (dist > 16) {
-        const wave = Math.sin(x * 0.05 + elapsed * 0.8) * 0.3 +
-                     Math.cos(z * 0.05 + elapsed * 0.6) * 0.2;
-        pos.setZ(i, wave); // Z because plane is rotated
-      }
-    }
-    pos.needsUpdate = true;
-  }
+  // Water shader animation
+  updateEnvironment(env, elapsed);
 
   renderer.render(scene, camera);
 });
