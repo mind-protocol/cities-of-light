@@ -6,25 +6,29 @@
  */
 
 import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { createIsland } from './scene.js';
 import { createAvatar } from './avatar.js';
 import { createCameraBody } from './camera-body.js';
+import { Network } from './network.js';
 
 // ─── Renderer ───────────────────────────────────────────
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.xr.enabled = true;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 0.8;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.body.appendChild(renderer.domElement);
 
 // ─── Scene ──────────────────────────────────────────────
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x1a1a2e);
-scene.fog = new THREE.FogExp2(0x1a1a2e, 0.008);
+scene.background = new THREE.Color(0x0d1b2a);
+scene.fog = new THREE.FogExp2(0x0d1b2a, 0.006);
 
 // ─── Camera (human's eyes in VR, or orbit in desktop) ───
 
@@ -34,24 +38,81 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.set(0, 1.7, 5); // Standing height
+camera.position.set(8, 4, 8);
+
+// ─── Desktop Controls (orbit + WASD) ────────────────────
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(0, 1, 0);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.maxPolarAngle = Math.PI * 0.85;
+controls.minDistance = 2;
+controls.maxDistance = 50;
+
+// WASD movement
+const keys = {};
+document.addEventListener('keydown', (e) => { keys[e.code] = true; });
+document.addEventListener('keyup', (e) => { keys[e.code] = false; });
+
+function updateDesktopMovement(delta) {
+  if (renderer.xr.isPresenting) return; // Skip in VR
+
+  const speed = 8 * delta;
+  const direction = new THREE.Vector3();
+  camera.getWorldDirection(direction);
+  direction.y = 0;
+  direction.normalize();
+
+  const right = new THREE.Vector3();
+  right.crossVectors(direction, camera.up).normalize();
+
+  if (keys['KeyW'] || keys['ArrowUp']) {
+    camera.position.addScaledVector(direction, speed);
+    controls.target.addScaledVector(direction, speed);
+  }
+  if (keys['KeyS'] || keys['ArrowDown']) {
+    camera.position.addScaledVector(direction, -speed);
+    controls.target.addScaledVector(direction, -speed);
+  }
+  if (keys['KeyA'] || keys['ArrowLeft']) {
+    camera.position.addScaledVector(right, -speed);
+    controls.target.addScaledVector(right, -speed);
+  }
+  if (keys['KeyD'] || keys['ArrowRight']) {
+    camera.position.addScaledVector(right, speed);
+    controls.target.addScaledVector(right, speed);
+  }
+}
 
 // ─── Lighting ───────────────────────────────────────────
 
 // Warm ambient — dawn light
-const ambient = new THREE.AmbientLight(0x334455, 0.4);
+const ambient = new THREE.AmbientLight(0x334455, 0.5);
 scene.add(ambient);
 
 // Main light — low sun, golden
-const sun = new THREE.DirectionalLight(0xffaa44, 1.2);
+const sun = new THREE.DirectionalLight(0xffaa44, 1.5);
 sun.position.set(-20, 15, -10);
 sun.castShadow = true;
+sun.shadow.mapSize.width = 2048;
+sun.shadow.mapSize.height = 2048;
+sun.shadow.camera.near = 0.5;
+sun.shadow.camera.far = 60;
+sun.shadow.camera.left = -20;
+sun.shadow.camera.right = 20;
+sun.shadow.camera.top = 20;
+sun.shadow.camera.bottom = -20;
 scene.add(sun);
 
 // Rim light — cool blue from opposite side
 const rim = new THREE.DirectionalLight(0x4488ff, 0.3);
 rim.position.set(20, 10, 10);
 scene.add(rim);
+
+// Hemisphere light for natural sky/ground color
+const hemi = new THREE.HemisphereLight(0x2244aa, 0x332211, 0.3);
+scene.add(hemi);
 
 // ─── World ──────────────────────────────────────────────
 
@@ -68,9 +129,65 @@ const manemusCamera = createCameraBody({ color: 0xff8800, name: 'Manemus' });
 manemusCamera.position.set(2, 1.5, 2);
 scene.add(manemusCamera);
 
+// Remote citizens (spawned when others connect)
+const remoteCitizens = new Map();
+
+// ─── Network ────────────────────────────────────────────
+
+const network = new Network();
+
+network.onCitizenJoined = (msg) => {
+  if (remoteCitizens.has(msg.citizenId)) return;
+  console.log(`Citizen joined: ${msg.name}`);
+  const avatar = createAvatar({
+    color: 0x44aaff,
+    name: msg.name || msg.citizenId,
+  });
+  scene.add(avatar);
+  remoteCitizens.set(msg.citizenId, avatar);
+};
+
+network.onCitizenMoved = (msg) => {
+  const avatar = remoteCitizens.get(msg.citizenId);
+  if (avatar && msg.position) {
+    // Smooth interpolation
+    avatar.position.lerp(
+      new THREE.Vector3(msg.position.x, 0, msg.position.z),
+      0.3
+    );
+    if (msg.rotation) {
+      avatar.children[0]?.quaternion.slerp(
+        new THREE.Quaternion(msg.rotation.x, msg.rotation.y, msg.rotation.z, msg.rotation.w),
+        0.3
+      );
+    }
+  }
+};
+
+network.onCitizenLeft = (msg) => {
+  const avatar = remoteCitizens.get(msg.citizenId);
+  if (avatar) {
+    scene.remove(avatar);
+    remoteCitizens.delete(msg.citizenId);
+    console.log(`Citizen left: ${msg.citizenId}`);
+  }
+};
+
+// Connect (try, don't crash if server isn't running)
+try {
+  network.connect('Nicolas', 'Marco');
+  network.startPositionSync(() => ({
+    position: camera.position,
+    rotation: camera.quaternion,
+  }), 100);
+} catch (e) {
+  console.log('Server not available, running offline');
+}
+
 // ─── WebXR Setup ────────────────────────────────────────
 
 const vrButton = document.getElementById('enter-vr');
+const info = document.getElementById('info');
 
 if ('xr' in navigator) {
   navigator.xr.isSessionSupported('immersive-vr').then((supported) => {
@@ -78,19 +195,30 @@ if ('xr' in navigator) {
       vrButton.textContent = 'Enter Cities of Light';
       vrButton.disabled = false;
       vrButton.addEventListener('click', async () => {
-        const session = await navigator.xr.requestSession('immersive-vr', {
-          requiredFeatures: ['local-floor'],
-          optionalFeatures: ['hand-tracking'],
-        });
-        renderer.xr.setSession(session);
-        vrButton.style.display = 'none';
+        try {
+          const session = await navigator.xr.requestSession('immersive-vr', {
+            requiredFeatures: ['local-floor'],
+            optionalFeatures: ['hand-tracking'],
+          });
+          renderer.xr.setSession(session);
+          vrButton.style.display = 'none';
+          info.style.display = 'none';
+          controls.enabled = false; // Disable orbit in VR
+        } catch (err) {
+          console.error('Failed to start XR session:', err);
+          vrButton.textContent = 'XR Session Failed';
+        }
       });
     } else {
-      vrButton.textContent = 'WebXR Not Supported';
+      vrButton.textContent = 'Desktop Mode (WASD + Mouse)';
+      vrButton.disabled = true;
+      vrButton.style.opacity = '0.5';
     }
   });
 } else {
-  vrButton.textContent = 'WebXR Not Available';
+  vrButton.textContent = 'Desktop Mode (WASD + Mouse)';
+  vrButton.disabled = true;
+  vrButton.style.opacity = '0.5';
 }
 
 // ─── Animation Loop ─────────────────────────────────────
@@ -98,19 +226,51 @@ if ('xr' in navigator) {
 const clock = new THREE.Clock();
 
 renderer.setAnimationLoop(() => {
+  const delta = clock.getDelta();
   const elapsed = clock.getElapsedTime();
+
+  // Desktop movement
+  updateDesktopMovement(delta);
+  controls.update();
 
   // Gentle camera bob (Manemus floating)
   manemusCamera.position.y = 1.5 + Math.sin(elapsed * 0.5) * 0.1;
-  manemusCamera.lookAt(nicolasAvatar.position);
 
-  // In XR mode, update avatar from headset position
+  // Manemus glow ring rotation
+  const ring = manemusCamera.children.find(c => c.geometry?.type === 'TorusGeometry');
+  if (ring) ring.rotation.z = elapsed * 0.3;
+
+  // Manemus always faces Nicolas avatar
+  const lookTarget = new THREE.Vector3();
+  lookTarget.copy(nicolasAvatar.position);
+  lookTarget.y = 1.5;
+  manemusCamera.lookAt(lookTarget);
+
+  // In XR mode, update avatar from headset
   if (renderer.xr.isPresenting) {
     const xrCamera = renderer.xr.getCamera();
     nicolasAvatar.position.copy(xrCamera.position);
-    nicolasAvatar.position.y = 0; // Keep feet on ground
+    nicolasAvatar.position.y = 0;
     // Head tracking
     nicolasAvatar.children[0]?.quaternion.copy(xrCamera.quaternion);
+  }
+
+  // Water shimmer (animate vertices slightly)
+  const waterMesh = island.children[0]; // First child is water
+  if (waterMesh?.geometry) {
+    const pos = waterMesh.geometry.attributes.position;
+    for (let i = 0; i < pos.count; i++) {
+      const x = pos.getX(i);
+      const z = pos.getZ(i);
+      // Only animate if not in the island center
+      const dist = Math.sqrt(x * x + z * z);
+      if (dist > 16) {
+        const wave = Math.sin(x * 0.05 + elapsed * 0.8) * 0.3 +
+                     Math.cos(z * 0.05 + elapsed * 0.6) * 0.2;
+        pos.setZ(i, wave); // Z because plane is rotated
+      }
+    }
+    pos.needsUpdate = true;
   }
 
   renderer.render(scene, camera);
@@ -122,4 +282,10 @@ window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// ─── Cleanup ────────────────────────────────────────────
+
+window.addEventListener('beforeunload', () => {
+  network.disconnect();
 });

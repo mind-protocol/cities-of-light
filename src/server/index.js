@@ -9,6 +9,7 @@ import { WebSocketServer } from 'ws';
 import express from 'express';
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
+import { perceptionRoutes } from './perception.js';
 
 const PORT = 8800;
 const WS_PORT = 8801;
@@ -21,7 +22,10 @@ const connections = new Map(); // ws → citizenId
 // ─── Express (HTTP API) ─────────────────────────────────
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: '10mb' })); // Large for frame uploads
+
+// Perception pipeline routes
+perceptionRoutes(app);
 
 // Current state snapshot
 app.get('/state', (req, res) => {
