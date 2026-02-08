@@ -11,6 +11,7 @@ import { createEnvironment, updateEnvironment } from './scene.js';
 import { createAvatar } from './avatar.js';
 import { createCameraBody } from './camera-body.js';
 import { Network } from './network.js';
+import { VRControls } from './vr-controls.js';
 
 // ─── Renderer ───────────────────────────────────────────
 
@@ -103,6 +104,11 @@ scene.add(nicolasAvatar);
 const manemusCamera = createCameraBody({ color: 0xff8800, name: 'Manemus' });
 manemusCamera.position.set(2, 1.5, 2);
 scene.add(manemusCamera);
+
+// ─── VR Controls (locomotion + grab) ─────────────────────
+
+const vrControls = new VRControls(renderer, camera, scene);
+vrControls.addGrabbable(manemusCamera);
 
 // Remote citizens (spawned when others connect)
 const remoteCitizens = new Map();
@@ -208,24 +214,31 @@ renderer.setAnimationLoop(() => {
   updateDesktopMovement(delta);
   controls.update();
 
-  // Gentle camera bob (Manemus floating)
-  manemusCamera.position.y = 1.5 + Math.sin(elapsed * 0.5) * 0.1;
+  // VR locomotion + snap turn + grab
+  vrControls.update(delta);
 
-  // Manemus glow ring rotation
+  // Manemus auto-behavior (skip when grabbed — player is positioning it)
+  if (!vrControls.isGrabbed(manemusCamera)) {
+    // Gentle floating bob
+    manemusCamera.position.y = 1.5 + Math.sin(elapsed * 0.5) * 0.1;
+
+    // Always face Nicolas
+    const lookTarget = new THREE.Vector3();
+    lookTarget.copy(nicolasAvatar.position);
+    lookTarget.y = 1.5;
+    manemusCamera.lookAt(lookTarget);
+  }
+
+  // Manemus glow ring rotation (always)
   const ring = manemusCamera.children.find(c => c.geometry?.type === 'TorusGeometry');
   if (ring) ring.rotation.z = elapsed * 0.3;
 
-  // Manemus always faces Nicolas avatar
-  const lookTarget = new THREE.Vector3();
-  lookTarget.copy(nicolasAvatar.position);
-  lookTarget.y = 1.5;
-  manemusCamera.lookAt(lookTarget);
-
-  // In XR mode, update avatar from headset
+  // In XR mode, update avatar from headset (world position via dolly)
   if (renderer.xr.isPresenting) {
     const xrCamera = renderer.xr.getCamera();
-    nicolasAvatar.position.copy(xrCamera.position);
-    nicolasAvatar.position.y = 0;
+    const worldPos = new THREE.Vector3();
+    xrCamera.getWorldPosition(worldPos);
+    nicolasAvatar.position.set(worldPos.x, 0, worldPos.z);
     // Head tracking
     nicolasAvatar.children[0]?.quaternion.copy(xrCamera.quaternion);
   }
