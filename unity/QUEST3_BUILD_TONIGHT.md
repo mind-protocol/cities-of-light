@@ -1,203 +1,270 @@
 # Quest 3 Build — Tonight
 
-Minimum viable: 3 zones, hand tracking, controller fallback, foveated rendering, APK on headset.
+**Unity 2022.3 LTS. No networking. No AI. No backend. Just get inside.**
 
 ---
 
-## 1. Create Unity Project (Windows)
+## 1. PACKAGE LIST
 
-```
-Unity Hub → New Project → "3D (URP)" template → Unity 6 LTS (6000.1.x)
-Project name: CitiesOfLight
-Location: C:\Users\reyno\Projects\
-```
+Install via Unity Hub with the project, or Window > Package Manager > Add by name:
 
-After project opens, close the sample scene.
+| Package | Name (for Add by Name) | Version |
+|---------|----------------------|---------|
+| OpenXR Plugin | `com.unity.xr.openxr` | 1.9.1 or 1.10.0 |
+| XR Hands | `com.unity.xr.hands` | 1.3.0 or 1.4.0 |
+| XR Interaction Toolkit | `com.unity.xr.interaction.toolkit` | 2.5.4 |
+| XR Plugin Management | `com.unity.xr.management` | 4.4.0 |
+| Input System | `com.unity.inputsystem` | 1.7.0 |
+| TextMeshPro | `com.unity.textmeshpro` | 3.0.6 (pre-installed) |
+
+**Meta OpenXR package** — Add by git URL in Package Manager:
+```
+https://github.com/oculus-samples/Unity-FirstHand.git?path=Packages/com.meta.xr.sdk.core
+```
+OR search **"Meta XR Core SDK"** in the Asset Store tab (Package Manager top-left dropdown).
+
+When prompted "Enable the new Input System?" → YES → editor restarts.
+When prompted "Import TMP Essential Resources?" → YES.
+
+**Total: 6 packages + Meta XR Core SDK.**
 
 ---
 
-## 2. Package List
+## 2. PROJECT SETTINGS — EXACT VALUES
 
-Window → Package Manager → Add by name, one at a time:
+### Edit > Project Settings > XR Plug-in Management
 
-```
-com.unity.xr.openxr
-com.unity.xr.hands
-com.unity.xr.interaction.toolkit
-com.unity.inputsystem
-com.unity.xr.management
-```
+**Android tab** (robot icon):
+- [x] **OpenXR**
 
-Then add Meta's packages — Add by git URL:
+Click the gear ⚙ next to OpenXR (Android row):
 
-```
-https://github.com/oculus-samples/Unity-Movement.git?path=/Packages/com.meta.xr.sdk#v72.0.0
-```
+**Interaction Profiles** (click +):
+- Oculus Touch Controller Profile
 
-OR simpler — download Meta XR All-in-One SDK from Asset Store (search "Meta XR SDK" in Package Manager → Unity Registry).
+**OpenXR Feature Groups** — enable these:
+- [x] **Meta Quest Feature**
+- [x] **Hand Tracking Subsystem** (under Hand Tracking)
+- [x] **Meta Hand Tracking Aim** (under Hand Tracking)
 
-**Minimum required Meta packages:**
-- Meta XR Core SDK
-- Meta XR Interaction SDK (for hand tracking aim)
+**Rendering:**
+- Render Mode: **Multi-Pass** (safer; switch to Single Pass Instanced later if stable)
 
-After install, accept any "Enable the new Input System" dialogs → YES, restart editor.
+### Edit > Project Settings > Player > Android tab
 
----
+| Setting | Value |
+|---------|-------|
+| Company Name | MindProtocol |
+| Product Name | Cities of Light |
+| Package Name | `ai.mindprotocol.citiesoflight` |
+| Version | 0.1.0 |
+| Minimum API Level | **Android 10.0 (API level 29)** |
+| Target API Level | Automatic (highest) |
+| Scripting Backend | **IL2CPP** |
+| API Compatibility Level | .NET Standard 2.1 |
+| Target Architectures | **ARM64 only** (uncheck everything else) |
+| Active Input Handling | **Input System Package (New)** |
 
-## 3. Project Settings (Edit → Project Settings)
-
-### XR Plug-in Management
-- [x] OpenXR (Android tab)
-- Under OpenXR → Android:
-  - Interaction Profiles: Add "Meta Quest Touch Pro Controller Profile"
-  - OpenXR Features → Enable ALL of these:
-    - [x] Meta Quest Feature
-    - [x] Hand Tracking Subsystem
-    - [x] Meta Hand Tracking Aim
-    - [x] Foveated Rendering (set to **High Top**)
-  - Render Mode: Multi-Pass (safer) or Single Pass Instanced (faster, try if no visual bugs)
-
-### Player Settings (Android tab)
-- Company Name: MindProtocol
-- Product Name: Cities of Light
-- Package Name: `ai.mindprotocol.citiesoflight`
-- Minimum API Level: **32** (Android 12L — Quest 3 minimum)
-- Target API Level: **Highest installed**
-- Scripting Backend: **IL2CPP**
-- Target Architectures: **ARM64** only (uncheck ARMv7)
-- Graphics APIs: **Vulkan** only (remove OpenGLES)
+**Other Settings > Graphics:**
+- Graphics APIs: **Vulkan** only (remove OpenGLES3 if present)
+- If Vulkan causes issues on build, add OpenGLES3 back as fallback
 - Color Space: **Linear**
-- Active Input Handling: **Input System Package (New)**
 
-### Quality Settings
-- Delete all quality levels except one. Name it "Quest3".
-- Anti Aliasing: **4x Multi Sampling**
-- Shadow Resolution: **512** (low)
-- Shadow Distance: **20**
-- Shadow Cascades: **No Cascades**
-- Texture Quality: **Full**
-- VSync Count: **Don't Sync** (Quest handles vsync)
+### Edit > Project Settings > Quality
 
-### URP Asset Settings (find the URP-HighFidelity-Renderer or create new)
-Better: Create new URP asset:
-1. Right-click Project → Create → Rendering → URP Asset (with Universal Renderer)
-2. Name: `Quest3_URP`
-3. Assign in Project Settings → Graphics → Scriptable Render Pipeline Settings
-4. Also assign in Quality Settings → Rendering → Render Pipeline Asset
+Delete all levels except one. Name it `Quest3`.
 
-**Quest3_URP settings:**
-- Rendering Path: **Forward+**
-- MSAA: **4x**
-- HDR: **OFF**
-- Main Light: Shadow Resolution **512**
-- Additional Lights: Per-Object limit **2**, Shadow Resolution **256**
-- Shadow Distance: **20**
-- Cascade Count: **1**
-- Depth Texture: ON
-- Opaque Texture: OFF (save bandwidth)
-- SRP Batcher: ON
-- Dynamic Batching: OFF (SRP Batcher is better)
+| Setting | Value |
+|---------|-------|
+| Rendering > Render Pipeline Asset | Quest3_URP (create below) |
+| Anti Aliasing | 4x |
+| Shadow Resolution | Low (512) |
+| Shadow Distance | 20 |
+| Shadow Cascades | No Cascades |
+| VSync Count | Don't Sync |
+| Texture Quality | Full Res |
+
+### Create URP Asset
+
+1. Project window: right-click > Create > Rendering > URP Asset (with Universal Renderer)
+2. Name it `Quest3_URP` (this also creates `Quest3_URP_Renderer`)
+3. Select `Quest3_URP`, set in Inspector:
+
+| Setting | Value |
+|---------|-------|
+| Rendering Path | Forward (not Forward+, which is 2023+) |
+| Depth Texture | ON |
+| Opaque Texture | OFF |
+| SRP Batcher | ON |
+| Dynamic Batching | OFF |
+| HDR | OFF |
+| MSAA | 4x |
+| Main Light > Cast Shadows | ON |
+| Main Light > Shadow Resolution | 512 |
+| Additional Lights > Per Object Limit | 2 |
+| Additional Lights > Cast Shadows | OFF |
+| Shadow Distance | 20 |
+| Cascade Count | 1 |
+
+4. **Assign the URP Asset:**
+   - Edit > Project Settings > Graphics > Scriptable Render Pipeline Settings → drag `Quest3_URP`
+   - Edit > Project Settings > Quality > Rendering > Render Pipeline Asset → drag `Quest3_URP`
+
+### Edit > Project Settings > Graphics
+
+- Foveated Rendering: if the field appears, set to **Enabled**
+  (In 2022.3, foveated rendering is controlled via OpenXR feature toggle + runtime script)
 
 ---
 
-## 4. Scene Hierarchy
+## 3. SCENE HIERARCHY
 
-One scene: `MainScene.unity`
+One scene: `Assets/_Project/Scenes/MainScene.unity`
 
 ```
 MainScene
-├── XR Origin (XR Rig)
-│   ├── Camera Offset
-│   │   ├── Main Camera [Camera, TrackedPoseDriver, AudioListener]
-│   │   ├── Left Hand [XRController, XRHandTrackingEvents, HandVisualizer]
-│   │   └── Right Hand [XRController, XRHandTrackingEvents, HandVisualizer]
-│   └── Locomotion System [LocomotionProvider - optional snap turn]
 │
-├── Environment
-│   ├── Directional Light [Light, shadows on, intensity 1.2]
-│   ├── Ocean [Plane 200x200, blue material, y=-0.5]
-│   ├── Skybox [set in Lighting Settings]
-│   ├── Zone_Island [ZoneRoot: terrain mesh + palms + rocks]
-│   ├── Zone_Archive [ZoneRoot: terrain mesh + crystals]
-│   └── Zone_Agora [ZoneRoot: terrain mesh + columns]
+├── Directional Light          [Light component, Soft Shadows ON, Intensity 1.2]
 │
-├── Managers
-│   ├── ZoneManager [ZoneManager.cs]
-│   ├── XRSetup [XRHandSetup.cs - runtime hand tracking init]
-│   └── FoveationSetup [FoveationSetup.cs]
+├── XR Origin (XR Rig)         [Right-click Hierarchy → XR → XR Origin (XR Rig)]
+│   └── Camera Offset
+│       ├── Main Camera        [auto-created, has Camera + TrackedPoseDriver]
+│       ├── LeftHand Controller [auto-created, has XR Controller]
+│       └── RightHand Controller [auto-created, has XR Controller]
 │
-└── UI
-    └── ZoneLabel [Canvas + TextMeshPro - current zone name]
+├── Managers                   [Empty GameObject]
+│   ├── [ZoneManager]          ← component: ZoneManager.cs
+│   ├── [FoveationSetup]       ← component: FoveationSetup.cs
+│   └── [XRHandSetup]          ← component: XRHandSetup.cs
+│
+└── Bootstrap                  [Empty GameObject]
+    └── [BootstrapScene]       ← component: BootstrapScene.cs
 ```
 
+**Runtime-generated (by BootstrapScene.cs):**
+```
+Ocean                          [Plane 300x300, blue material, y=-0.5]
+Zone_Island                    [Procedural terrain + 8 palms at 0,0,0]
+Zone_Archive                   [Procedural terrain + 10 crystals at -30,0,-25]
+Zone_Agora                     [Procedural terrain + 8 columns at -20,0,40]
+Beacon_archive                 [Glowing pillar on Island shore → Archive]
+Beacon_agora                   [Glowing pillar on Island shore → Agora]
+Beacon_island (×2)             [Glowing pillars on Archive/Agora shores → Island]
+```
+
+**Wire up in Inspector:**
+- ZoneManager: drag `XR Origin (XR Rig)` → `Xr Origin` slot, drag `Directional Light` → `Directional Light` slot
+
+**Lighting Settings** (Window > Rendering > Lighting):
+- Skybox Material: Default-Skybox
+- Environment Lighting > Source: Color → `#1a2a3a` (dark blue)
+- Environment Lighting > Intensity: 1.0
+
 ---
 
-## 5. Build Settings
+## 4. SCRIPTS — ALL 7
 
-File → Build Settings:
-- Platform: **Android** (Switch Platform if needed — takes a few minutes)
-- Scenes in Build: `MainScene` (index 0)
-- Texture Compression: **ASTC**
-- ETC2 Fallback: **None**
-- Build App Bundle: **OFF** (APK for sideloading)
-- Run Device: Your Quest (must be connected via USB or Wi-Fi ADB)
-- Development Build: **ON** (for tonight, faster iteration)
-- Script Debugging: OFF
-- Compression Method: **LZ4**
+Already in `unity/Assets/_Project/Scripts/`:
 
-Build → choose output path → `CitiesOfLight.apk`
+| Script | Role | Lines |
+|--------|------|-------|
+| `BootstrapScene.cs` | Builds ocean + 3 islands + 4 beacons at Awake | 92 |
+| `IslandBuilder.cs` | Procedural terrain mesh + vegetation per zone type | 264 |
+| `ZoneManager.cs` | Nearest-zone detection + fog/light lerp | 165 |
+| `TeleportBeacon.cs` | Glowing pillar + proximity teleport (2.5m trigger) | 90 |
+| `FoveationSetup.cs` | Requests 90Hz + foveation at Start | 45 |
+| `XRHandSetup.cs` | Monitors hand subsystem, logs tracking state | 69 |
+| `Billboard.cs` | Makes beacon labels face camera | 24 |
+| `OceanSimple.cs` | Gentle Y-axis bob animation | 20 |
+
+**No other scripts needed.** No networking, no AI, no backend.
 
 ---
 
-## 6. ADB Install + Run
+## 5. BUILD SETTINGS
 
-### One-time Quest setup:
-1. Quest 3 → Settings → System → Developer → Enable **USB Connection Dialog**
-2. Connect Quest to PC via USB-C
-3. Put on headset → Accept "Allow USB debugging" dialog
+File > Build Settings:
 
-### Install:
+| Setting | Value |
+|---------|-------|
+| Platform | **Android** (click Switch Platform) |
+| Scenes In Build | `_Project/Scenes/MainScene` (index 0, checkbox ON) |
+| Texture Compression | **ASTC** |
+| ETC2 Fallback | 32-bit |
+| Build App Bundle | **OFF** (we want .apk) |
+| Development Build | **ON** (for tonight) |
+| Autoconnect Profiler | OFF |
+| Script Debugging | OFF |
+| Compression Method | **LZ4** |
+
+**Build:** File > Build Settings > Build > save as `CitiesOfLight.apk`
+**Or:** Build And Run (auto-installs if Quest connected via USB)
+
+---
+
+## 6. ADB INSTALL + LAUNCH
+
+### Prerequisites
 ```bash
-# Check device connected
+# Verify adb sees Quest (USB-C connected, debugging accepted on headset)
 adb devices
+# Should show: XXXXXXXX    device
+```
 
-# Install APK (fresh)
+### Install
+```bash
+# First install
 adb install CitiesOfLight.apk
 
-# Or update existing
+# Update (keep data)
 adb install -r CitiesOfLight.apk
-
-# Launch from headset: Library → Unknown Sources → Cities of Light
 ```
 
-### Quick iteration loop:
+### Launch from PC (skip headset menu navigation)
 ```bash
-# Build in Unity (Ctrl+B), then:
-adb install -r "C:\Users\reyno\Projects\CitiesOfLight\Builds\CitiesOfLight.apk"
-
-# Force launch without headset navigation:
 adb shell am start -n ai.mindprotocol.citiesoflight/com.unity3d.player.UnityPlayerActivity
-
-# View logs:
-adb logcat -s Unity:V
 ```
 
-### Wireless ADB (no cable after first pair):
+### Find on Quest manually
+Quest 3 → App Library → dropdown "All" → filter **Unknown Sources** → Cities of Light
+
+### Watch logs
 ```bash
-# On Quest: Settings → System → Developer → Wireless debugging → Pair
-# Note the IP:port and pairing code
+adb logcat -s Unity:V ActivityManager:I
+```
+
+### Wireless ADB (optional, for cable-free iteration)
+```bash
+# Quest: Settings > System > Developer > Wireless debugging > Pair device
 adb pair <IP>:<PAIR_PORT> <PAIRING_CODE>
-adb connect <IP>:<CONNECT_PORT>
+adb connect <IP>:<ADB_PORT>
 ```
 
 ---
 
-## 7. Gotchas — Read Before Building
+## 7. FAILURE CHECKLIST
 
-1. **"No XR device found"**: Check XR Plug-in Management → Android tab → OpenXR is checked
-2. **Black screen on Quest**: Vulkan + Linear color space required. If black, check Player Settings
-3. **Hands not showing**: Meta Hand Tracking Aim must be enabled in OpenXR features
-4. **Controller not working**: Need "Meta Quest Touch Pro Controller Profile" in OpenXR Interaction Profiles
-5. **60fps not 90fps**: In OVRManager or via script: `OVRPlugin.systemDisplayFrequency = 90f;` or use the FoveationSetup script
-6. **APK too large**: Delete unused URP samples, TextMeshPro examples. Target <50MB
-7. **Gradle build fails**: Check Minimum API 32, IL2CPP selected, ARM64 only
+| Symptom | Cause | Fix |
+|---------|-------|-----|
+| **Gradle build fails** | Wrong architecture / API | Confirm: IL2CPP, ARM64 only, min API 29 |
+| **"No XR display found"** | OpenXR not enabled for Android | Project Settings > XR Plug-in Management > Android tab > check OpenXR |
+| **Black screen on Quest** | Wrong graphics API or color space | Player Settings: Vulkan + Linear. If still black: add OpenGLES3 as fallback |
+| **No hands visible** | Hand Tracking Subsystem not enabled | OpenXR Features > enable Hand Tracking Subsystem + Meta Hand Tracking Aim |
+| **Controllers don't work** | Missing interaction profile | OpenXR > Interaction Profiles > add Oculus Touch Controller Profile |
+| **60fps not 90fps** | Default refresh rate is 72Hz | FoveationSetup.cs handles this. Also: Quest Settings > Display > 90Hz |
+| **App not in Unknown Sources** | Package name mismatch | Verify `ai.mindprotocol.citiesoflight` in Player Settings |
+| **Shader pink/magenta** | URP asset not assigned | Assign Quest3_URP in both Graphics AND Quality settings |
+| **"TMP not initialized"** | TMP resources not imported | Window > TextMeshPro > Import TMP Essential Resources |
+| **Build takes 20+ min** | First IL2CPP build is slow | Normal. Second build: ~2 min. Don't abort. |
+| **APK > 100MB** | Unused assets | Delete Samples~, TMP Examples. Check nothing large imported |
+| **XR Origin at wrong height** | Floor level calibration | In Quest: Settings > Guardian > Reset Floor Level |
+| **Can't find beacons** | Beacons at island edges (11m from center) | Walk toward any shore edge, look for glowing pillars |
+| **Teleport not triggering** | Must be within 2.5m of beacon | Walk closer. Check adb logcat for `[Zone] Teleported` |
+
+---
+
+## DEFINITION OF DONE
+
+Nicolas puts on Quest 3 → spawns on The Island → sees his hands → walks to a glowing beacon → teleports to The Archive → fog turns blue → walks to beacon → teleports to The Agora → fog turns golden.
+
+**That's it. Ship it.**

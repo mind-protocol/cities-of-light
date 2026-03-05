@@ -1,45 +1,47 @@
 using UnityEngine;
 using UnityEngine.XR;
+using System.Collections.Generic;
 
 /// <summary>
-/// Enables foveated rendering + sets 90Hz on Quest 3 at startup.
-/// Attach to any GameObject in the scene.
+/// Requests 90Hz display + foveated rendering on Quest 3.
+/// Unity 2022.3 LTS compatible.
 /// </summary>
 public class FoveationSetup : MonoBehaviour
 {
     void Start()
     {
-        // Request 90Hz refresh rate
-        var displays = new System.Collections.Generic.List<XRDisplaySubsystem>();
-        SubsystemManager.GetSubsystems(displays);
-        foreach (var display in displays)
-        {
-            if (display.TryGetDisplayRefreshRate(out float _))
-            {
-                display.TryRequestDisplayRefreshRate(90f);
-                Debug.Log("[Foveation] Requested 90Hz");
-            }
-        }
-
-        // Enable foveated rendering via Meta OVR if available
-        // This is the OpenXR SRP Foveation path — enabled in Project Settings.
-        // Runtime fallback for older SDK versions:
-        TryEnableMetaFoveation();
+        Request90Hz();
     }
 
-    void TryEnableMetaFoveation()
+    void Request90Hz()
     {
-        // If Meta XR SDK is present, set foveation level programmatically
-        // This is a safety net — the Project Settings toggle should handle it.
-        try
+        var displays = new List<XRDisplaySubsystem>();
+        SubsystemManager.GetSubsystems(displays);
+
+        foreach (var display in displays)
         {
+            // Request 90Hz refresh rate
+            if (display.TryGetDisplayRefreshRate(out float currentRate))
+            {
+                Debug.Log($"[Quest] Current refresh rate: {currentRate}Hz");
+                if (currentRate < 90f)
+                {
+                    display.TryRequestDisplayRefreshRate(90f);
+                    Debug.Log("[Quest] Requested 90Hz");
+                }
+            }
+
+            // Foveated rendering — set via OpenXR feature in Project Settings.
+            // The "Foveated Rendering" OpenXR feature handles this automatically
+            // when enabled. No runtime code needed in 2022.3 + OpenXR path.
+            // If using Meta XR Core SDK with OVRManager, uncomment:
             // OVRManager.foveatedRenderingLevel = OVRManager.FoveatedRenderingLevel.HighTop;
-            // Uncomment above if using Meta XR Core SDK and it's not picking up from settings.
-            Debug.Log("[Foveation] SRP Foveation should be active via OpenXR settings");
+            // OVRManager.useDynamicFoveatedRendering = true;
         }
-        catch (System.Exception e)
+
+        if (displays.Count == 0)
         {
-            Debug.LogWarning($"[Foveation] Could not set programmatically: {e.Message}");
+            Debug.LogWarning("[Quest] No XR display subsystem found — running in editor?");
         }
     }
 }

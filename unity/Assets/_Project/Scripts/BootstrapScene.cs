@@ -14,7 +14,7 @@ public class BootstrapScene : MonoBehaviour
     void Awake()
     {
         if (zoneManager == null)
-            zoneManager = FindAnyObjectByType<ZoneManager>();
+            zoneManager = FindObjectOfType<ZoneManager>();
 
         if (xrOrigin == null)
         {
