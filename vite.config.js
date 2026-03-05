@@ -15,7 +15,7 @@ export default defineConfig({
     // Proxy WebSocket to spatial state server
     proxy: {
       '/ws': {
-        target: 'ws://localhost:8801',
+        target: 'ws://localhost:8800',
         ws: true,
       },
       '/api': {

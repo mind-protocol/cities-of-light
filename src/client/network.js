@@ -15,11 +15,15 @@ export class Network {
     this.onVoiceStreamStart = null;
     this.onVoiceStreamData = null;
     this.onVoiceStreamEnd = null;
+    this.onManemusCameraUpdate = null;
+    this.onCitizenVoice = null;
+    this.onCitizenHands = null;
     this._reconnectTimer = null;
     this._positionInterval = null;
   }
 
-  connect(name = 'Anonymous', persona = null) {
+  connect(name = 'Anonymous', persona = null, { spectator = false } = {}) {
+    this._spectator = spectator;
     // Use same host as page, but WebSocket port
     const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
     // In dev: proxy via Vite (/ws → ws://localhost:8801)
@@ -40,6 +44,7 @@ export class Network {
         name,
         persona,
         citizenId: this.citizenId,
+        spectator: this._spectator,
       }));
     };
 
@@ -47,10 +52,17 @@ export class Network {
       try {
         const msg = JSON.parse(event.data);
         switch (msg.type) {
+          case 'welcome':
+            this.citizenId = msg.citizenId;
+            console.log('Assigned citizenId:', this.citizenId);
+            break;
           case 'citizen_joined':
+            // Skip our own join echo (safety net — server already excludes us)
+            if (msg.citizenId === this.citizenId) break;
             if (this.onCitizenJoined) this.onCitizenJoined(msg);
             break;
           case 'citizen_moved':
+            if (msg.citizenId === this.citizenId) break;
             if (this.onCitizenMoved) this.onCitizenMoved(msg);
             break;
           case 'citizen_left':
@@ -70,6 +82,15 @@ export class Network {
             break;
           case 'voice_stream_end':
             if (this.onVoiceStreamEnd) this.onVoiceStreamEnd(msg);
+            break;
+          case 'manemus_camera':
+            if (this.onManemusCameraUpdate) this.onManemusCameraUpdate(msg);
+            break;
+          case 'citizen_voice':
+            if (this.onCitizenVoice) this.onCitizenVoice(msg);
+            break;
+          case 'citizen_hands':
+            if (this.onCitizenHands) this.onCitizenHands(msg);
             break;
         }
       } catch (e) {
@@ -93,6 +114,27 @@ export class Network {
         type: 'position',
         position: { x: position.x, y: position.y, z: position.z },
         rotation: rotation ? { x: rotation.x, y: rotation.y, z: rotation.z, w: rotation.w } : null,
+      }));
+    }
+  }
+
+  /** Broadcast Manemus streaming camera position (VR client → stream clients) */
+  sendManemusCameraPosition(position, rotation) {
+    if (this.ws?.readyState === WebSocket.OPEN) {
+      this.ws.send(JSON.stringify({
+        type: 'manemus_camera',
+        position: { x: position.x, y: position.y, z: position.z },
+        rotation: rotation ? { x: rotation.x, y: rotation.y, z: rotation.z, w: rotation.w } : null,
+      }));
+    }
+  }
+
+  /** Send hand/controller joint data for remote rendering */
+  sendHands(handsData) {
+    if (this.ws?.readyState === WebSocket.OPEN) {
+      this.ws.send(JSON.stringify({
+        type: 'hands',
+        hands: handsData,
       }));
     }
   }

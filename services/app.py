@@ -29,6 +29,10 @@ from .consent.models import (
     Steward,
 )
 from .consent.store import ConsentStore
+from .biography.router import BiographyRouter
+from .models.donor import Donor
+from .models.store import JSONLStore
+from .policy.engine import PolicyEngine
 from .vault.store import VaultStore
 
 # ── Paths ─────────────────────────────────────────────────
@@ -55,9 +59,14 @@ app.add_middleware(
 
 # ── Stores ────────────────────────────────────────────────
 
+DONOR_PATH = DATA_DIR / "donors.jsonl"
+
 consent_store = ConsentStore(CONSENT_PATH)
 vault_store = VaultStore(VAULT_PATH)
 audit_logger = AuditLogger(AUDIT_PATH)
+donor_store = JSONLStore(DONOR_PATH, Donor)
+policy_engine = PolicyEngine(consent_store)
+biography_router = BiographyRouter(vault_store, consent_store, policy_engine, audit_logger)
 
 
 # ── Health ────────────────────────────────────────────────
@@ -68,6 +77,7 @@ def health():
         "status": "ok",
         "service": "cities-of-light",
         "directives_count": len(consent_store.list_all()),
+        "donors_count": len(donor_store.list_all()),
     }
 
 
@@ -163,3 +173,64 @@ def get_audit_log(donor_id: str, limit: int = 100):
     """Get audit log entries for a donor."""
     entries = audit_logger.get_entries(donor_id=donor_id, limit=limit)
     return [e.model_dump() for e in entries]
+
+
+# ── Donor endpoints ──────────────────────────────────────
+
+
+class CreateDonorRequest(BaseModel):
+    name: str
+    date_of_birth: Optional[str] = None
+    date_of_death: Optional[str] = None
+    languages: list[str] = ["fr"]
+    steward_id: Optional[str] = None
+    metadata: dict = {}
+
+
+@app.post("/donors")
+def create_donor(req: CreateDonorRequest):
+    """Register a new data donor."""
+    donor = Donor(**req.model_dump())
+    created = donor_store.create(donor)
+    return {"ok": True, "donor": created.model_dump()}
+
+
+@app.get("/donors")
+def list_donors():
+    """List all registered donors."""
+    return [d.model_dump() for d in donor_store.list_all()]
+
+
+@app.get("/donors/{donor_id}")
+def get_donor(donor_id: str):
+    """Get a specific donor."""
+    d = donor_store.get(donor_id)
+    if not d:
+        raise HTTPException(404, "Donor not found")
+    return d.model_dump()
+
+
+@app.post("/donors/{donor_id}/consent")
+def create_donor_consent(donor_id: str, req: CreateDirectiveRequest):
+    """Convenience: create a consent directive for a specific donor."""
+    donor = donor_store.get(donor_id)
+    if not donor:
+        raise HTTPException(404, "Donor not found")
+    directive = ConsentDirective(donor_id=donor_id, **req.model_dump(exclude={"donor_id"}))
+    created = consent_store.create(directive)
+    return {"ok": True, "directive": created.model_dump()}
+
+
+# ── Biography endpoints (Mode A) ─────────────────────────
+
+
+@app.get("/donors/{donor_id}/biography")
+def query_biography(donor_id: str, q: str = "", interactant_id: str = "anonymous"):
+    """Mode A: query a donor's archived biography."""
+    donor = donor_store.get(donor_id)
+    if not donor:
+        raise HTTPException(404, "Donor not found")
+    if not q:
+        raise HTTPException(400, "Query parameter 'q' is required")
+    result = biography_router.ask(donor_id, q, interactant_id)
+    return result.to_dict()

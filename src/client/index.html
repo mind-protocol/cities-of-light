@@ -81,21 +81,51 @@
 
     #transcription {
       position: fixed;
-      bottom: 140px;
+      bottom: 80px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 13px;
+      font-size: 15px;
       font-family: 'Courier New', monospace;
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(255, 255, 255, 0.95);
       z-index: 100;
       pointer-events: none;
       display: none;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 8px 16px;
-      border-radius: 6px;
-      max-width: 600px;
-      text-align: center;
-      backdrop-filter: blur(5px);
+      background: rgba(0, 0, 0, 0.75);
+      padding: 14px 24px;
+      border-radius: 8px;
+      max-width: 700px;
+      text-align: left;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      line-height: 1.5;
+      transition: opacity 2s ease-out;
+    }
+
+    /* Stream mode (OBS capture) — cinematic subtitles */
+    .stream-mode #transcription {
+      bottom: 60px;
+      font-size: 20px;
+      max-width: 85%;
+      padding: 18px 32px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 12px;
+      line-height: 1.6;
+    }
+    .stream-mode #voice-status {
+      bottom: 20px;
+      font-size: 16px;
+    }
+
+    #stream-watermark {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      color: rgba(0, 204, 255, 0.5);
+      font-size: 14px;
+      font-family: 'Courier New', monospace;
+      z-index: 100;
+      pointer-events: none;
+      display: none;
     }
   </style>
 </head>
@@ -112,7 +142,16 @@
   </div>
   <div id="voice-status"></div>
   <div id="transcription"></div>
+  <div id="stream-watermark">Cities of Light — @Mind_Protocol</div>
+  <div id="build-marker" style="position:fixed;top:8px;right:8px;color:rgba(255,255,255,0.25);font-size:10px;font-family:monospace;z-index:50;pointer-events:none;">v2</div>
   <button id="enter-vr" disabled>Checking WebXR...</button>
+  <script>
+    // Apply stream mode class for OBS-optimized styles
+    if (new URLSearchParams(location.search).get('view') === 'manemus') {
+      document.body.classList.add('stream-mode');
+      document.getElementById('stream-watermark').style.display = 'block';
+    }
+  </script>
   <script type="module" src="./main.js"></script>
 </body>
 </html>

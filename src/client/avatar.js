@@ -67,5 +67,166 @@ export function createAvatar({ color = 0x00ff88, name = 'Citizen' } = {}) {
   label.scale.set(1.5, 0.375, 1);
   group.add(label);
 
+  // ─── Hands container (populated by network hand sync) ───
+  const handsGroup = new THREE.Group();
+  handsGroup.name = 'hands';
+  group.add(handsGroup);
+
   return group;
+}
+
+// ─── Joint sphere pool for hand rendering ────────────────
+
+const JOINT_SPHERE_RADIUS = 0.008;
+const JOINT_COUNT = 25; // per hand
+const CONTROLLER_RAY_LENGTH = 0.5;
+
+/**
+ * Create or get hand joint meshes for a remote avatar.
+ * Returns { left: Group, right: Group } attached to avatar's hands group.
+ */
+export function ensureHandMeshes(avatar, color = 0x00ff88) {
+  const handsGroup = avatar.children.find(c => c.name === 'hands');
+  if (!handsGroup) return null;
+
+  if (!handsGroup.userData._initialized) {
+    const jointMat = new THREE.MeshBasicMaterial({
+      color,
+      transparent: true,
+      opacity: 0.9,
+    });
+    const jointGeom = new THREE.SphereGeometry(JOINT_SPHERE_RADIUS, 6, 6);
+
+    // Lines connecting joints (tendons)
+    const lineMat = new THREE.LineBasicMaterial({
+      color,
+      transparent: true,
+      opacity: 0.4,
+    });
+
+    for (const side of ['left', 'right']) {
+      const handGroup = new THREE.Group();
+      handGroup.name = side;
+      handGroup.visible = false;
+
+      // Joint spheres
+      const spheres = [];
+      for (let j = 0; j < JOINT_COUNT; j++) {
+        const sphere = new THREE.Mesh(jointGeom, jointMat);
+        sphere.frustumCulled = false;
+        handGroup.add(sphere);
+        spheres.push(sphere);
+      }
+      handGroup.userData.spheres = spheres;
+
+      // Finger lines (wrist→thumb, wrist→index, etc.)
+      const fingerChains = [
+        [0, 1, 2, 3, 4],         // thumb
+        [0, 5, 6, 7, 8, 9],      // index
+        [0, 10, 11, 12, 13, 14], // middle
+        [0, 15, 16, 17, 18, 19], // ring
+        [0, 20, 21, 22, 23, 24], // pinky
+      ];
+      const lines = [];
+      for (const chain of fingerChains) {
+        const points = chain.map(() => new THREE.Vector3());
+        const lineGeom = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line(lineGeom, lineMat);
+        line.frustumCulled = false;
+        line.userData.chain = chain;
+        handGroup.add(line);
+        lines.push(line);
+      }
+      handGroup.userData.lines = lines;
+
+      // Controller representation (hidden by default, shown in controller mode)
+      const ctrlGroup = new THREE.Group();
+      ctrlGroup.name = 'controller';
+      ctrlGroup.visible = false;
+      // Small box for controller body
+      const ctrlBody = new THREE.Mesh(
+        new THREE.BoxGeometry(0.05, 0.03, 0.12),
+        new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.7 })
+      );
+      ctrlGroup.add(ctrlBody);
+      // Pointer ray
+      const rayGeom = new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(0, 0, 0),
+        new THREE.Vector3(0, 0, -CONTROLLER_RAY_LENGTH),
+      ]);
+      const ray = new THREE.Line(rayGeom, new THREE.LineBasicMaterial({
+        color, transparent: true, opacity: 0.4,
+      }));
+      ctrlGroup.add(ray);
+      handGroup.add(ctrlGroup);
+      handGroup.userData.controllerMesh = ctrlGroup;
+
+      handsGroup.add(handGroup);
+    }
+
+    handsGroup.userData._initialized = true;
+  }
+
+  return {
+    left: handsGroup.children.find(c => c.name === 'left'),
+    right: handsGroup.children.find(c => c.name === 'right'),
+  };
+}
+
+/**
+ * Update hand visualization from network data.
+ * @param {THREE.Group} handGroup — the left or right group from ensureHandMeshes
+ * @param {Object} data — { mode: 'hand', joints: [[x,y,z],...] } or { mode: 'controller', position, rotation }
+ */
+export function updateHandFromData(handGroup, data) {
+  if (!handGroup || !data) {
+    if (handGroup) handGroup.visible = false;
+    return;
+  }
+
+  handGroup.visible = true;
+
+  if (data.mode === 'hand') {
+    // Show joint spheres, hide controller
+    const { spheres, lines, controllerMesh } = handGroup.userData;
+    if (controllerMesh) controllerMesh.visible = false;
+
+    const joints = data.joints;
+    for (let j = 0; j < JOINT_COUNT; j++) {
+      const sphere = spheres[j];
+      const joint = joints[j];
+      if (joint) {
+        sphere.position.set(joint[0], joint[1], joint[2]);
+        sphere.visible = true;
+      } else {
+        sphere.visible = false;
+      }
+    }
+
+    // Update finger lines
+    for (const line of lines) {
+      const chain = line.userData.chain;
+      const positions = line.geometry.attributes.position;
+      for (let k = 0; k < chain.length; k++) {
+        const joint = joints[chain[k]];
+        if (joint) {
+          positions.setXYZ(k, joint[0], joint[1], joint[2]);
+        }
+      }
+      positions.needsUpdate = true;
+    }
+  } else if (data.mode === 'controller') {
+    // Show controller, hide joint spheres
+    const { spheres, lines, controllerMesh } = handGroup.userData;
+    for (const s of spheres) s.visible = false;
+    for (const l of lines) l.visible = false;
+
+    if (controllerMesh) {
+      controllerMesh.visible = true;
+      controllerMesh.position.set(data.position.x, data.position.y, data.position.z);
+      if (data.rotation) {
+        controllerMesh.quaternion.set(data.rotation.x, data.rotation.y, data.rotation.z, data.rotation.w);
+      }
+    }
+  }
 }

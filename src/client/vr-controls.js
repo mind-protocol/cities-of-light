@@ -109,10 +109,16 @@ export class VRControls {
       if (!source.gamepad) continue;
       const { axes } = source.gamepad;
 
-      // Quest: 2 axes. Index/Vive: 4 axes (touchpad + stick)
-      const off = axes.length >= 4 ? 2 : 0;
-      const stickX = axes[off] || 0;
-      const stickY = axes[off + 1] || 0;
+      // Quest 2/3 typically: 4 axes where [0],[1]=touchpad(0), [2],[3]=thumbstick
+      // Some builds: 2 axes where [0],[1]=thumbstick
+      // Fallback: if primary axes are dead, try secondary
+      let off = axes.length >= 4 ? 2 : 0;
+      let stickX = axes[off] || 0;
+      let stickY = axes[off + 1] || 0;
+      if (axes.length >= 4 && Math.abs(stickX) < 0.01 && Math.abs(stickY) < 0.01) {
+        stickX = axes[0] || 0;
+        stickY = axes[1] || 0;
+      }
 
       if (source.handedness === 'left') {
         this._locomotion(stickX, stickY, delta);
@@ -171,19 +177,21 @@ export class VRControls {
   _locomotion(stickX, stickY, delta) {
     if (Math.abs(stickX) < 0.15 && Math.abs(stickY) < 0.15) return;
 
-    // Force matrix update so direction reflects current headset orientation
+    // Force matrix update so direction reflects current headset + dolly orientation
     this.dolly.updateMatrixWorld(true);
 
-    const dir = new THREE.Vector3();
-    this.camera.getWorldDirection(dir);
+    // Get forward direction from headset world quaternion (more reliable than getWorldDirection on ArrayCamera)
+    const worldQuat = new THREE.Quaternion();
+    this.camera.getWorldQuaternion(worldQuat);
+    const dir = new THREE.Vector3(0, 0, -1).applyQuaternion(worldQuat);
     dir.y = 0;
     dir.normalize();
 
-    const right = new THREE.Vector3()
-      .crossVectors(dir, new THREE.Vector3(0, 1, 0))
-      .normalize();
+    // Right = perpendicular to forward on XZ plane (rotated 90° clockwise)
+    const right = new THREE.Vector3(-dir.z, 0, dir.x);
 
     const speed = this.moveSpeed * delta;
+    // stickY: negative = push forward (WebXR convention), so negate for forward movement
     this.dolly.position.addScaledVector(dir, -stickY * speed);
     this.dolly.position.addScaledVector(right, stickX * speed);
   }
@@ -224,6 +232,88 @@ export class VRControls {
     thumbTip.getWorldPosition(b);
 
     return a.add(b).multiplyScalar(0.5); // midpoint
+  }
+
+  // ─── Hand data export (for network sync) ────────────────
+
+  /** XR Hand joint names in order */
+  static JOINT_NAMES = [
+    'wrist',
+    'thumb-metacarpal', 'thumb-phalanx-proximal', 'thumb-phalanx-distal', 'thumb-tip',
+    'index-finger-metacarpal', 'index-finger-phalanx-proximal', 'index-finger-phalanx-intermediate', 'index-finger-phalanx-distal', 'index-finger-tip',
+    'middle-finger-metacarpal', 'middle-finger-phalanx-proximal', 'middle-finger-phalanx-intermediate', 'middle-finger-phalanx-distal', 'middle-finger-tip',
+    'ring-finger-metacarpal', 'ring-finger-phalanx-proximal', 'ring-finger-phalanx-intermediate', 'ring-finger-phalanx-distal', 'ring-finger-tip',
+    'pinky-finger-metacarpal', 'pinky-finger-phalanx-proximal', 'pinky-finger-phalanx-intermediate', 'pinky-finger-phalanx-distal', 'pinky-finger-tip',
+  ];
+
+  /**
+   * Export current hand/controller data for network transmission.
+   * Returns { left, right } where each is either:
+   *   { mode: 'hand', joints: [[x,y,z], ...] }   — 25 joints from finger tracking
+   *   { mode: 'controller', position: {x,y,z}, rotation: {x,y,z,w} } — controller
+   *   null — not active
+   */
+  getHandsData() {
+    if (!this.renderer.xr.isPresenting) return null;
+
+    const result = { left: null, right: null };
+    const _pos = new THREE.Vector3();
+    const _quat = new THREE.Quaternion();
+
+    // Check hand tracking first (preferred)
+    for (let i = 0; i < 2; i++) {
+      const hand = this.hands[i];
+      const side = i === 0 ? 'left' : 'right';
+
+      if (hand.joints && Object.keys(hand.joints).length > 0) {
+        const joints = [];
+        let hasData = false;
+        for (const name of VRControls.JOINT_NAMES) {
+          const joint = hand.joints[name];
+          if (joint) {
+            joint.getWorldPosition(_pos);
+            joints.push([
+              Math.round(_pos.x * 1000) / 1000,
+              Math.round(_pos.y * 1000) / 1000,
+              Math.round(_pos.z * 1000) / 1000,
+            ]);
+            hasData = true;
+          } else {
+            joints.push(null);
+          }
+        }
+        if (hasData) {
+          result[side] = { mode: 'hand', joints };
+          continue;
+        }
+      }
+
+      // Fallback: controller data
+      const controller = this.controllers[i];
+      if (controller) {
+        controller.getWorldPosition(_pos);
+        controller.getWorldQuaternion(_quat);
+        // Only send if position is non-zero (controller active)
+        if (_pos.lengthSq() > 0.001) {
+          result[side] = {
+            mode: 'controller',
+            position: {
+              x: Math.round(_pos.x * 1000) / 1000,
+              y: Math.round(_pos.y * 1000) / 1000,
+              z: Math.round(_pos.z * 1000) / 1000,
+            },
+            rotation: {
+              x: Math.round(_quat.x * 1000) / 1000,
+              y: Math.round(_quat.y * 1000) / 1000,
+              z: Math.round(_quat.z * 1000) / 1000,
+              w: Math.round(_quat.w * 1000) / 1000,
+            },
+          };
+        }
+      }
+    }
+
+    return (result.left || result.right) ? result : null;
   }
 
   // ─── Grab system ────────────────────────────────────────

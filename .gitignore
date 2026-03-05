@@ -18,6 +18,9 @@ services/__pycache__/
 # Data
 data/
 
+# Runtime artifacts
+perception/
+
 # Large media assets (tracked locally, not in git)
 assets/source-videos/*.mp4
 assets/source-videos/*.mov

@@ -9,7 +9,7 @@
  * This server stores it and makes it available to Manemus.
  */
 
-import { writeFileSync, mkdirSync, existsSync } from 'fs';
+import { writeFileSync, mkdirSync, existsSync, readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
 
 const PERCEPTION_DIR = join(process.cwd(), 'perception');
@@ -89,9 +89,8 @@ export function perceptionRoutes(app) {
 
   // Get latest frame metadata
   app.get('/perception/latest', (req, res) => {
-    const fs = require('fs');
-    const files = fs.readdirSync(PERCEPTION_DIR)
-      .filter(f => f.endsWith('.json'))
+    const files = readdirSync(PERCEPTION_DIR)
+      .filter(f => f.endsWith('.json') && f !== 'latest.json')
       .sort()
       .reverse();
 
@@ -99,7 +98,7 @@ export function perceptionRoutes(app) {
       return res.json({ frame: null });
     }
 
-    const latest = JSON.parse(fs.readFileSync(join(PERCEPTION_DIR, files[0]), 'utf-8'));
+    const latest = JSON.parse(readFileSync(join(PERCEPTION_DIR, files[0]), 'utf-8'));
     res.json({ frame: latest });
   });
 }
