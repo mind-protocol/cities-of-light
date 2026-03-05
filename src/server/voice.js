@@ -609,6 +609,8 @@ export async function processVoiceStreaming(audioBuffer, send) {
 
   // ─── 4. Log to dialogue.jsonl ─────────────────────────
   _logDialogue(transcription, response);
+
+  return { transcription, response };
 }
 
 function _logDialogue(transcription, response) {
@@ -722,6 +724,113 @@ export async function speakToWorld(text, send, meta = {}) {
   try {
     appendFileSync(DIALOGUE_LOG,
       JSON.stringify({ ts: now, speaker: 'manemus', text, source: 'cities-session', session_id: meta.session_id }) + '\n'
+    );
+  } catch {}
+}
+
+// ─── AI Citizen Speech (TTS + spatial broadcast) ──────────
+/**
+ * Speak as an AI citizen — generates TTS and broadcasts with position.
+ * @param {string} citizenId
+ * @param {string} citizenName
+ * @param {string} text
+ * @param {{ x, y, z }} position
+ * @param {function} send — broadcast function
+ */
+export async function speakAsAICitizen(citizenId, citizenName, text, position, send) {
+  const startTime = Date.now();
+
+  // Notify clients immediately (text + position for subtitles)
+  send({
+    type: 'ai_citizen_speak',
+    citizenId,
+    citizenName,
+    text,
+    position,
+  });
+
+  let chunksStreamed = 0;
+  let streamedOk = false;
+
+  // TTS via ElevenLabs (streaming)
+  if (ELEVENLABS_API_KEY) {
+    try {
+      const ttsRes = await fetch(
+        `https://api.elevenlabs.io/v1/text-to-speech/${ELEVENLABS_VOICE_ID}/stream`,
+        {
+          method: 'POST',
+          headers: {
+            'xi-api-key': ELEVENLABS_API_KEY,
+            'Content-Type': 'application/json',
+            Accept: 'audio/mpeg',
+          },
+          body: JSON.stringify({
+            text,
+            model_id: 'eleven_turbo_v2_5',
+            output_format: 'mp3_44100_128',
+            voice_settings: { stability: 0.5, similarity_boost: 0.75 },
+          }),
+        }
+      );
+
+      if (ttsRes.ok && ttsRes.body) {
+        const reader = ttsRes.body.getReader();
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          chunksStreamed++;
+          send({
+            type: 'voice_stream_data',
+            chunk: Buffer.from(value).toString('base64'),
+            index: chunksStreamed,
+            source: 'ai-citizen',
+            citizenId,
+          });
+        }
+        streamedOk = chunksStreamed > 0;
+      }
+    } catch (e) {
+      console.error(`AI citizen TTS error (${citizenName}):`, e.message);
+    }
+  }
+
+  // Fallback: OpenAI TTS
+  if (!streamedOk) {
+    try {
+      const ttsRes = await openai.audio.speech.create({
+        model: 'tts-1',
+        voice: 'nova',
+        input: text,
+        response_format: 'mp3',
+      });
+      const ttsBuffer = Buffer.from(await ttsRes.arrayBuffer());
+      send({
+        type: 'voice_stream_data',
+        chunk: ttsBuffer.toString('base64'),
+        index: 1,
+        source: 'ai-citizen',
+        citizenId,
+      });
+      chunksStreamed = 1;
+    } catch (e) {
+      console.error(`AI citizen TTS fallback error (${citizenName}):`, e.message);
+    }
+  }
+
+  send({
+    type: 'voice_stream_end',
+    chunks: chunksStreamed,
+    latency: Date.now() - startTime,
+    source: 'ai-citizen',
+    citizenId,
+  });
+
+  console.log(`🤖 ${citizenName} spoke: ${chunksStreamed} chunks in ${Date.now() - startTime}ms`);
+
+  // Log to dialogue
+  try {
+    appendFileSync(DIALOGUE_LOG,
+      JSON.stringify({ ts: new Date().toISOString(), speaker: citizenName.toLowerCase(), text, source: 'ai-citizen' }) + '\n'
     );
   } catch {}
 }

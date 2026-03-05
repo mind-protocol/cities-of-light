@@ -23,6 +23,14 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
+      '/services': {
+        target: 'http://localhost:8800',
+        changeOrigin: true,
+      },
+      '/vault-media': {
+        target: 'http://localhost:8800',
+        changeOrigin: true,
+      },
     },
   },
 });

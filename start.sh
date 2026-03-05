@@ -9,12 +9,23 @@ cd "$DIR"
 # Kill previous instances
 echo "🔄 Cleaning up old processes..."
 lsof -ti :8800 2>/dev/null | xargs kill -9 2>/dev/null || true
+lsof -ti :8900 2>/dev/null | xargs kill -9 2>/dev/null || true
 pgrep -f "cloudflared.*8800" | xargs kill 2>/dev/null || true
 sleep 1
 
 # Build client (production bundle)
 echo "📦 Building client..."
 npx vite build 2>&1 | tail -3
+
+# Start FastAPI services (consent, vault, biography on port 8900)
+echo "🧠 Starting FastAPI services..."
+nohup uvicorn services.app:app --host 0.0.0.0 --port 8900 > /tmp/cities-fastapi.log 2>&1 &
+FASTAPI_PID=$!
+sleep 1
+
+if ! kill -0 $FASTAPI_PID 2>/dev/null; then
+  echo "⚠️  FastAPI failed to start (non-critical). Check /tmp/cities-fastapi.log"
+fi
 
 # Start server (API + static + WebSocket on port 8800)
 echo "🚀 Starting server..."
@@ -49,6 +60,7 @@ echo "  Tunnel:    ${TUNNEL_URL:-'(waiting...check /tmp/cities-tunnel.log)'}"
 echo "  VR:        ${TUNNEL_URL:-'...'}"
 echo "  Stream:    ${TUNNEL_URL:+${TUNNEL_URL}/?view=manemus}"
 echo ""
+echo "  FastAPI:   PID ${FASTAPI_PID:-N/A}  (log: /tmp/cities-fastapi.log)"
 echo "  Server:    PID $SERVER_PID  (log: /tmp/cities-server.log)"
 echo "  Tunnel:    PID $TUNNEL_PID  (log: /tmp/cities-tunnel.log)"
 echo "════════════════════════════════════════════════════"

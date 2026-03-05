@@ -75,6 +75,84 @@ export function createAvatar({ color = 0x00ff88, name = 'Citizen' } = {}) {
   return group;
 }
 
+// ─── AI Citizen Avatar (geometric shapes with glow) ──────
+
+const AI_SHAPES = {
+  icosahedron: () => new THREE.IcosahedronGeometry(0.25, 1),
+  octahedron: () => new THREE.OctahedronGeometry(0.3, 0),
+  torusknot: () => new THREE.TorusKnotGeometry(0.18, 0.06, 48, 8),
+};
+
+/**
+ * Create an AI citizen avatar — glowing geometric form.
+ * @param {{ color: number, name: string, shape: string }} opts
+ */
+export function createAICitizenAvatar({ color = 0xffffff, name = 'AI', shape = 'icosahedron' } = {}) {
+  const group = new THREE.Group();
+  group.name = name;
+  group.userData.isAI = true;
+
+  // Body (geometric shape)
+  const geomFactory = AI_SHAPES[shape] || AI_SHAPES.icosahedron;
+  const geom = geomFactory();
+  const mat = new THREE.MeshStandardMaterial({
+    color,
+    emissive: color,
+    emissiveIntensity: 0.6,
+    metalness: 0.5,
+    roughness: 0.3,
+    transparent: true,
+    opacity: 0.85,
+  });
+  const body = new THREE.Mesh(geom, mat);
+  body.position.y = 1.2;
+  body.castShadow = true;
+  group.add(body);
+
+  // Glow ring
+  const ringGeom = new THREE.TorusGeometry(0.35, 0.03, 8, 24);
+  const ringMat = new THREE.MeshStandardMaterial({
+    color,
+    emissive: color,
+    emissiveIntensity: 0.8,
+    transparent: true,
+    opacity: 0.3,
+  });
+  const ring = new THREE.Mesh(ringGeom, ringMat);
+  ring.position.y = 1.2;
+  ring.rotation.x = Math.PI / 2;
+  group.add(ring);
+
+  // Point light
+  const glow = new THREE.PointLight(color, 0.6, 5);
+  glow.position.y = 1.2;
+  group.add(glow);
+
+  // Name label
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 64;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, 256, 64);
+  ctx.font = 'bold 24px monospace';
+  ctx.fillStyle = `#${color.toString(16).padStart(6, '0')}`;
+  ctx.textAlign = 'center';
+  ctx.fillText(name, 128, 40);
+
+  const labelTexture = new THREE.CanvasTexture(canvas);
+  const labelMat = new THREE.SpriteMaterial({
+    map: labelTexture,
+    transparent: true,
+    depthWrite: false,
+  });
+  const label = new THREE.Sprite(labelMat);
+  label.position.y = 1.8;
+  label.scale.set(1.5, 0.375, 1);
+  group.add(label);
+
+  return group;
+}
+
 // ─── Joint sphere pool for hand rendering ────────────────
 
 const JOINT_SPHERE_RADIUS = 0.008;

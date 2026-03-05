@@ -12,14 +12,18 @@ import { readFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { perceptionRoutes } from './perception.js';
-import { processVoice, processVoiceStreaming, speakToWorld } from './voice.js';
+import { processVoice, processVoiceStreaming, speakToWorld, speakAsAICitizen } from './voice.js';
+import { processBiographyVoice } from './biography-voice.js';
+import { ZONES, detectNearestZone } from '../shared/zones.js';
+import { AICitizenManager } from './ai-citizens.js';
+import OpenAI from 'openai';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PORT = 8800;
 
 // ─── State ──────────────────────────────────────────────
 
-const citizens = new Map(); // id → { position, rotation, name, persona, lastUpdate }
+const citizens = new Map(); // id → { position, rotation, name, persona, zone, lastUpdate }
 const connections = new Map(); // ws → citizenId
 
 // ─── Express (HTTP API) ─────────────────────────────────
@@ -28,8 +32,11 @@ const app = express();
 app.use(express.json({ limit: '10mb' })); // Large for frame uploads
 
 // Allow WebXR, microphone, camera through tunnels/iframes
+// COOP/COEP for SharedArrayBuffer (improves audio perf on Quest)
 app.use((req, res, next) => {
   res.setHeader('Permissions-Policy', 'xr-spatial-tracking=(*), microphone=(*), camera=(*)');
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+  res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
   next();
 });
 
@@ -72,6 +79,11 @@ app.get('/perception/:citizenId', (req, res) => {
     visible,
     timestamp: Date.now(),
   });
+});
+
+// Zone definitions endpoint
+app.get('/api/zones', (req, res) => {
+  res.json({ zones: ZONES });
 });
 
 // ─── Speak endpoint (sessions push voice into the world) ──
@@ -119,6 +131,18 @@ app.use('/services', async (req, res) => {
     });
   }
 });
+
+// ─── Vault media (videos for memorial playback) ──────────
+
+const vaultDir = join(__dirname, '..', '..', 'data', 'vault');
+if (existsSync(vaultDir)) {
+  app.use('/vault-media', (req, res, next) => {
+    // CORP header so media works with COEP
+    res.setHeader('Cross-Origin-Resource-Policy', 'same-origin');
+    next();
+  }, express.static(vaultDir));
+  console.log(`Serving vault media from ${vaultDir}`);
+}
 
 // ─── Static files (production build) ─────────────────────
 
@@ -203,6 +227,7 @@ wss.on('connection', (ws) => {
             spectator: isSpectator,
             position: { x: 0, y: 1.7, z: 0 },
             rotation: { x: 0, y: 0, z: 0, w: 1 },
+            zone: 'island',
             lastUpdate: Date.now(),
           });
           connections.set(ws, citizenId);
@@ -212,12 +237,18 @@ wss.on('connection', (ws) => {
           for (const [id, c] of citizens) {
             if (id === citizenId) continue;
             if (c.spectator) continue; // Don't show spectators as avatars
-            ws.send(JSON.stringify({
+            const joinMsg = {
               type: 'citizen_joined',
               citizenId: id,
               name: c.name,
               persona: c.persona,
-            }));
+            };
+            // Include AI citizen display data
+            if (c.persona === 'ai') {
+              joinMsg.aiShape = c.aiShape;
+              joinMsg.aiColor = c.aiColor;
+            }
+            ws.send(JSON.stringify(joinMsg));
             // Also send their last known position
             ws.send(JSON.stringify({
               type: 'citizen_moved',
@@ -232,6 +263,20 @@ wss.on('connection', (ws) => {
             type: 'welcome',
             citizenId,
           }));
+
+          // Send AI citizens to the new client
+          for (const aiState of aiManager.getAllStates()) {
+            ws.send(JSON.stringify({
+              type: 'citizen_joined',
+              ...aiState,
+            }));
+            ws.send(JSON.stringify({
+              type: 'citizen_moved',
+              citizenId: aiState.citizenId,
+              position: aiState.position,
+              rotation: aiState.rotation,
+            }));
+          }
 
           // Broadcast join to all others (spectators don't create avatars)
           if (!isSpectator) {
@@ -252,6 +297,19 @@ wss.on('connection', (ws) => {
             citizen.position = msg.position;
             if (msg.rotation) citizen.rotation = msg.rotation;
             citizen.lastUpdate = Date.now();
+
+            // Zone detection
+            const { zone } = detectNearestZone(msg.position);
+            if (zone.id !== citizen.zone) {
+              const oldZone = citizen.zone;
+              citizen.zone = zone.id;
+              broadcast({
+                type: 'citizen_zone_changed',
+                citizenId,
+                oldZone,
+                newZone: zone.id,
+              });
+            }
 
             // Broadcast position to all others
             broadcast({
@@ -285,6 +343,37 @@ wss.on('connection', (ws) => {
           break;
         }
 
+        case 'biography_voice': {
+          // Biography voice query — STT → consent check → archive match → TTS
+          if (msg.audio && msg.donorId) {
+            const audioBuffer = Buffer.from(msg.audio, 'base64');
+            console.log(`📜 Biography voice from ${citizenId} for ${msg.donorId} (${audioBuffer.length} bytes)`);
+            const send = (obj) => broadcast(obj);
+            processBiographyVoice(audioBuffer, msg.donorId, citizenId, send).catch((e) => {
+              console.error('Biography voice error:', e.message);
+            });
+          }
+          break;
+        }
+
+        case 'teleport': {
+          // Fast-travel to target zone
+          if (!citizenId || !msg.targetZone) break;
+          const citizen = citizens.get(citizenId);
+          const targetZone = ZONES.find(z => z.id === msg.targetZone);
+          if (citizen && targetZone) {
+            citizen.position = { x: targetZone.position.x, y: 1.7, z: targetZone.position.z };
+            citizen.zone = targetZone.id;
+            broadcast({
+              type: 'citizen_moved',
+              citizenId,
+              position: citizen.position,
+              rotation: citizen.rotation,
+            });
+          }
+          break;
+        }
+
         case 'voice': {
           // Voice message → STT → Claude → streaming TTS
           if (msg.audio) {
@@ -303,7 +392,27 @@ wss.on('connection', (ws) => {
             // Stream TTS chunks to ALL clients (VR + stream viewers)
             const send = (obj) => broadcast(obj);
 
-            processVoiceStreaming(audioBuffer, send).catch((e) => {
+            // Main voice pipeline (Manemus responds)
+            processVoiceStreaming(audioBuffer, send).then(async (result) => {
+              if (!result?.transcription || !citizen) return;
+
+              // Check AI citizen proximity — they may also respond
+              const aiResult = await aiManager.checkProximityAndRespond(
+                result.transcription,
+                citizen.position,
+                citizen.name || 'Someone',
+              );
+              if (aiResult) {
+                // TTS the AI citizen's response and broadcast with position
+                speakAsAICitizen(
+                  aiResult.citizenId,
+                  aiResult.citizenName,
+                  aiResult.text,
+                  aiResult.position,
+                  send,
+                ).catch(e => console.error('AI citizen speak error:', e.message));
+              }
+            }).catch((e) => {
               console.error('Voice pipeline error:', e.message);
             });
           }
@@ -333,5 +442,10 @@ function broadcast(msg, exclude = null) {
     }
   }
 }
+
+// ─── AI Citizens ────────────────────────────────────────
+
+const openai = new OpenAI();
+const aiManager = new AICitizenManager(broadcast, openai);
 
 console.log('Waiting for citizens...');

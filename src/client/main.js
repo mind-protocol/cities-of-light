@@ -10,23 +10,28 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { createEnvironment, updateEnvironment } from './scene.js';
-import { createAvatar, ensureHandMeshes, updateHandFromData } from './avatar.js';
+import { createAvatar, createAICitizenAvatar, ensureHandMeshes, updateHandFromData } from './avatar.js';
 import { createCameraBody } from './camera-body.js';
 import { Network } from './network.js';
 import { VRControls } from './vr-controls.js';
 import { ManemusEyes } from './perception.js';
 import { SpatialVoice } from './voice.js';
+import { MemorialManager } from './memorial-manager.js';
+import { ZoneAmbient } from './zone-ambient.js';
+import { Waypoints } from './waypoints.js';
 
 // ─── Mode Detection ──────────────────────────────────────
 // ?view=manemus → stream mode (spectator from Manemus POV)
 const params = new URLSearchParams(location.search);
 const streamMode = params.get('view') === 'manemus';
+const isQuest = /OculusBrowser|Quest/.test(navigator.userAgent);
+const isPWA = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
 
 // ─── Renderer ───────────────────────────────────────────
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setPixelRatio(isQuest ? 1 : Math.min(window.devicePixelRatio, 2));
 if (!streamMode) renderer.xr.enabled = true;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 0.5;
@@ -111,7 +116,7 @@ scene.add(env.group);
 
 // ─── Ambient Particles (fireflies) ──────────────────────
 
-const particleCount = 60;
+const particleCount = isQuest ? 30 : 60;
 const particleGeom = new THREE.BufferGeometry();
 const particlePositions = new Float32Array(particleCount * 3);
 const particleSpeeds = new Float32Array(particleCount * 3); // velocity seeds
@@ -136,6 +141,34 @@ const particleMat = new THREE.PointsMaterial({
 });
 const fireflies = new THREE.Points(particleGeom, particleMat);
 scene.add(fireflies);
+
+// ─── Zone Ambient (fog/light transitions between zones) ──
+
+const zoneAmbient = new ZoneAmbient(scene, hemi, particleMat);
+zoneAmbient.onZoneChanged = (oldZone, newZone) => {
+  console.log(`Zone: ${oldZone?.name || 'none'} → ${newZone.name}`);
+  // Update zone indicator in UI
+  const zoneEl = document.getElementById('zone-indicator');
+  if (zoneEl) zoneEl.textContent = newZone.name;
+};
+
+// ─── Waypoints (teleport beacons between zones) ─────────
+
+const waypoints = new Waypoints(scene);
+waypoints.onTeleport = (targetZone) => {
+  console.log(`Teleporting to ${targetZone.name}`);
+  const target = new THREE.Vector3(targetZone.position.x, 1.7, targetZone.position.z);
+  if (renderer.xr.isPresenting) {
+    // Move VR dolly
+    vrControls.dolly.position.set(targetZone.position.x, 0, targetZone.position.z);
+  } else {
+    // Move desktop camera
+    camera.position.set(targetZone.position.x + 8, 4, targetZone.position.z + 8);
+    controls.target.set(targetZone.position.x, 1, targetZone.position.z);
+  }
+  network.sendTeleport(targetZone.id);
+  network.sendPosition(target, camera.quaternion);
+};
 
 // ─── Stream overlay reference ────────────────────────────
 let _streamCitizenCount = null;
@@ -182,6 +215,13 @@ marcoEyes.start();
 
 // Remote citizens (spawned when others connect)
 const remoteCitizens = new Map();
+
+// ─── Memorial Manager (donor archives) ───────────────────
+
+const memorialManager = new MemorialManager(scene);
+if (!streamMode) {
+  memorialManager.init().catch(e => console.warn('Memorials:', e));
+}
 
 // ─── Network ────────────────────────────────────────────
 
@@ -230,7 +270,12 @@ if (streamMode) {
     const ok = await spatialVoice.init();
     if (ok) {
       spatialVoice.onRecordingComplete = (base64) => {
-        network.sendVoice(base64);
+        const nearMemorial = memorialManager.getNearestActiveMemorial();
+        if (nearMemorial) {
+          network.sendBiographyVoice(base64, nearMemorial.donor.id);
+        } else {
+          network.sendVoice(base64);
+        }
       };
     }
   }
@@ -279,6 +324,28 @@ network.onCitizenVoice = (msg) => {
   }
 };
 
+// Biography voice — archived answer from memorial position
+network.onBiographyStreamStart = (msg) => {
+  const memorial = memorialManager.getNearestActiveMemorial();
+  const pos = memorial ? memorial.getAudioPosition() : marcoCamera.position;
+  spatialVoice.handleStreamStart(msg, pos);
+};
+network.onBiographyStreamData = (msg) => {
+  spatialVoice.handleStreamData(msg);
+};
+network.onBiographyStreamEnd = (msg) => {
+  spatialVoice.handleStreamEnd(msg);
+};
+
+// AI citizen speech — display subtitle and play spatial audio from citizen position
+network.onAICitizenSpeak = (msg) => {
+  console.log(`🤖 ${msg.citizenName}: "${msg.text}"`);
+  const citizen = remoteCitizens.get(msg.citizenId);
+  const pos = citizen ? citizen.position : new THREE.Vector3(msg.position?.x || 0, msg.position?.y || 1.2, msg.position?.z || 0);
+  spatialVoice.showTranscription(`[${msg.citizenName}]`, msg.text);
+  // Audio will arrive via voice_stream_data with source: 'ai-citizen'
+};
+
 // Legacy non-streaming fallback
 network.onVoiceResponse = (msg) => {
   if (msg.audio) {
@@ -304,11 +371,23 @@ network.onManemusCameraUpdate = (msg) => {
 
 network.onCitizenJoined = (msg) => {
   if (remoteCitizens.has(msg.citizenId)) return;
-  console.log(`Citizen joined: ${msg.name}`);
-  const avatar = createAvatar({
-    color: 0x44aaff,
-    name: msg.name || msg.citizenId,
-  });
+  console.log(`Citizen joined: ${msg.name} ${msg.persona === 'ai' ? '(AI)' : ''}`);
+
+  let avatar;
+  if (msg.persona === 'ai' && msg.aiShape) {
+    // AI citizen — geometric avatar with glow
+    avatar = createAICitizenAvatar({
+      color: msg.aiColor || 0xffffff,
+      name: msg.name || msg.citizenId,
+      shape: msg.aiShape || 'icosahedron',
+    });
+    avatar.userData.isAI = true;
+  } else {
+    avatar = createAvatar({
+      color: 0x44aaff,
+      name: msg.name || msg.citizenId,
+    });
+  }
   scene.add(avatar);
   remoteCitizens.set(msg.citizenId, avatar);
 };
@@ -517,6 +596,25 @@ if (streamMode) {
     vrButton.disabled = true;
     vrButton.style.opacity = '0.5';
   }
+
+  // PWA auto-enter VR (Quest considers app launch a user gesture)
+  if (isPWA && 'xr' in navigator) {
+    (async () => {
+      try {
+        const session = await navigator.xr.requestSession('immersive-vr', {
+          optionalFeatures: ['local-floor', 'hand-tracking'],
+        });
+        renderer.xr.setSession(session);
+        if (vrButton) vrButton.style.display = 'none';
+        if (info) info.style.display = 'none';
+        controls.enabled = false;
+        nicolasAvatar.visible = false;
+        console.log('PWA auto-entered VR');
+      } catch (e) {
+        console.warn('PWA auto-VR failed, showing button:', e);
+      }
+    })();
+  }
 }
 
 // ─── Animation Loop ─────────────────────────────────────
@@ -540,6 +638,12 @@ renderer.setAnimationLoop(() => {
   for (const cam of [marcoCamera, manemusCamera]) {
     const ring = cam.children.find(c => c.geometry?.type === 'TorusGeometry');
     if (ring) ring.rotation.z = elapsed * 0.3;
+  }
+
+  // Foveated rendering (Quest 3)
+  if (renderer.xr.isPresenting && renderer.xr.setFoveation && !renderer._foveationSet) {
+    renderer.xr.setFoveation(1.0);
+    renderer._foveationSet = true;
   }
 
   // In XR mode, track headset position (for network sync) but hide local avatar
@@ -589,6 +693,45 @@ renderer.setAnimationLoop(() => {
     pos.needsUpdate = true;
     // Pulse opacity
     particleMat.opacity = 0.4 + Math.sin(elapsed * 0.8) * 0.3;
+  }
+
+  // Zone ambient transitions (fog, light, particle color)
+  {
+    const playerPos = renderer.xr.isPresenting
+      ? nicolasAvatar.position
+      : camera.position;
+    zoneAmbient.update(playerPos, elapsed);
+  }
+
+  // Waypoint beacons (animate + check teleport interaction)
+  {
+    const playerPos = renderer.xr.isPresenting
+      ? new THREE.Vector3().copy(nicolasAvatar.position).setY(nicolasAvatar.children[0]?.position.y || 1.7)
+      : camera.position;
+    const gripActive = vrControls.isGripping?.() || false;
+    waypoints.update(elapsed, playerPos, gripActive);
+  }
+
+  // Animate AI citizen meshes (rotation + glow pulse)
+  for (const [cid, avatar] of remoteCitizens) {
+    if (avatar.userData.isAI) {
+      const body = avatar.children[0];
+      if (body) body.rotation.y = elapsed * 0.5;
+      const ring = avatar.children.find(c => c.geometry?.type === 'TorusGeometry');
+      if (ring) ring.rotation.z = elapsed * 0.3;
+      // Pulse emissive
+      if (body?.material) {
+        body.material.emissiveIntensity = 0.4 + Math.sin(elapsed * 2) * 0.2;
+      }
+    }
+  }
+
+  // Memorial proximity + video playback
+  if (!streamMode) {
+    const playerPos = renderer.xr.isPresenting
+      ? nicolasAvatar.position.clone().setY(nicolasAvatar.children[0]?.position.y || 1.7)
+      : camera.position;
+    memorialManager.update(elapsed, playerPos);
   }
 
   // Stream mode: camera follows VR broadcast, tracks citizens, or cinematic orbit

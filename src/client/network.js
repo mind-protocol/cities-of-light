@@ -18,6 +18,11 @@ export class Network {
     this.onManemusCameraUpdate = null;
     this.onCitizenVoice = null;
     this.onCitizenHands = null;
+    this.onBiographyStreamStart = null;
+    this.onBiographyStreamData = null;
+    this.onBiographyStreamEnd = null;
+    this.onAICitizenSpeak = null;
+    this.onCitizenZoneChanged = null;
     this._reconnectTimer = null;
     this._positionInterval = null;
   }
@@ -92,6 +97,21 @@ export class Network {
           case 'citizen_hands':
             if (this.onCitizenHands) this.onCitizenHands(msg);
             break;
+          case 'biography_stream_start':
+            if (this.onBiographyStreamStart) this.onBiographyStreamStart(msg);
+            break;
+          case 'biography_stream_data':
+            if (this.onBiographyStreamData) this.onBiographyStreamData(msg);
+            break;
+          case 'biography_stream_end':
+            if (this.onBiographyStreamEnd) this.onBiographyStreamEnd(msg);
+            break;
+          case 'ai_citizen_speak':
+            if (this.onAICitizenSpeak) this.onAICitizenSpeak(msg);
+            break;
+          case 'citizen_zone_changed':
+            if (this.onCitizenZoneChanged) this.onCitizenZoneChanged(msg);
+            break;
         }
       } catch (e) {
         console.error('Message parse error:', e);
@@ -135,6 +155,27 @@ export class Network {
       this.ws.send(JSON.stringify({
         type: 'hands',
         hands: handsData,
+      }));
+    }
+  }
+
+  /** Send voice audio for biography query (near a memorial) */
+  sendBiographyVoice(base64Audio, donorId) {
+    if (this.ws?.readyState === WebSocket.OPEN) {
+      this.ws.send(JSON.stringify({
+        type: 'biography_voice',
+        audio: base64Audio,
+        donorId,
+      }));
+    }
+  }
+
+  /** Send teleport to target zone */
+  sendTeleport(targetZoneId) {
+    if (this.ws?.readyState === WebSocket.OPEN) {
+      this.ws.send(JSON.stringify({
+        type: 'teleport',
+        targetZone: targetZoneId,
       }));
     }
   }

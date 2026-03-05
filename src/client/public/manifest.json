@@ -1,0 +1,16 @@
+{
+  "name": "Cities of Light",
+  "short_name": "Cities",
+  "description": "VR world where humans and AIs coexist — memorial archives, biography retrieval, embodied interaction",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0d1b2a",
+  "theme_color": "#00ff88",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "ovr_package_name": "ai.mindprotocol.citiesoflight"
+}

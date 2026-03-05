@@ -9,6 +9,9 @@
 import * as THREE from 'three';
 import { Water } from 'three/addons/objects/Water.js';
 import { Sky } from 'three/addons/objects/Sky.js';
+import { ZONES } from '../shared/zones.js';
+
+const _isQuest = /OculusBrowser|Quest/.test(navigator.userAgent);
 
 // ─── Procedural Noise (hash-based, deterministic) ─────────
 
@@ -53,17 +56,9 @@ function getSunPosition() {
   return new THREE.Vector3().setFromSphericalCoords(1, phi, theta);
 }
 
-// ─── Island Registry (archipelago) ────────────────────────
+// ─── Island Registry (from shared zone definitions) ───────
 
-const ISLANDS = [
-  { name: "Nicolas", x: 0, z: 0, seed: 0 },
-  { name: "Bassel", x: 42, z: 18, seed: 777 },
-  { name: "The Archive", x: -30, z: -25, seed: 333 },
-  { name: "The Garden", x: 25, z: -35, seed: 555 },
-  { name: "The Agora", x: -20, z: 40, seed: 888 },
-];
-
-export { ISLANDS };
+export { ZONES };
 
 // ─── Main Environment Builder ─────────────────────────────
 
@@ -90,8 +85,9 @@ export function createEnvironment(scene, renderer) {
   const sunLight = new THREE.DirectionalLight(0xffcc88, 2.5);
   sunLight.position.copy(sunPosition).multiplyScalar(100);
   sunLight.castShadow = true;
-  sunLight.shadow.mapSize.width = 1024;
-  sunLight.shadow.mapSize.height = 1024;
+  const _shadowSize = _isQuest ? 512 : 1024;
+  sunLight.shadow.mapSize.width = _shadowSize;
+  sunLight.shadow.mapSize.height = _shadowSize;
   sunLight.shadow.camera.near = 10;
   sunLight.shadow.camera.far = 200;
   sunLight.shadow.camera.left = -50;
@@ -102,10 +98,12 @@ export function createEnvironment(scene, renderer) {
 
   // ── Ocean ─────────────────────────────────────────────
 
-  const waterGeom = new THREE.PlaneGeometry(2000, 2000);
+  const _waterSize = _isQuest ? 500 : 2000;
+  const _texSize = _isQuest ? 256 : 512;
+  const waterGeom = new THREE.PlaneGeometry(_waterSize, _waterSize);
   const water = new Water(waterGeom, {
-    textureWidth: 512,
-    textureHeight: 512,
+    textureWidth: _texSize,
+    textureHeight: _texSize,
     waterNormals: new THREE.TextureLoader().load(
       'https://threejs.org/examples/textures/waternormals.jpg',
       (texture) => {
@@ -123,16 +121,16 @@ export function createEnvironment(scene, renderer) {
   water.position.y = 0;
   group.add(water);
 
-  // ── Islands (archipelago) ─────────────────────────────
+  // ── Islands (archipelago — one per zone) ─────────────
 
-  for (const islandConfig of ISLANDS) {
-    const fullIsland = buildCompleteIsland(islandConfig);
+  for (const zone of ZONES) {
+    const fullIsland = buildCompleteIsland(zone);
     group.add(fullIsland);
   }
 
   // ── Stars (varied sizes, colors, twinkling via shader) ──
 
-  const starCount = 800;
+  const starCount = _isQuest ? 400 : 800;
   const starGeom = new THREE.BufferGeometry();
   const starPos = new Float32Array(starCount * 3);
   const starSizes = new Float32Array(starCount);
@@ -196,16 +194,32 @@ export function updateEnvironment(env, elapsed) {
 
 // ─── Complete Island (terrain + palms + rocks, positioned) ─
 
-function buildCompleteIsland({ name, x, z, seed }) {
+function buildCompleteIsland(zone) {
+  const { name, position, seed, terrain } = zone;
   const group = new THREE.Group();
-  group.position.set(x, 0, z);
+  group.position.set(position.x, 0, position.z);
   group.userData.islandName = name;
+  group.userData.zoneId = zone.id;
 
-  const island = buildIsland(seed);
+  const island = buildIsland(seed, terrain.palette);
   group.add(island);
 
-  const palms = buildPalmTrees(seed);
-  group.add(palms);
+  // Zone-specific vegetation
+  switch (terrain.vegetation) {
+    case 'crystals':
+      group.add(buildCrystals(seed, zone.ambient));
+      break;
+    case 'columns':
+      group.add(buildColumns(seed, zone.ambient));
+      break;
+    case 'flowers':
+      group.add(buildFlowers(seed, zone.ambient));
+      break;
+    case 'palms':
+    default:
+      group.add(buildPalmTrees(seed));
+      break;
+  }
 
   const rocks = buildRockFormation(seed);
   group.add(rocks);
@@ -239,7 +253,27 @@ function createIslandLabel(text) {
 
 // ─── Island Construction ──────────────────────────────────
 
-function buildIsland(seed = 0) {
+// ─── Palette definitions per zone style ──────────────────
+
+const PALETTES = {
+  'warm-sand': {
+    wetSand: 0x8a7550, drySand: 0xd4b87a, darkPatch: 0x6b5a3e, shoreWater: 0x1a4a5a,
+  },
+  'tropical': {
+    wetSand: 0x9a8560, drySand: 0xe0c88a, darkPatch: 0x7a6a4e, shoreWater: 0x1a5a5a,
+  },
+  'deep-blue': {
+    wetSand: 0x3a4a6a, drySand: 0x5a6a8a, darkPatch: 0x2a3a5a, shoreWater: 0x0a1a3a,
+  },
+  'green-moss': {
+    wetSand: 0x4a6a3a, drySand: 0x6a8a4a, darkPatch: 0x3a5a2a, shoreWater: 0x1a3a2a,
+  },
+  'marble': {
+    wetSand: 0xb0a890, drySand: 0xd8d0c0, darkPatch: 0x908878, shoreWater: 0x4a5a6a,
+  },
+};
+
+function buildIsland(seed = 0, palette = 'warm-sand') {
   const island = new THREE.Group();
   const radius = 14;
   const size = radius * 2 + 6;
@@ -250,10 +284,11 @@ function buildIsland(seed = 0) {
   const pos = geom.attributes.position;
   const colors = new Float32Array(pos.count * 3);
 
-  const wetSand = new THREE.Color(0x8a7550);
-  const drySand = new THREE.Color(0xd4b87a);
-  const darkPatch = new THREE.Color(0x6b5a3e);
-  const shoreWater = new THREE.Color(0x1a4a5a);
+  const p = PALETTES[palette] || PALETTES['warm-sand'];
+  const wetSand = new THREE.Color(p.wetSand);
+  const drySand = new THREE.Color(p.drySand);
+  const darkPatch = new THREE.Color(p.darkPatch);
+  const shoreWater = new THREE.Color(p.shoreWater);
 
   for (let i = 0; i < pos.count; i++) {
     const x = pos.getX(i);
@@ -632,6 +667,186 @@ function buildRockFormation(seed = 0) {
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     group.add(mesh);
+  }
+
+  return group;
+}
+
+// ─── Crystals (The Archive) ─────────────────────────────
+
+function buildCrystals(seed = 0, ambient = {}) {
+  const group = new THREE.Group();
+  const crystalColor = new THREE.Color(ambient.particleColor || 0x44ccff);
+  const count = 10;
+
+  for (let i = 0; i < count; i++) {
+    const angle = hash2D(i + seed, seed * 7) * Math.PI * 2;
+    const dist = 2 + hash2D(seed * 3, i * 11) * 8;
+    const height = 1.5 + hash2D(i * 5, seed * 2) * 3;
+    const radius = 0.2 + hash2D(seed, i * 3) * 0.4;
+
+    const geom = new THREE.IcosahedronGeometry(radius, 0);
+    // Stretch vertically for crystal shape
+    const pos = geom.attributes.position;
+    for (let j = 0; j < pos.count; j++) {
+      pos.setY(j, pos.getY(j) * (height / radius));
+    }
+    geom.computeVertexNormals();
+
+    const mat = new THREE.MeshStandardMaterial({
+      color: crystalColor,
+      emissive: crystalColor,
+      emissiveIntensity: 0.4,
+      metalness: 0.7,
+      roughness: 0.1,
+      transparent: true,
+      opacity: 0.75,
+    });
+
+    const crystal = new THREE.Mesh(geom, mat);
+    crystal.position.set(
+      Math.cos(angle) * dist,
+      height * 0.4,
+      Math.sin(angle) * dist
+    );
+    crystal.rotation.y = hash2D(i * 13, seed) * Math.PI;
+    crystal.rotation.z = (hash2D(i * 17, seed * 5) - 0.5) * 0.3;
+    crystal.castShadow = true;
+    group.add(crystal);
+
+    // Small glow at crystal base
+    const glow = new THREE.PointLight(crystalColor.getHex(), 0.3, 4);
+    glow.position.copy(crystal.position);
+    glow.position.y = 0.5;
+    group.add(glow);
+  }
+
+  return group;
+}
+
+// ─── Columns (The Agora) ────────────────────────────────
+
+function buildColumns(seed = 0, ambient = {}) {
+  const group = new THREE.Group();
+  const colColor = new THREE.Color(0xd8d0c0); // marble white
+  const capColor = new THREE.Color(ambient.lightColor || 0xffcc66);
+  const count = 12;
+
+  for (let i = 0; i < count; i++) {
+    const angle = (i / count) * Math.PI * 2 + hash2D(i + seed, seed) * 0.3;
+    const dist = 4 + hash2D(seed * 3, i * 7) * 5;
+    const height = 3 + hash2D(i * 5, seed * 2) * 2;
+    const radius = 0.2 + hash2D(seed, i) * 0.1;
+
+    // Column shaft
+    const shaftGeom = new THREE.CylinderGeometry(radius, radius * 1.1, height, 8);
+    const shaftMat = new THREE.MeshStandardMaterial({
+      color: colColor,
+      roughness: 0.7,
+      metalness: 0.1,
+    });
+    const shaft = new THREE.Mesh(shaftGeom, shaftMat);
+    shaft.position.set(
+      Math.cos(angle) * dist,
+      height / 2,
+      Math.sin(angle) * dist
+    );
+    shaft.castShadow = true;
+    shaft.receiveShadow = true;
+    group.add(shaft);
+
+    // Capital (wider top piece)
+    const capGeom = new THREE.CylinderGeometry(radius * 1.6, radius * 1.2, 0.3, 8);
+    const capMat = new THREE.MeshStandardMaterial({
+      color: capColor,
+      emissive: capColor,
+      emissiveIntensity: 0.15,
+      roughness: 0.5,
+      metalness: 0.2,
+    });
+    const cap = new THREE.Mesh(capGeom, capMat);
+    cap.position.set(
+      Math.cos(angle) * dist,
+      height + 0.15,
+      Math.sin(angle) * dist
+    );
+    group.add(cap);
+
+    // Base
+    const baseGeom = new THREE.CylinderGeometry(radius * 1.4, radius * 1.5, 0.2, 8);
+    const base = new THREE.Mesh(baseGeom, shaftMat);
+    base.position.set(
+      Math.cos(angle) * dist,
+      0.1,
+      Math.sin(angle) * dist
+    );
+    group.add(base);
+  }
+
+  return group;
+}
+
+// ─── Flowers (The Garden) ───────────────────────────────
+
+function buildFlowers(seed = 0, ambient = {}) {
+  const group = new THREE.Group();
+  const flowerColors = [0xff6688, 0xffaa44, 0xff44aa, 0x88ff66, 0xffff44, 0xaa66ff];
+  const count = 35;
+
+  for (let i = 0; i < count; i++) {
+    const angle = hash2D(i + seed, seed * 7) * Math.PI * 2;
+    const dist = 1 + hash2D(seed * 3, i * 11) * 10;
+    const flowerColor = flowerColors[Math.floor(hash2D(i * 5, seed * 2) * flowerColors.length)];
+
+    // Stem
+    const stemHeight = 0.3 + hash2D(i * 3, seed) * 0.5;
+    const stemGeom = new THREE.CylinderGeometry(0.02, 0.02, stemHeight, 4);
+    const stemMat = new THREE.MeshStandardMaterial({
+      color: 0x2d5a1e,
+      roughness: 0.8,
+    });
+    const stem = new THREE.Mesh(stemGeom, stemMat);
+    stem.position.set(
+      Math.cos(angle) * dist,
+      stemHeight / 2,
+      Math.sin(angle) * dist
+    );
+    group.add(stem);
+
+    // Flower head (cluster of small spheres)
+    const petalCount = 3 + Math.floor(hash2D(seed, i * 7) * 3);
+    for (let p = 0; p < petalCount; p++) {
+      const petalAngle = (p / petalCount) * Math.PI * 2;
+      const petalGeom = new THREE.SphereGeometry(0.04 + hash2D(p, i) * 0.03, 6, 6);
+      const petalMat = new THREE.MeshStandardMaterial({
+        color: flowerColor,
+        emissive: flowerColor,
+        emissiveIntensity: 0.2,
+        roughness: 0.4,
+      });
+      const petal = new THREE.Mesh(petalGeom, petalMat);
+      petal.position.set(
+        Math.cos(angle) * dist + Math.cos(petalAngle) * 0.05,
+        stemHeight + 0.05,
+        Math.sin(angle) * dist + Math.sin(petalAngle) * 0.05
+      );
+      group.add(petal);
+    }
+
+    // Center
+    const centerGeom = new THREE.SphereGeometry(0.03, 6, 6);
+    const centerMat = new THREE.MeshStandardMaterial({
+      color: 0xffff88,
+      emissive: 0xffff44,
+      emissiveIntensity: 0.3,
+    });
+    const center = new THREE.Mesh(centerGeom, centerMat);
+    center.position.set(
+      Math.cos(angle) * dist,
+      stemHeight + 0.06,
+      Math.sin(angle) * dist
+    );
+    group.add(center);
   }
 
   return group;
