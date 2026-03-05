@@ -14,3 +14,14 @@ dist/
 Thumbs.db
 services/__pycache__/
 **/__pycache__/
+
+# Data
+data/
+
+# Large media assets (tracked locally, not in git)
+assets/source-videos/*.mp4
+assets/source-videos/*.mov
+assets/source-videos/*.avi
+
+# Tests
+.pytest_cache/
