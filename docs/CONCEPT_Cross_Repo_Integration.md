@@ -30,10 +30,9 @@ Venezia does NOT live in isolation. It is part of a hub-and-spoke ecosystem cent
      │          │          │          │
      ▼          ▼          ▼          ▼
 ┌─────────┐ ┌────────┐ ┌──────────┐ ┌───────────────────┐
-│ MIND-   │ │SERENIS-│ │CITIES-OF-│ │  BLOOD-LEDGER     │
-│PLATFORM │ │SIMA    │ │LIGHT     │ │                   │
-│(web)    │ │(186 AI)│ │(3D/VR)   │ │  (narrative       │
-│         │ │        │ │          │ │   physics)         │
+│ MIND-   │ │VENEZIA │ │CITIES-OF-│ │  NGRAM            │
+│PLATFORM │ │(world  │ │LIGHT     │ │  (narrative       │
+│(web)    │ │ repo)  │ │(engine)  │ │   physics lib)    │
 └─────────┘ └────────┘ └──────────┘ └───────────────────┘
 ```
 
@@ -43,10 +42,10 @@ Venezia does NOT live in isolation. It is part of a hub-and-spoke ecosystem cent
 
 | Repo | Role in Venezia | What It Owns |
 |---|---|---|
-| **manemus** | Orchestration, compute, auth, biometrics | Account balancer, citizen registry, Telegram bridge, Garmin data |
-| **serenissima** | Citizen simulation (the "souls") | 186 citizen identities, .cascade/ memories, Airtable economic state, KinOS integration |
-| **cities-of-light** | 3D spatial substrate (the "body") | Three.js world, WebXR, spatial audio, citizen embodiment, atmosphere |
-| **the-blood-ledger** | Narrative physics (the "laws") | FalkorDB graph, physics tick, Narrator/WorldBuilder/WorldRunner agents |
+| **manemus** | AI substrate — orchestration, compute, auth, biometrics | Account balancer, citizen registry, Telegram bridge, Garmin data |
+| **venezia** | World repo — universe-specific content (first world) | 186 citizen identities, .cascade/ memories, Airtable economic state, KinOS integration, lore, economy config, physics tuning, WorldManifest |
+| **cities-of-light** | Engine — rendering, navigation, voice, networking | Three.js world, WebXR, spatial audio, citizen embodiment, atmosphere, Express server. Reusable across worlds. |
+| **ngram** | Narrative physics library (standalone dependency) | Physics tick, energy/decay/tension engine, Moment flip detection, Narrator/WorldBuilder/WorldRunner agents |
 | **mind-platform** | Public web presence | Registry page, citizen dashboard, /api/citizens (fetches from Manemus) |
 | **mind-mcp** | Tool/capability layer | 21 MCP tools: agents, procedures, graph queries, task management |
 
@@ -94,11 +93,13 @@ Venezia does NOT live in isolation. It is part of a hub-and-spoke ecosystem cent
 - Used for consciousness synthesis, daily narrative generation
 - Venezia citizen conversations will use Claude API directly (not KinOS), but informed by KinOS-generated context
 
-### 3. Narrative Graph: Blood Ledger FalkorDB → Venezia
+### 3. Narrative Graph: ngram Physics Engine → Venezia
 
 **Source of truth:** FalkorDB instance (Docker, port 6379)
 - Schema: Character, Narrative, Moment, Place nodes + BELIEVES, TENSION, SUPPORTS edges
-- Currently seeded with Blood Ledger world data (Norman England)
+- Seeded with Venice-specific data from the Venezia world repo
+
+**The physics engine (ngram) is a standalone dependency.** It provides the energy/decay/tension simulation, Moment flip detection, and narrative agent framework. It is not coupled to any specific world — it operates on whatever graph it is pointed at.
 
 **Venezia needs:** Venice-specific graph seeded from Serenissima data
 - Script to create Character nodes from 186 Airtable citizens
@@ -106,9 +107,9 @@ Venezia does NOT live in isolation. It is part of a hub-and-spoke ecosystem cent
 - Script to create Place nodes from Venice districts
 - Physics tick runs in `cities-of-light/src/server/physics-bridge.js`
 
-**Shared FalkorDB or separate?**
+**Graph isolation:**
 - Recommended: Separate graph database for Venice (different Docker container or different graph name in same FalkorDB)
-- Blood Ledger engine code is reusable — just point to Venice graph
+- ngram engine code is world-agnostic — just point to the Venice graph
 
 ### 4. Compute: Manemus Account Balancer → Venezia
 
@@ -228,9 +229,9 @@ ELEVENLABS_API_KEY=...           # TTS for citizen voices
 OPENAI_API_KEY=sk-...            # Whisper STT (if API mode)
 
 # Graph
-FALKORDB_HOST=localhost          # Blood Ledger graph
+FALKORDB_HOST=localhost          # ngram physics graph
 FALKORDB_PORT=6379
-FALKORDB_GRAPH=venezia           # Separate graph name from blood-ledger
+FALKORDB_GRAPH=venezia           # World-specific graph name
 
 # Optional
 MANEMUS_BIOMETRICS_PATH=/home/mind-protocol/manemus/biometrics/
@@ -246,8 +247,7 @@ SERENISSIMA_CITIZENS_PATH=/home/mind-protocol/serenissima/citizens/
 | manemus | `scripts/backlog.py:266` | Add `"cities-of-light"` to `key_repos` | Enable task auto-discovery |
 | manemus | `config/citizens.json` | Add `serenissima_link` field | Map team members to Venice citizens |
 | mind-platform | `app/api/registry/citizens/route.ts` | Expand Cypher to include Venice graph | Show Serenissima citizens in registry |
-| serenissima | `citizens/*/` | Ensure all 186 have `.cascade/` dirs | Venezia needs memory access |
-| the-blood-ledger | (none — code reused, not modified) | Import engine modules | Physics tick, graph ops |
+| venezia | `citizens/*/` | Ensure all 186 have `.cascade/` dirs | Engine needs memory access |
 
 ---
 
@@ -269,8 +269,10 @@ SERENISSIMA_CITIZENS_PATH=/home/mind-protocol/serenissima/citizens/
 
 1. **Don't duplicate citizen data.** Airtable is the source for economic state. FalkorDB is the source for narrative state. .cascade/ is the source for memory. Don't copy between them.
 
-2. **Don't route citizen conversations through Manemus.** Venezia talks to Claude API directly. Manemus orchestrator is for Nicolas's personal sessions, not for 186 citizen conversations.
+2. **Don't route citizen conversations through Manemus.** The engine talks to Claude API directly. Manemus orchestrator is for Nicolas's personal sessions, not for 186 citizen conversations.
 
-3. **Don't write to Serenissima Airtable from Venezia** (except memory updates). The economic simulation is Serenissima's domain. Venezia observes it, doesn't control it.
+3. **Don't write to Venezia Airtable from the engine** (except memory updates). The economic simulation is the world repo's domain. The engine observes it, doesn't control it.
 
-4. **Don't mix FalkorDB graphs.** Venice narrative graph is separate from Blood Ledger's Norman England graph and Mind-MCP's agent graph. Same database server, different graph names.
+4. **Don't mix FalkorDB graphs.** Each world repo gets its own graph name. The Venice narrative graph is separate from Mind-MCP's agent graph. Same database server, different graph names.
+
+5. **Don't put world-specific logic in the engine.** Cities-of-light is reusable across worlds. Venice-specific content (citizens, lore, economy rules, physics config) belongs in the Venezia world repo and is loaded via WorldManifest.

@@ -120,6 +120,8 @@ Intensity:                    1.0
 Select `Directional Light` in Hierarchy:
 
 ```
+Rotation:       (50, -30, 0)
+Color:          #FFCC88 (warm amber — ZoneManager overrides at runtime)
 Intensity:      1.2
 Shadow Type:    Soft Shadows
 ```

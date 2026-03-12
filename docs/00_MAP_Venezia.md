@@ -14,8 +14,8 @@ venezia/
 │   ├── mind             Conversation: context assembly, KinOS, memory
 │   └── population       Spawn/despawn, tier assignment, crowd simulation
 │
-├── narrative/       Blood Ledger physics + events
-│   ├── graph            FalkorDB schema, seeding from Serenissima
+├── narrative/       Narrative physics + events (ngram engine)
+│   ├── graph            FalkorDB schema, seeding from world repo
 │   ├── physics          Energy/decay/tension tick, Moment flips
 │   └── events           World events: generation, propagation, 3D effects
 │
@@ -84,19 +84,19 @@ venezia/
 
 ---
 
-### NARRATIVE — Blood Ledger Physics + Events
+### NARRATIVE — Narrative Physics + Events (ngram engine)
 
 #### narrative/graph
-**Responsibility:** The FalkorDB graph that stores the narrative state of Venice. Schema definition (Character, Narrative, Moment, Place nodes + BELIEVES, TENSION, SUPPORTS edges). Seeding pipeline: transform 186 Serenissima citizens into Character nodes, grievances into Narrative/Tension nodes, districts into Place nodes. Graph queries for citizen context assembly.
-**Key decisions:** Graph schema extensions for Serenissima-specific data. Node creation/deletion policy (append-only? pruning?). Query patterns for conversation context. Graph size limits.
+**Responsibility:** The FalkorDB graph that stores the narrative state of Venice. Schema definition (Character, Narrative, Moment, Place nodes + BELIEVES, TENSION, SUPPORTS edges). Seeding pipeline: transform 186 citizens from the world repo into Character nodes, grievances into Narrative/Tension nodes, districts into Place nodes. Graph queries for citizen context assembly.
+**Key decisions:** Graph schema extensions for Venice-specific data. Node creation/deletion policy (append-only? pruning?). Query patterns for conversation context. Graph size limits.
 **Depends on:** economy/sync (source data from Airtable)
-**Entry points:** `src/server/physics-bridge.js`, Blood Ledger `engine/physics/graph/`
+**Entry points:** `src/server/physics-bridge.js`, ngram engine `physics/graph/`
 
 #### narrative/physics
-**Responsibility:** The core emergence engine. Energy pumping (citizens → beliefs), energy routing (supports/contradicts), decay (DECAY_RATE = 0.02), tension accumulation, Moment flip detection (salience > threshold). Runs on a 5-minute tick. The physics IS the scheduling — no cron jobs, no event queues.
+**Responsibility:** The core emergence engine. Energy pumping (citizens → beliefs), energy routing (supports/contradicts), decay (DECAY_RATE = 0.02), tension accumulation, Moment flip detection (salience > threshold). Runs on a 5-minute tick. The physics IS the scheduling — no cron jobs, no event queues. Powered by the ngram standalone library.
 **Key decisions:** Tick interval (5min? configurable?). Decay rate tuning for Venice scale. Tension threshold calibration. Anti-runaway-optimization (homeostasis). Energy injection from real economy data.
 **Depends on:** narrative/graph (reads/writes FalkorDB)
-**Entry points:** Blood Ledger `engine/physics/`, `src/server/physics-bridge.js`
+**Entry points:** ngram engine `physics/`, `src/server/physics-bridge.js`
 
 #### narrative/events
 **Responsibility:** When a Moment flips, translate it into observable world effects. Event classification (economic_crisis, political_uprising, personal_tragedy, celebration). 3D effects: citizen behavior changes, atmosphere shifts, crowd gathering, spatial audio events. News propagation: events spread through social graph over time (hours/days). Forestiere news injection (real-world RSS → 15th century translation).

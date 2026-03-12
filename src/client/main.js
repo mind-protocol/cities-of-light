@@ -19,11 +19,17 @@ import { SpatialVoice } from './voice.js';
 import { MemorialManager } from './memorial-manager.js';
 import { ZoneAmbient } from './zone-ambient.js';
 import { Waypoints } from './waypoints.js';
+import { VoiceChat } from './voice-chat.js';
+import { createWorldSculptures } from './sculpture.js';
+import { createWorldWearables } from './wearable-display.js';
+import { TeleportTransition } from './teleport-transition.js';
+import { OwnershipUI } from './ownership-ui.js';
 
 // ─── Mode Detection ──────────────────────────────────────
 // ?view=manemus → stream mode (spectator from Manemus POV)
 const params = new URLSearchParams(location.search);
 const streamMode = params.get('view') === 'manemus';
+const roomCode = params.get('room') || null; // ?room=ABC123
 const isQuest = /OculusBrowser|Quest/.test(navigator.userAgent);
 const isPWA = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
 
@@ -152,23 +158,50 @@ zoneAmbient.onZoneChanged = (oldZone, newZone) => {
   if (zoneEl) zoneEl.textContent = newZone.name;
 };
 
+// ─── Teleport Transition ───────────────────────────────
+
+const teleportTransition = new TeleportTransition();
+
 // ─── Waypoints (teleport beacons between zones) ─────────
 
 const waypoints = new Waypoints(scene);
 waypoints.onTeleport = (targetZone) => {
   console.log(`Teleporting to ${targetZone.name}`);
-  const target = new THREE.Vector3(targetZone.position.x, 1.7, targetZone.position.z);
-  if (renderer.xr.isPresenting) {
-    // Move VR dolly
-    vrControls.dolly.position.set(targetZone.position.x, 0, targetZone.position.z);
-  } else {
-    // Move desktop camera
-    camera.position.set(targetZone.position.x + 8, 4, targetZone.position.z + 8);
-    controls.target.set(targetZone.position.x, 1, targetZone.position.z);
-  }
-  network.sendTeleport(targetZone.id);
-  network.sendPosition(target, camera.quaternion);
+  teleportTransition.play(targetZone.name, () => {
+    // Midpoint: screen is black — move the player
+    const target = new THREE.Vector3(targetZone.position.x, 1.7, targetZone.position.z);
+    if (renderer.xr.isPresenting) {
+      vrControls.dolly.position.set(targetZone.position.x, 0, targetZone.position.z);
+    } else {
+      camera.position.set(targetZone.position.x + 8, 4, targetZone.position.z + 8);
+      controls.target.set(targetZone.position.x, 1, targetZone.position.z);
+    }
+    network.sendTeleport(targetZone.id);
+    network.sendPosition(target, camera.quaternion);
+  });
 };
+
+// ─── Sculptures (archive art anchors) ───────────────────
+
+const sculptures = createWorldSculptures();
+for (const s of sculptures) scene.add(s.group);
+
+// ─── Wearable Displays (collectible pedestals) ──────────
+
+const wearableDisplays = createWorldWearables();
+for (const w of wearableDisplays) scene.add(w.group);
+
+// ─── Ownership UI ───────────────────────────────────────
+
+const ownershipUI = streamMode ? null : new OwnershipUI();
+// Wire zone changes to ownership panel
+if (ownershipUI) {
+  const _origZoneChanged = zoneAmbient.onZoneChanged;
+  zoneAmbient.onZoneChanged = (oldZone, newZone) => {
+    if (_origZoneChanged) _origZoneChanged(oldZone, newZone);
+    ownershipUI.setZone(newZone);
+  };
+}
 
 // ─── Stream overlay reference ────────────────────────────
 let _streamCitizenCount = null;
@@ -424,7 +457,50 @@ network.onCitizenHands = (msg) => {
   }
 };
 
+// ─── Voice Chat (WebRTC spatial) ────────────────────────
+
+const voiceChat = new VoiceChat(network);
+
+// Wire up WebRTC signaling handlers
+network.onSignaling = (msg) => {
+  if (!voiceChat.enabled) return;
+  switch (msg.sigType) {
+    case 'webrtc_offer':
+      voiceChat.handleOffer(msg.fromCitizenId, msg.sdp);
+      break;
+    case 'webrtc_answer':
+      voiceChat.handleAnswer(msg.fromCitizenId, msg.sdp);
+      break;
+    case 'ice_candidate':
+      voiceChat.handleIceCandidate(msg.fromCitizenId, msg.candidate);
+      break;
+  }
+};
+
+// When server sends us the peer list (on room join), initiate WebRTC offers
+network.onVoicePeers = async (msg) => {
+  if (!voiceChat.enabled) {
+    await voiceChat.init();
+  }
+  if (voiceChat.enabled && msg.peers) {
+    for (const peer of msg.peers) {
+      voiceChat.createOffer(peer.citizenId);
+    }
+  }
+};
+
+// Room join confirmation
+network.onRoomJoined = (msg) => {
+  console.log(`Joined room: ${msg.roomName} (${msg.roomCode})`);
+  const roomEl = document.getElementById('room-indicator');
+  if (roomEl) roomEl.textContent = `${msg.roomName} [${msg.roomCode}]`;
+};
+
+// Clean up voice peers on citizen leave
+const _origOnCitizenLeft = network.onCitizenLeft;
 network.onCitizenLeft = (msg) => {
+  voiceChat.removePeer(msg.citizenId);
+  // Original handler
   const avatar = remoteCitizens.get(msg.citizenId);
   if (avatar) {
     scene.remove(avatar);
@@ -438,13 +514,12 @@ try {
   if (streamMode) {
     network.connect('Manemus Stream', null, { spectator: true });
   } else {
-    network.connect('Nicolas', 'Marco');
+    network.connect('Nicolas', 'Marco', { roomCode });
     // Send world-space position — in XR, camera.position is local to dolly
     const _syncPos = new THREE.Vector3();
     const _syncQuat = new THREE.Quaternion();
     network.startPositionSync(() => {
       if (renderer.xr.isPresenting) {
-        // Use nicolasAvatar position (already world-space from XR loop)
         return {
           position: { x: nicolasAvatar.position.x, y: nicolasAvatar.children[0]?.position.y || 1.7, z: nicolasAvatar.position.z },
           rotation: nicolasAvatar.children[0]?.quaternion || camera.quaternion,
@@ -452,6 +527,17 @@ try {
       }
       return { position: camera.position, rotation: camera.quaternion };
     }, 100);
+
+    // Init voice chat on first user gesture
+    const initVoiceChat = async () => {
+      if (voiceChat.enabled) return;
+      await voiceChat.init();
+      console.log('Voice chat ready');
+      document.removeEventListener('click', initVoiceChat);
+    };
+    document.addEventListener('click', initVoiceChat);
+    // VR session start is also a user gesture
+    renderer.xr.addEventListener('sessionstart', initVoiceChat);
   }
 } catch (e) {
   console.log('Server not available, running offline');
@@ -621,6 +707,10 @@ if (streamMode) {
 
 const clock = new THREE.Clock();
 let _lastCamBroadcast = 0;
+// Pre-allocated temporaries (zero per-frame allocs)
+const _voiceFwd = new THREE.Vector3();
+const _voiceCitizenPositions = new Map();
+const _waypointPlayerPos = new THREE.Vector3();
 
 renderer.setAnimationLoop(() => {
   const delta = clock.getDelta();
@@ -706,10 +796,32 @@ renderer.setAnimationLoop(() => {
   // Waypoint beacons (animate + check teleport interaction)
   {
     const playerPos = renderer.xr.isPresenting
-      ? new THREE.Vector3().copy(nicolasAvatar.position).setY(nicolasAvatar.children[0]?.position.y || 1.7)
+      ? _waypointPlayerPos.copy(nicolasAvatar.position).setY(nicolasAvatar.children[0]?.position.y || 1.7)
       : camera.position;
     const gripActive = vrControls.isGripping?.() || false;
     waypoints.update(elapsed, playerPos, gripActive);
+  }
+
+  // Sculptures (rotation + proximity)
+  {
+    const playerPos = renderer.xr.isPresenting
+      ? _waypointPlayerPos // reuse, already set above
+      : camera.position;
+    for (const s of sculptures) s.update(elapsed, playerPos);
+  }
+
+  // Wearable displays (rotation + proximity + collect)
+  {
+    const playerPos = renderer.xr.isPresenting
+      ? _waypointPlayerPos
+      : camera.position;
+    const gripActive = vrControls.isGripping?.() || false;
+    for (const w of wearableDisplays) w.update(elapsed, playerPos, gripActive);
+  }
+
+  // Hide ownership panel in VR (2D overlay not useful in headset)
+  if (ownershipUI) {
+    ownershipUI.setVisible(!renderer.xr.isPresenting);
   }
 
   // Animate AI citizen meshes (rotation + glow pulse)
@@ -793,6 +905,27 @@ renderer.setAnimationLoop(() => {
 
   // Spatial audio listener follows camera/headset
   spatialVoice.updateListener(camera);
+
+  // Voice chat spatial positioning (WebRTC peer audio)
+  if (voiceChat.enabled) {
+    const listenerPos = renderer.xr.isPresenting
+      ? { x: nicolasAvatar.position.x, y: nicolasAvatar.children[0]?.position.y || 1.7, z: nicolasAvatar.position.z }
+      : { x: camera.position.x, y: camera.position.y, z: camera.position.z };
+    // Get camera forward direction
+    camera.getWorldDirection(_voiceFwd);
+    const fwd = { x: _voiceFwd.x, y: _voiceFwd.y, z: _voiceFwd.z };
+    // Build citizen position map
+    _voiceCitizenPositions.clear();
+    for (const [cid, avatar] of remoteCitizens) {
+      const head = avatar.children[0];
+      _voiceCitizenPositions.set(cid, {
+        x: avatar.position.x,
+        y: head?.position.y || 1.7,
+        z: avatar.position.z,
+      });
+    }
+    voiceChat.updatePositions(listenerPos, fwd, _voiceCitizenPositions);
+  }
 
   renderer.render(scene, camera);
 });

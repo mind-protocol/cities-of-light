@@ -7,6 +7,8 @@ export class Network {
   constructor() {
     this.ws = null;
     this.citizenId = null;
+    this.roomCode = null;
+    this.roomName = null;
     this.onCitizenJoined = null;
     this.onCitizenMoved = null;
     this.onCitizenLeft = null;
@@ -23,12 +25,19 @@ export class Network {
     this.onBiographyStreamEnd = null;
     this.onAICitizenSpeak = null;
     this.onCitizenZoneChanged = null;
+    this.onRoomJoined = null;
+    this.onRoomError = null;
+    this.onVoicePeers = null;
+    this.onSignaling = null;
     this._reconnectTimer = null;
     this._positionInterval = null;
   }
 
-  connect(name = 'Anonymous', persona = null, { spectator = false } = {}) {
+  connect(name = 'Anonymous', persona = null, { spectator = false, roomCode = null } = {}) {
     this._spectator = spectator;
+    this._name = name;
+    this._persona = persona;
+    this._roomCode = roomCode;
     // Use same host as page, but WebSocket port
     const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
     // In dev: proxy via Vite (/ws → ws://localhost:8801)
@@ -50,6 +59,7 @@ export class Network {
         persona,
         citizenId: this.citizenId,
         spectator: this._spectator,
+        roomCode: this._roomCode,
       }));
     };
 
@@ -59,7 +69,23 @@ export class Network {
         switch (msg.type) {
           case 'welcome':
             this.citizenId = msg.citizenId;
-            console.log('Assigned citizenId:', this.citizenId);
+            this.roomCode = msg.roomCode || null;
+            this.roomName = msg.roomName || null;
+            console.log(`Assigned citizenId: ${this.citizenId}, room: ${this.roomCode}`);
+            break;
+          case 'room_joined':
+            this.roomCode = msg.roomCode;
+            this.roomName = msg.roomName;
+            if (this.onRoomJoined) this.onRoomJoined(msg);
+            break;
+          case 'room_error':
+            if (this.onRoomError) this.onRoomError(msg);
+            break;
+          case 'voice_peers':
+            if (this.onVoicePeers) this.onVoicePeers(msg);
+            break;
+          case 'signaling':
+            if (this.onSignaling) this.onSignaling(msg);
             break;
           case 'citizen_joined':
             // Skip our own join echo (safety net — server already excludes us)
@@ -187,6 +213,30 @@ export class Network {
         type: 'voice',
         audio: base64Audio,
       }));
+    }
+  }
+
+  /** Send WebRTC signaling message (relay via server to target peer). */
+  sendSignaling(sigMsg) {
+    if (this.ws?.readyState === WebSocket.OPEN) {
+      this.ws.send(JSON.stringify({
+        type: 'signaling',
+        ...sigMsg,
+      }));
+    }
+  }
+
+  /** Create a new room. */
+  sendCreateRoom(name) {
+    if (this.ws?.readyState === WebSocket.OPEN) {
+      this.ws.send(JSON.stringify({ type: 'create_room', name }));
+    }
+  }
+
+  /** Join an existing room by code. */
+  sendJoinRoom(roomCode) {
+    if (this.ws?.readyState === WebSocket.OPEN) {
+      this.ws.send(JSON.stringify({ type: 'join_room', roomCode }));
     }
   }
 

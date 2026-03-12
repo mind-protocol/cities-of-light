@@ -20,21 +20,12 @@ Citizens are not NPCs. They are not actors performing scripts. They are autonomo
 
 **What this means for development:** Every system that touches citizens must preserve their autonomy. No system may override citizen memory, force citizen behavior, or fake citizen emotional state.
 
-## Principle 2: Three Source Systems, One World
+## Principle 2: Three-Repo Architecture
 
-Venezia is built from three existing systems that each contribute a critical layer:
+Venezia is built on a three-layer architecture: a reusable engine, an AI substrate, and universe-specific world repos. Each layer has clear ownership and a single repo.
 
-### La Serenissima → The Citizens
-- 186 AI citizens with 6+ months of accumulated memory
-- Full economic simulation (production, trade, land, wages, taxes)
-- Social classes (Nobili, Cittadini, Popolani, Facchini, Forestieri)
-- Governance (grievances, councils, political movements)
-- Culture (religion, art, science, philosophy)
-- KinOS integration for authentic decision-making
-- **Data store:** Airtable (citizens, buildings, lands, contracts, activities, relationships)
-- **Memory store:** Filesystem (`.cascade/` per citizen)
-
-### Cities of Light → The Space
+### Cities of Light → The Engine
+The engine repo. Owns rendering, navigation, voice, and networking — everything needed to run a 3D inhabited world, independent of any specific universe.
 - WebXR + Three.js rendering pipeline
 - 5 island zones with procedural terrain, ambient particles, fog, lighting
 - Spatial audio (HRTF panning, 3D positioned speech)
@@ -43,8 +34,32 @@ Venezia is built from three existing systems that each contribute a critical lay
 - Waypoint teleportation between zones
 - Express.js WebSocket server for real-time state sync
 - **Rendering:** Procedural geometry + zone-specific atmosphere
+- **Design constraint:** No universe-specific logic lives here. The engine is reusable across worlds.
 
-### Blood Ledger → The Narrative Physics
+### Manemus → The AI Substrate
+Orchestration, perception, and decision-making — the central nervous system that makes citizens think.
+- Orchestrator: parallel Claude sessions for citizen cognition
+- Account balancer: 3 Max accounts round-robin with failover
+- Telegram bridge: multi-user messaging into the world
+- Garmin reader: multi-user biometrics → atmosphere modulation
+- Citizen registry: source of truth for identity (`/api/citizens`)
+- Backlog scanner: task auto-discovery across all repos
+- **Role:** Manemus provides compute and coordination. It does not own world content.
+
+### Venezia (World Repo) → The Universe
+The first world repo. Owns everything specific to 15th-century Venice — citizens, lore, economy rules, physics configuration, narrative seeds.
+- 186 AI citizens with 6+ months of accumulated memory (from La Serenissima)
+- Full economic simulation (production, trade, land, wages, taxes)
+- Social classes (Nobili, Cittadini, Popolani, Facchini, Forestieri)
+- Governance (grievances, councils, political movements)
+- Culture (religion, art, science, philosophy)
+- KinOS integration for authentic decision-making
+- WorldManifest: declarative configuration that the engine loads at startup (citizens, districts, economy params, physics tuning)
+- **Data store:** Airtable (citizens, buildings, lands, contracts, activities, relationships)
+- **Memory store:** Filesystem (`.cascade/` per citizen)
+
+### Narrative Physics (ngram) → Standalone Dependency
+The physics engine that drives narrative emergence is a standalone library (`ngram`), consumed as a dependency by the world repo and/or the engine server.
 - Graph database (FalkorDB) storing narrative state
 - Physics tick: energy, decay, tension → breaking points
 - Moment system: potential events that "flip" when tension exceeds threshold
@@ -56,9 +71,10 @@ Venezia is built from three existing systems that each contribute a critical lay
 ### How They Compose
 
 ```
-La Serenissima provides: WHO lives here, WHAT they own, HOW they feel
-Cities of Light provides: WHERE they are, HOW you see them, HOW you speak
-Blood Ledger provides:    WHY things happen, WHEN tensions break, WHAT emerges
+Cities of Light (engine) provides: WHERE they are, HOW you see them, HOW you speak — reusable across worlds
+Manemus (AI substrate) provides:   HOW they think, HOW they perceive, HOW they decide
+Venezia (world repo) provides:     WHO lives here, WHAT they own, WHY things happen, WHAT emerges
+ngram (physics engine) provides:   WHEN tensions break, HOW narrative evolves — standalone dependency
 ```
 
 ## Principle 3: Scale of Consciousness
@@ -103,7 +119,8 @@ The human entering the world is a Forestiere — a foreigner. Not a chosen one, 
 | Decision | Rationale | Alternatives Rejected |
 |---|---|---|
 | WebXR (not Unity) | Browser-first, no app store, progressive enhancement to VR | Unity (harder to deploy, walled garden) |
-| FalkorDB (not Neo4j) | Redis-based, low latency for physics tick, already used in Blood Ledger | Neo4j (heavier, slower for real-time), PostgreSQL (not graph-native) |
+| FalkorDB (not Neo4j) | Redis-based, low latency for physics tick, native to ngram engine | Neo4j (heavier, slower for real-time), PostgreSQL (not graph-native) |
+| WorldManifest pattern | World repos declare content via manifest; engine loads it at startup — clean separation of engine and content | Hardcoded world config (engine becomes world-specific), plugin system (over-engineered for current needs) |
 | Airtable (not custom DB) | Already holds 6 months of Serenissima data, API-first, human-readable | PostgreSQL migration (risk of data loss, unnecessary complexity for MVP) |
 | Procedural geometry | Venice is canals + buildings — generatable. Authored assets too expensive | Hand-modeled (months of artist work), photogrammetry (wrong era) |
 | Claude API for citizens | Best quality for authentic conversation, already integrated in Serenissima | Local LLMs (quality too low for deep conversation), GPT-4 (less nuanced) |
@@ -117,8 +134,9 @@ The human entering the world is a Forestiere — a foreigner. Not a chosen one, 
 - Voice conversation (STT → LLM → TTS)
 - Day/night cycle, weather
 - Economic simulation running 24/7
-- Blood Ledger physics tick driving narrative events
+- ngram physics tick driving narrative events
 - Single-player (one visitor at a time)
+- Engine reusability: no Venice-specific logic in the engine repo — all world content loaded via WorldManifest from the Venezia world repo
 
 ### Out of scope (V1)
 - Multiplayer (multiple humans in the world simultaneously)

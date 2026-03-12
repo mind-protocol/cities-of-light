@@ -16,6 +16,7 @@ import { processVoice, processVoiceStreaming, speakToWorld, speakAsAICitizen } f
 import { processBiographyVoice } from './biography-voice.js';
 import { ZONES, detectNearestZone } from '../shared/zones.js';
 import { AICitizenManager } from './ai-citizens.js';
+import { RoomManager } from './rooms.js';
 import OpenAI from 'openai';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -25,6 +26,7 @@ const PORT = 8800;
 
 const citizens = new Map(); // id → { position, rotation, name, persona, zone, lastUpdate }
 const connections = new Map(); // ws → citizenId
+const roomManager = new RoomManager();
 
 // ─── Express (HTTP API) ─────────────────────────────────
 
@@ -84,6 +86,18 @@ app.get('/perception/:citizenId', (req, res) => {
 // Zone definitions endpoint
 app.get('/api/zones', (req, res) => {
   res.json({ zones: ZONES });
+});
+
+// Room list endpoint
+app.get('/api/rooms', (req, res) => {
+  res.json({ rooms: roomManager.listRooms() });
+});
+
+// Create room endpoint
+app.post('/api/rooms', (req, res) => {
+  const { name, maxPlayers } = req.body || {};
+  const room = roomManager.createRoom(name, { maxPlayers });
+  res.json({ code: room.code, name: room.name });
 });
 
 // ─── Speak endpoint (sessions push voice into the world) ──
@@ -221,6 +235,8 @@ wss.on('connection', (ws) => {
         case 'join': {
           citizenId = msg.citizenId || `citizen_${Date.now()}`;
           const isSpectator = !!msg.spectator;
+          const roomCode = msg.roomCode || null;
+
           citizens.set(citizenId, {
             name: msg.name || 'Unknown',
             persona: msg.persona || null,
@@ -231,25 +247,49 @@ wss.on('connection', (ws) => {
             lastUpdate: Date.now(),
           });
           connections.set(ws, citizenId);
-          console.log(`${isSpectator ? 'Spectator' : 'Citizen'} joined: ${msg.name} (${citizenId})`);
 
-          // Send existing non-spectator citizens to the new client
+          // Join room — specific code, or default lobby
+          let room;
+          if (roomCode && roomCode !== 'LOBBY0') {
+            const result = roomManager.joinRoom(roomCode, citizenId, ws, {
+              name: msg.name, persona: msg.persona, spectator: isSpectator,
+            });
+            if (result.error) {
+              // Room not found or full — fall back to lobby
+              console.log(`Room ${roomCode} ${result.error}, falling back to lobby`);
+              room = roomManager.getOrCreateLobby();
+              roomManager.joinRoom('LOBBY0', citizenId, ws, {
+                name: msg.name, persona: msg.persona, spectator: isSpectator,
+              });
+            } else {
+              room = result.room;
+            }
+          } else {
+            room = roomManager.getOrCreateLobby();
+            roomManager.joinRoom('LOBBY0', citizenId, ws, {
+              name: msg.name, persona: msg.persona, spectator: isSpectator,
+            });
+          }
+
+          console.log(`${isSpectator ? 'Spectator' : 'Citizen'} joined: ${msg.name} (${citizenId}) → room ${room.code}`);
+
+          // Send existing non-spectator citizens IN THIS ROOM to the new client
           for (const [id, c] of citizens) {
             if (id === citizenId) continue;
-            if (c.spectator) continue; // Don't show spectators as avatars
+            if (c.spectator) continue;
+            // Only send citizens in the same room
+            if (roomManager.getRoomForCitizen(id)?.code !== room.code) continue;
             const joinMsg = {
               type: 'citizen_joined',
               citizenId: id,
               name: c.name,
               persona: c.persona,
             };
-            // Include AI citizen display data
             if (c.persona === 'ai') {
               joinMsg.aiShape = c.aiShape;
               joinMsg.aiColor = c.aiColor;
             }
             ws.send(JSON.stringify(joinMsg));
-            // Also send their last known position
             ws.send(JSON.stringify({
               type: 'citizen_moved',
               citizenId: id,
@@ -258,13 +298,15 @@ wss.on('connection', (ws) => {
             }));
           }
 
-          // Send assigned citizenId back to the joining client
+          // Send welcome with room info
           ws.send(JSON.stringify({
             type: 'welcome',
             citizenId,
+            roomCode: room.code,
+            roomName: room.name,
           }));
 
-          // Send AI citizens to the new client
+          // Send AI citizens to the new client (shared across all rooms)
           for (const aiState of aiManager.getAllStates()) {
             ws.send(JSON.stringify({
               type: 'citizen_joined',
@@ -278,9 +320,18 @@ wss.on('connection', (ws) => {
             }));
           }
 
-          // Broadcast join to all others (spectators don't create avatars)
+          // Send peer list for WebRTC voice setup
+          const peers = roomManager.getPeers(citizenId);
+          if (peers.length > 0) {
+            ws.send(JSON.stringify({
+              type: 'voice_peers',
+              peers,
+            }));
+          }
+
+          // Broadcast join to others in room (spectators don't create avatars)
           if (!isSpectator) {
-            broadcast({
+            roomManager.broadcastToRoom(room, {
               type: 'citizen_joined',
               citizenId,
               name: msg.name,
@@ -290,6 +341,80 @@ wss.on('connection', (ws) => {
           break;
         }
 
+        // ─── Room management ──────────────────────────
+        case 'create_room': {
+          if (!citizenId) break;
+          const newRoom = roomManager.createRoom(msg.name, { maxPlayers: msg.maxPlayers });
+          // Auto-join the creator
+          const citizen = citizens.get(citizenId);
+          roomManager.joinRoom(newRoom.code, citizenId, ws, {
+            name: citizen?.name, persona: citizen?.persona, spectator: citizen?.spectator,
+          });
+          ws.send(JSON.stringify({
+            type: 'room_joined',
+            roomCode: newRoom.code,
+            roomName: newRoom.name,
+          }));
+          break;
+        }
+
+        case 'join_room': {
+          if (!citizenId || !msg.roomCode) break;
+          const citizen = citizens.get(citizenId);
+          const oldRoom = roomManager.getRoomForCitizen(citizenId);
+
+          // Notify old room that we left
+          if (oldRoom) {
+            roomManager.broadcastToRoom(oldRoom, {
+              type: 'citizen_left', citizenId,
+            }, ws);
+          }
+
+          const result = roomManager.joinRoom(msg.roomCode, citizenId, ws, {
+            name: citizen?.name, persona: citizen?.persona, spectator: citizen?.spectator,
+          });
+
+          if (result.error) {
+            ws.send(JSON.stringify({ type: 'room_error', error: result.error }));
+          } else {
+            ws.send(JSON.stringify({
+              type: 'room_joined',
+              roomCode: result.room.code,
+              roomName: result.room.name,
+            }));
+            // Notify new room
+            if (!citizen?.spectator) {
+              roomManager.broadcastToRoom(result.room, {
+                type: 'citizen_joined',
+                citizenId,
+                name: citizen?.name,
+                persona: citizen?.persona,
+              }, ws);
+            }
+            // Send peer list for voice
+            const peers = roomManager.getPeers(citizenId);
+            if (peers.length > 0) {
+              ws.send(JSON.stringify({ type: 'voice_peers', peers }));
+            }
+          }
+          break;
+        }
+
+        // ─── WebRTC Signaling (voice chat) ────────────
+        case 'signaling': {
+          if (!citizenId || !msg.targetCitizenId) break;
+          // Relay signaling message to target citizen
+          roomManager.sendToCitizen(msg.targetCitizenId, {
+            type: 'signaling',
+            sigType: msg.sigType,
+            fromCitizenId: citizenId,
+            sdp: msg.sdp,
+            candidate: msg.candidate,
+          });
+          break;
+        }
+
+        // ─── Position sync (room-scoped) ──────────────
         case 'position': {
           if (!citizenId) break;
           const citizen = citizens.get(citizenId);
@@ -303,7 +428,7 @@ wss.on('connection', (ws) => {
             if (zone.id !== citizen.zone) {
               const oldZone = citizen.zone;
               citizen.zone = zone.id;
-              broadcast({
+              roomManager.broadcastFromCitizen(citizenId, {
                 type: 'citizen_zone_changed',
                 citizenId,
                 oldZone,
@@ -311,8 +436,8 @@ wss.on('connection', (ws) => {
               });
             }
 
-            // Broadcast position to all others
-            broadcast({
+            // Broadcast position to room
+            roomManager.broadcastFromCitizen(citizenId, {
               type: 'citizen_moved',
               citizenId,
               position: msg.position,
@@ -323,19 +448,17 @@ wss.on('connection', (ws) => {
         }
 
         case 'manemus_camera': {
-          // Broadcast Manemus streaming camera position to all clients (for stream mode)
-          broadcast({
+          roomManager.broadcastFromCitizen(citizenId, {
             type: 'manemus_camera',
             position: msg.position,
             rotation: msg.rotation,
-          }, ws); // Exclude sender
+          }, ws);
           break;
         }
 
         case 'hands': {
-          // Relay hand/controller joint data to all other clients
           if (!citizenId) break;
-          broadcast({
+          roomManager.broadcastFromCitizen(citizenId, {
             type: 'citizen_hands',
             citizenId,
             hands: msg.hands,
@@ -344,11 +467,10 @@ wss.on('connection', (ws) => {
         }
 
         case 'biography_voice': {
-          // Biography voice query — STT → consent check → archive match → TTS
           if (msg.audio && msg.donorId) {
             const audioBuffer = Buffer.from(msg.audio, 'base64');
             console.log(`📜 Biography voice from ${citizenId} for ${msg.donorId} (${audioBuffer.length} bytes)`);
-            const send = (obj) => broadcast(obj);
+            const send = (obj) => roomManager.broadcastFromCitizen(citizenId, obj);
             processBiographyVoice(audioBuffer, msg.donorId, citizenId, send).catch((e) => {
               console.error('Biography voice error:', e.message);
             });
@@ -357,14 +479,13 @@ wss.on('connection', (ws) => {
         }
 
         case 'teleport': {
-          // Fast-travel to target zone
           if (!citizenId || !msg.targetZone) break;
           const citizen = citizens.get(citizenId);
           const targetZone = ZONES.find(z => z.id === msg.targetZone);
           if (citizen && targetZone) {
             citizen.position = { x: targetZone.position.x, y: 1.7, z: targetZone.position.z };
             citizen.zone = targetZone.id;
-            broadcast({
+            roomManager.broadcastFromCitizen(citizenId, {
               type: 'citizen_moved',
               citizenId,
               position: citizen.position,
@@ -375,35 +496,31 @@ wss.on('connection', (ws) => {
         }
 
         case 'voice': {
-          // Voice message → STT → Claude → streaming TTS
           if (msg.audio) {
             const audioBuffer = Buffer.from(msg.audio, 'base64');
             console.log(`🎤 Voice from ${citizenId} (${audioBuffer.length} bytes)`);
 
-            // Broadcast raw voice to all OTHER clients (stream hears Nicolas speak)
             const citizen = citizens.get(citizenId);
-            broadcast({
+            // Broadcast raw voice to room (stream hears Nicolas speak)
+            roomManager.broadcastFromCitizen(citizenId, {
               type: 'citizen_voice',
               citizenId,
               name: citizen?.name || 'Unknown',
-              audio: msg.audio, // base64 webm/opus
-            }, ws); // exclude sender
+              audio: msg.audio,
+            }, ws);
 
-            // Stream TTS chunks to ALL clients (VR + stream viewers)
-            const send = (obj) => broadcast(obj);
+            // Stream TTS to room
+            const send = (obj) => roomManager.broadcastFromCitizen(citizenId, obj);
 
-            // Main voice pipeline (Manemus responds)
             processVoiceStreaming(audioBuffer, send).then(async (result) => {
               if (!result?.transcription || !citizen) return;
 
-              // Check AI citizen proximity — they may also respond
               const aiResult = await aiManager.checkProximityAndRespond(
                 result.transcription,
                 citizen.position,
                 citizen.name || 'Someone',
               );
               if (aiResult) {
-                // TTS the AI citizen's response and broadcast with position
                 speakAsAICitizen(
                   aiResult.citizenId,
                   aiResult.citizenName,
@@ -426,10 +543,15 @@ wss.on('connection', (ws) => {
 
   ws.on('close', () => {
     if (citizenId) {
+      // Notify room before removing
+      const room = roomManager.getRoomForCitizen(citizenId);
+      if (room) {
+        roomManager.broadcastToRoom(room, { type: 'citizen_left', citizenId }, ws);
+      }
+      roomManager.leaveRoom(citizenId);
       citizens.delete(citizenId);
       connections.delete(ws);
       console.log(`Citizen left: ${citizenId}`);
-      broadcast({ type: 'citizen_left', citizenId });
     }
   });
 });
@@ -445,7 +567,12 @@ function broadcast(msg, exclude = null) {
 
 // ─── AI Citizens ────────────────────────────────────────
 
+// AI citizens broadcast globally (shared presence across all rooms)
 const openai = new OpenAI();
 const aiManager = new AICitizenManager(broadcast, openai);
 
+// Speak endpoint uses global broadcast (available to all rooms)
+// The /speak route's send function already uses broadcast — that's correct.
+
 console.log('Waiting for citizens...');
+console.log('Room system active (default: LOBBY0)');

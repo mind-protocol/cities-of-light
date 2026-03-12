@@ -1,0 +1,334 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://citiesoflight.ai/schemas/world-manifest.json",
+  "title": "WorldManifest",
+  "description": "Contract between the Cities of Light XR engine and a world repository. The engine loads this file to instantiate a world.",
+  "type": "object",
+  "required": ["name", "version", "terrain"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Unique world identifier (lowercase, no spaces). Used as graph name, directory name.",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "display_name": {
+      "type": "string",
+      "description": "Human-readable world name."
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this world definition.",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "description": {
+      "type": "string",
+      "description": "One-line description of the world."
+    },
+    "terrain": {
+      "type": "object",
+      "description": "Global terrain configuration.",
+      "required": ["generator"],
+      "properties": {
+        "generator": {
+          "type": "string",
+          "enum": ["procedural-island", "geographic", "heightmap", "voxel", "flat"],
+          "description": "Which terrain generator the engine should use."
+        },
+        "reference_point": {
+          "type": "object",
+          "description": "WGS84 reference point for geographic generator. All coordinates are offset from this.",
+          "properties": {
+            "lat": { "type": "number" },
+            "lng": { "type": "number" }
+          }
+        },
+        "water_level": { "type": "number", "default": 0, "description": "Water surface Y level." },
+        "island_height": { "type": "number", "default": 1.5, "description": "Island surface height above water." },
+        "ocean": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to render an ocean plane."
+        },
+        "sky_model": {
+          "type": "string",
+          "enum": ["preetham", "gradient", "skybox", "none"],
+          "default": "preetham",
+          "description": "Sky rendering model."
+        },
+        "sun": {
+          "type": "object",
+          "properties": {
+            "elevation": { "type": "number", "minimum": -90, "maximum": 90, "description": "Sun elevation in degrees." },
+            "azimuth": { "type": "number", "minimum": 0, "maximum": 360, "description": "Sun azimuth in degrees." }
+          }
+        },
+        "global_atmosphere": {
+          "type": "object",
+          "description": "Atmospheric scattering parameters (Preetham model).",
+          "properties": {
+            "turbidity": { "type": "number" },
+            "rayleigh": { "type": "number" },
+            "mie_coefficient": { "type": "number" },
+            "mie_directional_g": { "type": "number" }
+          }
+        }
+      }
+    },
+    "zones": {
+      "type": "array",
+      "description": "List of zones (regions) in the world.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "position"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$",
+            "description": "Unique zone identifier."
+          },
+          "name": { "type": "string", "description": "Display name." },
+          "lore_name": { "type": "string", "description": "In-world name." },
+          "position": {
+            "type": "object",
+            "required": ["x", "z"],
+            "properties": {
+              "x": { "type": "number" },
+              "y": { "type": "number", "default": 0 },
+              "z": { "type": "number" }
+            }
+          },
+          "seed": { "type": "integer", "description": "Deterministic seed for procedural generation." },
+          "mode": { "type": "string", "description": "Semantic mode hint (home, memory, contemplation, etc.)." },
+          "radius": { "type": "number", "default": 30, "description": "Zone radius in world units." },
+          "terrain": {
+            "type": "object",
+            "description": "Per-zone terrain overrides.",
+            "properties": {
+              "palette": { "type": "string" },
+              "vegetation": { "type": "string" },
+              "rock_density": { "type": "number", "minimum": 0, "maximum": 1 }
+            }
+          },
+          "atmosphere": {
+            "type": "object",
+            "description": "Per-zone atmosphere params.",
+            "properties": {
+              "fog_color": { "type": "string", "description": "Hex color (0x or # prefix)." },
+              "fog_density": { "type": "number", "minimum": 0 },
+              "particle_color": { "type": "string" },
+              "particle_type": { "type": "string", "enum": ["fireflies", "embers", "pollen", "sparks", "snow", "rain", "none"] },
+              "light_color": { "type": "string" },
+              "light_intensity": { "type": "number", "minimum": 0 }
+            }
+          },
+          "ambient_sounds": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "List of ambient sound IDs for this zone."
+          },
+          "waypoints": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Zone IDs reachable via waypoint teleportation."
+          },
+          "type": {
+            "type": "string",
+            "enum": ["default", "portal", "spawn"],
+            "default": "default",
+            "description": "Special zone types."
+          },
+          "target_manifest": {
+            "type": "string",
+            "description": "For portal zones: path to target world manifest."
+          },
+          "target_spawn": {
+            "type": "string",
+            "description": "For portal zones: zone ID to spawn at in target world."
+          }
+        }
+      }
+    },
+    "entities": {
+      "type": "object",
+      "description": "Entity (citizen/character) data source configuration.",
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["local", "airtable", "api", "json"],
+          "description": "Where to load entity definitions from."
+        },
+        "path": { "type": "string", "description": "For local source: directory path relative to manifest." },
+        "endpoint": { "type": "string", "description": "For api/airtable source: API endpoint." },
+        "sync_interval_ms": { "type": "integer", "default": 900000, "description": "How often to re-sync entity data." },
+        "tier_config": {
+          "type": "object",
+          "description": "Entity tier definitions.",
+          "properties": {
+            "FULL": {
+              "type": "object",
+              "properties": {
+                "max": { "type": "integer" },
+                "radius": { "type": "number" },
+                "voice": { "type": "boolean" },
+                "llm": { "type": "boolean" }
+              }
+            },
+            "ACTIVE": {
+              "type": "object",
+              "properties": {
+                "max": { "type": "integer" },
+                "radius": { "type": "number" },
+                "voice": { "type": ["boolean", "string"] },
+                "llm": { "type": "boolean" }
+              }
+            },
+            "AMBIENT": {
+              "type": "object",
+              "properties": {
+                "max": { "type": "integer" },
+                "radius": { "type": "number" },
+                "voice": { "type": "boolean" },
+                "llm": { "type": "boolean" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "physics": {
+      "type": "object",
+      "description": "Narrative physics configuration.",
+      "properties": {
+        "engine": {
+          "type": "string",
+          "enum": ["ngram", "custom", "none"],
+          "default": "none",
+          "description": "Which physics engine to use."
+        },
+        "graph_name": { "type": "string", "description": "FalkorDB graph name." },
+        "tick_interval_ms": { "type": "integer", "default": 300000 },
+        "constants_path": { "type": "string", "description": "Path to physics constants JSON, relative to manifest." },
+        "seed_script": { "type": "string", "description": "Path to graph seeding script, relative to manifest." }
+      }
+    },
+    "ai_config": {
+      "type": "object",
+      "description": "AI/LLM configuration for entity conversations.",
+      "properties": {
+        "base_prompt_path": { "type": "string" },
+        "memory_backend": {
+          "type": "string",
+          "enum": ["cascade", "json", "sqlite", "none"],
+          "default": "none"
+        },
+        "memory_path": { "type": "string", "description": "Base path for entity memory storage." },
+        "llm_model": { "type": "string", "default": "gpt-4o" },
+        "llm_max_tokens": { "type": "integer", "default": 150 },
+        "llm_temperature": { "type": "number", "default": 0.9 }
+      }
+    },
+    "avatar": {
+      "type": "object",
+      "description": "Default avatar rendering configuration.",
+      "properties": {
+        "style": {
+          "type": "string",
+          "enum": ["geometric", "humanoid", "abstract", "sprite"],
+          "default": "geometric"
+        },
+        "float_bob": { "type": "boolean", "default": false },
+        "glow_ring": { "type": "boolean", "default": false },
+        "tier_models": {
+          "type": "object",
+          "properties": {
+            "FULL": { "type": "object" },
+            "ACTIVE": { "type": "object" },
+            "AMBIENT": { "type": "object" }
+          }
+        }
+      }
+    },
+    "portals": {
+      "type": "array",
+      "description": "Inter-world portals.",
+      "items": {
+        "type": "object",
+        "required": ["id", "zone", "target_manifest"],
+        "properties": {
+          "id": { "type": "string" },
+          "zone": { "type": "string", "description": "Zone ID where portal appears." },
+          "position": {
+            "type": "object",
+            "properties": {
+              "x": { "type": "number" },
+              "y": { "type": "number" },
+              "z": { "type": "number" }
+            }
+          },
+          "target_manifest": { "type": "string" },
+          "target_spawn": { "type": "string" },
+          "label": { "type": "string" }
+        }
+      }
+    },
+    "lands": {
+      "type": "object",
+      "description": "Geographic island/land data source (V2).",
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["local", "airtable", "api"],
+          "description": "Where to load land definitions from."
+        },
+        "path": { "type": "string", "description": "For local source: path to lands.json relative to manifest." },
+        "base_id": { "type": "string", "description": "For airtable source: Airtable base ID." },
+        "table": { "type": "string", "description": "For airtable source: table name." },
+        "polygon_table": { "type": "string", "description": "For airtable source: polygon table name." }
+      }
+    },
+    "buildings": {
+      "type": "object",
+      "description": "Building data source and rendering config (V2).",
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["local", "airtable", "api"],
+          "description": "Where to load building definitions from."
+        },
+        "path": { "type": "string", "description": "For local source: path to buildings.json relative to manifest." },
+        "base_id": { "type": "string" },
+        "table": { "type": "string" },
+        "name_labels": { "type": "boolean", "default": true, "description": "Show floating name labels above buildings." },
+        "label_height": { "type": "number", "default": 3.0, "description": "Height offset for name labels." },
+        "default_style": {
+          "type": "string",
+          "enum": ["venetian-procedural", "generic", "none"],
+          "default": "venetian-procedural",
+          "description": "Default building mesh style when no model_path is specified."
+        }
+      }
+    },
+    "bridges": {
+      "type": "object",
+      "description": "Bridge connections between islands (V2).",
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": ["local", "airtable", "api"],
+          "description": "Where to load bridge definitions from."
+        },
+        "path": { "type": "string", "description": "For local source: path to bridges.json relative to manifest." },
+        "style": {
+          "type": "string",
+          "enum": ["venetian-arch", "flat", "suspension", "none"],
+          "default": "venetian-arch",
+          "description": "Default bridge mesh style."
+        },
+        "width": { "type": "number", "default": 3, "description": "Bridge width in world units." },
+        "rail_height": { "type": "number", "default": 1.0, "description": "Bridge railing height." }
+      }
+    }
+  }
+}
