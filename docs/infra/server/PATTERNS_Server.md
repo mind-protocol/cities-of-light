@@ -239,7 +239,7 @@ The server orchestrates several recurring processes:
 
 | Process            | Interval | Current State | Venezia Addition           |
 |--------------------|----------|---------------|----------------------------|
-| AI citizen tick    | 5s       | Working       | Scale from 3 to 186 citizens |
+| AI citizen tick    | 5s       | Working       | Scale from 3 to 152 citizens |
 | Physics tick       | 5min     | Not built     | Blood Ledger physics_tick()  |
 | Airtable sync      | 15min    | Not built     | serenissima-sync.js          |
 | State broadcast    | 50ms     | Not built     | Throttled position relay     |

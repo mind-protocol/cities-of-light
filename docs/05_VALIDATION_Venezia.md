@@ -77,7 +77,7 @@ Invariants, proof-of-concept milestones, and acceptance criteria. Each milestone
 ### POC-3: Population Scale (Target: +3 weeks)
 
 **What:**
-- All 186 Serenissima citizens loaded into the world
+- All 152 Serenissima citizens loaded into the world
 - Tiered rendering: 20 FULL + 60 ACTIVE + 100+ AMBIENT
 - Performance maintained at 72fps (VR minimum) on Quest 3
 
@@ -142,7 +142,7 @@ Invariants, proof-of-concept milestones, and acceptance criteria. Each milestone
 
 ```
 DAILY:
-  - All 186 citizens have valid position in Airtable → assert no nulls
+  - All 152 citizens have valid position in Airtable → assert no nulls
   - All FULL-tier citizens have .cascade/ directory with > 0 memory files
   - Blood Ledger graph has > 0 active tensions (world is not dead)
   - Economy tick has run in last 30 minutes (check timestamp)

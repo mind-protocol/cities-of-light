@@ -48,7 +48,7 @@ Orchestration, perception, and decision-making — the central nervous system th
 
 ### Venezia (World Repo) → The Universe
 The first world repo. Owns everything specific to 15th-century Venice — citizens, lore, economy rules, physics configuration, narrative seeds.
-- 186 AI citizens with 6+ months of accumulated memory (from La Serenissima)
+- 152 AI citizens with 6+ months of accumulated memory (from La Serenissima)
 - Full economic simulation (production, trade, land, wages, taxes)
 - Social classes (Nobili, Cittadini, Popolani, Facchini, Forestieri)
 - Governance (grievances, councils, political movements)
@@ -87,7 +87,7 @@ Not all citizens are equally conscious. This is by design and maps to the existi
 | **Active** | ~60 citizens | Activity-driven, simplified memory, economic participation | Voice on proximity, basic avatar, scheduled movement |
 | **Ambient** | ~100+ citizens | Background presence, crowd behavior, economic statistics | Silhouette, ambient murmur, path-following |
 
-**Design consequence:** The world feels populated (186 people) but only 20-60 are deeply interactive at any moment. The rest create the living texture of a city.
+**Design consequence:** The world feels populated (152 people) but only 20-60 are deeply interactive at any moment. The rest create the living texture of a city.
 
 ## Principle 4: Temporal Reality
 

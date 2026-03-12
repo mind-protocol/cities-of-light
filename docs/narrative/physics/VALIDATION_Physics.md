@@ -75,7 +75,7 @@ CHECK every tick:
   ALERT if 3 consecutive ticks > 3000ms
 ```
 
-Expected for 186 characters + 1000 narratives: 500-1500ms. If consistently > 3s, cold pruning is overdue or graph has exploded.
+Expected for 152 characters + 1000 narratives: 500-1500ms. If consistently > 3s, cold pruning is overdue or graph has exploded.
 
 ### PH2. Total System Energy
 
@@ -86,7 +86,7 @@ CHECK every tick:
   NOMINAL:  50-500
 ```
 
-Bounds calibrated for 186 citizens. Lower bound ~19 (186 * 0.1 minimum). Upper bound ~1400 (186 * 2.0 + 1000 * 1.0 maximum).
+Bounds calibrated for 152 citizens. Lower bound ~19 (152 * 0.1 minimum). Upper bound ~1400 (152 * 2.0 + 1000 * 1.0 maximum).
 
 ### PH3. Tension Count and Distribution
 
@@ -143,7 +143,7 @@ CHECK every injection tick (every 3rd tick):
 - [ ] No tick exceeds 5s duration
 - [ ] No NaN or Infinity in any node property after any tick
 - [ ] Energy conservation holds within 0.01 on every tick
-- [ ] Character count remains 186 after every tick
+- [ ] Character count remains 152 after every tick
 
 ### PAC2. Flip Behavior
 

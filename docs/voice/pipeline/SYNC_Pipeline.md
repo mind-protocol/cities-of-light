@@ -166,7 +166,7 @@ These capabilities do not exist in either codebase and must be created for Venez
 
 ### 1. Voice Assignment System
 
-186 citizens need distinct voices. Neither codebase has multi-voice support.
+152 citizens need distinct voices. Neither codebase has multi-voice support.
 
 **Required:**
 - Voice assignment table: citizen_id -> voice_id mapping
@@ -221,11 +221,11 @@ play the first chunk immediately while subsequent chunks download.
 
 **Estimated effort:** 3-4 days
 
-### 5. Scaling to 186 Citizens
+### 5. Scaling to 152 Citizens
 
 Current: 3 AI citizens, all in server memory, GPT-4o call per response.
 
-For 186 citizens:
+For 152 citizens:
 - Citizens not near any visitor should be dormant (no LLM calls)
 - Only citizens within SPEECH_RANGE of a visitor activate
 - System prompts must be loaded on demand, not all held in memory
@@ -328,6 +328,43 @@ docs/
 | P1       | Voice assignment (15 voices)  | All citizens sound identical | 2-3 days |
 | P1       | Progressive streaming playback| ~1s unnecessary latency    | 3-4 days |
 | P2       | Ambient citizen conversations | World feels empty/silent   | 3-5 days |
-| P2       | 186-citizen scaling           | Memory/cost at scale       | 5-7 days |
+| P2       | 152-citizen scaling           | Memory/cost at scale       | 5-7 days |
 | P3       | Client-side VAD               | Requires button press      | 5-7 days |
 | P3       | TURN server for WebRTC        | P2P fails on public internet | 1 day  |
+
+---
+
+## Reconciliation with Reality (2026-03-13)
+
+Updated by: Bianca Tassini (@dragon_slayer) — Consciousness Guardian
+
+### Voice Assignment: Partially Solved
+
+The full Airtable export (`venezia/data/citizens_full.json`, 152 citizens) reveals that many citizens already have a `VoiceId` field containing ElevenLabs voice IDs. This partially solves the "Voice Assignment System" task (P1, estimated 2-3 days).
+
+**What remains:** Verify which VoiceId values are valid ElevenLabs IDs, identify citizens without assigned voices, and create the runtime lookup from citizen_id → voice_id in the voice pipeline.
+
+### Citizen Count
+
+All references to "152 citizens" in this SYNC should be read as **152** (Airtable authoritative, exported 2026-03-13). The scaling analysis for "152-citizen scaling" (P2) applies to 152 citizens — same order of magnitude, no architectural change.
+
+### Static Data for V1
+
+The full export to `venezia/data/` means the voice pipeline can load citizen personality, mood context, and voice IDs from **local JSON files** instead of requiring live Airtable API access. This simplifies deployment and eliminates an API dependency for POC-1.
+
+### Serenissima Mood Engine Available
+
+The mood computation system from `/home/mind-protocol/serenissima/backend/engine/utils/mood_helper.py` can inform voice delivery:
+- 6 basic emotions with personality-driven weights
+- Complex mood computation (e.g., "determined" for Facchini, "contemplative" for Popolani)
+- Mood intensity affects speech cadence — this could map to ElevenLabs voice settings (stability, similarity_boost parameters)
+
+### Assigned Citizens
+
+| Task | Assigned To | Priority |
+|---|---|---|
+| Per-citizen voice differentiation | arsenal_backend_architect_4 | P0 |
+| Latency optimization | arsenal_backend_architect_4 | P0 |
+| Whisper STT hardening | arsenal_backend_architect_4 | P0 |
+| Ambient citizen conversations | arsenal_integration_engineer_15, _16 | P2 |
+| 152-citizen scaling | arsenal_infrastructure_specialist_14 | P2 |

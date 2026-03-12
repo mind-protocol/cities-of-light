@@ -252,12 +252,12 @@ exceeds 100 messages/second sustained, a storm is occurring.
 
 **Root cause:** Position throttling disabled or broken. Or a code
 change introduced a loop that broadcasts on every frame (72Hz) for
-every citizen (186 citizens x 72fps = 13,392 messages/second per client).
+every citizen (152 citizens x 72fps = 13,392 messages/second per client).
 
 **Fix:** Position broadcast must be throttled by the server, not the
 client. Store latest position per citizen, broadcast on a 50ms timer
 (20Hz). Batch citizen updates into a single message when possible
-(one `citizens_moved` message with an array instead of 186 individual
+(one `citizens_moved` message with an array instead of 152 individual
 `citizen_moved` messages). Maximum outgoing rate: 200 messages/second
 per connection.
 
@@ -362,7 +362,7 @@ ON SERVER RESTART:
 GET /state:
   - Always returns 200
   - JSON body includes: uptime (number), connections (number), citizens (array)
-  - citizens array length matches expected count (186 after initial sync)
+  - citizens array length matches expected count (152 after initial sync)
   - Response time < 50ms (it is reading in-memory state, not querying anything)
 
 GET /api/rooms:

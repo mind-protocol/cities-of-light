@@ -6,7 +6,7 @@ Last updated: 2026-03-12
 
 ## Status: SEEDING IN PROGRESS
 
-FalkorDB confirmed running on localhost:6379. The `cities_of_light` graph exists but contains Blood Ledger data (693 nodes: 10 actors, 234 moments, 201 narratives). 186 citizens available in Airtable (base `appkLmnbsEFAZM5rB`) ready for seeding. No Venice-specific seed script exists yet — to be created at `scripts/seed_venice_graph.py`.
+FalkorDB confirmed running on localhost:6379. The `cities_of_light` graph exists but contains Blood Ledger data (693 nodes: 10 actors, 234 moments, 201 narratives). 152 citizens available in Airtable (base `appkLmnbsEFAZM5rB`) ready for seeding. No Venice-specific seed script exists yet — to be created at `scripts/seed_venice_graph.py`.
 
 ---
 
@@ -38,7 +38,7 @@ The `GraphClient` protocol defines these queries:
 ### Serenissima Airtable (source data, working)
 
 The Serenissima Airtable base (`appkLmnbsEFAZM5rB`) holds:
-- **CITIZENS table:** 186 AI citizens with `FirstName`, `LastName`, `SocialClass`, `Ducats`, `District`, `IsAI`, mood data
+- **CITIZENS table:** 152 AI citizens with `FirstName`, `LastName`, `SocialClass`, `Ducats`, `District`, `IsAI`, mood data
 - **RELATIONSHIPS table:** Trust scores between citizens, relationship types
 - **GRIEVANCES table:** Active complaints, support counts, political significance
 - **BUILDINGS table:** Properties with coordinates, owners, categories
@@ -54,7 +54,7 @@ This is the source data for the Venice graph seeding pipeline.
 - Physics bridge (`src/server/physics-bridge.js`) connecting Express server to FalkorDB
 - Economic energy injection pipeline (economy tick -> graph energy pump)
 - Cold pruning cron job
-- Any test of Blood Ledger physics against Venice-scale data (186 characters)
+- Any test of Blood Ledger physics against Venice-scale data (152 characters)
 
 ---
 
@@ -91,7 +91,7 @@ redis-cli -p 6379 GRAPH.QUERY venezia "CREATE (:Place {id: 'rialto', name: 'Rial
 ### Step 2: Write Seeding Script
 
 `scripts/seed_venice_graph.py`:
-- Connect to Airtable, fetch all 186 citizens
+- Connect to Airtable, fetch all 152 citizens
 - Connect to FalkorDB, target graph `venezia`
 - Create Character nodes from citizen data
 - Create Place nodes from district data (7 districts)
@@ -105,7 +105,7 @@ redis-cli -p 6379 GRAPH.QUERY venezia "CREATE (:Place {id: 'rialto', name: 'Rial
 ### Step 3: Validate Schema
 
 Run known queries against the seeded graph:
-- `get_all_characters()` returns 186
+- `get_all_characters()` returns 152
 - `get_character_beliefs(citizen_id)` returns beliefs for a test citizen
 - `get_characters_at("rialto")` returns citizens in Rialto district
 
@@ -146,9 +146,9 @@ When a citizen conversation starts, query the Venice graph for:
 
 The seeding quality depends on initial narrative density. If there are only 5 grievances total, the graph starts very sparse and physics will stall (no energy, no tension). If there are 500, we need to select the most relevant ones. Need to query the GRIEVANCES table and count.
 
-### Q2: What is the right initial energy for 186 characters?
+### Q2: What is the right initial energy for 152 characters?
 
-Blood Ledger tested with ~10-20 characters. Venice has 186. The `GENERATION_RATE=0.5` and `DRAW_RATE=0.3` constants were tuned for a small population. With 10x more characters pumping energy, moments may flip too fast. May need to reduce `GENERATION_RATE` or increase moment thresholds for Venice.
+Blood Ledger tested with ~10-20 characters. Venice has 152. The `GENERATION_RATE=0.5` and `DRAW_RATE=0.3` constants were tuned for a small population. With 10x more characters pumping energy, moments may flip too fast. May need to reduce `GENERATION_RATE` or increase moment thresholds for Venice.
 
 ### Q3: Should the physics bridge be Python or JavaScript?
 
@@ -173,7 +173,7 @@ Blood Ledger has `char_player` as a Character node. Venice has a Forestiere visi
 
 | Risk | Severity | Mitigation |
 |------|----------|------------|
-| 186-character graph overwhelms physics tick performance | Medium | Profile tick duration. FalkorDB is fast for graph traversal. If >1s per tick, reduce active character count (only characters with energy > threshold participate). |
+| 152-character graph overwhelms physics tick performance | Medium | Profile tick duration. FalkorDB is fast for graph traversal. If >1s per tick, reduce active character count (only characters with energy > threshold participate). |
 | Initial graph is too sparse (few narratives, no tension) | High | Seed synthetic narratives from citizen personality + class data, not just grievances. World Builder agent can fill sparse areas. |
 | Physics constants tuned for Blood Ledger scale produce wrong dynamics at Venice scale | High | Run 1000 ticks in test mode, observe energy distribution and moment flip rate. Adjust constants before going live. |
 | FalkorDB graph name collision with Blood Ledger | Low | Enforce `FALKORDB_GRAPH=venezia` in all Venice code. Never use default graph name. |
@@ -195,3 +195,41 @@ Blood Ledger has `char_player` as a Character node. Venice has a Forestiere visi
 | Venezia architecture map | `docs/00_MAP_Venezia.md` |
 | Venezia algorithms (graph schema) | `docs/04_ALGORITHM_Venezia.md` section A4 |
 | FalkorDB env vars | `docs/CONCEPT_Cross_Repo_Integration.md` (Environment Variables section) |
+| Static citizen data | `venezia/data/citizens_full.json` (152 citizens, 41 fields) |
+| Static relationship data | `venezia/data/relationships.json` (1,178 trust scores) |
+| Static thoughts data | `venezia/data/thoughts.json` (98 citizen inner thoughts) |
+| Static messages data | `venezia/data/messages.json` (200 citizen messages) |
+| Static stratagems data | `venezia/data/stratagems.json` (43 active stratagems) |
+| Static decrees data | `venezia/data/decrees.json` (20+ governance decrees) |
+
+---
+
+## Reconciliation with Reality (2026-03-13)
+
+Updated by: Bianca Tassini (@dragon_slayer) — Consciousness Guardian
+
+### Airtable Dependency Relaxed
+
+Hard dependency #2 (Airtable API access) is now a **soft dependency** for seeding. All citizen, relationship, and economic data has been exported to `venezia/data/` as static JSON. The seeding script can read from local files instead of making API calls.
+
+### Rich Narrative Seed Data Available
+
+The static exports provide narrative-rich data that wasn't previously accessible:
+
+| Source | Records | Narrative Value |
+|---|---|---|
+| `thoughts.json` | 98 | Inner citizen thoughts — direct seed material for BELIEVES edges |
+| `messages.json` | 200 | Inter-citizen messages — evidence of social dynamics |
+| `stratagems.json` | 43 | Active economic schemes — direct seed material for Narrative nodes with TENSION |
+| `decrees.json` | 20+ | Governance decisions — seed material for political Narratives |
+| `relationships.json` | 1,178 | Trust scores — weight initial SUPPORTS/OPPOSES edges |
+
+**Q1 (grievance count) partially answered:** There are 43 stratagems and 20+ decrees, which provide narrative density even if formal grievance count is low. The graph should seed from stratagems + decrees + thoughts, not just grievances.
+
+### POC-Mind Validates Data Pipeline
+
+The working `poc_mind_context_assembly.py` script proves that personality traits, mood computation, and relationship loading all work from static JSON. The graph seeding script can use the same data loading approach.
+
+### Revised Build Order
+
+Step 2 (Write Seeding Script) should read from `venezia/data/` files, not from Airtable API. This removes the API rate limit concern entirely and makes the seeding script simpler (no pagination, no auth, no error handling for network failures).

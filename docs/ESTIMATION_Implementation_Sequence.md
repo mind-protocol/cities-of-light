@@ -226,7 +226,7 @@ Ordered build plan. Each module entry specifies dependencies, parallelization op
     - B1   # Citizens speak their beliefs (confidence-weighted, consistent)
     - B5   # What the visitor never sees (no graph viz, no debug data)
   behaviors_deferred:
-    - B2   # Alpha: shared narratives chorus effect (186 citizens)
+    - B2   # Alpha: shared narratives chorus effect (152 citizens)
     - B3   # Alpha: belief consistency under pressure
     - B4   # Alpha: graph changes surface as behavior shifts
     - B6   # Beta: social clusters audible
@@ -309,7 +309,7 @@ Ordered build plan. Each module entry specifies dependencies, parallelization op
   connectivity: 9
   roi: 3
   roi_justification: >
-    Scale from 3 to 186 citizens; without population management the city feels like a ghost town.
+    Scale from 3 to 152 citizens; without population management the city feels like a ghost town.
   estimated_loc: 1800
   estimated_sessions: 6
   depends_on: [9, 1]
@@ -326,7 +326,7 @@ Ordered build plan. Each module entry specifies dependencies, parallelization op
     - B2   # Crowd density follows the clock (morning/midday/evening/night)
     - B3   # District boundaries have population gradients
     - B4   # Citizens appear/disappear at edges of perception
-    - B5   # 186 citizens feel like a living city
+    - B5   # 152 citizens feel like a living city
     - B6   # Off-screen citizens continue their lives
   behaviors_deferred:
     - B7   # Beta: population responds to world events (gathering, dispersal)
@@ -468,18 +468,18 @@ Ordered build plan. Each module entry specifies dependencies, parallelization op
   connectivity: 9
   roi: 4
   roi_justification: >
-    Scales beliefs to 186 citizens with propagation and chorus effects; without it only POC citizens have inner life.
+    Scales beliefs to 152 citizens with propagation and chorus effects; without it only POC citizens have inner life.
   estimated_loc: 800
   estimated_sessions: 3
   depends_on: [7]
   parallel_with: [14]
   compaction_strategy: >
-    Expand seed script to all 186 citizens. Add belief propagation engine
+    Expand seed script to all 152 citizens. Add belief propagation engine
     (trust-weighted spread). Add chorus effect detector (shared narrative
     surfacing). These are additive — they don't modify the POC graph module,
     they extend it. Compact seed script after full seeding verified.
   behaviors_included:
-    - B2   # Shared narratives chorus effect (186-citizen scale)
+    - B2   # Shared narratives chorus effect (152-citizen scale)
     - B3   # Belief consistency under pressure
     - B4   # Graph changes surface as behavior shifts
     - B7   # Testable observations
@@ -1211,15 +1211,15 @@ Note: "sessions" = Claude Code context windows with focused scope. Parallel trac
 | System | Frame Budget | Risk |
 |--------|-------------|------|
 | Three.js scene render | 8ms | LOW -- known quantities with building LOD and frustum culling |
-| Population update (186 citizens) | 1ms | MEDIUM -- amortized scoring + interpolation must hit target |
+| Population update (152 citizens) | 1ms | MEDIUM -- amortized scoring + interpolation must hit target |
 | Physics tick (5-min) | 0ms per-frame (async) | LOW -- runs on server, not in render loop |
 | Voice pipeline | 0ms per-frame (async) | LOW -- runs on server |
 | Atmosphere update | 0.5ms | LOW -- uniform updates, no per-pixel work |
-| WebSocket receive + apply | 1ms | MEDIUM -- 186 citizen updates at varying frequencies |
+| WebSocket receive + apply | 1ms | MEDIUM -- 152 citizen updates at varying frequencies |
 | Spatial audio update | 0.5ms | LOW -- Web Audio API handles mixing |
 | **Total** | **~11ms** | **3ms margin** -- adequate if estimates hold |
 
-**Mitigation:** Profile on Quest 3 hardware starting at Alpha (order 17, infra/performance). Do not wait until GA. The 3ms margin disappears if any system overshoots. Population update (1ms for 186 citizens) is the tightest budget -- profile it every sprint.
+**Mitigation:** Profile on Quest 3 hardware starting at Alpha (order 17, infra/performance). Do not wait until GA. The 3ms margin disappears if any system overshoots. Population update (1ms for 152 citizens) is the tightest budget -- profile it every sprint.
 
 **Hard constraints from VALIDATION docs:**
 - P50 frame time: < 13.9ms (72fps)

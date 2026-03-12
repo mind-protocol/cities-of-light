@@ -1111,7 +1111,7 @@ FUNCTION event_tick(current_tick, graph_name = "venezia"):
 
     # Clean up completed propagations (all citizens aware or queue empty)
     IF update IS NOT None AND update.queue_size == 0:
-      IF len(state.aware_citizens) > 150:  # Most of 186 citizens
+      IF len(state.aware_citizens) > 150:  # Most of 152 citizens
         archive_propagation_state(state.event_id)
 
   # ── STEP 4: Check suppressed queue ─────────────────────

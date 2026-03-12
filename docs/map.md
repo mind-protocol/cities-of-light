@@ -1274,7 +1274,7 @@
 - # ── PHASE 4: Daily economic processing (once per day) ──────
 - # ── PHASE 5: Market price recalculation ────────────────────
 - # At 5 req/sec with 4 calls/citizen:
-- # 186 citizens * 4 calls = 744 calls
+- # 152 citizens * 4 calls = 744 calls
 - # 744 / 5 = ~149 seconds per full tick (~2.5 minutes)
 - # 5-minute interval provides comfortable margin
 - ## S2. Activity Processing Loop
@@ -2402,7 +2402,7 @@
 - # Count tensions in this district
 - # Determine moment categories from tension types
 - # Connect feeding narratives to the Moment
-- # Venice thresholds are higher than Blood Ledger (186 citizens vs ~15)
+- # Venice thresholds are higher than Blood Ledger (152 citizens vs ~15)
 - # Scale up if existing tension is already high (prevent instant flip)
 - # Maps event categories to narrative types that feed them
 - ## G3. Graph Query Functions

@@ -1,4 +1,4 @@
-# Citizens/Population -- Algorithm: Managing 186 Citizens at 72fps
+# Citizens/Population -- Algorithm: Managing 152 Citizens at 72fps
 
 ```
 STATUS: DRAFT
@@ -128,7 +128,7 @@ EventOverride {
 
 ```
 PopulationManagerState {
-  citizens:         Map<string, CitizenPopulationState>   // all 186
+  citizens:         Map<string, CitizenPopulationState>   // all 152
   visitorPosition:  { x, y, z }
   worldTimeHour:    number           // 0.0-24.0
   currentTimeSlot:  string
@@ -584,7 +584,7 @@ FUNCTION expireEventOverrides(citizens) -> void:
 
 ## ALGORITHM: Master Population Update Loop
 
-Runs every frame on the client. Amortizes scoring across frames (20 citizens/frame, full cycle every ~10 frames at 186 citizens).
+Runs every frame on the client. Amortizes scoring across frames (20 citizens/frame, full cycle every ~10 frames at 152 citizens).
 
 ### Constants
 
@@ -689,8 +689,8 @@ Three.js -> GPU -> 72fps
 ## COMPLEXITY
 
 **Per frame (client):** Scoring O(20), budget O(N log N) once/500ms, transitions O(T<10), interpolation O(V<=180). Total: < 0.5ms.
-**Per tick (server):** Off-screen O(186)/30s < 5ms. Density O(N*D)/5min < 10ms. Events O(N), rare.
-**Space:** Client ~100KB (186 states). Server ~300KB (186 schedules).
+**Per tick (server):** Off-screen O(152)/30s < 5ms. Density O(N*D)/5min < 10ms. Events O(N), rare.
+**Space:** Client ~100KB (152 states). Server ~300KB (152 schedules).
 
 ---
 

@@ -10,7 +10,7 @@
 
 The simulation runs continuously. When the visitor returns hours or days later,
 the world has changed -- not from scripted "time passed" events, but because
-186 citizens continued making autonomous decisions.
+152 citizens continued making autonomous decisions.
 
 **GIVEN** the visitor last visited Venice 24 hours ago
 **WHEN** they return and walk to the Rialto market
@@ -196,7 +196,7 @@ market changes.
 - **No price tags.** Prices are never displayed as numbers in the world.
 - **No economy dashboard.** No GDP panel, no inflation chart.
 - **No visitor participation.** No Ducats, no buying, no selling. Forestiero.
-- **No scripted events.** Crashes emerge from 186 autonomous agents.
+- **No scripted events.** Crashes emerge from 152 autonomous agents.
 - **No resets.** Monopolies persist until dismantled. Bankruptcy is permanent
   until rebuilt.
 

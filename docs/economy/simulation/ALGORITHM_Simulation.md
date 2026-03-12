@@ -84,10 +84,10 @@ CONSTANTS:
   TICK_INTERVAL_MINUTES  = 5       # Time between ticks when simulation is active
   AIRTABLE_RATE_LIMIT    = 5       # Requests per second
   ESTIMATED_CALLS_PER_CITIZEN = 4  # Read citizen, read activity, write result, update position
-  CITIZEN_COUNT           = 186
+  CITIZEN_COUNT           = 152
 
   # At 5 req/sec with 4 calls/citizen:
-  # 186 citizens * 4 calls = 744 calls
+  # 152 citizens * 4 calls = 744 calls
   # 744 / 5 = ~149 seconds per full tick (~2.5 minutes)
   # 5-minute interval provides comfortable margin
 

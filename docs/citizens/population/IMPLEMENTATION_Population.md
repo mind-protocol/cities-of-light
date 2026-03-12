@@ -1,4 +1,4 @@
-# IMPLEMENTATION: citizens/population -- Managing 186 Citizens at 72fps
+# IMPLEMENTATION: citizens/population -- Managing 152 Citizens at 72fps
 
 ```
 STATUS: DRAFT
@@ -960,7 +960,7 @@ Sent at tier-stratified intervals. FULL citizens update every 33ms (30Hz). ACTIV
       isAlive: true,
       talkingTo: null,
     },
-    // ... up to 186 entries per batch
+    // ... up to 152 entries per batch
   ],
   worldTimeHour: 14.5,
   timeSlot: 'afternoon',

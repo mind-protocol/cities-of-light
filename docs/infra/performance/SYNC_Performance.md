@@ -1,7 +1,7 @@
 # SYNC -- Performance
 
 > Current state of performance infrastructure in Cities of Light.
-> What exists, what is missing, and the gap to 186-citizen Venice on Quest 3.
+> What exists, what is missing, and the gap to 152-citizen Venice on Quest 3.
 
 ---
 
@@ -10,7 +10,7 @@
 The codebase has no formal performance management system. It runs on Quest 3
 with a basic scene (5 island zones, terrain, particles, fog, 3 AI citizens)
 and maintains 72fps. But this baseline is far below the target complexity of
-186 citizens, hundreds of buildings, canals, and spatial audio.
+152 citizens, hundreds of buildings, canals, and spatial audio.
 
 ### Rendering
 
@@ -30,7 +30,7 @@ and maintains 72fps. But this baseline is far below the target complexity of
 - Visible triangles: ~15K
 
 This is well within Quest 3 budgets. The challenge is what happens when Venice
-geometry and 186 citizen avatars are added.
+geometry and 152 citizen avatars are added.
 
 ### Scene Graph
 
@@ -182,7 +182,7 @@ Frame time:     ~5ms (estimated)
 Status:         WELL WITHIN BUDGET
 
 
-TARGET (Venice districts, 186 citizens, full scene)
+TARGET (Venice districts, 152 citizens, full scene)
 ====================================================
 Draw calls:     ~150-200
 Triangles:      ~300-500K
@@ -203,7 +203,7 @@ management. Without those systems, the target scene will not run at 72fps.
 
 ### Memory
 
-186 citizen conversation histories (10 turns each, ~2KB per turn) = ~4MB.
+152 citizen conversation histories (10 turns each, ~2KB per turn) = ~4MB.
 Citizen textures (if unique per citizen) could be catastrophic. Mitigation:
 shared texture atlas with per-citizen color tinting, not unique textures.
 
@@ -249,7 +249,7 @@ src/client/
 
 | Priority | Task                          | Blocks                          | Effort  |
 |----------|-------------------------------|---------------------------------|---------|
-| P0       | Citizen tier + LOD system     | Cannot add 186 citizens         | 7-10 days |
+| P0       | Citizen tier + LOD system     | Cannot add 152 citizens         | 7-10 days |
 | P0       | InstancedMesh for citizens    | Ambient citizens blow draw budget | 3-4 days |
 | P1       | Building LOD pipeline         | Venice geometry unmanageable    | 10-15 days |
 | P1       | Distance culling              | Objects rendered beyond useful range | 1-2 days |

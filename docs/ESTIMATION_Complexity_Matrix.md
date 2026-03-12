@@ -44,7 +44,7 @@ Per-module scoring across 5 dimensions: context budget, technical complexity, co
 
 **citizens/embodiment** is the visual counterpart. 3-tier LOD system (FULL/ACTIVE/AMBIENT), class-based appearance, mood expression through body, activity animation. Complexity 5: novel instanced rendering at scale, glTF pipeline, real-time tier transitions. XL context budget due to asset pipeline + animation system.
 
-**citizens/population** manages the 186-citizen simulation layer. Tier assignment, spawn/despawn, crowd density, daily rhythms. Depends on sync data and embodiment system.
+**citizens/population** manages the 152-citizen simulation layer. Tier assignment, spawn/despawn, crowd density, daily rhythms. Depends on sync data and embodiment system.
 
 ### NARRATIVE
 
@@ -201,7 +201,7 @@ ROI = Return on Implementation. What value does building this module deliver, an
 | narrative/physics | 3 | 5 | 3 | 3 | 4 | **4** | THE novel algorithm. Drama emerges from physics, not scripts. Without it, world is static. High differentiation. |
 | citizens/embodiment | 4 | 3 | 3 | 4 | 2 | **3** | Visual presence matters but capsule fallback works for POC. Full tier system is Alpha. |
 | voice/spatial | 3 | 3 | 2 | 4 | 2 | **3** | HRTF positioning is core to spatial truth. Basic version needed for POC. Full system is polish. |
-| citizens/population | 2 | 3 | 3 | 3 | 2 | **3** | Scale from 3 to 186 citizens. Not needed for POC but essential for "living city" feel at Alpha. |
+| citizens/population | 2 | 3 | 3 | 3 | 2 | **3** | Scale from 3 to 152 citizens. Not needed for POC but essential for "living city" feel at Alpha. |
 | world/navigation | 3 | 2 | 2 | 4 | 2 | **3** | Movement through space. WASD for POC is trivial. VR locomotion for Alpha is where value lives. |
 | narrative/events | 3 | 4 | 2 | 3 | 2 | **3** | Events make the world dynamic. Without them, narrative physics has no visible output. Alpha priority. |
 | world/atmosphere | 3 | 3 | 1 | 3 | 1 | **2** | Beautiful but not core. Fixed lighting works for POC. Day/night and fog are Alpha polish. |
@@ -239,7 +239,7 @@ The scores above are manual. They represent one human + one AI's best judgment a
 |--------|-----------|------|------------|
 | world/districts | 5 | Procedural geometry + LOD at Venice scale is novel. XL context. | Build Rialto as reference, extract patterns, then parallelize other districts. |
 | citizens/mind | 5 | Consciousness architecture is research-level. 3 API dependencies. | POC proves the core loop with 3 citizens. Iterate on context assembly. |
-| citizens/embodiment | 5 | 186-citizen instanced rendering with 3 LOD tiers. XL context. | Start with capsule fallback, add mesh/animation incrementally. |
+| citizens/embodiment | 5 | 152-citizen instanced rendering with 3 LOD tiers. XL context. | Start with capsule fallback, add mesh/animation incrementally. |
 | narrative/physics | 5 | Blood Ledger energy model adapted to Venice. Novel algorithm. | Port from existing Blood Ledger code. Calibrate with 20 citizens first. |
 | economy/simulation | 5 | Full economic simulation. Deferred to Beta for good reason. | Serenissima already runs the simulation. Venezia integrates, not reimplements. |
 

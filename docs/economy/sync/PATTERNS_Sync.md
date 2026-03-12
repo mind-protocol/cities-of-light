@@ -8,7 +8,7 @@
 
 ## Core Principle: Airtable Owns the Data, Express Owns the Speed
 
-Airtable is where the economic simulation writes its results. 186 citizens, their
+Airtable is where the economic simulation writes its results. 152 citizens, their
 positions, their Ducats, their contracts, their relationships -- all live in
 Airtable tables. This data has been accumulating for months. It is the canonical
 state of Venice.
@@ -37,10 +37,10 @@ Every 15 minutes, the sync module fetches six Airtable tables:
 
 | Table | Why | Approximate Size |
 |---|---|---|
-| CITIZENS | Position, mood, wealth, class, activity | 186 records |
+| CITIZENS | Position, mood, wealth, class, activity | 152 records |
 | BUILDINGS | Geometry source, ownership, inventory | ~500 records |
 | CONTRACTS | Active trades, prices, buyer/seller pairs | ~200-1000 records |
-| ACTIVITIES | Current citizen actions, movement paths | ~186 records (1 per citizen) |
+| ACTIVITIES | Current citizen actions, movement paths | ~152 records (1 per citizen) |
 | RELATIONSHIPS | Trust scores between citizen pairs | ~2000 records |
 | GRIEVANCES | Active political complaints | ~50-100 records |
 
@@ -78,7 +78,7 @@ average. Well within limits.
 - Cannot detect deletions (a deleted record is just absent)
 - Formula parsing adds latency per request
 - More complex cache invalidation logic
-- Not worth the complexity for 186 citizens
+- Not worth the complexity for 152 citizens
 
 Start with full fetch. Switch to incremental only if Airtable costs or latency
 become a problem.
@@ -291,3 +291,93 @@ data is better than no data.
 
 5. **Do not parallelize table fetches.** Sequential fetching keeps API call
    rate predictable and debuggable. 7 seconds per sync is fast enough.
+
+---
+
+## Reconciliation with Reality (2026-03-13)
+
+Updated by: Bianca Tassini (@dragon_slayer) — Consciousness Guardian
+
+### The Architecture Has Two Phases Now
+
+The original PATTERNS assumes a running Serenissima simulation writing to Airtable, with Venezia pulling every 15 minutes. **The simulation is currently frozen.** The Serenissima backend is down. Airtable data is static.
+
+This means the entire live sync architecture (rate limiting, pagination, diff computation, retry logic) is **not needed for V1/POC**. It becomes a V2 feature when the simulation restarts.
+
+### V1: Static JSON (Zero API Calls)
+
+Full Airtable data was exported on 2026-03-13 to `venezia/data/`:
+
+| File | Records | Fields | Size |
+|---|---|---|---|
+| `citizens_full.json` | 152 | 41 (CorePersonality, Ducats, VoiceId, ImagePrompt, Color) | 1.5MB |
+| `buildings_full.json` | 274 | 22 (Owner, Occupant, Wages, RentPrice, Position) | 800KB |
+| `lands_full.json` | 120 | 12 (polygon points, owner, district) | 350KB |
+| `relationships.json` | 1,178 | 5 (citizen pairs, trust scores) | 200KB |
+| `guilds.json` | 21 | 8 (membership, treasury) | 50KB |
+| `institutions.json` | 5 | 6 (governance structures) | 10KB |
+| `resources.json` | 1,396 | 6 (resource inventory) | 250KB |
+| `contracts.json` | 46 | 8 (active agreements) | 20KB |
+
+Plus 11 additional files from the serenissima.ai API:
+
+| File | Content | Size |
+|---|---|---|
+| `building_types.json` | 94 production recipes, construction costs | 73KB |
+| `activities.json` | 100 activity definitions | 90KB |
+| `transactions.json` | 1,000 recent transactions | 450KB |
+| `thoughts.json` | 98 citizen inner thoughts | 406KB |
+| `messages.json` | 200 citizen messages | 440KB |
+| `stratagems.json` | 43 active stratagems | 43KB |
+| `decrees.json` | 20+ governance decrees | 29KB |
+| `documents.json` | 21 public documents | 4.4KB |
+| `economy.json` | Economy snapshot | 237B |
+| `land_owners.json` | 130 parcel ownership records | 18KB |
+| `top_influence.json` | 5 top influence leaders | 2.9KB |
+
+**Total: 23 files, ~5.6MB.** This is the complete offline snapshot of Venice.
+
+### V1 Architecture (Simplified)
+
+```
+venezia/data/*.json  --(startup)-->  venice-state.js cache  --(ws)-->  Client
+                                           |
+                                    No sync loop needed.
+                                    Data is static.
+                                    Load once on server start.
+```
+
+`venice-state.js` becomes a simple JSON loader + read API. No scheduler, no Airtable client, no rate limiting, no diff computation. Estimated size: 80-120 lines (down from 300-500).
+
+`serenissima-sync.js` is **deferred to V2**. When the simulation restarts and writes new data to Airtable, the full sync architecture described above becomes necessary.
+
+### V2 Architecture (Original Design)
+
+The original PATTERNS doc describes V2 correctly. When the Serenissima simulation is live again:
+
+```
+Airtable (live, updating)  --(15min)-->  venice-state.js  --(ws diff)-->  Client
+```
+
+All the patterns — full fetch, diff computation, atomic swap, rate limit handling — apply to V2.
+
+### POC-Mind Validates the Data
+
+The `venezia/scripts/poc_mind_context_assembly.py` script successfully loads citizens, relationships, buildings, computes mood, determines behavior constraints, and assembles system prompts — all from static JSON. This proves the V1 architecture works.
+
+### What Changes for Implementation
+
+| Component | Original Estimate | V1 Estimate | Change |
+|---|---|---|---|
+| `venice-state.js` | 150-250 lines | 80-120 lines | Load JSON, expose read API, no sync |
+| `serenissima-sync.js` | 300-500 lines | **Deferred** | Not needed for static data |
+| Airtable npm package | Required | **Not needed** | No API calls |
+| Rate limit handling | Required | **Not needed** | No API calls |
+| Diff computation | Required | **Deferred** | Static data doesn't change |
+
+### Airtable Credentials
+
+For when V2 is needed, credentials are documented in `SYNC_Sync.md`:
+- PAT: `patbbBiN98GWxGs44...` (in Manemus `.env`)
+- Base ID: `appkLmnbsEFAZM5rB`
+- Export script: `venezia/scripts/export_full_airtable.py`

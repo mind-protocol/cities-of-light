@@ -345,13 +345,13 @@ The minimum to make the city real in data, before any rendering:
         "temperature": "warm",         # From collective biometrics
         "music": null                  # From Spotify if someone is here
     },
-    "citizens_present": ["nicolas", "1864364329"],
+    "citizens_present": ["nicolas", "1524364329"],
     "recent_events": 42
 }
 
 # Citizen position (zone-level, not XYZ yet)
 {
-    "citizen_id": "1864364329",
+    "citizen_id": "1524364329",
     "zone": "creative_nexus",
     "entered_at": "2026-02-07T21:30:00Z",
     "atmosphere": {

@@ -9,7 +9,7 @@ venezia/
 │   ├── atmosphere       Day/night, weather, fog, mood-driven ambiance
 │   └── navigation       Locomotion (desktop + VR), district transitions
 │
-├── citizens/        186 AI citizen system
+├── citizens/        152 AI citizen system
 │   ├── embodiment       3D rendering: avatars, tiers, LOD, animation
 │   ├── mind             Conversation: context assembly, KinOS, memory
 │   └── population       Spawn/despawn, tier assignment, crowd simulation
@@ -62,7 +62,7 @@ venezia/
 
 ---
 
-### CITIZENS — 186 AI Citizen System
+### CITIZENS — 152 AI Citizen System
 
 #### citizens/embodiment
 **Responsibility:** Visual representation of citizens in 3D. Avatar generation from personality/class. 3-tier LOD system (FULL: detailed + lip sync, ACTIVE: simplified + posture, AMBIENT: silhouette + drift). Mood expression through animation and posture. Social class visual markers (clothing, accessories).
@@ -77,7 +77,7 @@ venezia/
 **Entry points:** `src/server/citizen-router.js`, citizen `.cascade/` directories
 
 #### citizens/population
-**Responsibility:** Managing 186 citizens at scale. Tier assignment algorithm (distance × relationship × activity importance). Spawn/despawn lifecycle as visitor moves through districts. Daily rhythm scheduling (which citizens are where, when). Ambient crowd behavior (random walk, murmur audio contribution). Population density per district per time of day.
+**Responsibility:** Managing 152 citizens at scale. Tier assignment algorithm (distance × relationship × activity importance). Spawn/despawn lifecycle as visitor moves through districts. Daily rhythm scheduling (which citizens are where, when). Ambient crowd behavior (random walk, murmur audio contribution). Population density per district per time of day.
 **Key decisions:** Max FULL-tier citizens simultaneously (performance constraint). Tier transition smoothness (no pop-in). Crowd density targets. Off-screen citizen simulation granularity.
 **Depends on:** economy/sync (citizen positions, activities), infra/performance (render budget)
 **Entry points:** `src/client/citizens/citizen-manager.js`, `src/server/venice-state.js`
@@ -87,7 +87,7 @@ venezia/
 ### NARRATIVE — Narrative Physics + Events (ngram engine)
 
 #### narrative/graph
-**Responsibility:** The FalkorDB graph that stores the narrative state of Venice. Schema definition (Character, Narrative, Moment, Place nodes + BELIEVES, TENSION, SUPPORTS edges). Seeding pipeline: transform 186 citizens from the world repo into Character nodes, grievances into Narrative/Tension nodes, districts into Place nodes. Graph queries for citizen context assembly.
+**Responsibility:** The FalkorDB graph that stores the narrative state of Venice. Schema definition (Character, Narrative, Moment, Place nodes + BELIEVES, TENSION, SUPPORTS edges). Seeding pipeline: transform 152 citizens from the world repo into Character nodes, grievances into Narrative/Tension nodes, districts into Place nodes. Graph queries for citizen context assembly.
 **Key decisions:** Graph schema extensions for Venice-specific data. Node creation/deletion policy (append-only? pruning?). Query patterns for conversation context. Graph size limits.
 **Depends on:** economy/sync (source data from Airtable)
 **Entry points:** `src/server/physics-bridge.js`, ngram engine `physics/graph/`
@@ -190,7 +190,7 @@ Phase 1 — Foundation
 
 Phase 2 — Liveness
   5. economy/sync             ← Real data flowing in
-  6. citizens/population      ← All 186 citizens managed
+  6. citizens/population      ← All 152 citizens managed
   7. narrative/graph          ← Graph seeded
   8. narrative/physics        ← World starts evolving
 

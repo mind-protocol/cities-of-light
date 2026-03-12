@@ -81,7 +81,7 @@ Future optimization: progressive playback (play chunk 1 while chunk 2 downloads)
 
 ## Voice Diversity Strategy
 
-186 citizens cannot all sound the same. The current prototype uses a single
+152 citizens cannot all sound the same. The current prototype uses a single
 ElevenLabs voice ID for all speakers. Venezia needs a voice assignment system.
 
 ### The Plan: Voice Tiers by Social Class

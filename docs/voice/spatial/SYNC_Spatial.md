@@ -96,7 +96,7 @@ The codebase currently creates PannerNodes without any budget tracking. Each
 a PannerNode. There is no upper bound on simultaneous sources.
 
 **Current state:** Works fine with 3 AI citizens and a handful of peers. Will
-break at 186 citizens. Even with tier-based culling reducing the number of
+break at 152 citizens. Even with tier-based culling reducing the number of
 speaking citizens, ambient loops + event sounds + citizen voices can easily
 exceed 32 sources.
 

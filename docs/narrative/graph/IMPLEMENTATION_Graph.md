@@ -1631,7 +1631,7 @@ export const CATEGORY_NARRATIVE_TYPES = {
 
 /**
  * Base moment flip thresholds per category.
- * Venice thresholds are higher than Blood Ledger (186 citizens vs ~15).
+ * Venice thresholds are higher than Blood Ledger (152 citizens vs ~15).
  */
 export const BASE_THRESHOLDS = {
   economic_crisis:     3.0,

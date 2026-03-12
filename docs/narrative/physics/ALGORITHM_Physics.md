@@ -6,7 +6,7 @@ Pseudocode for every procedure in the physics module. The 5-minute tick with its
 
 Venice uses the DECAY model (from v1.1 spec), not the link cooling model (from v1.2 code). The key distinction:
 
-- **Decay** (v1.1, spec-authoritative): Energy fades globally. All beliefs weaken unless reinforced. This models **narrative forgetting** — stories lose salience over time. Venice needs this because with 186 citizens, old narratives must fade to make room for new ones.
+- **Decay** (v1.1, spec-authoritative): Energy fades globally. All beliefs weaken unless reinforced. This models **narrative forgetting** — stories lose salience over time. Venice needs this because with 152 citizens, old narratives must fade to make room for new ones.
 - **Link cooling** (v1.2, code-current): Energy flows through links and cools. Beliefs persist but connections weaken. This models **attention shifting** — topics stay alive but become less connected.
 
 Venice needs forgetting, not attention shifting. The v1.2 code will be adapted to include DECAY as a phase while retaining the useful parts of the v1.2 architecture (hot/cold links, Plutchik axes, crystallization).
@@ -27,12 +27,12 @@ DECAY_RATE_MAX                  0.1             0.1             Ceiling during r
 CORE_DECAY_MULTIPLIER           0.25            0.25            Core types decay at 1/4 rate
 CORE_TYPES                      [debt, grudge,  [oath, blood,   Venice-specific persistent types
                                  oath, alliance] debt]
-GENERATION_RATE                 0.3             0.5             Per-character pump rate (lower for 186 citizens)
+GENERATION_RATE                 0.3             0.5             Per-character pump rate (lower for 152 citizens)
 ROUTE_FACTOR_SUPPORTS           0.20            0.20            Energy flow through SUPPORTS edges
 ROUTE_FACTOR_TENSION            0.30            0.30            Energy accumulation on TENSION edges
 DRAW_RATE                       0.3             0.3             Moment absorption rate
 BACKFLOW_RATE                   0.1             0.1             Excess energy return to characters
-DEFAULT_BREAKING_POINT          3.0             0.9             Moment flip threshold (higher for 186 citizens)
+DEFAULT_BREAKING_POINT          3.0             0.9             Moment flip threshold (higher for 152 citizens)
 MOMENT_THRESHOLD_MIN            2.0             0.5             Minimum moment threshold
 MOMENT_THRESHOLD_MAX            6.0             1.5             Maximum moment threshold
 CRITICALITY_TARGET_MIN          0.4             0.4             Pressure floor for homeostasis

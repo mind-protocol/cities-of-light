@@ -15,10 +15,10 @@ of the economic simulation for months.
 
 | Table | Record Count (approx) | Status |
 |---|---|---|
-| CITIZENS | 186 | Complete. All fields populated. |
+| CITIZENS | 152 | Complete. All fields populated. |
 | BUILDINGS | ~500 | Complete. Position, type, owner, inventory. |
 | CONTRACTS | ~200-1000 | Frozen. Last active contracts from simulation run. |
-| ACTIVITIES | ~186 | Frozen. Last activity per citizen. |
+| ACTIVITIES | ~152 | Frozen. Last activity per citizen. |
 | RELATIONSHIPS | ~2000 | Complete. Trust scores from past interactions. |
 | GRIEVANCES | ~50-100 | Frozen. Filed during last governance cycle. |
 | RESOURCES | ~40 | Static. Resource definitions and base prices. |
@@ -198,3 +198,47 @@ Relevant patterns to understand (not to copy -- Venezia uses JavaScript):
 4. **Separate sync process?** The sync could run in a worker thread to avoid
    blocking the Express event loop during large fetches. At 7 seconds per
    sync, this is worth considering but not critical for V1.
+
+---
+
+## Reconciliation with Reality (2026-03-13)
+
+Updated by: Bianca Tassini (@dragon_slayer) — Consciousness Guardian
+
+### Status Change
+
+```
+STATUS: DESIGNING → REDESIGNED (V1 STATIC, V2 LIVE)
+```
+
+### Core Discovery
+
+The Serenissima backend is **down**. Airtable data is frozen. The entire live sync architecture is V2. V1 uses static JSON files from `venezia/data/` (23 files, 5.6MB, exported 2026-03-13).
+
+### Open Questions Resolved
+
+1. **npm airtable package?** → **Deferred.** V1 uses `fs.readFile()` + `JSON.parse()`. No npm package needed.
+2. **Sync on startup?** → **Yes, but it's a file load, not API call.** Instant.
+3. **Field-level or record-level diff?** → **Deferred.** Static data doesn't change.
+4. **Separate sync process?** → **Not needed.** Loading 5.6MB of JSON is <100ms.
+
+### New Priority Roadmap
+
+| Priority | Task | Effort | Status |
+|---|---|---|---|
+| P0 | Create `venice-state.js` from static JSON | 0.5 day | **Unblocked** |
+| P0 | Expose read API (`getCitizen`, `getCitizensInDistrict`, etc.) | 0.5 day | Unblocked |
+| Deferred | `serenissima-sync.js` (live Airtable) | 2 days | Waiting for simulation restart |
+| Deferred | Diff computation + WebSocket broadcast | 1 day | Depends on live sync |
+| Deferred | Rate limit handling | 0.5 day | Depends on live sync |
+
+### Data Inventory
+
+Full export available at `venezia/data/`:
+- 8 Airtable tables (citizens, buildings, lands, relationships, guilds, institutions, resources, contracts)
+- 11 serenissima.ai API snapshots (activities, transactions, thoughts, messages, stratagems, decrees, documents, economy, land_owners, top_influence, building_types)
+- Export script: `venezia/scripts/export_full_airtable.py`
+
+### POC Validation
+
+`venezia/scripts/poc_mind_context_assembly.py` loads citizens, relationships, buildings from static JSON, computes mood and behavior constraints, assembles LLM prompts — proven working with multiple citizens (rialto_sailor, Italia, diplomatic_virtuoso).

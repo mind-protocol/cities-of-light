@@ -2,7 +2,7 @@
 
 The graph is the world's unconscious. It is not a database. It is not a knowledge graph for retrieval-augmented generation. It is the substrate on which narrative physics operates -- the medium through which tension accumulates, beliefs propagate, and moments flip into events. Without the graph, the physics engine has nothing to compute on. Without the physics engine, the graph is inert data.
 
-This module owns the FalkorDB schema, the seeding pipeline from Serenissima's 186 citizens, and the query patterns that citizen conversation context assembly depends on.
+This module owns the FalkorDB schema, the seeding pipeline from Serenissima's 152 citizens, and the query patterns that citizen conversation context assembly depends on.
 
 ---
 
@@ -60,14 +60,14 @@ These extensions are additive. The physics engine does not read `class` or `dist
 
 ## Pattern 3: Seeding Is a One-Time Transform, Not a Sync Loop
 
-The graph is seeded from Serenissima Airtable data: 186 citizens become Character nodes, their grievances become Narrative nodes, Venice districts become Place nodes. This is a one-time operation per graph instance, not a continuous sync.
+The graph is seeded from Serenissima Airtable data: 152 citizens become Character nodes, their grievances become Narrative nodes, Venice districts become Place nodes. This is a one-time operation per graph instance, not a continuous sync.
 
 Why not continuous sync? Because the graph is a narrative layer, not an economic mirror. Once a citizen exists as a Character node in the graph, their narrative state diverges from their economic state. A citizen may believe a rumor that has no basis in Airtable data. A citizen may have accumulated tension from graph physics that Airtable knows nothing about. Syncing would overwrite emergent narrative state with economic data.
 
 **Seeding pipeline:**
 
 ```
-1. Fetch 186 citizens from Airtable CITIZENS table
+1. Fetch 152 citizens from Airtable CITIZENS table
 2. For each citizen:
    a. CREATE (:Character {id, name, energy: 0.5, weight: 1.0, class, district, ducats, mood})
    b. Fetch their relationships from RELATIONSHIPS table
@@ -89,7 +89,7 @@ After seeding, the graph evolves through physics ticks only. Economic data flows
 
 Graph nodes are never deleted during normal operation. New narratives, new beliefs, new tensions -- all append. This is consistent with Blood Ledger's design and with the memory philosophy of the citizens/mind module.
 
-But unbounded growth is a problem. A graph with 186 characters that runs for months will accumulate thousands of narrative nodes. Most will have decayed to near-zero energy and weight. They are cold -- narratively dead.
+But unbounded growth is a problem. A graph with 152 characters that runs for months will accumulate thousands of narrative nodes. Most will have decayed to near-zero energy and weight. They are cold -- narratively dead.
 
 **Cold pruning** runs on the daily cycle (every 24 hours):
 
@@ -106,7 +106,7 @@ Pruning rules:
 - No active tensions. A cold narrative under tension is still structurally important.
 - Moments are never pruned. Even flipped moments are historical record.
 
-This keeps the graph bounded at roughly 500-2000 narrative nodes for a 186-citizen population. The Blood Ledger graph for a much smaller world stabilizes around 200-400 narratives.
+This keeps the graph bounded at roughly 500-2000 narrative nodes for a 152-citizen population. The Blood Ledger graph for a much smaller world stabilizes around 200-400 narratives.
 
 ---
 

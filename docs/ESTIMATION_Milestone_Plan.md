@@ -57,7 +57,7 @@ Milestone definitions with full feature-milestone mapping. Every behavior from e
 
 ### Alpha -- Core Loop End-to-End (Target: +6 weeks)
 
-**Goal:** All 7 districts rendered. 186 citizens managed with the full 3-tier LOD system. Day/night cycle. World events manifest visually and narratively. VR locomotion works on Quest 3. The visitor can spend 30+ minutes exploring and discovers emergent drama.
+**Goal:** All 7 districts rendered. 152 citizens managed with the full 3-tier LOD system. Day/night cycle. World events manifest visually and narratively. VR locomotion works on Quest 3. The visitor can spend 30+ minutes exploring and discovers emergent drama.
 
 **Modules included (additions to POC):**
 | Module | Scope | Notes |
@@ -67,7 +67,7 @@ Milestone definitions with full feature-milestone mapping. Every behavior from e
 | world/navigation | Full | Desktop WASD + VR continuous locomotion + teleport + snap turn. District transitions. |
 | citizens/embodiment | Full | 3-tier system (FULL/ACTIVE/AMBIENT). Smooth transitions. Class-based appearance. |
 | citizens/population | Full | Tier assignment, spawn/despawn, crowd density, daily rhythms. |
-| narrative/graph | Full | All 186 citizens seeded. Belief propagation. Chorus effect. |
+| narrative/graph | Full | All 152 citizens seeded. Belief propagation. Chorus effect. |
 | narrative/physics | Full | Full physics with homeostasis, moment cooldowns. 1-3 flips per hour target. |
 | narrative/events | Partial | Event types manifest in citizen behavior and atmosphere. No Forestiere news. |
 | infra/server | Full | WebSocket broadcast, reconnection, rate limiting, session persistence. |
@@ -236,7 +236,7 @@ Every behavior from every BEHAVIORS doc, assigned to a milestone.
 | B2 | Crowd Density Follows the Clock (morning/midday/evening/night variation) | Alpha | Requires day/night cycle. Density patterns prove world liveness. |
 | B3 | District Boundaries Have Population Gradients | Alpha | Requires multiple districts. Gradients prevent level-loading feel. |
 | B4 | Citizens Appear and Disappear at Edges of Perception (HIDDEN fade) | Alpha | Part of the 200m render boundary system. |
-| B5 | 186 Citizens Feel Like a Living City (smart distribution, ambient texture) | Alpha | This IS Alpha's population scale goal (POC-3 from VALIDATION). |
+| B5 | 152 Citizens Feel Like a Living City (smart distribution, ambient texture) | Alpha | This IS Alpha's population scale goal (POC-3 from VALIDATION). |
 | B6 | Off-Screen Citizens Continue Their Lives (arrive mid-scene, aftermath visible) | Alpha | World continuity (Invariant I2). Citizens exist in simulation always. |
 | B7 | Population Responds to World Events (gathering, dispersal, redistribution) | Beta | Requires full event system (narrative/events). Complex crowd dynamics. |
 
@@ -245,7 +245,7 @@ Every behavior from every BEHAVIORS doc, assigned to a milestone.
 | Behavior | Description | Milestone | Justification |
 |----------|-------------|-----------|---------------|
 | B1 | Citizens Speak Their Beliefs (confidence-weighted, consistent) | POC | Beliefs injected into citizen context for conversation. Core authenticity. |
-| B2 | Shared Narratives Create the Sound of a City (chorus effect) | Alpha | Requires multiple citizens seeded with shared narratives. 186-citizen scale. |
+| B2 | Shared Narratives Create the Sound of a City (chorus effect) | Alpha | Requires multiple citizens seeded with shared narratives. 152-citizen scale. |
 | B3 | Belief Consistency Under Pressure (pushback, contradiction discomfort) | Alpha | Requires trust system and multi-turn conversations across sessions. |
 | B4 | Graph Changes Surface as Behavior Shifts (gradual drift, sudden post-event) | Alpha | Requires physics tick running long enough to produce observable drift. |
 | B5 | What the Visitor Never Sees (no graph viz, no debug data, no labels) | POC | Anti-behavior. Must be true from POC. No system data leaks. |
@@ -260,7 +260,7 @@ Every behavior from every BEHAVIORS doc, assigned to a milestone.
 | B1 | Tension Building Over Time (gradual escalation across ticks) | POC | Core physics behavior. Must be observable in POC. |
 | B2 | Moment Flips (economic crisis, political uprising, celebration manifestation) | POC | At least one flip in 30 minutes is POC-2 acceptance criteria. |
 | B3 | Decay -- The World Forgets (energy decay, grudge persistence, space for new stories) | POC | Decay prevents runaway accumulation. Must run from day 1. |
-| B4 | Energy Flow (popular beliefs gaining, unpopular dying, backflow to citizens) | Alpha | Full energy routing requires 186 citizens and complex graph. |
+| B4 | Energy Flow (popular beliefs gaining, unpopular dying, backflow to citizens) | Alpha | Full energy routing requires 152 citizens and complex graph. |
 | B5 | The 5-Minute Tick Creates Drama Without Scripting (invisible tick, emergent pacing) | POC | The tick IS the physics. It runs in POC with 20 seeded citizens. |
 | B6 | Economic Injection Is Felt (trade deals → mood shift, supply disruption → frustration) | Alpha | Requires economy/sync diff events feeding the graph. |
 | B7 | The Daily Rhythm (night reduces generation, morning ramps up) | Alpha | Depends on day/night cycle. |
@@ -344,7 +344,7 @@ Every behavior from every BEHAVIORS doc, assigned to a milestone.
 | B3 | District Transitions (audio crossfade over bridge, no seam) | Alpha | Paired with navigation district transitions. |
 | B4 | Reverb and Acoustic Space (calle tight, piazza diffuse, crossfade) | Beta | Reverb zones require geometry analysis. Polish feature. |
 | B5 | Occlusion (sound blocked by buildings, muffled through archways) | Beta | Requires raycast or zone-based occlusion. Complex spatial audio. |
-| B6 | Audio Priority (nearest clear, farthest texture, crowd merge) | Alpha | Required for 186-citizen scale. Max 32 sources. |
+| B6 | Audio Priority (nearest clear, farthest texture, crowd merge) | Alpha | Required for 152-citizen scale. Max 32 sources. |
 | B7 | Time-of-Day Audio (dawn bells, day bustle, dusk taverns, night silence) | Alpha | Paired with day/night cycle. |
 | B8 | Weather Audio (rain on surfaces, directional wind, storm) | Beta | Paired with weather system. |
 | B9 | What the Visitor Should Never Experience (flat audio, silence, pop-in, reverb mismatch, clipping) | Alpha | Anti-behaviors. Quality floor established at Alpha. |
@@ -397,7 +397,7 @@ Every behavior from every BEHAVIORS doc, assigned to a milestone.
 | Milestone | Behaviors Assigned | Core Rationale |
 |-----------|-------------------|----------------|
 | POC | 30 | Prove a citizen conversation grounded in real data, in a spatial world, with physics-driven emergence |
-| Alpha | 52 | Scale to 186 citizens, 7 districts, VR, day/night, events -- the full core loop |
+| Alpha | 52 | Scale to 152 citizens, 7 districts, VR, day/night, events -- the full core loop |
 | Beta | 36 | Depth: economy simulation, governance, weather, occlusion, reverb, Forestiere news, scars |
 | GA | 16 | Production: deployment, monitoring, thermal endurance, multi-platform, sustained performance |
 

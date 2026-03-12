@@ -10,7 +10,7 @@ DECIDED: 2026-03-12 by Nicolas (NLR)
 
 ## Goal
 
-Transform Venezia from a 5-island demo with 3 entities into a **living Venice** with real geography, named buildings, 186 citizens, and bridges — all driven from the Serenissima Airtable database.
+Transform Venezia from a 5-island demo with 3 entities into a **living Venice** with real geography, named buildings, 152 citizens, and bridges — all driven from the Serenissima Airtable database.
 
 ---
 
@@ -156,7 +156,7 @@ Transform Venezia from a 5-island demo with 3 entities into a **living Venice** 
 
 ---
 
-### F4: 186 Citizens Instantiated
+### F4: 152 Citizens Instantiated
 
 **What:** All Serenissima Airtable citizens spawned in the world at their activity locations. Default geometric avatar per social class.
 
@@ -321,7 +321,7 @@ New top-level sections added to WorldManifest:
 
 New terrain generator: `"geographic"` — renders islands from polygon data instead of procedural noise.
 
-New entity source: supports 186 citizens with social class-based avatars.
+New entity source: supports 152 citizens with social class-based avatars.
 
 New protocol messages: `ai_walk_to`, `ai_request_view`, `aerial_view`.
 
@@ -334,7 +334,7 @@ New protocol messages: `ai_walk_to`, `ai_request_view`, `aerial_view`.
 | V2.0 | Export scripts (lands, buildings, citizens) | Medium | Airtable access |
 | V2.1 | Geographic terrain generator | High | Exported lands data |
 | V2.2 | Building placement + name labels | Medium | Geographic terrain |
-| V2.3 | 186 citizens spawned | Medium | Exported citizens data |
+| V2.3 | 152 citizens spawned | Medium | Exported citizens data |
 | V2.4 | Bridge meshes | Medium | Geographic terrain |
 | V2.5 | Aerial view + AI walk-to | High | Buildings + pathfinding |
 | V2.6 | 3D building assets | Ongoing | Building placement |

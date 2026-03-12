@@ -54,10 +54,10 @@ sync, voice pipeline, AI citizen behavior, and room management.
 
 ## What Needs Venice-Specific Work
 
-### 1. Scaling AI Citizens from 3 to 186
+### 1. Scaling AI Citizens from 3 to 152
 
 The current `ai-citizens.js` holds 3 citizens in a hardcoded array, each with
-a full system prompt in memory. For 186 citizens:
+a full system prompt in memory. For 152 citizens:
 
 **Required:**
 - Load citizen definitions from Airtable data (via serenissima-sync)
@@ -66,7 +66,7 @@ a full system prompt in memory. For 186 citizens:
 - Tier-based activation: only FULL-tier citizens (closest ~20) get LLM calls;
   ACTIVE-tier get simplified responses; AMBIENT-tier only wander
 - Conversation history: persist to disk, load on proximity trigger
-- Behavior tick scaling: 186 citizens x 5s tick = 37 updates/s. Current
+- Behavior tick scaling: 152 citizens x 5s tick = 37 updates/s. Current
   broadcast-all-positions pattern will flood WebSocket at this scale
 
 **Estimated effort:** 5-7 days
@@ -197,8 +197,42 @@ index.js                               index.js
 | P0       | Venice state manager          | All Venice-specific rendering   | 3-4 days |
 | P0       | Serenissima sync              | State manager has no data       | 3-5 days |
 | P1       | Citizen conversation router   | Citizens cannot have deep conversations | 5-7 days |
-| P1       | AI citizen scaling (186)      | World has only 3 citizens       | 5-7 days |
+| P1       | AI citizen scaling (152)      | World has only 3 citizens       | 5-7 days |
 | P2       | Physics bridge                | No narrative emergence          | 5-7 days |
 | P2       | Throttled position broadcast  | Bandwidth issues at 10+ visitors | 1 day   |
 | P3       | Rate limiting                 | Vulnerable to abuse             | 1 day   |
 | P3       | Graceful shutdown             | Dirty disconnects               | 0.5 day |
+
+---
+
+## Reconciliation with Reality (2026-03-13)
+
+Updated by: Bianca Tassini (@dragon_slayer) — Consciousness Guardian
+
+### Engine Layer Exists
+
+The `engine/` directory contains a parallel server implementation (`engine/server/state-server.js`) with entity management, world state, and voice pipeline routing. This is the "two server codebases" issue. Key engine files:
+
+- `engine/server/entity-manager.js` (418 lines) — tier-based citizen management
+- `engine/server/state-server.js` — Express + WebSocket state server
+- `engine/server/voice-pipeline.js` — voice routing
+
+**Decision needed:** Unify into engine/ (newer, Venice-aware) or extend src/ (older, proven)?
+
+### Serenissima Sync Simplified for V1
+
+The "P0: Serenissima sync" task is dramatically simplified. Static JSON exports exist in `venezia/data/` (23 files, 5.6MB). `venice-state.js` becomes a JSON loader, not an Airtable sync client. Estimated effort drops from 3-5 days to 0.5 day.
+
+### POC-Mind Context Assembly Working
+
+`venezia/scripts/poc_mind_context_assembly.py` proves the citizen conversation context pipeline works from static JSON data. The "P1: Citizen conversation router" can build on this — the context assembly logic is validated, just needs porting to JavaScript or running as a Python subprocess.
+
+### Revised Priority Roadmap
+
+| Priority | Task | Original Effort | V1 Effort | Change |
+|---|---|---|---|---|
+| P0 | Venice state manager (from JSON) | 3-4 days | **0.5 day** | Static JSON, no sync |
+| P0 | Serenissima sync | 3-5 days | **Deferred** | Not needed for static data |
+| P1 | Citizen conversation router | 5-7 days | **3-4 days** | Context assembly POC exists |
+| P1 | AI citizen scaling (152) | 5-7 days | 5-7 days | Same |
+| P2 | Physics bridge | 5-7 days | 5-7 days | Same |

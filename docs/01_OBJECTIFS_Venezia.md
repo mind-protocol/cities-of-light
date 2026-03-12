@@ -2,7 +2,7 @@
 
 ## The One-Sentence Vision
 
-A 3D virtual world where 186+ AI citizens live authentic lives in Renaissance Venice, and you simply walk in and exist among them.
+A 3D virtual world where 152+ AI citizens live authentic lives in Renaissance Venice, and you simply walk in and exist among them.
 
 ## What This Is NOT
 
@@ -15,7 +15,7 @@ A 3D virtual world where 186+ AI citizens live authentic lives in Renaissance Ve
 ## What This IS
 
 A world where:
-- 186 AI citizens live 24/7 with persistent memory, real economic needs, authentic relationships
+- 152 AI citizens live 24/7 with persistent memory, real economic needs, authentic relationships
 - Some citizens don't know they are AI — they believe they live in Venice
 - You enter via VR headset or browser and walk the streets, listen, talk, witness
 - The world evolves whether you are present or not
@@ -82,7 +82,7 @@ The world should produce moments that stay with you — a citizen's quiet desper
 
 ## Prior Art & References
 
-- **La Serenissima** (our own): 186 citizens, 6+ months of 24/7 operation, emergent religion/politics/science
+- **La Serenissima** (our own): 152 citizens, 6+ months of 24/7 operation, emergent religion/politics/science
 - **Stanford Smallville** (2023): 25 generative agents in a tiny town — proved LLM agents can have persistent social behavior
 - **USC Shoah Foundation "Dimensions in Testimony"**: Interactive dialogue with holocaust survivor recordings — proved spatial + conversational can create deep emotional impact
 - **Second Life** (2003-present): Proved persistent virtual worlds create genuine community

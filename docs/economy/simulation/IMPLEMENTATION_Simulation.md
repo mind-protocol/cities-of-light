@@ -216,10 +216,10 @@ Base ID: `appkLmnbsEFAZM5rB` (or as configured in `AIRTABLE_BASE_ID`)
 
 | Table | Primary Key | Approx Records | Write Frequency |
 |---|---|---|---|
-| CITIZENS | CitizenId | 186 | Every tick (position, ducats, hunger) |
+| CITIZENS | CitizenId | 152 | Every tick (position, ducats, hunger) |
 | BUILDINGS | BuildingId | ~500 | Daily (ownership, rent) |
 | CONTRACTS | ContractId | ~500 | Every tick (fill amounts, prices) |
-| ACTIVITIES | ActivityId | ~186 active | Every tick (create/process/fail) |
+| ACTIVITIES | ActivityId | ~152 active | Every tick (create/process/fail) |
 | RESOURCES | ResourceId | ~2000 | Every tick (inventory changes) |
 | TRANSACTIONS | TransactionId | Growing | Every tick (financial transfers) |
 | RELATIONSHIPS | Airtable ID | ~2000 | On interaction |
@@ -751,7 +751,7 @@ print(f'Active activities: {len(active)}')
 ```bash
 # Verify the cache is populated
 curl http://localhost:8800/api/sync/status
-# Expected: {"lastSyncTime":"2026-...","ageMinutes":3,"citizenCount":186,...}
+# Expected: {"lastSyncTime":"2026-...","ageMinutes":3,"citizenCount":152,...}
 ```
 
 ### End-to-End Test

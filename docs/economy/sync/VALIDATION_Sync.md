@@ -131,11 +131,11 @@ CHECK: diff_event_count per sync (upper bound)
 
 ### HC-Y4. Cache Size
 
-Cache record counts should be relatively stable. The citizen count is fixed at 186. Building count is ~500. Large deviations indicate data corruption or Airtable schema changes.
+Cache record counts should be relatively stable. The citizen count is fixed at 152. Building count is ~500. Large deviations indicate data corruption or Airtable schema changes.
 
 ```
 CHECK: cache.citizens.size
-  EXPECTED: 186 (exact)
+  EXPECTED: 152 (exact)
   WARN   at: deviation > 5 from expected
   ALERT  at: deviation > 20 or size == 0
 
@@ -186,7 +186,7 @@ CHECK: consecutive_sync_failures
 The sync module must complete a full cycle and populate the cache.
 
 - [ ] All 6 tables fetched from Airtable without errors
-- [ ] Cache contains 186 citizens, ~500 buildings, and >0 activities
+- [ ] Cache contains 152 citizens, ~500 buildings, and >0 activities
 - [ ] `cache.lastSyncTime` is set to a timestamp within the last 60 seconds
 - [ ] `cache.stale_tables` is empty
 - [ ] `cache.syncInProgress` is false after completion
@@ -292,8 +292,8 @@ PERIODIC CHECK (every sync):
     ASSERT: cache[T].size == airtable_record_count(T)
     Tolerance: 0 (exact match for full-fetch strategy)
 
-  IF cache.citizens.size != 186:
-    ALERT: citizen count mismatch (expected 186, got {actual})
+  IF cache.citizens.size != 152:
+    ALERT: citizen count mismatch (expected 152, got {actual})
 ```
 
 For the full-fetch strategy, there is no tolerance. Every record in Airtable must appear in the cache. Missing records mean a pagination bug (offset not followed to completion) or a transform error (record skipped due to null key field).

@@ -110,9 +110,9 @@ WHEN:   Citizens at the view frustum edge enter or leave visibility
 THEN:   All citizens within 200m persist; only the 200m distance boundary controls HIDDEN transitions
 ```
 
-### B5: 186 Citizens Feel Like a Living City
+### B5: 152 Citizens Feel Like a Living City
 
-**Why:** A real Venice had 100,000+. 186 must feel like density through smart distribution, clustering, and ambient crowd texture.
+**Why:** A real Venice had 100,000+. 152 must feel like density through smart distribution, clustering, and ambient crowd texture.
 
 ```
 GIVEN:  The visitor is in any district during daytime
@@ -187,7 +187,7 @@ AND:    Redistribution over hours, not minutes
 | B2 | O3 (World Liveness) | Temporal density patterns prove the city has its own rhythm |
 | B3 | O2 (Spatial Presence) | Gradual boundaries prevent level-loading feel between districts |
 | B4 | O2 (Spatial Presence) | Natural appear/disappear prevents spawn-point artifacts |
-| B5 | O1 (Authenticity) | 186 citizens distributed correctly feel like a living population |
+| B5 | O1 (Authenticity) | 152 citizens distributed correctly feel like a living population |
 | B6 | O3 (World Liveness) | Off-screen continuity proves the world does not revolve around the visitor |
 | B7 | O6 (Emotional Impact) | Crowd response to events creates collective drama |
 

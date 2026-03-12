@@ -66,7 +66,7 @@ SYNC_TABLES = [
     fields:      ["CitizenId", "Username", "Name", "SocialClass", "Position",
                   "Ducats", "Wealth", "Influence", "Home", "Work", "Occupation",
                   "HungerLevel", "DailyIncome", "DailyExpenses", "UpdatedAt"],
-    approx_records: 186,
+    approx_records: 152,
     approx_pages:   2,
   },
   {
@@ -96,7 +96,7 @@ SYNC_TABLES = [
     fields:      ["ActivityId", "Citizen", "CitizenId", "Type", "Status",
                   "FromBuilding", "ToBuilding", "ResourceType", "Path",
                   "StartDate", "EndDate"],
-    approx_records: 186,
+    approx_records: 152,
     approx_pages:   2,
   },
   {

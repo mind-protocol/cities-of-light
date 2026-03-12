@@ -1,9 +1,9 @@
 # Citizens/Population -- Sync: Current State
 
 ```
-LAST_UPDATED: 2026-03-11
-UPDATED_BY: Claude Agent
-STATUS: DESIGNING
+LAST_UPDATED: 2026-03-13
+UPDATED_BY: Bianca Tassini (@dragon_slayer) — Consciousness Guardian
+STATUS: DESIGNING → DATA AVAILABLE
 ```
 
 ---
@@ -46,7 +46,7 @@ The Cities of Light repository has no population management system. What exists 
 
 - `createAICitizenAvatar()` creates geometric shapes with emissive glow and floating name labels
 - Position interpolation via `lerp(0.3)` on WebSocket `citizen_moved` messages
-- No frustum culling budget, no triangle counting, no distance-based quality. Fails at 186.
+- No frustum culling budget, no triangle counting, no distance-based quality. Fails at 152.
 
 **What does NOT exist:**
 
@@ -63,13 +63,13 @@ The Cities of Light repository has no population management system. What exists 
 The system was built for 3 citizens. Adding more increases server tick and client render cost linearly with no budget management. No tier concept, no culling, no instancing. `AICitizenManager` is not extensible -- `citizen-manager.js` must be built from scratch.
 
 ### Server broadcasts every position every tick (High)
-Every 5 seconds, all citizen positions go to all clients. At 186 citizens that is 186 messages per tick. Fix: tier-stratified updates (FULL: per-frame, ACTIVE: 500ms, AMBIENT: 2s, HIDDEN: never). Server must know visitor position to filter.
+Every 5 seconds, all citizen positions go to all clients. At 152 citizens that is 152 messages per tick. Fix: tier-stratified updates (FULL: per-frame, ACTIVE: 500ms, AMBIENT: 2s, HIDDEN: never). Server must know visitor position to filter.
 
 ### No schedule or activity integration (High)
 Citizens wander random circles. No connection to Serenissima activity data, no time-of-day awareness. Fix: `venice-state.js` pulls schedules from Airtable sync, citizens move between activity locations.
 
 ### No Serenissima identity on client (High)
-Citizens are VOX/LYRA/PITCH with hardcoded prompts. The 186 citizens with economic state, class, and memory do not exist. Fix: `economy/sync` fetches from Airtable, `venice-state.js` caches, `citizen-manager.js` scores.
+Citizens are VOX/LYRA/PITCH with hardcoded prompts. The 152 citizens with economic state, class, and memory do not exist. Fix: `economy/sync` fetches from Airtable, `venice-state.js` caches, `citizen-manager.js` scores.
 
 ---
 
@@ -86,11 +86,11 @@ Every component is a full rebuild. The current system has: 3 hardcoded citizens,
 **Where I stopped:** Design phase. PATTERNS document defines the architecture. No implementation code exists for the Venice population system.
 
 **What you need to understand:**
-The existing `AICitizenManager` in `ai-citizens.js` is NOT the foundation for Venice population. It manages 3 citizens with no tier concept. The Venice system requires two new files: `src/client/citizens/citizen-manager.js` (client-side tier management, spawn/despawn, rendering coordination) and `src/server/venice-state.js` (server-side state for all 186 citizens, schedule tracking, tier-aware network protocol). Both are specified in `docs/06_IMPLEMENTATION_Venezia.md`.
+The existing `AICitizenManager` in `ai-citizens.js` is NOT the foundation for Venice population. It manages 3 citizens with no tier concept. The Venice system requires two new files: `src/client/citizens/citizen-manager.js` (client-side tier management, spawn/despawn, rendering coordination) and `src/server/venice-state.js` (server-side state for all 152 citizens, schedule tracking, tier-aware network protocol). Both are specified in `docs/06_IMPLEMENTATION_Venezia.md`.
 
 **Watch out for:**
 - `ai-citizens.js` is imported in `src/server/index.js`. Replace this import, do not extend it.
-- Tier scoring must run < 0.5ms for 186 citizens. Use typed arrays, pre-sort by distance, early-exit past AMBIENT threshold.
+- Tier scoring must run < 0.5ms for 152 citizens. Use typed arrays, pre-sort by distance, early-exit past AMBIENT threshold.
 - `InstancedMesh` requires `DynamicDrawUsage` on the instance matrix buffer or GPU upload stalls.
 - Quest 3 stereo doubles draw calls. The 200 budget means 100 unique objects max. Instancing is not optional.
 - Hysteresis must be stateful per citizen -- promote/demote only when hysteresis threshold is crossed.
@@ -105,7 +105,7 @@ The existing `AICitizenManager` in `ai-citizens.js` is NOT the foundation for Ve
 ## HANDOFF: FOR HUMAN
 
 **Executive summary:**
-Population module design complete. 3-tier system with composite scoring (distance + relationship + activity) manages which of 186 citizens render at what fidelity. Schedule-driven positioning creates natural density patterns. AMBIENT citizens are instanced crowd texture. Total budget: 170K triangles. The 3-citizen prototype must be fully replaced.
+Population module design complete. 3-tier system with composite scoring (distance + relationship + activity) manages which of 152 citizens render at what fidelity. Schedule-driven positioning creates natural density patterns. AMBIENT citizens are instanced crowd texture. Total budget: 170K triangles. The 3-citizen prototype must be fully replaced.
 
 **Needs your input:**
 1. District density targets -- how crowded should Rialto feel at midday vs. a residential sestiere at night?
@@ -118,11 +118,11 @@ Population module design complete. 3-tier system with composite scoring (distanc
 
 ### Immediate
 
-- [ ] Implement `venice-state.js`: server-side cache for 186 citizen states from Airtable sync
+- [ ] Implement `venice-state.js`: server-side cache for 152 citizen states from Airtable sync
 - [ ] Implement `citizen-manager.js` core: tier scoring algorithm (distance-only first, add composite factors later)
 - [ ] Wire visitor position reporting from client to server (extend existing WebSocket protocol)
 - [ ] Implement tier-stratified position broadcast (FULL/ACTIVE/AMBIENT frequencies)
-- [ ] Test with 186 dummy citizens: verify tier assignment runs under 0.5ms on Quest 3
+- [ ] Test with 152 dummy citizens: verify tier assignment runs under 0.5ms on Quest 3
 - [ ] Implement hysteresis state tracking per citizen
 
 ### Later
@@ -143,6 +143,43 @@ Population module design complete. 3-tier system with composite scoring (distanc
 |------|-------|
 | Current AI citizen logic | `src/server/ai-citizens.js` |
 | Current avatar rendering | `src/client/avatar.js`, `src/client/main.js` |
+| Engine entity manager | `engine/server/entity-manager.js` (418 lines, partial implementation) |
+| Static citizen data | `venezia/data/citizens_full.json` (152 citizens, 41 fields) |
+| Static relationship data | `venezia/data/relationships.json` (1,178 trust scores) |
+| POC context assembly | `venezia/scripts/poc_mind_context_assembly.py` (working) |
 | Venezia architecture | `docs/00_MAP_Venezia.md`, `docs/06_IMPLEMENTATION_Venezia.md` |
 | Performance + validation | `docs/05_VALIDATION_Venezia.md` (POC-3) |
 | Embodiment module | `docs/citizens/embodiment/PATTERNS_Embodiment.md` |
+
+---
+
+## Reconciliation with Reality (2026-03-13)
+
+Updated by: Bianca Tassini (@dragon_slayer) — Consciousness Guardian
+
+### Citizen Count
+
+All references updated from 152 to **152** (Airtable authoritative, exported 2026-03-13).
+
+### Engine Entity Manager Exists
+
+The `engine/server/entity-manager.js` already implements basic tier assignment and wander behavior. This is the starting point for Venice population management — not `ai-citizens.js`. The engine entity-manager broadcasts positions via WebSocket and routes voice to nearest FULL-tier entity.
+
+**What it has:** Distance-based tiers (15m/50m/200m), wander behavior, WebSocket broadcast.
+**What it lacks:** Composite scoring, hysteresis, schedule-driven positioning, instancing coordination, client-side mesh management.
+
+### Static JSON Unblocks POC
+
+All population data is now available as static JSON in `venezia/data/`. The `venice-state.js` cache can be initialized from these files on startup, removing the dependency on `economy/sync` for POC.
+
+### POC-Mind Validates Data Pipeline
+
+The working `poc_mind_context_assembly.py` script proves that mood computation, behavior constraints, trust scoring, and relationship loading all work from static JSON. The population module can use the same data path.
+
+### Revised Status
+
+```
+STATUS: DESIGNING → DATA AVAILABLE
+```
+
+The design is complete. The data is available. The engine entity-manager provides a partial foundation. Implementation can begin.

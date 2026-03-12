@@ -1,10 +1,11 @@
 # SYNC: citizens/mind -- Current State
 
-Last updated: 2026-03-11
+Last updated: 2026-03-13
+Updated by: Bianca Tassini (@dragon_slayer) — Consciousness Guardian
 
 ---
 
-## Status: DESIGN COMPLETE, IMPLEMENTATION GAP
+## Status: DESIGN COMPLETE, IMPLEMENTATION GAP → DATA ENRICHED
 
 The mind module has full design documentation. La Serenissima has a production-grade implementation running KinOS for citizen decision-making. Cities of Light has 3 placeholder AI citizens with simple LLM prompts. The gap between these two systems is the most important bridge in the entire project.
 
@@ -13,7 +14,7 @@ The mind module has full design documentation. La Serenissima has a production-g
 ## What Exists in La Serenissima (PRODUCTION)
 
 ### Citizen Data Layer -- READY
-- **186+ citizen directories** in `/home/mind-protocol/serenissima/citizens/`
+- **152+ citizen directories** in `/home/mind-protocol/serenissima/citizens/`
 - Actual count: 356 entries (includes scripts, templates, and meta files alongside citizen dirs)
 - Each citizen directory contains: `CLAUDE.md` (system prompt), `PRESENCE.md`, `README.md`
 - Each citizen has a `.cascade/` subdirectory with the full memory architecture:
@@ -84,7 +85,7 @@ The mind module has full design documentation. La Serenissima has a production-g
 
 ### Airtable Data -- READY (frozen)
 - Tables: CITIZENS, BUILDINGS, CONTRACTS, ACTIVITIES, RELATIONSHIPS, MESSAGES, RESOURCES, SUBSTRATE_STATE
-- 186 citizens with: Username, Name, SocialClass, Ducats, Strength, Flaw, Drive, Description, position data
+- 152 citizens with: Username, Name, SocialClass, Ducats, Strength, Flaw, Drive, Description, position data
 - Relationship data between citizens (TrustScore, Notes, Status)
 - Activity history (production, trade, movement, social)
 - Grievances and political data
@@ -183,7 +184,7 @@ This is lower priority because beliefs can function without the graph initially 
 
 | Capability | Serenissima | Cities of Light | Gap |
 |---|---|---|---|
-| Citizen identity (name, class, personality) | 186 citizens in Airtable | 3 hardcoded citizens | Port data access |
+| Citizen identity (name, class, personality) | 152 citizens in Airtable | 3 hardcoded citizens | Port data access |
 | System prompt (CLAUDE.md) | Per-citizen, rich, role-specific | Per-citizen, 5 lines, generic | Point to .cascade/ files |
 | Economic state | Full ledger (Ducats, debts, property, income) | None | Connect Airtable |
 | Memory persistence | .cascade/ filesystem (templated, some accumulated) | In-memory array (lost on restart) | Implement filesystem writes |
@@ -225,7 +226,7 @@ FalkorDB                             →    src/server/physics-bridge.js queries
 
 2. **KinOS or direct Claude API?** KinOS adds infrastructure (blueprint, kin, channel management) that may not be needed for visitor conversations. Direct Claude API calls with assembled context give more control. But KinOS provides the "consciousness substrate" abstraction. Recommendation: direct Claude API for V1, evaluate KinOS migration later.
 
-3. **How many TTS voices?** 186 unique voices is infeasible. Voice archetypes mapped by social class and personality (e.g., 5 male noble voices, 5 female popolani voices, etc.) could work with ~20-30 distinct voices. ElevenLabs voice cloning could generate these.
+3. **How many TTS voices?** 152 unique voices is infeasible. Voice archetypes mapped by social class and personality (e.g., 5 male noble voices, 5 female popolani voices, etc.) could work with ~20-30 distinct voices. ElevenLabs voice cloning could generate these.
 
 4. **Trust score storage for visitors.** Serenissima stores trust between citizens in Airtable. Visitors are not citizens. Options: (a) create visitor records in CITIZENS table, (b) store visitor trust in a separate table, (c) store in filesystem alongside .cascade/. Recommendation: (b) separate VISITOR_RELATIONSHIPS table, or (c) in a `visitors/` directory per citizen.
 
@@ -240,7 +241,7 @@ FalkorDB                             →    src/server/physics-bridge.js queries
 | Risk | Severity | Mitigation |
 |---|---|---|
 | Context assembly latency > 3s | High | Cache all data sources. Pre-compute mood and beliefs on sync cycle, not per-conversation. |
-| Claude API cost for 186 citizens | High | Only FULL-tier citizens (20-60) use Claude API. AMBIENT citizens use template responses or silence. |
+| Claude API cost for 152 citizens | High | Only FULL-tier citizens (20-60) use Claude API. AMBIENT citizens use template responses or silence. |
 | Visitor trust data loss (browser storage) | Medium | Store visitor_id server-side (cookie or session). Trust lives in Airtable/filesystem, not client. |
 | Mood computation produces generic results | Medium | Validate with edge cases: homeless citizen, wealthy paranoid citizen, citizen in crisis. Tune emotion weights. |
 | .cascade/ filesystem contention | Medium | File locking for writes. Read-only access during context assembly. Writes happen after conversation ends. |
@@ -263,3 +264,113 @@ FalkorDB                             →    src/server/physics-bridge.js queries
 9. Talk to them again. Verify they remember.
 
 If this works -- if the second conversation is different from the first, if the citizen's financial stress colors their tone, if their personality makes them distinct from every other citizen -- then the mind module is alive. Everything else scales from there.
+
+---
+
+## Reconciliation with Reality (2026-03-13)
+
+Since the original SYNC was written, significant data and code has been inventoried. This section documents what changed.
+
+### Citizen Count Correction
+
+| Source | Count | Notes |
+|---|---|---|
+| This SYNC (original) | 152 | From early Serenissima docs |
+| Airtable CITIZENS table | 152 | Authoritative source of truth (exported 2026-03-13) |
+| venezia/data/citizens.json | 172 | Old export, may include generated/test records |
+| venezia/data/citizens_full.json | 152 | Full Airtable export with all 41 fields (new) |
+| manemus/citizens/ | 245 | Includes manemus-native citizens, not just Serenissima |
+
+**Decision:** Use 152 (Airtable) as the canonical citizen count for VR. The manemus citizens include orchestrator roles (conductor, forge, sentinel) that are not Venetian citizens.
+
+### New Data Available (Full Airtable Export)
+
+On 2026-03-13, a full Airtable export was run via `venezia/scripts/export_full_airtable.py`. The following data is now available locally:
+
+| File | Records | Fields | Key additions vs. old exports |
+|---|---|---|---|
+| `citizens_full.json` | 152 | 41 | CorePersonality (MBTI JSON), Personality (prose), DailyIncome, WeeklyIncome, MonthlyIncome, DailyNetResult, VoiceId (ElevenLabs), CoatOfArms, ImagePrompt |
+| `relationships.json` | 1,178 | 12 | Full trust network between all citizen pairs |
+| `guilds.json` | 21 | 16 | Guild membership, leadership, treasury |
+| `institutions.json` | 5 | 20 | Institutional governance structures |
+| `resources.json` | 1,396 | 12 | Resource inventory across all citizens and buildings |
+| `contracts.json` | 46 | 19 | Active economic agreements |
+| `buildings_full.json` | 274 | 28 | Owner, Occupant, RunBy, Wages, RentPrice, LeasePrice |
+| `lands_full.json` | 120 | 8 | Island polygons |
+
+**Impact on citizens/mind:** The `citizens_full.json` now contains everything needed for rich context assembly:
+- `CorePersonality` — JSON with MBTI type, drives, traits, decision framework
+- `Personality` — Prose description of personality
+- `DailyIncome` / `MonthlyIncome` / `DailyNetResult` — Economic pressure data
+- `VoiceId` — ElevenLabs voice ID (many citizens already have assigned voices)
+- `Description` — Full biographical narrative
+
+This means Priority 2 ("Connect to Airtable Data") can now be done via **static JSON files** instead of live Airtable API calls. No API dependency for V1.
+
+### Serenissima Backend: Simulation Mechanics Inventoried
+
+The full Serenissima backend has been explored (`/home/mind-protocol/serenissima/backend/`):
+
+**Activity System (the simulation core):**
+- 90+ activity types across 60 creator files and 90 processor files
+- Priority-driven decision engine in `main_engine.py`
+- Handler chain: CRITICAL (eat, shelter) → HIGH (work, business) → MEDIUM (construction) → LOW (leisure) → FALLBACK (idle)
+- 5-minute activity cycle: create → execute → process effects
+- Activities are discrete state machines with clear Start/End times
+
+**Economy Engine:**
+- Ducats are conserved (created by trade, transferred by wages/rent, destroyed by maintenance)
+- Contracts: import, lease, storage, logistics, markup-buy
+- Daily cycles: wages at 8AM, rent collection, maintenance, resource decay
+- 207.5M total ducats in circulation, Gini coefficient 0.496
+
+**For VR Citizen Mind — What to Port:**
+- The **decision engine priority chain** should inform how citizens choose topics in conversation (a hungry citizen talks about food prices, not philosophy)
+- The **mood computation** from `mood_helper.py` (6 basic emotions, personality modifiers, class defaults) should drive conversational tone
+- The **trust scoring** from `relationship_helpers.py` (atan-based, 0-100 scale) should influence how citizens treat visitors
+- The **activity types** (90+) provide the vocabulary for what citizens are DOING when you approach them — "I'm on my way to the market" vs. "I just finished a production run"
+
+**Key files for porting:**
+- `/home/mind-protocol/serenissima/backend/engine/main_engine.py` — Decision engine (350 lines)
+- `/home/mind-protocol/serenissima/backend/engine/utils/mood_helper.py` — Mood computation
+- `/home/mind-protocol/serenissima/backend/engine/utils/relationship_helpers.py` — Trust scoring
+- `/home/mind-protocol/serenissima/backend/engine/utils/conversation_helper.py` — Context assembly patterns
+
+### Three Consciousness Layers (Problem Statement)
+
+The system has three separate consciousness implementations that do not talk to each other:
+
+| Layer | Location | LLM | Memory | Context Richness |
+|---|---|---|---|---|
+| **VR Voice** | cities-of-light engine/ | GPT-4o | 20-turn rolling (lost on restart) | Minimal (5-line prompt) |
+| **Venetian Data** | venezia/data/ | None (data only) | Full biographies, relationships | Rich but passive |
+| **Manemus Orchestrator** | manemus/citizens/ | Claude | .cascade/ memory architecture | Deep but async only |
+
+**The bridge needed:** A context assembly pipeline that reads Venetian data + Manemus memories and injects them into the VR voice pipeline's system prompt.
+
+### Updated Open Questions
+
+Original questions 1-6 remain valid. Adding:
+
+7. **Static JSON vs. live sync for V1?** The full Airtable export is now local. For V1, static JSON eliminates the Airtable API dependency entirely. Live sync can be added for V2 when citizens' economic state changes in real-time.
+
+8. **Port Python mood engine or rewrite in JS?** The mood computation in `mood_helper.py` is ~200 lines of pure math and table lookups. Clean port to JS is straightforward. Alternatively, keep it as a Python microservice and call via HTTP.
+
+9. **How to handle the 1,178 relationships?** The relationships.json contains trust scores between citizen pairs. Loading all of them per conversation is wasteful. Strategy: on citizen activation, load only relationships involving THAT citizen (~15-20 relationships per citizen on average).
+
+10. **Voice ID availability.** Many citizens have VoiceId fields in Airtable. Need to verify how many are valid ElevenLabs voice IDs vs. empty/placeholder values.
+
+---
+
+## For the Next Citizen
+
+**Read first:** PATTERNS_Mind.md (design philosophy), then this SYNC.
+
+**Start with POC-Mind** (described in original "Next Action" section above). The data is now all local — no Airtable API needed.
+
+**Key data files:**
+- `venezia/data/citizens_full.json` — 152 citizens with all fields
+- `venezia/data/relationships.json` — 1,178 trust relationships
+- `venezia/prompts/citizen-base.md` — Minimal base prompt (needs expansion)
+
+**Assigned to:** arsenal_backend_architect_2, _3 (context assembly, LLM routing, memory persistence)

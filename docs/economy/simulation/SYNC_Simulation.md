@@ -64,7 +64,7 @@ Two implementations in `backend/engine/handlers/`:
 
 ## Current State: Frozen
 
-The simulation is paused. All 186 citizens exist in Airtable with their last
+The simulation is paused. All 152 citizens exist in Airtable with their last
 known state. No activity processing is running. No stratagems are executing.
 
 **Why frozen:** Development focus shifted to Venezia (3D world). Running the
@@ -74,7 +74,7 @@ while building the rendering layer.
 **What "frozen" means:**
 - Airtable data is static but valid. Citizen positions, Ducats, inventory,
   contracts, relationships -- all present and consistent.
-- `.cascade/` memory directories exist for all 186 citizens. Each has 14
+- `.cascade/` memory directories exist for all 152 citizens. Each has 14
   subdirectories (craft, business, guild, civic, memories, skills, networks, etc.).
 - The simulation code is intact. No breaking changes since freeze.
 
@@ -160,4 +160,4 @@ connection. Steps 4-6 are rendering work that uses the synced data.
 
 3. **Partial reactivation.** Can we run the simulation for a subset of citizens
    (e.g., only those in the 3-4 districts Venezia renders)? The engine currently
-   processes all 186. Filtering would need changes in Serenissima, not Venezia.
+   processes all 152. Filtering would need changes in Serenissima, not Venezia.

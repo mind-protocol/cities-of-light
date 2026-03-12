@@ -47,7 +47,7 @@ Specified in `V2_SPEC_Airtable_Venice.md`. Six features:
 1. **F1: Geographic terrain** — Islands from WGS84 polygon data (generator: "geographic")
 2. **F2: Buildings at positions** — Named 3D buildings from Airtable BUILDINGS
 3. **F3: 3D assets** — Replace procedural buildings with GLTF models
-4. **F4: 186 citizens** — All Serenissima citizens with social-class avatars
+4. **F4: 152 citizens** — All Serenissima citizens with social-class avatars
 5. **F5: Bridges** — Arch bridges between islands
 6. **F6: Aerial view + AI walk-to** — AI spatial navigation commands
 
@@ -117,7 +117,7 @@ Specified in `V2_SPEC_Airtable_Venice.md`. Six features:
 ## HANDOFF: FOR HUMAN
 
 **Executive summary:**
-V1 engine complete (16 files, boots and serves Venezia). V2 fully specified: geographic Venice from Airtable data, 186 citizens, buildings, bridges, AI navigation. Schema/protocol/renderers/export scripts all created. Next step: provide Airtable API key to run data export and test the full V2 pipeline.
+V1 engine complete (16 files, boots and serves Venezia). V2 fully specified: geographic Venice from Airtable data, 152 citizens, buildings, bridges, AI navigation. Schema/protocol/renderers/export scripts all created. Next step: provide Airtable API key to run data export and test the full V2 pipeline.
 
 **To run V2 export:**
 ```bash

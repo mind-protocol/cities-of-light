@@ -8,7 +8,7 @@
 ## Core Principle: The Economy Is Real
 
 The economy is not a game mechanic. It is a simulation that has been running for
-months, with 186 citizens making autonomous decisions about production, trade,
+months, with 152 citizens making autonomous decisions about production, trade,
 employment, and land. Citizens go bankrupt. Monopolies form. Prices fluctuate
 based on actual supply and demand. None of this is scripted.
 
@@ -177,17 +177,17 @@ The simulation tick is Serenissima's heartbeat. Venezia's heartbeat is the
 
 ## Simulation Tick Rate
 
-Serenissima's engine processes all 186 citizens per tick. Each tick:
+Serenissima's engine processes all 152 citizens per tick. Each tick:
 1. Evaluate all citizens for activity completion
 2. Process completed activities (write results)
 3. Create new activities for idle citizens
 4. Execute pending stratagems
 5. Update market prices based on supply/demand
 
-The tick rate is configurable. When frozen (current state -- 186 citizens paused),
+The tick rate is configurable. When frozen (current state -- 152 citizens paused),
 tick rate is zero. When active, ticks run every few minutes. The exact interval
 is tuned for Airtable rate limits: 5 requests/second means ~12 seconds to process
-one citizen's full state update, so 186 citizens need ~37 minutes at full serial
+one citizen's full state update, so 152 citizens need ~37 minutes at full serial
 processing. Parallelization and batching bring this down.
 
 Venezia does not need to match this tick rate. It syncs the result, not the

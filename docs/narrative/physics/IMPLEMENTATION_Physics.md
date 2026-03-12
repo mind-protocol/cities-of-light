@@ -100,7 +100,7 @@ All constants from ALGORITHM_Physics.md P1, transcribed to JS with Venice calibr
  * Physics constants for the Venezia narrative engine.
  *
  * Venice-calibrated values differ from Blood Ledger defaults due to
- * the citizen count (186 vs ~15) and the persistent world model.
+ * the citizen count (152 vs ~15) and the persistent world model.
  *
  * Blood Ledger reference: ngram/engine/physics/constants.py
  * Algorithm reference:    docs/narrative/physics/ALGORITHM_Physics.md P1
@@ -141,8 +141,8 @@ export const MIN_WEIGHT = 0.01;
 
 /**
  * Per-character energy pump rate.
- * Lower than Blood Ledger (0.5) because Venice has 186 citizens vs ~15.
- * Total energy injected per tick: ~186 * 0.3 = ~56 units (vs Blood Ledger's ~7.5).
+ * Lower than Blood Ledger (0.5) because Venice has 152 citizens vs ~15.
+ * Total energy injected per tick: ~152 * 0.3 = ~56 units (vs Blood Ledger's ~7.5).
  */
 export const GENERATION_RATE = 0.3;
 
@@ -1381,7 +1381,7 @@ FalkorDB does not support multi-statement transactions. Each Cypher query execut
 
 3. **Moment flip is irreversible.** Once `m.flipped = true` is set, re-running the flip phase skips that moment. The flip is the only truly irreversible operation.
 
-4. **Query batching.** For the pump phase (186 characters, each with N beliefs), queries could be batched. The current implementation runs individual queries per character for clarity. If performance requires it, batch all character pump deltas into a single query:
+4. **Query batching.** For the pump phase (152 characters, each with N beliefs), queries could be batched. The current implementation runs individual queries per character for clarity. If performance requires it, batch all character pump deltas into a single query:
 
 ```js
 // Batched pump (optimization, not initial implementation):

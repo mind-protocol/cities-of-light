@@ -140,7 +140,7 @@ FPS monitoring is continuous. If sustained FPS drops below threshold for > 3 sec
 
 ### POC-3 Gate: Performance at Scale
 
-- [ ] 186 Airtable buildings + gap-fill buildings loaded simultaneously
+- [ ] 152 Airtable buildings + gap-fill buildings loaded simultaneously
 - [ ] LOD system keeps in-view triangle count under budget across all districts
 - [ ] Memory stays under 2GB on Quest 3 after 30 minutes of exploration
 - [ ] No geometry leak: heap growth < 1MB/minute after initial stabilization

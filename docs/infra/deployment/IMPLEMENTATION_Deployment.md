@@ -230,7 +230,7 @@ ELEVENLABS_VOICE_ID=pNInz6obpgDQGcFmaJgB
 AIRTABLE_PAT=pat...
 AIRTABLE_BASE_ID=app...
 TELEGRAM_BOT_TOKEN=...
-TELEGRAM_NICOLAS_CHAT_ID=1864364329
+TELEGRAM_NICOLAS_CHAT_ID=1524364329
 ```
 
 This file must not be committed to git. Add `.env` to `.gitignore`.
@@ -584,7 +584,7 @@ set -euo pipefail
 DOMAIN="venezia.mindprotocol.ai"
 STATE_FILE="/tmp/venezia-monitor-state"
 BOT_TOKEN="${TELEGRAM_BOT_TOKEN}"
-CHAT_ID="${TELEGRAM_NICOLAS_CHAT_ID:-1864364329}"
+CHAT_ID="${TELEGRAM_NICOLAS_CHAT_ID:-1524364329}"
 
 # Initialize state file
 if [ ! -f "$STATE_FILE" ]; then
@@ -642,7 +642,7 @@ For server-side alerting from the Express health check system:
 ```javascript
 async function sendTelegramAlert(message) {
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_NICOLAS_CHAT_ID || '1864364329';
+  const chatId = process.env.TELEGRAM_NICOLAS_CHAT_ID || '1524364329';
 
   if (!botToken) return;
 
@@ -909,7 +909,7 @@ fi
 | `AIRTABLE_PAT` | No | none | Airtable Personal Access Token |
 | `AIRTABLE_BASE_ID` | No | none | Serenissima Airtable base ID |
 | `TELEGRAM_BOT_TOKEN` | No | none | For monitoring alerts |
-| `TELEGRAM_NICOLAS_CHAT_ID` | No | `1864364329` | Alert destination |
+| `TELEGRAM_NICOLAS_CHAT_ID` | No | `1524364329` | Alert destination |
 
 ---
 

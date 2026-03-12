@@ -11,10 +11,10 @@ Health checks, invariants, and acceptance criteria for the FalkorDB narrative gr
 Every Airtable citizen has exactly one Character node. No more, no less.
 
 ```
-MATCH (c:Character) RETURN count(c)  => MUST equal 186
+MATCH (c:Character) RETURN count(c)  => MUST equal 152
 ```
 
-Count < 186: seeding failed. Count > 186: duplicate seeding. This is the foundational invariant -- every downstream system operates on an incomplete world if this breaks.
+Count < 152: seeding failed. Count > 152: duplicate seeding. This is the foundational invariant -- every downstream system operates on an incomplete world if this breaks.
 
 ### GI2. No Orphan Edges
 
@@ -83,7 +83,7 @@ If p95 exceeds 50ms: check FalkorDB indexes, narrative node count (should be 500
 
 ```
 CHECK every 5 minutes:
-  Character nodes:  MUST equal 186
+  Character nodes:  MUST equal 152
   Place nodes:      MUST equal 7
   Narrative nodes:  SHOULD be 200-2000 (ALERT > 3000 or < 50)
   Moment nodes:     SHOULD be 10-100 (ALERT if 0)
@@ -127,7 +127,7 @@ WARNING if stdev < 0.5 (uniform -- seeding bug) or max > 50 (belief magnet).
 
 ### AC1. Seeding Completeness
 
-- [ ] 186 Character nodes, each with unique id matching Airtable
+- [ ] 152 Character nodes, each with unique id matching Airtable
 - [ ] 7 Place nodes, one per district
 - [ ] Every Character has exactly 1 AT edge to a Place
 - [ ] >= 100 Narrative nodes from citizen grievances
@@ -203,7 +203,7 @@ For each contradicting grievance pair in Airtable RELATIONSHIPS, verify a corres
 ### DI3. Post-Tick Integrity (after every tick)
 
 ```
-ASSERT: no negative energy, no NaN/Infinity values, Character count == 186,
+ASSERT: no negative energy, no NaN/Infinity values, Character count == 152,
         Place count == 7, zero orphan edges, all BELIEVES confidence in [0,1].
 ```
 
@@ -213,4 +213,4 @@ Every flip logged as JSONL: tick, timestamp, moment_id, salience_at_flip, thresh
 
 ### DI5. Cold Pruning Audit
 
-Every pruning run logged: timestamp, narratives_pruned, believes_edges_cleaned, pre/post counts, duration_ms. Post-conditions: orphan_count == 0, character_count == 186, place_count == 7.
+Every pruning run logged: timestamp, narratives_pruned, believes_edges_cleaned, pre/post counts, duration_ms. Post-conditions: orphan_count == 0, character_count == 152, place_count == 7.

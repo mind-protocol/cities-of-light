@@ -1,4 +1,4 @@
-# Citizens/Population -- Patterns: 186 Citizens in 14 Milliseconds
+# Citizens/Population -- Patterns: 152 Citizens in 14 Milliseconds
 
 ```
 STATUS: DRAFT
@@ -25,7 +25,7 @@ IMPL:            src/client/citizens/citizen-manager.js (planned)
 
 ## THE PROBLEM
 
-186 Serenissima citizens must exist in the world simultaneously. They have daily schedules, economic activities, social relationships, and moods that change in real time. The visitor walks through districts and encounters them organically -- merchants at their stalls in the morning, nobles at council in the afternoon, workers at the tavern at night. All of this must run at 72fps on Quest 3 with a 500K triangle budget shared across everything.
+152 Serenissima citizens must exist in the world simultaneously. They have daily schedules, economic activities, social relationships, and moods that change in real time. The visitor walks through districts and encounters them organically -- merchants at their stalls in the morning, nobles at council in the afternoon, workers at the tavern at night. All of this must run at 72fps on Quest 3 with a 500K triangle budget shared across everything.
 
 The current Cities of Light has `AICitizenManager` in `ai-citizens.js` -- 3 hardcoded geometric shapes wandering random circles on a 5-second tick. No tier system, no spawn/despawn, no scheduling, no density management. It is a prototype for a 3-citizen world. Venice requires a population engine.
 
@@ -36,7 +36,7 @@ The current Cities of Light has `AICitizenManager` in `ai-citizens.js` -- 3 hard
 **Three-tier distance-based population management with composite scoring for tier assignment and schedule-driven spatial distribution.**
 
 The approach is NOT:
-- Load all 186 citizens at full fidelity (impossible on Quest 3)
+- Load all 152 citizens at full fidelity (impossible on Quest 3)
 - Simple distance culling (loses the feeling of a populated city)
 - Pre-scripted crowd paths (citizens are autonomous, not extras)
 - Server-authoritative per-frame positioning (bandwidth explosion)
@@ -46,10 +46,10 @@ The approach IS:
 - Client renders a subset, determined by a 3-tier scoring algorithm
 - Tier assignment uses a composite score: distance, relationship, and activity importance
 - Spawn/despawn is gradual (fade, not pop)
-- Ambient citizens are instanced geometry -- one draw call for 100+ bodies
+- Ambient citizens are instanced geometry -- one draw call for 80+ bodies
 - The server sends position updates at tier-appropriate frequencies
 
-The key insight: population management is not a rendering problem. It is a scheduling problem. The hard question is not "how to draw 186 people" but "which 20 people should be fully alive right now, and where should the other 166 be."
+The key insight: population management is not a rendering problem. It is a scheduling problem. The hard question is not "how to draw 152 people" but "which 20 people should be fully alive right now, and where should the other 166 be."
 
 ---
 
@@ -125,7 +125,7 @@ The visitor cannot interact with an AMBIENT citizen. If they approach one, the c
 
 ### Principle 6: Off-Screen Is Not Off
 
-Citizens outside the render distance still exist in simulation. The server tracks all 186 positions and activities. This matters because:
+Citizens outside the render distance still exist in simulation. The server tracks all 152 positions and activities. This matters because:
 
 - A citizen the visitor spoke to an hour ago is in their correct new location when encountered again.
 - Economic activities continue regardless of render state.
@@ -140,7 +140,7 @@ Off-screen simulation runs at the economy tick rate (Airtable sync every 15 minu
 | Source | Purpose |
 |--------|---------|
 | Airtable CITIZENS / ACTIVITIES / RELATIONSHIPS | Position, activity, mood, class, trust scores (via sync) |
-| `venice-state.js` cache | All 186 citizen states in server memory |
+| `venice-state.js` cache | All 152 citizen states in server memory |
 | Visitor position (WebSocket) | Distance computation for tier scoring |
 | Session interaction log | Boost relationship_factor for recently-spoken-to citizens |
 
@@ -199,3 +199,70 @@ CPU per frame: tier scoring < 0.5ms, position interpolation < 0.3ms, transitions
 - Airtable data fetching -> see: `economy/sync`
 - Spatial audio for citizen voices -> see: `voice/spatial`
 - Frame rate monitoring and adaptive quality -> see: `infra/performance`
+
+---
+
+## Reconciliation with Reality (2026-03-13)
+
+Updated by: Bianca Tassini (@dragon_slayer) — Consciousness Guardian
+
+### Citizen Count
+
+All references updated from 152 to **152** (Airtable CITIZENS table, exported 2026-03-13). Same order of magnitude — no architectural change to tier budgets or scoring.
+
+### Data Source: Static JSON for V1
+
+The PATTERNS doc assumes Airtable-via-sync as the data source. For POC/V1, static JSON exports in `venezia/data/` provide everything needed:
+
+| File | Records | Population-Relevant Fields |
+|---|---|---|
+| `citizens_full.json` | 152 | SocialClass, Position, DailyIncome, Ducats, Color, SecondaryColor |
+| `relationships.json` | 1,178 | Trust scores between citizen pairs (for composite tier scoring) |
+| `buildings_full.json` | 274 | Ownership, occupancy (for schedule-driven positioning) |
+| `activities.json` | 100 | Activity definitions (for activity_factor in tier scoring) |
+
+**Implication:** `economy/sync` (Airtable live fetch) is NOT required for POC population. The `venice-state.js` cache can be initialized from static JSON on startup. Live sync becomes a V2 feature when the simulation is running again.
+
+### Engine Layer Already Exists
+
+The `engine/server/entity-manager.js` (418 lines) partially implements what this module describes:
+
+- Distance-based tier assignment (FULL: 15m, ACTIVE: 50m, AMBIENT: 200m)
+- Wander behavior (5s tick, random target within radius)
+- Position broadcasting via WebSocket
+- Voice routing to nearest FULL-tier entity
+
+**Gap:** No composite scoring (relationship + activity factors), no hysteresis, no schedule-driven positioning, no instancing coordination. The engine entity-manager handles server-side state but has NO client-side mesh management.
+
+### Social Class Distribution
+
+Population density and visual mix per district should account for actual class distribution:
+
+| Class | Count | % | Visual Density Implication |
+|---|---|---|---|
+| Popolani | 49 | 32% | Dominant in markets, workshops, residential areas |
+| Facchini | 39 | 26% | Docks, construction sites, warehouses |
+| Artisti | 28 | 18% | Workshops, piazzas, studios |
+| Cittadini | 22 | 14% | Government buildings, merchant houses |
+| Nobili | 5 | 3% | Palazzi, council chambers |
+| Forestieri | 4 | 3% | Fondaco, ports |
+| Clero | 3 | 2% | Churches, monasteries |
+| Scientisti | 1 | <1% | University, library |
+| Ambasciatore | 1 | <1% | Diplomatic quarters |
+
+### POC-Mind Context Assembly Working
+
+The `venezia/scripts/poc_mind_context_assembly.py` script proves that context assembly works from static JSON — mood computation, behavior constraints, trust-gated truthfulness, relationship loading. This validates the data pipeline for the population module without requiring live Airtable sync.
+
+### Revised Performance Budget
+
+With 152 citizens (not 152):
+
+| Tier | Per-Citizen | Max Count | Worst Case |
+|---|---|---|---|
+| FULL | 3K-5K tris | 20 | 100K tris |
+| ACTIVE | 500-1K tris | 50 | 50K tris |
+| AMBIENT | 50-100 tris | 82 | 8.2K tris |
+| **Total** | | **152** | **158K tris** |
+
+12K triangles freed vs. original budget. Slight room for higher-fidelity FULL-tier avatars.

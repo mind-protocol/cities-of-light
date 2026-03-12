@@ -22,19 +22,19 @@ PARENT:          ../../../docs/05_VALIDATION_Venezia.md
 
 ## INVARIANTS (must ALWAYS hold)
 
-### INV-P1: 186 Citizens Always Accounted For
+### INV-P1: 152 Citizens Always Accounted For
 
 Every Airtable CITIZENS record must have a `CitizenPopulationState` on the client and a tracked state on the server. No citizen missing. No phantom citizens. Checked on every Airtable sync (15 min) and on client connection.
 
 ```
 ASSERT Set(server.citizens.keys()) == Set(airtable.citizens.keys())
 ASSERT Set(client.citizens.keys()) == Set(airtable.citizens.keys())
-ASSERT count == 186
+ASSERT count == 152
 ```
 
 ### INV-P2: Tier Counts Within Budget
 
-At no point may citizens in any tier exceed the configured maximum. Counts must always sum to 186.
+At no point may citizens in any tier exceed the configured maximum. Counts must always sum to 152.
 
 | Condition | maxFull | maxActive | maxAmbient |
 |-----------|---------|-----------|------------|
@@ -45,12 +45,12 @@ At no point may citizens in any tier exceed the configured maximum. Counts must 
 ```
 ASSERT counts.FULL <= budget.maxFull
 ASSERT counts.ACTIVE <= budget.maxActive
-ASSERT counts.FULL + counts.ACTIVE + counts.AMBIENT + counts.HIDDEN == 186
+ASSERT counts.FULL + counts.ACTIVE + counts.AMBIENT + counts.HIDDEN == 152
 ```
 
 ### INV-P3: No Citizen in Two Places
 
-Each citizen has exactly one tier, one position, one activity. No citizen ID appears in two tier lists. Combined tier list length must equal 186 with zero duplicates.
+Each citizen has exactly one tier, one position, one activity. No citizen ID appears in two tier lists. Combined tier list length must equal 152 with zero duplicates.
 
 ### INV-P4: Position Reflects Schedule
 
@@ -148,7 +148,7 @@ FOR each district D:
 
 ### AC-P1: Full Population at 72fps
 
-186 citizens tracked, maximum tier load active (20 FULL + 60 ACTIVE + 100 AMBIENT). Automated 120-second benchmark at Rialto midday.
+152 citizens tracked, maximum tier load active (20 FULL + 60 ACTIVE + 100 AMBIENT). Automated 120-second benchmark at Rialto midday.
 
 - P50 frame time: < 13.9ms (72fps)
 - P99 frame time: < 16.7ms (60fps)
@@ -236,13 +236,13 @@ DI-P3: District Assignment
 ```
 DI-P4: Population Distribution by Class
   Nobili: 10-25. Cittadini: 20-45. Popolani: 60-100.
-  Facchini: 25-55. Forestieri: 10-35. Total: 186.
+  Facchini: 25-55. Forestieri: 10-35. Total: 152.
 
 DI-P5: Density Target Completeness
   Every (district, time_slot) pair has a density target with
   valid min/max/target counts and classMix summing to 1.0.
   Sum of district targets per time slot approximates expected
-  outdoor population (186 * global scale for that slot, +/- 20).
+  outdoor population (152 * global scale for that slot, +/- 20).
 
 DI-P6: Event Override Expiry
   No citizen holds an event override past 2x its duration.

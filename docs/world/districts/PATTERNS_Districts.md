@@ -157,3 +157,102 @@ The current `scene.js` generates island terrain (sand, palms, rocks) positioned 
 - The existing procedural noise functions (`hash2D`, `smoothNoise`, `fbm`) are reused for building variation
 
 The existing island system is NOT removed. Islands remain as the memorial/contemplation space. Venice districts are a new layer that coexists.
+
+---
+
+## Reconciliation with Reality (2026-03-13)
+
+The seven decisions above were written as design vision before the Airtable data was exported to static JSON and before the engine layer (`engine/client/`) was built. The design instincts were right. The implementation path diverged. This section records what changed and why, preserving the original decisions as design history.
+
+### Addendum to Decision 1: Real Venice Polygons, Not Procedural Layout
+
+Decision 1 rejected GIS imports (OpenStreetMap). That rejection stands — we did not import raw OSM data, and the licensing concern remains valid.
+
+However, we now have **real Venice geography**: 120 island polygons with 1,411 boundary points, exported from Airtable to `venezia/data/lands.json` in world-space coordinates (x, z). These are simplified real Venice island shapes — not procedural generation, not GIS import, but a curated middle path. The islands define actual Venetian geography: their shapes, their relative positions, their sizes.
+
+This changes the implementation:
+
+- **Planned**: procedural layout with Bezier curves defining canals, land filling around them. Building lat/lng projected via `geo_to_world()`.
+- **Actual**: 120 island polygons loaded by WorldLoader, extruded to 3D via `THREE.ExtrudeGeometry`. Buildings already have world-space positions `{x, z}` — no coordinate projection needed.
+
+The spirit of Decision 1 holds: we are not importing dense GIS data that requires navmesh conversion. The polygon data is lightweight (1,411 points across 120 islands, roughly 12 points per island average). But the source is real Venice geography, not procedural generation. The city shape is authentic.
+
+### Addendum to Decision 3: Boxes, Not Venetian Facades
+
+Decision 3 describes a rich procedural building vocabulary: arched windows, balconies, chimney pots, L-shaped footprints, per-story materials, open ground-floor arches for commercial buildings.
+
+The current implementation (`engine/client/building-renderer.js`) renders **basic boxes with roofs**. Specifically:
+
+- Body: `BoxGeometry` sized by category (6 categories: Palace, Church, Market, Workshop, Residential, Government)
+- Roof: `ConeGeometry` for Church, flat slab for everything else
+- Label: `CanvasTexture` billboard sprite floating above
+- Color: single hex per category (e.g., Palace = 0xD4A574, Church = 0xE8D5B7)
+
+No window cutouts. No balconies. No chimney pots. No per-story variation. No vertex color tinting. No stone normal maps. No Gothic-Venetian arched windows.
+
+The design vision in Decision 3 is the correct target. The upgrade path is clear: replace `BoxGeometry` with CSG or shaped geometry that cuts window openings, add facade detail meshes per LOD tier, apply the vertex-color tinting and shared normal maps described in Decision 6. This is enhancement work on top of the existing renderer, not a rewrite.
+
+Additionally, the renderer's 6 categories (Palace, Church, Market, etc.) do not match the data's categories (business, home, passive, religious, science, unique, Military & Defense). A mapping table is needed — see SYNC_Districts.md Q8 for the proposed mapping.
+
+### Addendum to Decision 4: Islands First, Water Fills the Gaps
+
+Decision 4 says "the generation algorithm starts with canals, then fills land around them." With real island polygons, this inverts.
+
+**Planned**: Draw Grand Canal as Bezier S-curve. Draw major canals. Draw minor rii. Fill remaining space with land. Place buildings on land.
+
+**Actual**: Load 120 island polygons from `lands.json`. Extrude them to 3D (height 1.5m, bevel 0.3). Water plane sits at y=0. Canals are the **negative space** between islands — wherever there is no island extrusion, you see water.
+
+The canal hierarchy (Grand Canal > major canals > rii) still describes the physical result accurately. The Grand Canal is still the widest gap between the two main island clusters. Major canals are still the wider gaps between island groups. Minor rii are still the narrow channels between adjacent islands. But these are emergent from island placement, not generated from curve definitions.
+
+This inversion simplifies canal generation (no Bezier math, no fill algorithms) but creates new challenges:
+
+- **Fondamenta**: island edges from `ExtrudeGeometry` have beveled sides, not flat walkable surfaces. Additional geometry is needed for walkable quay edges.
+- **Canal walls**: the vertical face of island extrusions serves as canal walls, but the bevel makes them angled rather than sheer stone. May need adjustment.
+- **Bridge alignment**: 281 bridges have from/to coordinates that should land on island edges. Alignment needs verification.
+
+### Addendum to Decision 7: Static Data, Not Live Sync
+
+Decision 7 says props tied to Airtable data "update on the 15-minute sync cycle." The Airtable simulation has stopped running. The data is frozen in static JSON files (`venezia/data/buildings.json`, `venezia/data/citizens.json`).
+
+For V1, props use the static snapshot. Economy-driven visuals (goods on display, empty stalls for bankrupt businesses) read from the exported data as-is. There is no live sync cycle. If the simulation resumes, the sync mechanism can be reintroduced, but V1 does not depend on it.
+
+Decorative props (lanterns, flower boxes, boats) remain static and seeded per district, as originally designed. This part of Decision 7 is unchanged.
+
+### Addendum to Scope: Partial Implementation Status
+
+Several items listed under "What Is In Scope" now have partial implementations in the engine layer. Current status:
+
+| Scope Item | Status | Where |
+|---|---|---|
+| Canal generation from Bezier curves | **Superseded** — canals are negative space between island polygons | `engine/client/world-loader.js` geographic mode |
+| Fondamenta generation along canal edges | **Not built** — island extrusions have beveled edges, not walkable fondamenta | |
+| Bridge generation at canal crossings | **Built (basic)** — arched deck + railings from from/to coords | `engine/client/bridge-renderer.js` |
+| Building generation from records | **Built (basic)** — box + roof + label by category | `engine/client/building-renderer.js` |
+| Procedural gap-fill buildings | **Not built** — 255 buildings across 120 islands may be visually sparse | |
+| Per-district architectural configuration | **Not built** — no district definitions or per-district config | |
+| 3-tier building LOD | **Not built** | |
+| Prop scattering | **Not built** | |
+| Water rendering | **Implicit** — water plane at y=0, but no canal-specific water (reflections, flow) | |
+| Collision geometry for walkable surfaces | **Not built** | |
+
+### Addendum to Relationship to Existing Code
+
+The planned architecture was: `src/scene.js` calls district generators, fed by `shared/zones.js` or `shared/districts.js`.
+
+The actual architecture introduces an engine layer between `src/` and the world data:
+
+```
+venezia/data/*.json       (static world data: lands, buildings, bridges, citizens)
+        |
+venezia/world-manifest.json   (contract: declares data paths, zones, atmosphere, spawn)
+        |
+engine/client/world-loader.js     (manifest-driven orchestrator: loads terrain, buildings, bridges)
+    |           |           |
+    |   building-renderer.js   bridge-renderer.js
+    |
+src/client/scene.js        (retained: water, sky, VR controls, voice pipeline, networking)
+```
+
+WorldLoader reads the manifest, fetches the data files, and generates 3D geometry. It does not know about Venice specifically — it follows manifest instructions. `scene.js` retains its role for environment (water, sky, clouds), VR interaction, and networking. The two coexist: WorldLoader handles world geometry, `scene.js` handles everything else.
+
+The planned `src/client/venice/` module tree (canal-system.js, building-generator.js, district-config.js, etc.) was never created. The engine layer serves that role with different decomposition. Enhancement work (facade detail, LOD, props, district config) builds on top of the engine layer, not as a parallel `src/client/venice/` tree.

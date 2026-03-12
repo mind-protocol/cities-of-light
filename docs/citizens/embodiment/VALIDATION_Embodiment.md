@@ -42,11 +42,11 @@ After transition completes (`transitionT >= 1.0`): FULL citizens have `meshFull`
 
 ### INV-E4: No Synchronized Animation
 
-All 186 `animPhaseOffset` values must be uniformly distributed across [0.0, 1.0]. Minimum pairwise distance > 0.005. Two FULL-tier citizens in the same frame must never be at the same animation phase.
+All 152 `animPhaseOffset` values must be uniformly distributed across [0.0, 1.0]. Minimum pairwise distance > 0.005. Two FULL-tier citizens in the same frame must never be at the same animation phase.
 
 ### INV-E5: Parametric Uniqueness
 
-No two citizens share the same `baseMeshId + clothingId + colorPrimary + colorSecondary + heightScale + buildScale` combination. Hash all 6 fields, assert no collision across 186 citizens.
+No two citizens share the same `baseMeshId + clothingId + colorPrimary + colorSecondary + heightScale + buildScale` combination. Hash all 6 fields, assert no collision across 152 citizens.
 
 ---
 
@@ -87,7 +87,7 @@ Higher-tier meshes must be disposed within 5 seconds of transition to a lower ti
 
 ### HC-E5: Face Atlas UV Integrity
 
-All 186 `faceAtlasUV` coordinates must map to unique, non-overlapping 256x256 slots within the 4096x4096 atlas (14x14 grid = 196 slots). No duplicate slots. No out-of-bounds references.
+All 152 `faceAtlasUV` coordinates must map to unique, non-overlapping 256x256 slots within the 4096x4096 atlas (14x14 grid = 196 slots). No duplicate slots. No out-of-bounds references.
 
 ### HC-E6: Material Memory Footprint
 
@@ -158,7 +158,7 @@ DI-E3: Clothing-Skeleton Compatibility (daily)
   FOR each clothingId: bone names are subset of corresponding base mesh skeleton.
 
 DI-E4: Face Atlas Coverage (daily)
-  Atlas is 4096x4096. Exactly 186 unique UV slots occupied.
+  Atlas is 4096x4096. Exactly 152 unique UV slots occupied.
 
 DI-E5: Animation Clip Inventory (daily)
   Required clips: idle, walking, working, eating, socializing, resting,

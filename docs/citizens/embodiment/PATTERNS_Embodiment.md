@@ -25,7 +25,7 @@ IMPL:            src/client/citizens/citizen-avatar.js (planned)
 
 ## THE PROBLEM
 
-186 citizens must be visually present in a 3D world running at 72fps on Quest 3. Each citizen has a social class, personality, mood, and current activity. The visitor must read all of this from appearance alone — there are no floating names, no health bars, no UI of any kind. If you cannot tell a Nobili from a Facchino by looking at them, the embodiment system has failed.
+152 citizens must be visually present in a 3D world running at 72fps on Quest 3. Each citizen has a social class, personality, mood, and current activity. The visitor must read all of this from appearance alone — there are no floating names, no health bars, no UI of any kind. If you cannot tell a Nobili from a Facchino by looking at them, the embodiment system has failed.
 
 The current Cities of Light has 3 AI citizens (VOX, LYRA, PITCH) rendered as geometric shapes — icosahedron, octahedron, torus knot. These are abstract presences for a prototype island world. Venice requires humanoid figures dressed in period-appropriate clothing, with body language that communicates emotional state, and a rendering cost that stays within a 500K triangle budget shared with architecture, water, and props.
 
@@ -116,7 +116,7 @@ At ACTIVE tier, only posture (spine curve offset) and movement speed communicate
 
 All avatar assets are pre-built. The pipeline is:
 
-1. **Build time:** Generate face textures via Stable Diffusion (186 unique faces from personality/class/gender prompts). Bake into texture atlas.
+1. **Build time:** Generate face textures via Stable Diffusion (152 unique faces from personality/class/gender prompts). Bake into texture atlas.
 2. **Build time:** Assign base mesh + clothing mesh + material preset per citizen based on class/gender/personality.
 3. **Runtime:** Load atlas + mesh library. Instantiate per citizen from precomputed configuration.
 4. **Runtime:** Only animation state and position update per frame.

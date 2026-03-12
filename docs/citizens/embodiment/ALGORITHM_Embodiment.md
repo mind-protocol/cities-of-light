@@ -1,4 +1,4 @@
-# Citizens/Embodiment — Algorithm: Rendering 186 Citizens on Quest 3
+# Citizens/Embodiment — Algorithm: Rendering 152 Citizens on Quest 3
 
 ```
 STATUS: DRAFT
@@ -103,7 +103,7 @@ MeshLibrary {
     // Clothing attaches to skeleton — same bone structure as base body
   }>
   classAtlases: Map<string, THREE.Texture>  // one texture atlas per social class
-  faceAtlas:    THREE.Texture               // all 186 faces in one 4096x4096 atlas
+  faceAtlas:    THREE.Texture               // all 152 faces in one 4096x4096 atlas
   ambientGeo:   THREE.BufferGeometry        // single low-poly capsule for instancing
 }
 ```
@@ -344,7 +344,7 @@ Not real-time. Runs once to produce the asset library.
 ### Step 1: Face Atlas Generation
 
 ```
-FOR each citizen C in CITIZENS (186):
+FOR each citizen C in CITIZENS (152):
   prompt = buildFacePrompt(C)
   // Example: "Portrait of a 45-year-old Venetian nobleman, Renaissance oil painting style,
   //           stern expression, dark eyes, trimmed beard, wearing red beretta,
@@ -515,9 +515,9 @@ GPU → Screen
 
 ## COMPLEXITY
 
-**Time:** O(N) per frame where N = number of citizens with known positions (max 186). Tier assignment is a single pass. Animation sampling is O(1) per citizen per frame (skeletal evaluation).
+**Time:** O(N) per frame where N = number of citizens with known positions (max 152). Tier assignment is a single pass. Animation sampling is O(1) per citizen per frame (skeletal evaluation).
 
-**Space:** O(N * T) where T = mesh memory per tier. Worst case: all 186 loaded = ~50MB geometry + ~32MB textures (face atlas + class atlases). Typical: ~20MB active.
+**Space:** O(N * T) where T = mesh memory per tier. Worst case: all 152 loaded = ~50MB geometry + ~32MB textures (face atlas + class atlases). Typical: ~20MB active.
 
 **Bottlenecks:**
 - Skeletal animation for 20 FULL citizens is the main CPU cost. Mitigate: `THREE.AnimationMixer` with shared clips, not cloned.

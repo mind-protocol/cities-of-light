@@ -51,7 +51,7 @@ serenissima/                         ← EXTERNAL: citizen simulation
 ├── backend/
 │   ├── engine/                      ← Activity processors, stratagems
 │   └── the-code/                    ← KinOS consciousness integration
-├── citizens/                        ← 186 citizen directories with .cascade/ memory
+├── citizens/                        ← 152 citizen directories with .cascade/ memory
 └── (Airtable)                       ← Primary data store (CITIZENS, BUILDINGS, etc.)
 
 the-blood-ledger/                    ← EXTERNAL: narrative physics

@@ -183,7 +183,7 @@ AND:    Rotation returns to original heading over 1 second
 
 ### B7: Gender and Age Variation
 
-**Why:** A city of 186 identical builds breaks immersion. Citizens vary in gender and implied age, which affects mesh selection and movement.
+**Why:** A city of 152 identical builds breaks immersion. Citizens vary in gender and implied age, which affects mesh selection and movement.
 
 ```
 GIVEN:  A citizen has gender and implied age (from personality/backstory)

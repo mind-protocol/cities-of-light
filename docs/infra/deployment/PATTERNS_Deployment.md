@@ -94,7 +94,7 @@ All components on one machine:
   in external APIs, not local compute)
 - If multiple simultaneous visitors cause WebSocket throughput issues (10+
   visitors broadcasting at 20Hz)
-- If FalkorDB graph grows beyond available RAM (unlikely for 186 citizens)
+- If FalkorDB graph grows beyond available RAM (unlikely for 152 citizens)
 
 ### Hosting Options
 
@@ -130,7 +130,7 @@ DNS records:
 
 FalkorDB runs in Docker. It is a Redis-compatible graph database with no
 external dependencies. The container is lightweight (~200MB image, ~50MB RAM
-for a 186-citizen graph).
+for a 152-citizen graph).
 
 ### Docker Compose
 

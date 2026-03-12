@@ -1,4 +1,4 @@
-# IMPLEMENTATION: citizens/embodiment -- Rendering 186 Citizens on Quest 3
+# IMPLEMENTATION: citizens/embodiment -- Rendering 152 Citizens on Quest 3
 
 ```
 STATUS: DRAFT
@@ -42,7 +42,7 @@ assets/citizens/
     lod/                   ← Decimated ACTIVE-tier variants (_lod1 suffix)
     ambient/               ← Single capsule mesh for instancing (ambient_capsule.glb)
   textures/
-    face_atlas.png         ← 4096x4096 atlas, all 186 faces (build-time generated)
+    face_atlas.png         ← 4096x4096 atlas, all 152 faces (build-time generated)
     class_nobili.png       ← Per-class clothing atlas
     class_cittadini.png
     class_popolani.png
@@ -1047,9 +1047,9 @@ function disposeOneMaterial(mat) {
 // Requires: Stable Diffusion API endpoint (SDXL or similar)
 
 /**
- * Generates a 4096x4096 face atlas for all 186 citizens.
+ * Generates a 4096x4096 face atlas for all 152 citizens.
  *
- * Grid: 14 columns x 14 rows = 196 slots (186 used + 10 spare).
+ * Grid: 14 columns x 14 rows = 196 slots (152 used + 10 spare).
  * Each face: 256x256 pixels.
  *
  * Process:

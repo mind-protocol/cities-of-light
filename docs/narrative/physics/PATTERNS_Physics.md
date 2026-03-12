@@ -26,7 +26,7 @@ This is not random. It is deterministic given the same initial state and inputs.
 
 ## Pattern 2: The Tick Is Sacred
 
-The physics tick runs every 5 minutes. This is not arbitrary. It is calibrated for a 186-citizen Venice population.
+The physics tick runs every 5 minutes. This is not arbitrary. It is calibrated for a 152-citizen Venice population.
 
 **Why 5 minutes:**
 
@@ -57,7 +57,7 @@ This is not cleanup. This is the narrative equivalent of forgetting. A belief th
 
 **Core types decay slower.** Blood Ledger defines `CORE_TYPES = ['oath', 'blood', 'debt']` with `CORE_DECAY_MULTIPLIER = 0.25`. For Venice, the core types are extended: `['debt', 'grudge', 'oath', 'alliance']`. These decay at 0.005 per tick instead of 0.02. Debts are not forgotten. Grudges linger. Oaths bind. Alliances persist.
 
-**What this means for tuning:** If the world feels too static, decrease `DECAY_RATE`. If the world feels too chaotic, increase it. The sweet spot for 186 citizens is probably in the 0.015-0.025 range. Blood Ledger uses 0.02 for a ~15-character world -- Venice may need slightly lower (0.015) because energy is distributed across more nodes and takes longer to concentrate.
+**What this means for tuning:** If the world feels too static, decrease `DECAY_RATE`. If the world feels too chaotic, increase it. The sweet spot for 152 citizens is probably in the 0.015-0.025 range. Blood Ledger uses 0.02 for a ~15-character world -- Venice may need slightly lower (0.015) because energy is distributed across more nodes and takes longer to concentrate.
 
 ---
 
@@ -77,7 +77,7 @@ tension_delta = (narrative_a.energy + narrative_b.energy) * TENSION_FACTOR
 
 Tension does not decay on its own. It only decreases when one of its connected narratives loses energy (through decay or moment absorption). This is critical: tension is sticky. Once two groups start disagreeing, the disagreement persists until one side's belief fades or an event resolves it.
 
-**Design consequence:** The seeding pipeline must include initial tensions. A graph with 186 characters and zero tensions is dead on arrival. The seeding script must analyze Serenissima grievances and create TENSION edges between contradicting ones. Even synthetic tensions (generated from class conflicts: Nobili vs. Popolani economic beliefs) are better than none.
+**Design consequence:** The seeding pipeline must include initial tensions. A graph with 152 characters and zero tensions is dead on arrival. The seeding script must analyze Serenissima grievances and create TENSION edges between contradicting ones. Even synthetic tensions (generated from class conflicts: Nobili vs. Popolani economic beliefs) are better than none.
 
 ---
 
@@ -100,7 +100,7 @@ After flipping, the consequences are applied:
 
 This is a phase transition. The system state before the flip and after the flip are qualitatively different. New narratives exist. Old tensions may resolve. New tensions may form. The energy landscape reshapes around the event.
 
-**Threshold calibration for Venice:** Blood Ledger moments have thresholds in the 0.5-1.5 range. With 186 citizens generating energy, Venice moments need higher thresholds -- probably 2.0-5.0 range. Otherwise, moments flip too quickly and the world is a sequence of crises. A political uprising should take days of building tension, not hours.
+**Threshold calibration for Venice:** Blood Ledger moments have thresholds in the 0.5-1.5 range. With 152 citizens generating energy, Venice moments need higher thresholds -- probably 2.0-5.0 range. Otherwise, moments flip too quickly and the world is a sequence of crises. A political uprising should take days of building tension, not hours.
 
 ---
 
@@ -192,7 +192,7 @@ This thinness is intentional. The physics engine is the most tested and validate
 | Constant | Blood Ledger Value | Venice Estimate | Rationale |
 |----------|-------------------|-----------------|-----------|
 | `DECAY_RATE` | 0.02 | 0.015 | More characters = energy spreads thinner, needs slower decay |
-| `GENERATION_RATE` | 0.5 | 0.3 | 186 characters generate 10x more total energy, reduce per-character rate |
+| `GENERATION_RATE` | 0.5 | 0.3 | 152 characters generate 10x more total energy, reduce per-character rate |
 | `DRAW_RATE` | 0.3 | 0.3 | Keep same -- moment absorption rate is independent of population |
 | `TICK_INTERVAL_MINUTES` | 5 | 5 | Keep same -- visitor session pacing is the driver |
 | `DEFAULT_BREAKING_POINT` | 0.9 | 3.0 | Much higher -- more energy in system means thresholds must be higher |

@@ -510,7 +510,7 @@ FUNCTION seed_initial_moments(graph_name):
 
 
 FUNCTION compute_moment_threshold(category, existing_tension_strength):
-  # Venice thresholds are higher than Blood Ledger (186 citizens vs ~15)
+  # Venice thresholds are higher than Blood Ledger (152 citizens vs ~15)
   base_thresholds = {
     "economic_crisis":     3.0,
     "political_uprising":  4.0,
@@ -1076,7 +1076,7 @@ FUNCTION normalize_graph_energy(graph_name = "venezia"):
   # If total energy exceeds MAX_TOTAL_ENERGY, scale all energies
   # proportionally to bring total back to target.
 
-  MAX_TOTAL_ENERGY = 100.0     # For 186-citizen graph
+  MAX_TOTAL_ENERGY = 100.0     # For 152-citizen graph
   TARGET_ENERGY    = 80.0      # Normalize to 80% of max
 
   # Compute total energy across all nodes
@@ -1174,9 +1174,9 @@ FUNCTION graph_health_check(graph_name = "venezia"):
   FOR row in counts:
     report.stats[row.label] = row.count
 
-  # Expected ranges for a 186-citizen Venice graph
+  # Expected ranges for a 152-citizen Venice graph
   expected = {
-    "Character": { min: 180, max: 200 },     # ~186 citizens
+    "Character": { min: 180, max: 200 },     # ~152 citizens
     "Narrative": { min: 50, max: 2000 },      # Bounded by pruning
     "Place":     { min: 7, max: 50 },         # 7 districts + sub-locations
     "Moment":    { min: 5, max: 100 },        # Seeded + generated
@@ -1245,7 +1245,7 @@ CONSTANT                        VALUE       NOTES
 GRAPH_NAME                      "venezia"   FalkorDB graph namespace
 MIN_PRUNE_ENERGY                0.001       Cold pruning energy threshold
 MIN_PRUNE_WEIGHT                0.01        Cold pruning weight threshold
-MAX_TOTAL_ENERGY                100.0       Normalization ceiling (186 citizens)
+MAX_TOTAL_ENERGY                100.0       Normalization ceiling (152 citizens)
 TARGET_ENERGY                   80.0        Normalization target
 HOP_DECAY                       0.8         Confidence loss per propagation hop
 MIN_ADOPTION_CONFIDENCE         0.1         Below this, belief propagation rejected

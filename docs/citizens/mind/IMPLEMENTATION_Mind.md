@@ -425,7 +425,7 @@ READ: serenissima/citizens/{username}/CLAUDE.md
 READ: serenissima/citizens/{username}/.cascade/memories/index.json
   When: Every conversation (context assembly)
   Frequency: Once per conversation start
-  Size: ~10-50KB (186 citizens, ~50 memories each)
+  Size: ~10-50KB (152 citizens, ~50 memories each)
   Cached: No (grows with each conversation)
 
 READ: serenissima/citizens/{username}/.cascade/memories/{timestamp}.json

@@ -1,6 +1,6 @@
 # VALIDATION: economy/simulation -- What Must Be True
 
-Health checks, invariants, and acceptance criteria for the economic simulation engine. Every assertion is testable. Every threshold is derived from the simulation's actual parameters: 186 citizens, 5-minute tick interval, Airtable rate limit of 5 req/sec. The economy is real. The validation must be real too.
+Health checks, invariants, and acceptance criteria for the economic simulation engine. Every assertion is testable. Every threshold is derived from the simulation's actual parameters: 152 citizens, 5-minute tick interval, Airtable rate limit of 5 req/sec. The economy is real. The validation must be real too.
 
 ---
 
@@ -139,7 +139,7 @@ After activity creation runs, no citizen should remain idle for more than 2 cons
 
 ```
 CHECK: idle_citizens = citizens with no activity for > 10 minutes
-  HEALTHY: < 10 idle citizens (<5% of 186)
+  HEALTHY: < 10 idle citizens (<5% of 152)
   WARN   at: 10-30 idle citizens (5-16%)
   ALERT  at: > 30 idle citizens (activity creation is broken)
 ```
@@ -191,7 +191,7 @@ Stratagems must produce measurable economic effects.
 
 ### AC-S4. Population Scale
 
-All 186 citizens must participate in the economy simultaneously.
+All 152 citizens must participate in the economy simultaneously.
 
 - [ ] Every citizen completes at least 1 activity per hour when the simulation is active
 - [ ] No citizen accumulates Ducats without performing productive activities

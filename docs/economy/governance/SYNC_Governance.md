@@ -183,7 +183,7 @@ days). Step 7 depends on Serenissima implementing policy enforcement.
 
 2. **Threshold tuning.** What support count triggers council formation? Too
    low and councils form constantly. Too high and grievances expire before
-   reaching threshold. Needs calibration against the active population (186
+   reaching threshold. Needs calibration against the active population (152
    citizens, but engagement probability varies by class).
 
 3. **Grievance visibility to the visitor.** Should the visitor be able to read

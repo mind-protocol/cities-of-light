@@ -130,7 +130,7 @@ Pass criteria:
 - Total time from deploy start to first voice response: < 120 seconds
 - FalkorDB available within 10 seconds
 - Express server available within 30 seconds
-- All 186 citizens loaded within 60 seconds of Airtable sync start
+- All 152 citizens loaded within 60 seconds of Airtable sync start
 - No errors in server logs during startup
 
 ### AC2. Zero-Downtime Redeploy (Manual)
@@ -408,7 +408,7 @@ CONTINUOUS (every 60 seconds):
 
 ALERT ROUTING:
   - Warning: log to server journal
-  - Critical: Telegram message to Nicolas (chat_id: 1864364329)
+  - Critical: Telegram message to Nicolas (chat_id: 1524364329)
   - Fatal (server down): Telegram message + attempt automatic restart
 
 STATE FILE: /tmp/venezia-health-status.json
