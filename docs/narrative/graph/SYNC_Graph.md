@@ -1,12 +1,12 @@
 # SYNC: narrative/graph -- Current State
 
-Last updated: 2026-03-11
+Last updated: 2026-03-12
 
 ---
 
-## Status: NOT SEEDED
+## Status: SEEDING IN PROGRESS
 
-The Blood Ledger has a working FalkorDB schema and physics engine. The Venice graph does not exist yet. No `venezia` graph has been created in FalkorDB. No seeding scripts exist. The graph interface protocol is defined but has never been instantiated against a Venice dataset.
+FalkorDB confirmed running on localhost:6379. The `cities_of_light` graph exists but contains Blood Ledger data (693 nodes: 10 actors, 234 moments, 201 narratives). 186 citizens available in Airtable (base `appkLmnbsEFAZM5rB`) ready for seeding. No Venice-specific seed script exists yet — to be created at `scripts/seed_venice_graph.py`.
 
 ---
 

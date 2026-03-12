@@ -2,6 +2,15 @@
 
 Pseudocode for every procedure in the physics module. The 5-minute tick with its 6 phases, energy pump, routing, decay, tension accumulation, Moment flip detection, anti-runaway homeostasis, and economic injection. Every constant is named. Every formula is explicit. Nothing is hand-waved.
 
+### Venice Physics Model Decision
+
+Venice uses the DECAY model (from v1.1 spec), not the link cooling model (from v1.2 code). The key distinction:
+
+- **Decay** (v1.1, spec-authoritative): Energy fades globally. All beliefs weaken unless reinforced. This models **narrative forgetting** — stories lose salience over time. Venice needs this because with 186 citizens, old narratives must fade to make room for new ones.
+- **Link cooling** (v1.2, code-current): Energy flows through links and cools. Beliefs persist but connections weaken. This models **attention shifting** — topics stay alive but become less connected.
+
+Venice needs forgetting, not attention shifting. The v1.2 code will be adapted to include DECAY as a phase while retaining the useful parts of the v1.2 architecture (hot/cold links, Plutchik axes, crystallization).
+
 ---
 
 ## P1. Constants Table
@@ -42,7 +51,17 @@ LINK_TO_WEIGHT_RATE             0.1             0.1             Link cooling: en
 COLD_THRESHOLD                  0.01            0.01            Links below this are excluded from physics
 TOP_N_LINKS                     20              20              Max links processed per node
 MIN_WEIGHT                      0.01            0.01            Narratives never decay below this weight
+FRICTION_FACTOR                 0.8             N/A             80/20 rule: 80% flows, 20% converts to weight
+PROPENSITY_VARIANCE             0.2             N/A             Anti-convergence: per-character generation variance
 ```
+
+### Bootstrap Energy (Initial Seeding)
+
+From audit: "Piege du ROI Physicalise" — initial energy values are explicit design decisions, not defaults.
+
+Character bootstrap energy: 0.5 (enough to start generating within 2 ticks)
+Narrative bootstrap energy: 0.3 (enough to be detectable but not dominant)
+These values ensure the system starts in a state where energy can flow immediately after seeding.
 
 ---
 
@@ -217,6 +236,21 @@ FUNCTION compute_wealth_factor(ducats):
   RETURN 0.5 + log10(max(1, ducats)) / 4.0
 ```
 
+### Propensity Variance (Anti-Convergence)
+
+From audit: "Architecture de la Cascade d'Utilite" — reward counter-factual difficulty, not raw success.
+
+Each character has a propensity_variance drawn from Normal(0, PROPENSITY_VARIANCE). This prevents convergence where all characters of the same class generate identical energy.
+
+```
+FUNCTION apply_propensity_variance(base_generation, character_id):
+  # Each character gets a unique variance modifier
+  # Seeded from character_id hash for determinism
+  variance = seeded_normal(character_id, mean=0, stddev=PROPENSITY_VARIANCE)
+  RETURN base_generation * (1.0 + variance)
+  # Ensures no two citizens with identical generation rates after 100 ticks
+```
+
 ---
 
 ## P4. Phase 2: Route (Energy Flow)
@@ -261,6 +295,9 @@ FUNCTION phase_route(graph_name):
     })
 
     total_routed += flow
+
+  # ── SUPPORTS friction ─────────────────────────────────
+  # See "Friction Factor" note below this code block.
 
   # ── TENSION accumulation ────────────────────────────────
   # Both narratives under tension pump energy into the tension
@@ -331,6 +368,22 @@ FUNCTION phase_route(graph_name):
 
   RETURN total_routed, tension_delta
 ```
+
+### Friction Factor (80/20 Rule)
+
+From audit: "Dictature de la Membrane" — SUPPORTS edges should not be perfectly efficient energy conductors.
+
+```
+# Apply friction: 80% flows through, 20% converts to link weight
+flow = edge.source_energy * factor * FRICTION_FACTOR  # 0.8
+weight_gain = edge.source_energy * factor * (1.0 - FRICTION_FACTOR)  # 0.2
+# This preserves local narrative diversity by preventing
+# energy from flowing too freely between narratives
+```
+
+### Sibling Divergence
+
+From audit: "Attracteurs de Convergence" — SubEntity traversal must preserve path diversity. When routing energy through narrative sub-branches, ensure that sibling narratives maintain distinct energy profiles rather than converging to the same values.
 
 ---
 

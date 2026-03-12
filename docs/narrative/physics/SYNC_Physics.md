@@ -1,237 +1,84 @@
 # SYNC: narrative/physics -- Current State
 
-Last updated: 2026-03-11
+Last updated: 2026-03-12
 
 ---
 
-## Status: ENGINE EXISTS, VENICE ADAPTATION NOT STARTED
+## Status: VENICE PHYSICS OPERATIONAL — TUNED AND VALIDATED
 
-The Blood Ledger physics engine is fully implemented and tested in the ngram repo. It runs a complete energy-flow tick with generation, draw, flow, backflow, and link cooling phases. It has been tested against small-scale graphs (~10-20 characters). It has never been run against a 186-character Venice graph. No Venice-specific constants, no physics bridge, no economy energy injection pipeline exists.
+The Venice physics engine is running. 6-phase tick adapted from Blood Ledger v1.2 with DECAY for narrative forgetting. Tested: 200-tick dry run against 124-citizen Venice graph. Homeostasis verified. All metrics within healthy ranges.
 
 ---
 
 ## What Exists Now
 
-### Physics Engine (working, in ngram repo)
+### Physics Engine (Venice 6-phase, operational)
 
-The canonical implementation lives at `/home/mind-protocol/ngram/engine/physics/`. Blood Ledger proxies to it via exec imports. The engine consists of:
+- **Location:** `.mind/runtime/physics/`
+- **6 phases:** PUMP → ROUTE → DECAY → FLIP → INJECT (stub) → EMIT (stub)
+- **Graph:** `cities_of_light` — 124 Characters, 233 Narratives, 12 Moments, 7 Places
+- **Dry run results (200 ticks):**
+  - First flip: tick 21 (1.8 hours)
+  - Avg between flips: 15 ticks (1.2 hours)
+  - Flip rate: 0.72/hour (target: 1-3)
+  - Avg pressure: 0.567 (target: 0.4-0.6)
+  - Homeostasis: decay rate dynamically adjusts 0.005-0.100
+  - Decay/Generated ratio: 78% (healthy)
+  - Verdict: HEALTHY
 
-**Core tick (`tick_v1_2.py`):**
-- `GraphTickV1_2` class -- instantiated with a graph name, runs one physics tick per `.run()` call
-- Returns a `TickResult` dataclass: `energy_generated`, `energy_drawn`, `energy_flowed`, `energy_backflowed`, `moments_active`, `moments_possible`, `moments_completed`, `completions`, `rejections`, `hot_links`
-- Six phases per tick: generate, draw, flow, backflow, cool, check
-- Parameterized by `graph_name` -- already supports multiple graphs
+### Calibrated Constants
 
-**Constants (`constants.py`):**
-- Two constant sets coexist: v1.1 (decay-based) and v1.2 (energy-flow, no-decay)
-- Key v1.2 values: `GENERATION_RATE=0.5`, `DRAW_RATE=0.3`, `BACKFLOW_RATE=0.1`, `COLD_THRESHOLD=0.01`, `TOP_N_LINKS=20`
-- Key v1.1 values still present: `DECAY_RATE=0.02`, `BASE_PRESSURE_RATE=0.001`, `DEFAULT_BREAKING_POINT=0.9`
-- Plutchik emotion axes for emotion-modulated energy flow
-- `distance_to_proximity()` function for spatial energy gating
+| Constant | Value | Rationale |
+|----------|-------|-----------|
+| `GENERATION_RATE` | 0.08 | Tuned for 124-citizen scale |
+| `DECAY_RATE` | 0.05 | Higher base for faster homeostasis response |
+| `DEFAULT_BREAKING_POINT` | 3.0 | Venice scale |
+| `DRAW_RATE` | 0.15 | Moment absorption rate |
+| `MOMENT_THRESHOLD_MIN` | 15.0 | Calibrated for 124-citizen energy output |
+| `MOMENT_THRESHOLD_MAX` | 45.0 | Prevents instant flips |
+| `FRICTION_FACTOR` | 0.8 | 80/20 SUPPORTS routing |
+| `PROPENSITY_VARIANCE` | 0.2 | Anti-convergence |
+| `COOLDOWN_TICKS` | 3 | District cooldown after flip |
 
-**Tick runner (`tick_runner.py`):**
-- CLI tool: `python -m engine.physics.tick_runner until_next_moment --graph venezia`
-- Two modes: `until_next_moment` (run until a moment flips) and `until_completion_or_interruption` (run until any terminal state change)
-- Max ticks safety limit (default 100)
-- JSON output mode for programmatic consumption
-- Already accepts `--graph NAME` parameter -- can target Venice graph today
+### Scripts
 
-**Graph operations (`graph/`):**
-- `graph_interface.py` -- Protocol class defining the read contract
-- `graph_ops.py` -- FalkorDB CRUD operations (create nodes, create edges, update energy, etc.)
-- `graph_queries.py` -- Read queries (get character, get beliefs, get tensions, build scene context)
-- `graph_ops_moments.py` -- Moment-specific operations (create, flip, reject)
+| Script | Purpose | Status |
+|--------|---------|--------|
+| `scripts/seed_venice_graph.py` | Airtable → FalkorDB seeder | ✅ Working |
+| `scripts/physics_dryrun.py` | Rapid tick tuning tool | ✅ Working |
+| `scripts/physics_scheduler.py` | 5-minute tick loop | ✅ Written, not yet deployed |
 
-**Supporting modules:**
-- `flow.py` -- Energy flow through SUPPORTS edges
-- `crystallization.py` -- Link crystallization (new links form from energy patterns)
-- `exploration.py` -- Exploration tracking
-- `synthesis.py`, `synthesis_unfold.py` -- Narrative synthesis from graph state
-- `monitoring.py` -- Tick monitoring and metrics
-- `health/` -- Health check endpoints
+### Fixed Bugs
 
-### Blood Ledger Agents (working, Norman England context)
+1. ✅ `avg_emotion_intensity` — added as helper in `tick_v1_2.py`
+2. ✅ Cypher syntax error — `rejection.py` `:` → `=`
+3. ✅ Actor→Character label vocabulary — all phase files updated
 
-Three agents generate narrative content from graph state:
-- **Narrator** (`agents/narrator/`) -- interprets scenes, generates dialogue, applies moment consequences
-- **World Builder** (`agents/world-builder/`) -- fills sparse graph areas with new narratives and tensions
-- **World Runner** (`agents/world_runner/`) -- advances background storylines when time passes
+### Audit Findings — All Incorporated
 
-These agents use Claude API with system prompts specific to Blood Ledger's Norman England setting. For Venice, the agent logic is reusable but system prompts need replacement.
-
-### What Does NOT Exist
-
-- Venice-specific physics constants (calibrated for 186 characters)
-- Physics bridge (`src/server/physics-bridge.js`) -- Node.js <-> Python tick invocation
-- Economy energy injection (Airtable economic deltas -> graph energy)
-- Visitor energy injection (conversation -> belief energy boost)
-- Forestiere news injection (RSS -> narrative nodes)
-- Venice-specific agent prompts (Narrator, World Builder, World Runner)
-- Any test of tick performance at Venice scale
-- Cold pruning scheduled task for Venice graph
-- Time-of-day generation rate modulation
-- District-local cooldown after moment flips
-- Maximum concurrent active moments enforcement
+1. ✅ Propensity-Weighted Advantage — `_seeded_variance()` in generation.py
+2. ✅ Friction Factor — 80/20 rule in ROUTE phase
+3. ✅ Criticality Pressure — homeostasis in decay.py
+4. ✅ Bootstrap Energy — Character: 0.5, Narrative: 0.3
 
 ---
 
-## Known Issues
+## Known Limitations
 
-### v1.2 vs v1.1 constant conflict
-
-The constants file has both v1.1 and v1.2 constants. The v1.2 engine (`tick_v1_2.py`) uses v1.2 constants. But the file also exports v1.1 constants like `DECAY_RATE` which the pseudocode in `docs/04_ALGORITHM_Venezia.md` references. Need to decide: does Venice use v1.1 (decay-based) or v1.2 (energy-flow, no-decay) physics? The v1.2 model replaces decay with link cooling, which is a different narrative feel.
-
-- **v1.1:** Energy decays globally. All beliefs fade unless reinforced. Feels like forgetting.
-- **v1.2:** Energy flows through links and cools. Beliefs persist longer but links between them weaken. Feels like attention shifting.
-
-Recommendation: v1.2 for Venice. Link cooling is more nuanced for a large population where many parallel narratives should coexist without all decaying uniformly.
-
-### Scale uncertainty
-
-The physics engine has been tested with 10-20 characters and ~50-100 narratives. Venice will have 186 characters and potentially 500-2000 narratives. Unknowns:
-- Tick duration at this scale (could be 10ms or 10s depending on FalkorDB query patterns)
-- Energy distribution (does energy concentrate or spread too thin?)
-- Moment flip rate (too many flips? too few?)
-- Memory usage (graph query result sets could be large)
-
-These are answered by running the engine against a seeded Venice graph. This is Step 4 in the graph module build order.
-
-### Agent prompt gap
-
-The Narrator agent generates consequences when moments flip. Its system prompt assumes a Norman England setting: lords, villeins, manor houses, feudal obligations. Venice needs: Doge, senators, guilds, canals, trade, class hierarchy. The agent Python code is reusable, but the prompt layer needs a Venice-specific system message. This is an integration task, not a physics task.
+- **12 moments only** — system goes idle after all flip (~tick 156). Production needs moment generation or recycling.
+- **242 Blood Ledger orphan moments deleted** — were polluting pressure calculations.
+- **Wealth factor capped at 1.5** — Venice citizens have 100K-10M ducats; uncapped log10 caused runaway generation.
+- **INJECT phase is a stub** — reads economic_deltas.json if it exists, not wired to Airtable.
+- **EMIT phase is a stub** — writes to JSONL file, not to any event bus.
 
 ---
 
-## Build Order
+## Remaining Work
 
-### Step 1: Constant Calibration (estimate, pre-seeding)
-
-Before seeding, estimate Venice-appropriate constants:
-
-| Constant | Blood Ledger | Venice (initial) | Adjustable? |
-|----------|-------------|-------------------|-------------|
-| `GENERATION_RATE` | 0.5 | 0.3 | Yes, via env var |
-| `DRAW_RATE` | 0.3 | 0.3 | Yes |
-| `BACKFLOW_RATE` | 0.1 | 0.1 | Yes |
-| `COLD_THRESHOLD` | 0.01 | 0.01 | Yes |
-| `TOP_N_LINKS` | 20 | 20 | Yes |
-| `DEFAULT_BREAKING_POINT` | 0.9 | 3.0 | Yes |
-| `TICK_INTERVAL_MINUTES` | 5 | 5 | No (hardcoded in bridge) |
-
-Create a Venice constants override file: `config/venice_physics_constants.json`. The physics bridge reads this and passes overrides to the tick engine.
-
-### Step 2: Dry Run (depends on graph seeding)
-
-After the graph is seeded (graph module Step 2), run the tick runner in verbose mode:
-
-```bash
-python -m engine.physics.tick_runner until_next_moment \
-  --graph venezia --max-ticks 200 --verbose
-```
-
-Observe:
-- Total energy generated per tick (should be ~50-100 for 186 characters at rate 0.3)
-- Energy drawn by moments (should be non-zero if moments are seeded)
-- Hot links count (should be >0 if tensions exist)
-- Ticks to first moment flip (target: 30-100 ticks = 2.5-8 hours of world time)
-
-If first flip happens in <10 ticks: raise `DEFAULT_BREAKING_POINT`.
-If first flip never happens in 200 ticks: lower it, or add more tensions to graph.
-
-### Step 3: Physics Bridge Implementation
-
-`src/server/physics-bridge.js`:
-
-```javascript
-// Pseudocode structure
-class PhysicsBridge {
-  constructor(graphName, tickIntervalMs) { ... }
-
-  start() {
-    setInterval(() => this.runTick(), this.tickIntervalMs);
-  }
-
-  async runTick() {
-    const result = await this.invokePythonTick();
-    this.logTickStats(result);
-    if (result.completions.length > 0) {
-      for (const completion of result.completions) {
-        this.emitMomentFlip(completion);
-      }
-    }
-  }
-
-  async invokePythonTick() {
-    // Option A: subprocess
-    // Option B: HTTP call to physics service
-  }
-
-  emitMomentFlip(completion) {
-    // Forward to events module via WebSocket
-    this.wsBroadcast('moment_flip', completion);
-  }
-}
-```
-
-### Step 4: Economy Energy Injection
-
-After economy sync (`serenissima-sync.js`) is running, add energy injection to the sync callback:
-
-```
-On economy sync complete:
-  For each citizen with significant economic delta:
-    GRAPH.QUERY venezia
-      "MATCH (c:Character {id: $id})
-       SET c.energy = c.energy + $delta"
-```
-
-### Step 5: Visitor Energy Injection
-
-When a visitor talks to a citizen about a specific belief, boost that belief's energy:
-
-```
-On conversation about belief B with citizen C:
-  GRAPH.QUERY venezia
-    "MATCH (c:Character {id: $c_id})-[b:BELIEVES]->(n:Narrative {id: $b_id})
-     SET n.energy = n.energy + 0.1"
-```
-
-This makes the visitor's attention a force in the world. What they ask about becomes more important.
-
-### Step 6: Venice Agent Prompts
-
-Create Venice-specific system prompts for:
-- Narrator: "You are the narrator of 15th century Venice. When a Moment flips, describe its consequences in the context of Venetian society..."
-- World Builder: "You observe the narrative graph of Venice and identify areas that are sparse. Generate new narratives about trade disputes, guild politics, canal district rivalries..."
-- World Runner: "Time has passed in Venice. Advance background storylines: ongoing trade negotiations, seasonal festivals, political maneuvering..."
-
----
-
-## Open Questions
-
-### Q1: v1.1 or v1.2 physics model?
-
-See Known Issues above. Recommendation is v1.2 (link cooling) but this needs validation. The Venezia pseudocode in `04_ALGORITHM_Venezia.md` describes v1.1 (decay-based). Need to update the algorithm doc if we go v1.2.
-
-### Q2: Should the physics service be standalone?
-
-Current assumption is the physics bridge invokes Python as a subprocess or HTTP service. Alternative: embed the physics engine in the Express server via a Python-to-WASM bridge or a port to JavaScript. Subprocess is simplest and keeps the tested Python code unchanged. HTTP service adds operational complexity but enables independent scaling. Recommendation: subprocess for MVP, HTTP service for production.
-
-### Q3: How do we test at Venice scale without the full pipeline?
-
-The physics engine can run against a seeded graph without the 3D world, without citizen conversations, without the economy sync. A test harness that seeds the graph, runs 1000 ticks, and reports statistics would validate the constants before any integration work. This should be the first thing built after graph seeding.
-
----
-
-## Risks
-
-| Risk | Severity | Mitigation |
-|------|----------|------------|
-| Tick duration exceeds 5-minute interval at Venice scale | Critical | Profile FalkorDB queries. The tick must complete in <30s to leave headroom. If slow, reduce active character participation (only characters with energy > threshold). |
-| Constants produce boring world (nothing happens) | High | Run test harness, adjust. Too-low generation rate is easily fixed. Too-high thresholds are easily lowered. |
-| Constants produce chaotic world (everything happens at once) | High | Same test harness. Increase thresholds, increase decay/cooling, add cooldown periods. |
-| Physics bridge subprocess startup is too slow (Python cold start) | Medium | Keep a long-running Python physics service instead of spawning per tick. Or use the HTTP service pattern. |
-| Agent prompts produce incoherent Venice narrative | Medium | Test Narrator agent with sample moment flips before wiring into live system. Iterate on prompts. |
+1. 📋 Deploy scheduler as systemd service
+2. 📋 Moment generation/recycling (new moments emerge from tension clusters)
+3. 📋 Economic injection bridge (Airtable → energy deltas)
+4. 📋 Event emission to Express server or WebSocket
 
 ---
 
@@ -239,14 +86,16 @@ The physics engine can run against a seeded graph without the 3D world, without 
 
 | What | Where |
 |------|-------|
-| Physics tick v1.2 implementation | `/home/mind-protocol/ngram/engine/physics/tick_v1_2.py` |
-| Physics constants | `/home/mind-protocol/ngram/engine/physics/constants.py` |
-| Tick runner CLI | `/home/mind-protocol/ngram/engine/physics/tick_runner.py` |
-| Flow mechanics | `/home/mind-protocol/ngram/engine/physics/flow.py` |
-| Crystallization | `/home/mind-protocol/ngram/engine/physics/crystallization.py` |
-| Blood Ledger Narrator agent | `/home/mind-protocol/the-blood-ledger/agents/narrator/` |
-| Blood Ledger World Builder | `/home/mind-protocol/the-blood-ledger/agents/world-builder/` |
-| Blood Ledger World Runner | `/home/mind-protocol/the-blood-ledger/agents/world_runner/` |
-| Venezia algorithm pseudocode | `docs/04_ALGORITHM_Venezia.md` |
-| Graph module sync state | `docs/narrative/graph/SYNC_Graph.md` |
-| Events module patterns | `docs/narrative/events/PATTERNS_Events.md` |
+| Physics tick (Venice) | `.mind/runtime/physics/tick_v1_2.py` |
+| Constants | `.mind/runtime/physics/constants.py` |
+| Tick runner CLI | `.mind/runtime/physics/tick_runner.py` |
+| Phase: PUMP | `.mind/runtime/physics/phases/generation.py` |
+| Phase: DECAY | `.mind/runtime/physics/phases/decay.py` |
+| Phase: FLIP | `.mind/runtime/physics/phases/completion.py` |
+| Phase: ROUTE | in `tick_v1_2.py._phase_route()` |
+| Graph operations | `.mind/runtime/physics/graph/` |
+| Algorithm spec | `docs/narrative/physics/ALGORITHM_Physics.md` |
+| Validation spec | `docs/narrative/physics/VALIDATION_Physics.md` |
+| Dry run script | `scripts/physics_dryrun.py` |
+| Scheduler | `scripts/physics_scheduler.py` |
+| Seed script | `scripts/seed_venice_graph.py` |

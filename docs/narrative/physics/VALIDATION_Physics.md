@@ -41,6 +41,26 @@ No more than 3 active (unflipped, above 50% threshold) Moments simultaneously. A
 
 All weight values in [0.0, MAX_WEIGHT]. Weight accumulates through COOL phase only.
 
+### PI8. Criticality Pressure Band (from "Attracteurs de Convergence" audit)
+
+Average pressure across all unflipped Moments must stay in [0.4, 0.6] (CRITICALITY_TARGET_MIN, CRITICALITY_TARGET_MAX). The homeostasis mechanism adjusts decay rate to maintain this band. If avg_pressure exits this band for more than 6 consecutive ticks, the homeostasis feedback loop has failed.
+
+### PI9. Anti-Convergence (from "Attracteurs de Convergence" audit)
+
+No two citizens may have identical energy generation rates after 100 ticks. PROPENSITY_VARIANCE (0.2) ensures each character's generation is uniquely modified. Check: after 100 ticks, compute standard deviation of per-character generation rates. It must be > 0.01.
+
+### PI10. Contradiction Intensification (from "Dictature de la Membrane" audit)
+
+Introducing a TENSION edge between two narratives must raise energy on BOTH connected nodes in the next tick. If either node's energy decreases after a new TENSION is created (absent decay), the tension routing is broken.
+
+### PI11. Cascade Limit (from "Dictature de la Membrane" audit)
+
+Maximum 5 cascading moment flips before the system pauses flip checks for COOLDOWN_TICKS. This prevents flip storms from consuming all narrative energy in a single tick.
+
+### PI12. Bootstrap Energy (from "Piège du ROI Physicalisé" audit)
+
+After initial graph seeding, total system energy must be > 0. Specifically: sum of all Character energies > 0 AND sum of all Narrative energies > 0. A seeded graph with zero energy cannot evolve.
+
 ---
 
 ## Health Checks (periodic monitoring)
