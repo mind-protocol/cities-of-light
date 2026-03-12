@@ -20,7 +20,7 @@ import { RoomManager } from './rooms.js';
 import OpenAI from 'openai';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const PORT = 8800;
+const PORT = parseInt(process.env.PORT, 10) || 8800;
 
 // ─── State ──────────────────────────────────────────────
 
@@ -44,6 +44,11 @@ app.use((req, res, next) => {
 
 // Perception pipeline routes
 perceptionRoutes(app);
+
+// Health check (Render uses this to verify the service is alive)
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', uptime: process.uptime() });
+});
 
 // Current state snapshot
 app.get('/state', (req, res) => {
