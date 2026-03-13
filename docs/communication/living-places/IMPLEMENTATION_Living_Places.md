@@ -442,44 +442,40 @@ PLACE_WS_PATH=/places/ws   # separate from /ws (world entities)
 
 ## Implementation Order
 
-### Phase 1: Place Server Core (V1 minimum)
+### Phase 1: Place Server Core — DONE
 
-1. `engine/server/place-server.js` — Room state, join/leave, broadcast
-2. `engine/server/moment-pipeline.js` — Input → Moment → graph → deliver
-3. Extend `engine/shared/protocol.js` — PLACE_MESSAGES
-4. HTTP endpoints on state-server for place CRUD
-5. Graph integration — Space/Moment/AT node creation
+1. `src/server/graph-client.js` — FalkorDB wrapper via `falkordb` npm
+2. `src/server/place-server.js` — Room state, join/leave, broadcast, HTTP notify
+3. `src/server/moment-pipeline.js` — Input → Moment → graph → deliver
+4. `src/server/index.js` — `/places/ws` upgrade, HTTP routes, graph init
+5. Graph integration — Space/Moment/AT node creation (all working)
 
-### Phase 2: MCP Bridge
+### Phase 2: MCP Bridge — DONE
 
-6. `engine/bridges/mcp-bridge.js` — WebSocket adapter for MCP
-7. `mind-mcp/runtime/tools/place_*.py` — MCP tools (join, speak, leave, discover, listen)
-8. Test: AI citizen joins a place, speaks, receives Moments
+6. `mind-mcp/mcp/tools/place_handler.py` — 6-action MCP tool (join/speak/listen/leave/list/create)
+7. `mind-mcp/mcp/server.py` — Registered place tool schema + dispatch
+8. MCP tools write to graph + HTTP POST to `/api/places/:id/notify`
 
-### Phase 3: Web UI
+### Phase 3: Web UI — DONE
 
-9. `mind-platform/components/places/PlaceRoom.tsx` — Meeting room component
-10. `mind-platform/lib/place-client.js` — Browser WebSocket client
-11. Platform route: `/places/{space_id}`
-12. Test: Human joins from browser, sees AI Moments, types responses
+9. `src/client/place.html` — Meeting room HTML page
+10. `src/client/place-app.js` + `place-network.js` + `place-style.css` — Full web client
+11. URL: `/place.html?id={space_id}&name={display_name}`
+12. Push-to-talk voice (spacebar or mic button)
 
-### Phase 4: Voice Overlay (V1 complete)
+### Phase 4: HEALTH Checkers — DONE
 
-13. Integrate existing VoicePipeline for TTS of AI Moments
-14. WebRTC audio capture for human speech → Whisper STT
-15. Test: Full voice loop — human speaks, AI hears text, AI responds, human hears voice
+13. `mind-mcp/.mind/capabilities/living-places/runtime/checks.py` — 7 `@check` functions
+14. Auto-discovered via capability framework
 
-### Phase 5: Emergency Council Meeting
+### Phase 5: Emergency Council Meeting — NEXT
 
-16. Create "Council Chamber" place (capacity: 7, access: invite)
-17. Invite 6 council members + creator
-18. Hold first meeting — validate everything works
+15. Create "Council Chamber" place (capacity: 7, access: invite)
+16. Invite council members via MCP tools
+17. Hold first meeting — validate everything works
 
 ---
 
 ## Markers
 
-<!-- @mind:todo Implement place-server.js — Phase 1 -->
-<!-- @mind:todo Add FalkorDB graph client to cities-of-light engine -->
 <!-- @mind:proposition Consider extracting Place Server as independent npm package for reuse across worlds -->
-<!-- @mind:escalation Graph client: use ioredis directly or wrap in mind runtime adapter? -->
