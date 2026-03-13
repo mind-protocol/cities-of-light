@@ -66,7 +66,7 @@ export class GraphClient {
     );
     if (!result.data || result.data.length === 0) return null;
     const row = result.data[0];
-    return { id: row[0], name: row[1], capacity: row[2], access_level: row[3], status: row[4] };
+    return { id: row['s.id'], name: row['s.name'], capacity: row['s.capacity'], access_level: row['s.access_level'], status: row['s.status'] };
   }
 
   /**
@@ -90,7 +90,7 @@ export class GraphClient {
     );
     if (!result.data) return [];
     return result.data.map(row => ({
-      id: row[0], name: row[1], capacity: row[2], access_level: row[3], participants: row[4],
+      id: row['s.id'], name: row['s.name'], capacity: row['s.capacity'], access_level: row['s.access_level'], participants: row['participants'],
     }));
   }
 
@@ -144,8 +144,8 @@ export class GraphClient {
     );
     if (!result.data) return [];
     return result.data.map(row => ({
-      id: row[0], content: row[1], source: row[2], kind: row[3],
-      energy: row[4], created_at: row[5], created_at_s: row[6], author_id: row[7],
+      id: row['m.id'], content: row['m.content'], source: row['m.source'], kind: row['m.kind'],
+      energy: row['m.energy'], created_at: row['m.created_at'], created_at_s: row['m.created_at_s'], author_id: row['a.id'],
     }));
   }
 
@@ -193,7 +193,7 @@ export class GraphClient {
       `MATCH (a {id: $src})-[r:link {type: $type}]->(b {id: $tgt}) RETURN count(r)`,
       { params: { src: srcId, tgt: tgtId, type } },
     );
-    return result.data && result.data.length > 0 && result.data[0][0] > 0;
+    return result.data && result.data.length > 0 && result.data[0]['count(r)'] > 0;
   }
 
   /**
@@ -208,7 +208,7 @@ export class GraphClient {
     );
     if (!result.data) return [];
     return result.data.map(row => ({
-      actor_id: row[0], renderer: row[1], joined_at: row[2],
+      actor_id: row['a.id'], renderer: row['r.renderer'], joined_at: row['r.joined_at'],
     }));
   }
 
@@ -221,7 +221,7 @@ export class GraphClient {
       `MATCH (a)-[:link {type: 'AT'}]->(s:Space {id: $id}) RETURN count(a)`,
       { params: { id: spaceId } },
     );
-    return result.data && result.data.length > 0 ? result.data[0][0] : 0;
+    return result.data && result.data.length > 0 ? result.data[0]['count(a)'] : 0;
   }
 
   /**
