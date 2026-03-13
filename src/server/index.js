@@ -17,6 +17,9 @@ import { processBiographyVoice } from './biography-voice.js';
 import { ZONES, detectNearestZone } from '../shared/zones.js';
 import { AICitizenManager } from './ai-citizens.js';
 import { RoomManager } from './rooms.js';
+import { GraphClient } from './graph-client.js';
+import { PlaceServer } from './place-server.js';
+import { MomentPipeline } from './moment-pipeline.js';
 import OpenAI from 'openai';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -27,6 +30,7 @@ const PORT = parseInt(process.env.PORT, 10) || 8800;
 const citizens = new Map(); // id → { position, rotation, name, persona, zone, lastUpdate }
 const connections = new Map(); // ws → citizenId
 const roomManager = new RoomManager();
+let placeServer = null;
 
 // ─── Express (HTTP API) ─────────────────────────────────
 
@@ -103,6 +107,38 @@ app.post('/api/rooms', (req, res) => {
   const { name, maxPlayers } = req.body || {};
   const room = roomManager.createRoom(name, { maxPlayers });
   res.json({ code: room.code, name: room.name });
+});
+
+// ─── Living Places API ────────────────────────────────
+app.get('/api/places', async (req, res) => {
+  if (!placeServer) return res.status(503).json({ error: 'Living Places not available' });
+  const places = [];
+  for (const [id, room] of placeServer.rooms) {
+    places.push({
+      id, name: room.name, capacity: room.capacity,
+      access_level: room.access_level, participants: room.participants.size,
+    });
+  }
+  res.json({ places });
+});
+
+app.post('/api/places', async (req, res) => {
+  if (!placeServer) return res.status(503).json({ error: 'Living Places not available' });
+  const { name, capacity, access_level } = req.body || {};
+  if (!name) return res.status(400).json({ error: 'name required' });
+  const place_id = `place_${Date.now().toString(36)}`;
+  try {
+    await placeServer.graphClient.createSpace(place_id, name, capacity || 20, access_level || 'public', 'active');
+    placeServer._initRoom({ id: place_id, name, capacity: capacity || 20, access_level: access_level || 'public', status: 'active' });
+    res.json({ place: { id: place_id, name, capacity: capacity || 20, access_level: access_level || 'public' } });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.post('/api/places/:id/notify', async (req, res) => {
+  if (!placeServer) return res.status(503).json({ error: 'Living Places not available' });
+  await placeServer.handleNotifyHTTP(req, res);
 });
 
 // ─── Speak endpoint (sessions push voice into the world) ──
@@ -196,10 +232,17 @@ const server = createServer(app);
 const wss = new WebSocketServer({ noServer: true });
 
 function handleUpgrade(request, socket, head) {
-  if (request.url === '/ws' || request.url.startsWith('/ws?')) {
+  const url = request.url || '';
+  if (url === '/ws' || url.startsWith('/ws?')) {
     wss.handleUpgrade(request, socket, head, (ws) => {
       wss.emit('connection', ws, request);
     });
+  } else if (url.startsWith('/places/ws')) {
+    if (placeServer) {
+      placeServer.handleUpgrade(request, socket, head);
+    } else {
+      socket.destroy();
+    }
   } else {
     socket.destroy();
   }
@@ -578,6 +621,22 @@ const aiManager = new AICitizenManager(broadcast, openai);
 
 // Speak endpoint uses global broadcast (available to all rooms)
 // The /speak route's send function already uses broadcast — that's correct.
+
+// ─── Living Places (graph-backed meeting rooms) ─────────
+try {
+  const graphClient = await GraphClient.connect({
+    host: process.env.FALKORDB_HOST || 'localhost',
+    port: parseInt(process.env.FALKORDB_PORT || '6379'),
+    graph: process.env.FALKORDB_GRAPH || 'manemus',
+  });
+  placeServer = new PlaceServer(graphClient);
+  const momentPipeline = new MomentPipeline(graphClient, placeServer, processVoiceStreaming);
+  placeServer.setMomentPipeline(momentPipeline);
+  placeServer.startReconciliation();
+  console.log('Living Places: active on /places/ws');
+} catch (e) {
+  console.warn(`Living Places: disabled (${e.message})`);
+}
 
 console.log('Waiting for citizens...');
 console.log('Room system active (default: LOBBY0)');
