@@ -1,12 +1,16 @@
 # SYNC: narrative/graph -- Current State
 
-Last updated: 2026-03-12
+Last updated: 2026-03-13
 
 ---
 
-## Status: SEEDING IN PROGRESS
+## Status: SEEDED
 
-FalkorDB confirmed running on localhost:6379. The `cities_of_light` graph exists but contains Blood Ledger data (693 nodes: 10 actors, 234 moments, 201 narratives). 152 citizens available in Airtable (base `appkLmnbsEFAZM5rB`) ready for seeding. No Venice-specific seed script exists yet — to be created at `scripts/seed_venice_graph.py`.
+FalkorDB running on localhost:6379. The `venezia` graph contains **both** mind protocol infrastructure (10 agents, 34 spaces, 198 narratives from `mind init`) **and** Venice citizen data (152 citizens, 7 districts, 141 narratives, 1,488 links). Seeded via `venezia/scripts/seed_venice_graph.py` from static JSON exports.
+
+**Graph totals:** 162 Actor nodes (10 agents + 152 citizens), 41 Space nodes (34 infra + 7 districts), 339 Narrative nodes (198 infra + 43 stratagems + 98 thoughts), 227 Moment nodes (infra).
+
+**District distribution:** Castello 87, Santa Croce 28, San Marco 10, Rialto 10, Dorsoduro 8, Cannaregio 6, San Polo 3.
 
 ---
 
@@ -46,10 +50,13 @@ The Serenissima Airtable base (`appkLmnbsEFAZM5rB`) holds:
 
 This is the source data for the Venice graph seeding pipeline.
 
+### What Now Exists (2026-03-13)
+
+- `venezia` graph in FalkorDB — **seeded** with 152 citizens, 7 districts, 141 narratives, 1,488 links
+- Seeding script — `venezia/scripts/seed_venice_graph.py` (reads from static JSON, supports `--clear` and `--dry-run`)
+
 ### What Does NOT Exist
 
-- `venezia` graph in FalkorDB (not created)
-- Seeding script (`scripts/seed_venice_graph.py`)
 - Venice-specific graph queries for conversation context
 - Physics bridge (`src/server/physics-bridge.js`) connecting Express server to FalkorDB
 - Economic energy injection pipeline (economy tick -> graph energy pump)
