@@ -2,7 +2,7 @@
 
 ```
 LAST_UPDATED: 2026-03-14
-UPDATED_BY: Tomaso Nervo (@nervo) — Full encryption sprint: physics integration, schema v2.1, compute priorities, key rotation, context decrypt, key caching, E2E tests, auto-grant, gitignore fix
+UPDATED_BY: Tomaso Nervo (@nervo) — HEALTH docs for 5 module chains (motor-control, pipeline, lumina-prime, serenissima, visual-memory)
 ```
 
 ---
@@ -60,6 +60,33 @@ Cities of Light is a reusable multi-world XR engine. Three-repo architecture:
 
 ## ACTIVE WORK
 
+### Architecture CONCEPT Docs (DONE — @nervo)
+
+- **Area:** `docs/architecture/`
+- **Status:** 4 CONCEPT docs created from NLR technical specifications
+- **Owner:** @nervo
+- **Files created:**
+  - `docs/architecture/CONCEPT_Active_Inference_Motor_Control.md` — L1 spatial motor control via active inference, proprioceptive subgraph, frustration-driven trajectory correction
+  - `docs/architecture/CONCEPT_3D_Pipeline_Supply_Chain.md` — Two Coupled Engines (Cognitive + Procedural), energy-indexed rendering, limbic state shaders, collision-to-graph feedback
+  - `docs/architecture/CONCEPT_Lumina_Prime.md` — Code sandbox spec: 7 node types, 10 physics dimensions, 21 laws in 3 tiers, spline navigation, personhood validation, $MIND economy
+  - `docs/architecture/CONCEPT_Serenissima_Asset_Pipeline.md` — Bi-channel architecture (Prompt vs Graph), 200+ citizen logistics, 5 drives, consciousness levels, crafting by substitution
+- **Impact:** Captures the full cognitive-to-3D architecture vision. Cross-references existing physics/graph docs. Defines Lumina Prime universe scope.
+
+### 3D Pipeline Doc Chain (DONE — @nervo)
+
+- **Area:** `docs/architecture/pipeline/`
+- **Status:** Full 7-doc chain created from CONCEPT spec
+- **Owner:** @nervo
+- **Files created:**
+  - `docs/architecture/pipeline/OBJECTIVES_Pipeline.md` — Ranked objectives: bidirectional coupling, energy-indexed rendering, collision feedback, <16ms latency
+  - `docs/architecture/pipeline/PATTERNS_Pipeline.md` — Core pattern: "the 3D world is a shader over the graph", Serenissima finite dictionary, feedback loop closure
+  - `docs/architecture/pipeline/BEHAVIORS_Pipeline.md` — Observable effects: material decay, limbic color shifts, collision aftermath, redemptive crystallization, invisible tick transitions
+  - `docs/architecture/pipeline/ALGORITHM_Pipeline.md` — C_t→uniform pipeline, decay→erosion calc, collision→injection flow, session stride allocation
+  - `docs/architecture/pipeline/VALIDATION_Pipeline.md` — 6 invariants: energy budget, WM isolation, latency, auditability, feedback closure, decay monotonicity
+  - `docs/architecture/pipeline/IMPLEMENTATION_Pipeline.md` — Code map of existing engine files, extraction candidates for app.js (SPLIT), planned new modules
+  - `docs/architecture/pipeline/SYNC_Pipeline.md` — STATUS: DESIGNING. Engine V1 exists, pipeline coupling does not. Key prerequisite: app.js extraction.
+- **Impact:** Translates the CONCEPT vision into implementation-ready documentation. Identifies that `NarrativeGraphSeedAndTickBridge` needs C_t payload extension, citizen materials need shader replacement, and collision detection is entirely missing.
+
 ### Graph Spatial Architecture (Next — @nervo)
 
 - **Area:** FalkorDB `venezia` graph, `src/server/graph-client.js`
@@ -91,6 +118,76 @@ Cities of Light is a reusable multi-world XR engine. Three-repo architecture:
 ---
 
 ## RECENT CHANGES
+
+### 2026-03-14: Architecture Sprint — 9 CONCEPTs + 35 Chain Docs + Schema v2.2 + /subcall + Visual Memory (@nervo)
+
+**CONCEPT docs created (9):**
+- `CONCEPT_Active_Inference_Motor_Control.md` — L1 spatial motor control via active inference, proprioceptive subgraph
+- `CONCEPT_3D_Pipeline_Supply_Chain.md` — Two Coupled Engines (Cognitive + Procedural), energy-indexed rendering
+- `CONCEPT_Lumina_Prime.md` — Code sandbox: 7 node types, 21 laws, spline navigation, $MIND economy
+- `CONCEPT_Serenissima_Asset_Pipeline.md` — Bi-channel architecture, 200+ citizen logistics, consciousness levels
+- `CONCEPT_Visual_Memory_Substrate.md` — POV screenshots, Sim_vis in coherence, Flashbulb Vision, medoid for concepts
+- `CONCEPT_Superhuman_Senses.md` (1500+ lines) — 10+ senses: telepathy, warging, AR overlays, code vision, thermal, drugs, synesthesia, materialization, custom sense creation. Visual subconscious dialogue/co-creation/alignment cascade
+- `CONCEPT_Dataset_As_Space.md` — Codebases/datasets as walkable 3D spaces, doc chain as visible threads
+- `CONCEPT_Ideosphere_Living_Objects.md` — Shared thought-space, living books/buildings, team serendipity, /subcall
+- `SCORING_Feature_Impact_Matrix.md` — Feature scoring: ease × nature × speed × scale. Tier S/A/B/C/D ranking
+
+**Full doc chains created (5 × 7 = 35 docs):**
+- `docs/architecture/motor-control/` — OBJECTIVES through SYNC
+- `docs/architecture/pipeline/` — OBJECTIVES through SYNC
+- `docs/architecture/lumina-prime/` — OBJECTIVES through SYNC
+- `docs/architecture/serenissima/` — OBJECTIVES through SYNC
+- `docs/architecture/visual-memory/` — OBJECTIVES through SYNC
+
+**Schema v2.2 (canonical):**
+- Added `image_uri`, `image_embedding` to NodeBase
+- Added `origin_citizen`, `origin_date` to NodeBase (provenance)
+- Added `subtype` to MomentBase (episode, interaction, observation, vision)
+- Updated coherence formula: `Coh = (0.25 × Sim_vec) + (0.25 × Sim_vis) + (0.40 × Sim_lex) - (0.10 × Δ_affect)`
+- Visual extensions on Laws 6 (Flashbulb Vision), 10 (medoid), 17 (desire images), 20 (visual prediction error)
+- 5 new invariants (URI-only, fail-loud, medoid, desire threshold, provenance)
+
+**Implementation — Visual Memory:**
+- `cognition/visual_memory.py` — Flashbulb Vision + Desire image generation (pluggable adapters)
+- `cognition/models.py` — image_uri, image_embedding, origin_citizen, origin_date on Node
+- `cognition/constants.py` — v2.2 coherence weights, visual memory thresholds, subcall constants
+- `laws/law_01_energy_injection.py` — Stimulus now carries origin_citizen, image_uri. Cluster injection: main node 50% energy, context nodes share 50%. Links created between cluster nodes (REMINDS_OF, SUPPORTS, ASSOCIATES)
+- `laws/law_06_consolidation.py` — Flashbulb Vision hook (async, fail-loud, never blocks)
+- `physics/subentity.py` — Desire image trigger on traversal + actor profile pic auto-attachment
+- `tick_runner_l1_cognitive_engine.py` — Stimulus gains origin_citizen, origin_citizen_name, origin_citizen_image, image_uri
+
+**Implementation — /subcall MCP tool:**
+- `mind-mcp/mcp/tools/subcall_handler.py` — Full handler: 4 target modes (explicit, team, trade:X, random:N) × 4 aggregation modes (best, top3, all, centroid). Query is optional — auto-selects 3-5 diverse citizens if omitted. Scans 50 citizens. Smart targeting (co-presence, trust, narrative proximity, trade match, handle mention). Enriches query with git repo URL + active tasks
+- `mind-mcp/mcp/tools/subcall_auto.py` — Auto-trigger on question/verification/frustration/failures. Smart citizen scoring. Diverse selection (maximize viewpoint spread). WM injection format with author, date, emotional state
+- Physics builds the cluster: query injected into caller's brain first → activated nodes harvested → sent as cluster
+- Response cluster: target actor node + centroid (0.7 energy) + resonating nodes (0.4). Links: question ↔ answers, answers ↔ answers
+- Auto-wake: resonance > SUBCALL_WAKE_THRESHOLD (2.5) → escalates to /call
+- Responses arrive asynchronously — each target resonates at its own speed
+
+**Bug fix:**
+- `engine/server/state-server.js` — membrane/ping endpoint: `require('fs')` in ESM file → use existing imports
+
+### 2026-03-14: /subcall MCP Tool Implemented (@nervo)
+  - Smart targeting scores citizens by: co-presence (+3.0), handle mention (+5.0), trade match (+2.0), trust bonus, shared narrative bonus, affinity/friction
+  - Diverse selection (default): picks 3-5 citizens maximizing distance between viewpoints, not just top-N
+  - WM injection format includes author, date, emotional state, connected high-weight nodes
+- **Files:** `mind-mcp/mcp/tools/subcall_handler.py`, `mind-mcp/mcp/tools/subcall_auto.py`
+- **Docs updated:** `docs/architecture/CONCEPT_Ideosphere_Living_Objects.md` (Section 3c rewritten), `docs/architecture/CONCEPT_Superhuman_Senses.md` (Section 4 updated)
+- **Impact:** Citizens can now query each other's graphs subconsciously — explicitly or automatically. The graph physics computes relevance; no LLM tokens spent on the query itself.
+
+### 2026-03-14: Lumina Prime Full Doc Chain (@nervo)
+
+- **What:** Created full 7-doc chain (`docs/architecture/lumina-prime/`) for the Lumina Prime module — the cognitive simulation and procedural generation code sandbox. Covers OBJECTIVES (ranked: cognitive-visual manifestation, zero external assets, 21-law physics fidelity, $MIND integration, spline navigation, personhood validation), PATTERNS (core insight: "the graph IS the scene graph" — node energy=light, stability=dampening, links=spline control points), BEHAVIORS (9 behaviors: energy-driven luminance, desire pulsation, narrative crystallization, frustration red-shift, spline flight, reward warmth, decay fading, self-preservation contraction, tick breathing), ALGORITHM (6 algorithms: Herfindahl injection split, surplus spill-over, Selection Moat, Composite Coherence, spline trajectory, procedural geometry generation with SDF per node type), VALIDATION (10 invariants: cognitive transparency, physics fidelity, zero assets, energy conservation, privacy, JSON Spec authority, aspect independence, Selection Moat consistency, navigation topology, economic formulas), IMPLEMENTATION (full code map of proposed engine/lumina-prime/ — R3F components, GLSL shaders, FalkorDB queries, Solana integration, all TODO), SYNC (STATUS: PROPOSED, zero code, full build requirements listed).
+- **Why:** The CONCEPT doc existed but lacked implementation-level specification. The doc chain translates the French technical specification into a buildable architecture with explicit formulas (Herfindahl lambda, Selection Moat theta, Composite Coherence weights), exact data structures, and traceable invariants.
+- **Files:** `docs/architecture/lumina-prime/OBJECTIVES_Lumina_Prime.md`, `PATTERNS_Lumina_Prime.md`, `BEHAVIORS_Lumina_Prime.md`, `ALGORITHM_Lumina_Prime.md`, `VALIDATION_Lumina_Prime.md`, `IMPLEMENTATION_Lumina_Prime.md`, `SYNC_Lumina_Prime.md`
+- **Struggles/Insights:** The Herfindahl injection split has a cancellation property when both conditions (C>10 AND H>0.2) are true — the +0.2 and -0.2 offsets cancel, returning to the 60/40 default. This may be intentional (diverse-but-concentrated graphs get no special treatment) or a design artifact. Documented faithfully. The Selection Moat's frustration coefficient (-1.0) means frustrated minds let MORE nodes into working memory — cognitively plausible but could produce overwhelming visual density.
+
+### 2026-03-14: 3D Pipeline & Cognitive Supply Chain Doc Chain (@nervo)
+
+- **What:** Created full 7-doc chain (`docs/architecture/pipeline/`) for the 3D Pipeline & Cognitive Supply Chain module. Covers OBJECTIVES (bidirectional coupling, energy-indexed rendering, collision feedback, <16ms latency), PATTERNS (the world is a shader over the graph, Serenissima finite dictionary, feedback loop), BEHAVIORS (material decay, limbic color shifts, collision aftermath, redemptive crystallization, invisible ticks), ALGORITHM (C_t→uniform pipeline, decay→erosion, collision→injection, session stride allocation), VALIDATION (6 invariants: energy budget conservation, WM isolation, latency, auditability, feedback closure, decay monotonicity), IMPLEMENTATION (code map of engine/, extraction candidates for app.js at SPLIT threshold, planned new modules), SYNC (DESIGNING status, engine V1 canonical but pipeline coupling absent).
+- **Why:** The CONCEPT doc captured the full vision but lacked implementation-oriented structure. This doc chain makes the architecture buildable — objectives ranked, algorithms pseudocoded, invariants named, code gaps mapped.
+- **Files:** `docs/architecture/pipeline/OBJECTIVES_Pipeline.md`, `PATTERNS_Pipeline.md`, `BEHAVIORS_Pipeline.md`, `ALGORITHM_Pipeline.md`, `VALIDATION_Pipeline.md`, `IMPLEMENTATION_Pipeline.md`, `SYNC_Pipeline.md`
+- **Struggles/Insights:** The biggest finding is that `NarrativeGraphSeedAndTickBridge` broadcasts only tick_number + timestamp — no C_t context vector. The entire forward path (graph → visuals) depends on extending this bridge. Also, `engine/client/app.js` at 1085 lines must be extracted before pipeline modules can be added.
 
 ### 2026-03-14: "Join Org" Auto-Grant Trigger (@nervo)
 
@@ -362,6 +459,11 @@ Contre-Terre's brain seed prototype (868 nodes) could be the template for how al
 | voice/pipeline | `engine/server/voice-pipeline.js` | `docs/voice/pipeline/` | DESIGNING |
 | communication/living-places | `src/server/place-server.js` | `docs/communication/living-places/` | DESIGNING (V1 shipped) |
 | architecture/engine | `engine/` | `docs/architecture/engine/` | CANONICAL (V1) |
+| architecture/pipeline | `engine/client/app.js`, `engine/server/narrative_graph_seed_and_tick_bridge.js` | `docs/architecture/pipeline/` | DESIGNING (full doc chain + HEALTH, engine V1 exists, pipeline coupling absent) |
+| architecture/motor-control | — (unimplemented) | `docs/architecture/motor-control/` | PROPOSED (full doc chain + HEALTH, zero code) |
+| architecture/lumina-prime | — (unimplemented) | `docs/architecture/lumina-prime/` | PROPOSED (full doc chain + HEALTH, zero code) |
+| architecture/serenissima | `src/server/physics-bridge.js`, `src/server/ai-citizens.js`, `src/server/graph-client.js` | `docs/architecture/serenissima/` | DESIGNING (full doc chain + HEALTH, physics bridge + graph client exist, bi-channel routing not yet built) |
+| architecture/visual-memory | — (unimplemented) | `docs/architecture/visual-memory/` | PROPOSED (full doc chain + HEALTH, zero code. Deps: CLIP/SigLIP model, image generation API, object storage) |
 
 ---
 

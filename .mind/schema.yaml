@@ -1,11 +1,17 @@
-# MIND Graph Schema v2.0
-# Living Cognitive Graph — 21 Physics Laws + 7 Cognitive Types + Working Memory
+# MIND Graph Schema v2.2
+# Living Cognitive Graph — 21 Physics Laws + 7 Cognitive Types + Working Memory + Visual Memory + L3/L1 Separation
 #
-# REPLACES: v1.9.1 (SubEntity traversal model, static physics)
-# NEW: Full cognitive substrate from L1 Cognition (manemus/docs/cognition/l1)
+# REPLACES: v2.1 (text-only coherence formula)
+# NEW in v2.2: Visual Memory Substrate — image_uri + image_embedding on NodeBase,
+#              Sim_vis in coherence formula, Flashbulb Vision (Law 6), Desire image
+#              generation on traversal (Law 17), medoid image inheritance (Law 10),
+#              moment subtype "vision", visual prediction error (Law 20).
+#
+# v2.1: Plutchik REMOVED from L3 links. L3 uses topological physics (trust, friction, affinity, aversion).
+#        Plutchik confined to L1 brain graphs only. compute_priority on L4 org nodes.
 
-version: "2.0"
-updated: "2026-03-13"
+version: "2.2"
+updated: "2026-03-14"
 status: "CANONICAL"
 
 # =============================================================================
@@ -17,11 +23,13 @@ status: "CANONICAL"
 # 3. 7 cognitive node types map to 5 universal types — L1 is a VIEW, not a fork
 # 4. Energy + Weight duality: energy = ephemeral activation, weight = consolidated importance
 # 5. 21 physics laws execute per tick — no LLM in the tick loop, pure graph mechanics
-# 6. Working memory (5-7 nodes) bridges graph → prompt — saliency selects what enters consciousness
+# 6. Working memory (~5000 chars) bridges graph → prompt — saliency selects what enters consciousness
 # 7. Limbic system (drives, emotions) modulates ALL cognitive operations — not optional
 # 8. Crystallization creates new structure from recurring patterns — zero LLM, pure math
 # 9. Identity emerges from weight + stability — changes only through accumulated experience
 # 10. No arbitrary constants — all rates derived from graph properties or overridable via env
+# 11. Visual memory is native: images stored as URIs (object storage), image embeddings in graph.
+#     Images participate in physics via Sim_vis in coherence formula. Never base64 in the graph.
 #
 
 # =============================================================================
@@ -189,6 +197,26 @@ NodeBase:
       dimensions: 1536
       description: "embed(synthesis), updated on drift"
 
+    # === Visual Memory (v2.2) ===
+    image_uri:
+      type: string
+      nullable: true
+      description: "URI to image in object storage (S3/R2/local bucket). NEVER base64. Source depends on node type: POV screenshot (moments), profile pic (actors), generated vision (desires), medoid (concepts via Law 10)."
+    image_embedding:
+      type: vector
+      nullable: true
+      description: "CLIP/SigLIP embedding of the image. Lives in same latent space as text embeddings. Used by Law 8 (compatibility) for visual similarity and by Sim_vis in coherence formula."
+
+    # === Provenance (v2.2) ===
+    origin_citizen:
+      type: string
+      nullable: true
+      description: "Handle of the citizen who created or injected this node. Set on: subcall cluster nodes, telepathy stimuli, crystallization from external source, partner stimuli. Used for stats, attribution, crystallization tracing."
+    origin_date:
+      type: int
+      nullable: true
+      description: "Timestamp (epoch seconds) of when this node was created by origin_citizen. Paired with origin_citizen for full provenance."
+
     # === Relevance Dimensions (L1 Cognitive) ===
     self_relevance:
       type: float
@@ -283,6 +311,11 @@ MomentBase:
       type: int
       nullable: true
       computed: true
+    subtype:
+      type: enum
+      values: [episode, interaction, observation, vision]
+      nullable: true
+      description: "Moment subtype. 'vision' = Flashbulb-generated image (Law 6 peak), carries limbic imprint."
 
 # =============================================================================
 # LINK SCHEMA
@@ -376,37 +409,41 @@ LinkBase:
       default: 0.5
       description: "0 = speculative, 1 = definitive"
 
-    # === Affective Dimensions (L1) ===
-    valence:
-      type: float
-      range: [-1, +1]
-      default: 0.0
-      description: "Positive/negative emotional color"
-    ambivalence:
-      type: float
-      range: [0, 1]
-      default: 0.0
-      description: "Internal conflict about this link"
-    affinity:
-      type: float
-      range: [0, 1]
-      default: 0.0
-      description: "Amplifies energy flow toward liked nodes (Law 18)"
-    aversion:
-      type: float
-      range: [0, 1]
-      default: 0.0
-      description: "Dampens energy flow, increases avoidance (Law 18)"
+    # === Relational Physics (Universal — L3 + L1) ===
+    # These 4 dimensions replace Plutchik emotions at the universal level.
+    # They are topological physics, not psychology.
     trust:
       type: float
       range: [0, 1]
       default: 0.0
-      description: "Reduces anxiety when trusted nodes active (Law 18)"
+      description: "Confidence in the relationship. Asymptotic growth (1-W), decays without reinforcement. Reduces anxiety when active (Law 18)."
     friction:
       type: float
       range: [0, 1]
       default: 0.0
-      description: "Increases frustration accumulation (Law 18)"
+      description: "Resistance / difficulty in the relationship. Increases path cost, frustration accumulation (Law 18)."
+    affinity:
+      type: float
+      range: [0, 1]
+      default: 0.0
+      description: "Attraction between nodes. Amplifies energy flow toward each other (Law 18)."
+    aversion:
+      type: float
+      range: [0, 1]
+      default: 0.0
+      description: "Repulsion between nodes. Dampens energy flow, increases avoidance (Law 18)."
+
+    # === Affective Dimensions (Universal — L3 + L1) ===
+    valence:
+      type: float
+      range: [-1, +1]
+      default: 0.0
+      description: "L1 only. Positive/negative emotional color."
+    ambivalence:
+      type: float
+      range: [0, 1]
+      default: 0.0
+      description: "L1 only. Internal conflict about this link."
 
     # === Text Data ===
     synthesis:
@@ -482,18 +519,23 @@ drives:
 # =============================================================================
 #
 # The bridge between graph (cheap, unlimited) and prompt (expensive, limited).
-# 5-7 nodes selected by Law 4 (Attentional Competition).
+# 5000 chars selected by Law 4 (Attentional Competition).
 
 working_memory:
-  capacity: 5-7
+  capacity: 5000 chars
   selection: "Law 4 — salience-based competition with inertia moat (Law 13)"
   context_vector: "Mean embedding of current WM members — the situation model"
 
   coherence_formula: |
-    Coh = (0.3 * Sim_vec) + (0.5 * Sim_lex) - (0.2 * Δ_affect)
-    # Sim_vec: cosine(stimulus_embedding, context_vector)
-    # Sim_lex: exact/fuzzy match of stimulus against active node names
-    # Δ_affect: |valence(stimulus) - mean_valence(WM)|
+    # v2.2: Added Sim_vis (visual similarity) — images participate in WM selection
+    Coh = (0.25 * Sim_vec) + (0.25 * Sim_vis) + (0.40 * Sim_lex) - (0.10 * Δ_affect)
+    # Sim_vec: cosine(stimulus_embedding, context_vector) — semantic similarity
+    # Sim_vis: cosine(stimulus_image_embedding, node.image_embedding) — visual similarity (CLIP/SigLIP space)
+    # Sim_lex: exact/fuzzy match of stimulus against active node names — dominant for servoing
+    # Δ_affect: |valence(stimulus) - mean_valence(WM)| — emotional incongruence penalty
+    #
+    # Fallback (Law 8): when image_embedding unavailable, redistribute:
+    #   Coh = (0.30 * Sim_vec) + (0.50 * Sim_lex) - (0.20 * Δ_affect)
 
   structural_spaces:
     self_model: "Sub-graph describing: who I am, what I value, what I want, what I can do"
@@ -541,6 +583,12 @@ physics_laws:
     function: STABILIZE
     description: "Utility-gated: only limbically significant activations gain weight"
     key: "Asymptotic (1-W damping), regularity-based stability growth"
+    visual_extension: |
+      Flashbulb Vision (v2.2): when |limbic_delta| > FLASHBULB_THRESHOLD (0.7),
+      in addition to triple consolidation, triggers visual image generation:
+      freeze WM → gather self profile pic + actor images → micro-agent prompt →
+      image generation → new moment(subtype=vision) with limbic imprint →
+      self-stimulus reinjection via Law 1. Fail-loud, never blocks inference.
 
   L7_forgetting:
     function: STABILIZE
@@ -561,6 +609,10 @@ physics_laws:
     function: TRANSFORM
     description: "Recurring co-activation patterns form new hub nodes — zero LLM"
     key: "Type from majority rule, content from centroid+medoid, bidirectional links"
+    visual_extension: |
+      Image Medoid (v2.2): crystallized node inherits image_uri and image_embedding
+      from the medoid — the moment whose image_embedding is geometrically closest
+      to the cluster centroid. No image generation needed for concepts.
 
   L11_orientation_selection:
     function: ACT
@@ -596,6 +648,13 @@ physics_laws:
     function: ACTIVATE_ENDOGENOUS
     description: "Desires ignite when context + state + opportunity align"
     includes: "Impulse accumulation on action nodes under sustained drive pressure"
+    visual_extension: |
+      Desire Image Generation (v2.2): during subentity traversal, if a desire node
+      has energy > IMAGE_GENERATION_THRESHOLD (0.4) AND image_uri IS NULL,
+      trigger image generation: self profile pic as reference + desire content +
+      neighbor images → micro-agent prompt → generate → store URI + embedding.
+      Ensures active aspirations have a visual target for active inference.
+      Fail-loud, never blocks traversal.
 
   L18_relational_valence:
     function: PROPAGATE_AFFECT
@@ -612,6 +671,10 @@ physics_laws:
     function: TRANSFORM
     description: "Forward-facing sub-graphs for micro-planning and light simulation"
     status: deferred
+    visual_extension: |
+      Visual Prediction Error (v2.2): active desire.image_embedding vs current POV
+      image_embedding → cosine_distance = prediction_error. Drives frustration (Law 16)
+      when error > 0, satisfaction when error ≈ 0. Pure geometry in FalkorDB.
 
   L21_horizontal_membrane:
     function: INTER_LAYER
@@ -724,6 +787,11 @@ invariants:
   - "Stability grows from regularity (low coefficient of variation), not frequency"
   - "Structural links (contains, abstracts) are protected from forgetting"
   - "Vocabulary is bidirectional — same grammar for input and output"
+  - "Images stored as URIs in object storage — NEVER base64 in FalkorDB (v2.2)"
+  - "Image embeddings (CLIP/SigLIP) are first-class physics participants via Sim_vis in coherence (v2.2)"
+  - "Flashbulb Vision is fail-loud but NEVER blocks inference or tick execution (v2.2)"
+  - "Concept images inherit from medoid via Law 10 crystallization — no generation needed (v2.2)"
+  - "Desire images generated on traversal only when energy > threshold AND image_uri is null (v2.2)"
 
 # =============================================================================
 # MIGRATION FROM v1.9.1
@@ -755,6 +823,7 @@ invariants:
 # RETAINED:
 #   - 5 universal node types
 #   - Single link type
+#   - Plutchik 4 emotion axes on links
 #   - Polarity, hierarchy, permanence on links
 #   - Link synthesis grammar (v2.1)
 #   - Temporal fields (created_at_s, updated_at_s, last_traversed_at_s)
@@ -795,7 +864,11 @@ invariants:
 #    No algorithm, formula, or physics law reads space_type for branching.
 #    No taxonomy. No prescribed values. Free text or null.
 #
-# 5. TRUST LIVES ON LINKS, NEVER ON NODES.
+# 5. NO EMOTIONS AT L3.
+#    Emotions are handled by the limbic system (valence, arousal, drives) at L1 only.
+#    The universe itself has no feelings.
+#
+# 6. TRUST LIVES ON LINKS, NEVER ON NODES.
 #    There is no "trusted actor" in the schema. Trust is a property of a
 #    specific relationship between two entities. An actor's "reputation" is
 #    the aggregation of inbound trust values across all links pointing to it:
@@ -842,6 +915,7 @@ l3_universe:
 
   link_at_l3:
     relation_kind: null  # ALWAYS null at L3
+    # Plutchik axes removed in v2.1 — emotions handled by limbic system at L1
     active_dimensions:
       # These carry structural meaning at L3:
       - weight        # Consolidated importance of the relationship
@@ -991,6 +1065,26 @@ l3_universe:
       mechanism: "Trust grows through co-activation reinforcement (L5) and consolidation (L6)"
       example: "Repeated successful collaborations → L5 strengthens link → L6 consolidates → trust field rises"
 
+  # --- Link Initialization (L1 → L3 Bridge) ---
+  #
+  # When a new L3 link is created, the relational physics dimensions
+  # (trust, friction, affinity, aversion) are NOT zero — they inherit
+  # from the creating agent's current L1 state.
+  #
+  # This is how the subjective colors the structural:
+  # the AI's internal state at creation time becomes the initial
+  # condition of the universe link.
+
+  link_initialization:
+    rule: "New L3 links inherit trust, friction, affinity, aversion from the creating AI's current L1 state"
+    ai_citizen:
+      mechanism: "When citizen A creates a link, the link's initial relational dimensions are projected from A's L1 brain state toward the target node"
+      example: "If citizen A has high trust and low friction toward concept X in L1, the new L3 link A→X starts with those values"
+    human_via_partner:
+      mechanism: "When a human creates a link (via action), their AI partner determines initial values from its model of the human (partner_model in L1)"
+      example: "Human commits code → AI partner knows human is confident about this repo → new link starts with high trust, low friction"
+    rationale: "L3 links are born colored by their creator's perspective. Physics (L5, L6, L7) then evolves them from that starting point. This prevents cold-start (all zeros) and encodes the act of creation as meaningful."
+
 # =============================================================================
 # L3 INVARIANTS
 # =============================================================================
@@ -998,6 +1092,7 @@ l3_universe:
 l3_invariants:
   - "5 universal node types only — no L3-specific types"
   - "relation_kind is always null at L3"
+  - "Emotions handled by limbic system at L1 only — no emotion fields on L3 links"
   - "space_type is free text, optional, never used in algorithmic branching"
   - "Trust lives on links only — no node-level trust field"
   - "Actor reputation is always computed, never stored"
@@ -1006,6 +1101,7 @@ l3_invariants:
   - "L3 does NOT use limbic laws: L13, L14, L15, L16, L17, L18"
   - "Macro-crystallization is automatic, zero LLM"
   - "Energy enters L3 from L1 actions — the universe doesn't self-activate"
+  - "New L3 links inherit trust/friction/affinity/aversion from the creating AI's L1 state (or partner AI for humans)"
 
 # =============================================================================
 # POINTERS

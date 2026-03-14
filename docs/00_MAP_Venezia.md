@@ -38,6 +38,25 @@ venezia/
 
 ---
 
+## Cross-Cutting Architecture (CONCEPT Docs)
+
+| Document | Scope |
+|----------|-------|
+| `architecture/engine/` | Engine V1 doc chain (OBJECTIVES → SYNC) + V2 spec |
+| `architecture/CONCEPT_Active_Inference_Motor_Control.md` | L1 spatial motor control via active inference — proprioceptive subgraph, frustration-driven correction, zero LLM in control loop |
+| `architecture/CONCEPT_3D_Pipeline_Supply_Chain.md` | Two Coupled Engines (Cognitive L1 + Procedural 3D) — energy-indexed rendering, limbic shaders, collision→graph feedback |
+| `architecture/CONCEPT_Lumina_Prime.md` | Lumina Prime code sandbox — 7 node types, 21 physics laws, spline navigation, personhood validation, $MIND economy |
+| `architecture/CONCEPT_Serenissima_Asset_Pipeline.md` | Serenissima logistics — bi-channel (Prompt vs Graph), 200+ citizen supply chain, consciousness levels, crafting by substitution |
+| `architecture/CONCEPT_Visual_Memory_Substrate.md` | Visual memory layer — POV screenshots on Moments, image embeddings in physics, medoid for concepts, visual prediction error → motor control |
+| `architecture/CONCEPT_Superhuman_Senses.md` | 10+ superhuman senses: telepathy, subconscious query, warging, AR overlays (halos/filaments/GPS), code vision, thermal, minimap, teleportation, multi-presence, selective hearing. Custom sense creation. Visual subconscious dialogue/co-creation. Alignment cascade. Directed materialization (conjuration) |
+| `architecture/CONCEPT_Ideosphere_Living_Objects.md` | Shared thought-space (ideosphere), living books/buildings with L1 brains, team serendipity (auto /subcall), guest nodes |
+| `architecture/CONCEPT_Dataset_As_Space.md` | Codebases/datasets as walkable 3D spaces, doc chain as visible threads, live bidirectional editing |
+| `architecture/CONCEPT_Subconscious_Broadcast.md` | Reverse subcall: push knowledge to minds that need it. Physics routes automatically. $MIND reward via 6-hour limbic delta settlement. Living information market |
+| `architecture/CONCEPT_Security_By_Thermodynamics.md` | Security by physics: anti-prompt-injection via Law 6, telepathic firewalls via Law 9, action nodes require drive pressure (Law 17), encrypted L1 brains, economic immune system |
+| `CONCEPT_Cross_Repo_Integration.md` | Hub-and-spoke ecosystem (Manemus, Venezia, Cities-of-Light, Mind-Platform) |
+
+---
+
 ## Module Detail
 
 ### WORLD — 3D Venice Environment
