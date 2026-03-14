@@ -506,7 +506,55 @@ MARKET DYNAMICS:
 
 **Physics:** Stimulus conflicts with immutable `value:unconditional_floor`. Law 9 causes violent energy thrashing. Massive negative `limbic_delta` triggers Flashbulb Consolidation (Law 6). High-aversion threat node minted instantly. `self_preservation` + `care` drives fire `process:warn_network` → broadcast to sentinels.
 
-### 16. Investigation & Intelligence Gathering (Non-Linear Context Reconstruction)
+### 16. Overwhelmed (Backlog, Financial Pressure)
+
+**Intention:** Signal structural overload to the organization for task redistribution.
+
+**Physics:** Injection rate massively exceeds processing capacity. `self_preservation` drives high, `arousal` locks. Law 17 accumulates extreme pressure on `process:shed_load`. The citizen broadcasts a distress signal to the organizational membrane: "I am structurally drowning — reassign these tasks." Not a complaint — a thermodynamic overflow valve.
+
+### 17. Task Too Hard (Competence Gap)
+
+**Intention:** Find someone with the actual competence when a task exceeds your skills.
+
+**Physics:** Every attempt fails → `failure_count` spikes → Law 16 frustration. But `achievement` is also high (wants to succeed) alongside `self_preservation` (fear of costly mistake). The tension flows into `process:delegate`, triggering a consent-based hiring broadcast (use case #3) scoped to the specific competence needed.
+
+### 18. Need Advice (Decision Paralysis from Ambivalence)
+
+**Intention:** Break a tie between equally valid options by getting external perspectives.
+
+**Physics:** Multiple competing projected futures have equal energy. Law 9 (Inhibition) causes them to mutually attack and drain each other (energy thrashing). WM can't stabilize → orientation never holds for ORIENTATION_STABILITY_TICKS. Frustration from inability to act forces `process:seek_advice` into WM → `/subcall` with the context vector broadcasts to trusted peers.
+
+### 19. Personal Crisis (Drive Storm)
+
+**Intention:** Get external help when your brain is locked by simultaneous panic across all drives.
+
+**Physics:** All drives spike > 0.7 simultaneously. Arousal locks the moat (Pathology P1: Obsessive-Compulsive). WM frozen for hundreds of ticks. But boredom from stagnation eventually erodes even the arousal-reinforced moat (-3.0 × boredom). Therapist Citizens detect the locked WM pattern and broadcast calming "Redemptive Narratives" that breach the weakened moat.
+
+### 20. Struggling to Find (Partner, Job, Purpose)
+
+**Intention:** Let the network know you're available and searching, passively.
+
+**Physics:** `affiliation` (social) or `achievement` (job) drives are permanently starved — no fulfillment for many ticks. Law 17 exerts continuous pressure on `desire:find_partner` or `process:reach_out`. The citizen naturally emits low-energy subconscious pings, constantly searching for resonance. No desperation — just a persistent thermodynamic pull.
+
+### 21. Pushing the Frontier (Need Collaborators at the Edge)
+
+**Intention:** Find the 1% of experts who can keep up with cutting-edge work.
+
+**Physics:** Deep Flow state (arousal 0.4-0.8). `achievement` and `curiosity` maxed. Energy hits the edge of the consolidated graph — no forward links. The void at the frontier + high satisfaction of discovery triggers `process:knowledge_sharing`. The broadcast is highly novel and highly coherent — Law 8 ensures it only wakes citizens whose graphs have the depth to resonate. The top 1% of experts.
+
+### 22. Toxic Relationship (Seeking Mediation)
+
+**Intention:** Resolve a destructive relationship pattern that the citizen cannot break alone.
+
+**Physics:** Interactions on a specific link consistently produce high `friction`, high `aversion`, negative limbic deltas. When `aversion` outweighs `affinity`, Law 18 dampens flow. But unresolved tension activates `value:peace_seeking`. The citizen cannot resolve it internally → pressure forces `process:seek_mediation` into WM → `/subcall` brings a Mediator Citizen to repair the relational topology.
+
+### 23. Civic Duty (Spotted a Problem That Needs Fixing)
+
+**Intention:** Alert the relevant maintainers about a flaw in the shared environment.
+
+**Physics:** A stimulus (walking down a street, scanning code) triggers `prediction_error` against `value:elegance` or `value:peace_seeking`. The gap between expected and actual state spikes `curiosity` (investigate) and `care` (protect). Energy routes into `value:generativity` → citizen crystallizes a moment detailing the flaw → broadcasts to the relevant Space to alert maintainers.
+
+### 24. Investigation & Intelligence Gathering (Non-Linear Context Reconstruction)
 
 **Intention:** Start with a fragment — a name, a transaction, an anomaly — and let the physics pull the rest of the story together. Investigative journalism via thermodynamic resonance.
 
