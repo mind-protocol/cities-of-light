@@ -146,11 +146,16 @@ scene.add(new THREE.Mesh(skyGeo, skyMat));
 const citizenMeshes = new Map();
 
 const CLASS_COLORS = {
-  Patrician: 0xd4af37,
-  Cittadino: 0x4a7ab5,
-  Popolano: 0xb87333,
-  Ecclesiastic: 0x9b59b6,
-  Forestiero: 0x2ecc71,
+  Nobili: 0xd4af37,
+  Cittadini: 0x4a7ab5,
+  Popolani: 0xb87333,
+  Facchini: 0x8b6914,
+  Artisti: 0xe74c3c,
+  Scientisti: 0x3498db,
+  Clero: 0x9b59b6,
+  Forestieri: 0x2ecc71,
+  Innovatori: 0xf39c12,
+  Ambasciatore: 0x1abc9c,
 };
 
 function spawnCitizens(citizens, world) {
