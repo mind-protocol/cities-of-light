@@ -417,7 +417,7 @@ export class WorldLoader {
       throw new Error(`Failed to load bridges data: ${fullPath} (${response.status})`);
     }
     const bridges = await response.json();
-    return bridges.map((b) => this._normalizeBridgePlacement(b, manifest));
+    return bridges;
   }
 
   _normalizeGeographicPlacement(entry, manifest) {
