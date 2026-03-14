@@ -14,7 +14,7 @@ import express from 'express';
 import { createServer as createHttpServer } from 'http';
 import { WebSocketServer } from 'ws';
 import { existsSync } from 'fs';
-import { resolve } from 'path';
+import { resolve, join } from 'path';
 import { PROTOCOL_VERSION, SERVER_MESSAGES, CLIENT_MESSAGES, AI_MESSAGES } from '../shared/protocol.js';
 
 /**
@@ -248,18 +248,17 @@ export function createServer({ port = 8800, manifest, basePath }) {
   // Membrane ping — lightweight citizen liveness check (for L4 registry)
   app.get('/membrane/ping/:handle', (req, res) => {
     const handle = req.params.handle;
-    const fs = require('fs');
-    const path = require('path');
-    const citizensDir = path.resolve(process.cwd(), 'citizens');
-    const hasProfile = fs.existsSync(path.join(citizensDir, handle, 'profile.json'));
-    const hasClaude = fs.existsSync(path.join(citizensDir, handle, 'CLAUDE.md'));
+    const base = options.basePath || process.cwd();
+    const citizensDir = resolve(base, 'citizens');
+    const hasProfile = existsSync(join(citizensDir, handle, 'profile.json'));
+    const hasClaude = existsSync(join(citizensDir, handle, 'CLAUDE.md'));
     const inEngine = app.entityManager && app.entityManager.entities.has(handle);
     res.json({
       handle,
       alive: hasProfile || hasClaude || inEngine,
       profile: hasProfile,
       brain_nodes: inEngine ? 1 : 0,
-      has_keys: fs.existsSync(path.resolve(process.cwd(), '.keys', handle)),
+      has_keys: existsSync(resolve(base, '.keys', handle)),
     });
   });
 
