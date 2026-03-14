@@ -22,7 +22,7 @@ export class GraphClient {
    * @param {{ host?: string, port?: number, graph?: string }} opts
    * @returns {Promise<GraphClient>}
    */
-  static async connect({ host = 'localhost', port = 6379, graph = 'manemus' } = {}) {
+  static async connect({ host = 'localhost', port = 6379, graph = 'venezia' } = {}) {
     const db = await FalkorDB.connect({
       socket: { host, port },
     });
@@ -34,25 +34,177 @@ export class GraphClient {
 
   /**
    * Create or update a Space node (idempotent via MERGE).
+   * Access is NOT a property — it's handled via HAS_ACCESS links.
+   * Public spaces have no HAS_ACCESS links (open to all).
+   * @param {string} id
+   * @param {string} name
+   * @param {number} capacity
+   * @param {string} status
+   * @param {Object} extra — additional properties (type, position_x, position_z, etc.)
    */
-  async createSpace(id, name, capacity, accessLevel, status = 'active') {
-    const synthesis = `${name}. Meeting room. Capacity: ${capacity}. Access: ${accessLevel}.`;
+  async createSpace(id, name, capacity, status = 'active', extra = {}) {
+    const type = extra.type || 'place';
+    const visibility = extra.visibility || 'public';
+    const synthesis = extra.synthesis || `${name}. ${type}. Capacity: ${capacity}.`;
     const now = new Date().toISOString();
     const nowS = Math.floor(Date.now() / 1000);
 
     await this._graph.query(
       `MERGE (s:Space {id: $id})
-       SET s.type = 'place',
+       SET s.type = $type,
            s.name = $name,
            s.capacity = $capacity,
-           s.access_level = $access_level,
            s.status = $status,
+           s.visibility = $visibility,
            s.synthesis = $synthesis,
            s.created_at = COALESCE(s.created_at, $now),
            s.created_at_s = COALESCE(s.created_at_s, $now_s)`,
-      { params: { id, name, capacity, access_level: accessLevel, status, synthesis, now, now_s: nowS } },
+      { params: { id, name, capacity, type, status, visibility, synthesis, now, now_s: nowS } },
     );
-    return { id, name, capacity, accessLevel, status, synthesis };
+    return { id, name, capacity, status, type, visibility, synthesis };
+  }
+
+  /**
+   * Ensure a Space exists (MERGE semantics). Returns existing or new Space.
+   * Use this for auto-creation on join — joining implies existence.
+   */
+  async ensureSpace(id, defaults = {}) {
+    const existing = await this.getSpace(id);
+    if (existing) return existing;
+    const name = defaults.name || id;
+    const capacity = defaults.capacity || 50;
+    const type = defaults.type || 'place';
+    const visibility = defaults.visibility || 'public';
+    return this.createSpace(id, name, capacity, 'active', { type, visibility, synthesis: defaults.synthesis });
+  }
+
+  // ─── Access Control (via HAS_ACCESS links) ─────────────
+
+  /**
+   * Grant access to a Space. Creates a HAS_ACCESS link with role and optional encrypted key.
+   * @param {string} actorId
+   * @param {string} spaceId
+   * @param {string} role — 'owner', 'admin', or 'member'
+   * @param {string|null} encryptedKey — Space symmetric key encrypted with actor's public key
+   */
+  async grantAccess(actorId, spaceId, role = 'member', encryptedKey = null) {
+    const props = { role };
+    if (encryptedKey) props.encrypted_key = encryptedKey;
+    // MERGE to avoid duplicate access links
+    const propsStr = Object.entries(props).map(([k, v]) => `r.${k} = $prop_${k}`).join(', ');
+    const params = { src: actorId, tgt: spaceId };
+    for (const [k, v] of Object.entries(props)) params[`prop_${k}`] = v;
+
+    await this._graph.query(
+      `MATCH (a {id: $src}), (s:Space {id: $tgt})
+       MERGE (a)-[r:link {type: 'HAS_ACCESS'}]->(s)
+       SET ${propsStr}`,
+      { params },
+    );
+  }
+
+  /**
+   * Revoke access to a Space.
+   */
+  async revokeAccess(actorId, spaceId) {
+    await this.removeLink(actorId, spaceId, 'HAS_ACCESS');
+  }
+
+  /**
+   * Check if an actor has access to a Space (direct or via parent hierarchy).
+   * @returns {{ hasAccess: boolean, role: string|null }}
+   */
+  async checkAccess(actorId, spaceId) {
+    // Direct access
+    const direct = await this._graph.roQuery(
+      `MATCH (a {id: $actor})-[r:link {type: 'HAS_ACCESS'}]->(s:Space {id: $space})
+       RETURN r.role`,
+      { params: { actor: actorId, space: spaceId } },
+    );
+    if (direct.data && direct.data.length > 0) {
+      return { hasAccess: true, role: direct.data[0]['r.role'] };
+    }
+    // Hierarchical: check parent spaces (up to 5 levels)
+    const parent = await this._graph.roQuery(
+      `MATCH (s:Space {id: $space})-[:link {type: 'IN'}*1..5]->(parent:Space)
+       MATCH (a {id: $actor})-[r:link {type: 'HAS_ACCESS'}]->(parent)
+       RETURN r.role
+       LIMIT 1`,
+      { params: { actor: actorId, space: spaceId } },
+    );
+    if (parent.data && parent.data.length > 0) {
+      return { hasAccess: true, role: parent.data[0]['r.role'] };
+    }
+    return { hasAccess: false, role: null };
+  }
+
+  /**
+   * Check if a Space is private.
+   * @param {string} spaceId
+   * @returns {Promise<boolean>}
+   */
+  async isSpacePrivate(spaceId) {
+    const space = await this.getSpace(spaceId);
+    return space && space.visibility === 'private';
+  }
+
+  /**
+   * Get the encrypted space key for an actor's access to a private Space.
+   * Checks direct HAS_ACCESS link first, then parent hierarchy (max 5 levels via IN links).
+   * @param {string} actorId
+   * @param {string} spaceId
+   * @returns {Promise<string|null>} — encrypted_key string or null
+   */
+  async getEncryptedSpaceKey(actorId, spaceId) {
+    // Direct access
+    const direct = await this._graph.roQuery(
+      `MATCH (a {id: $actor})-[r:link {type: 'HAS_ACCESS'}]->(s:Space {id: $space})
+       RETURN r.encrypted_key`,
+      { params: { actor: actorId, space: spaceId } },
+    );
+    if (direct.data && direct.data.length > 0 && direct.data[0]['r.encrypted_key']) {
+      return direct.data[0]['r.encrypted_key'];
+    }
+    // Hierarchical: check parent spaces (up to 5 levels)
+    const parent = await this._graph.roQuery(
+      `MATCH (s:Space {id: $space})-[:link {type: 'IN'}*1..5]->(parent:Space)
+       MATCH (a {id: $actor})-[r:link {type: 'HAS_ACCESS'}]->(parent)
+       RETURN r.encrypted_key
+       LIMIT 1`,
+      { params: { actor: actorId, space: spaceId } },
+    );
+    if (parent.data && parent.data.length > 0 && parent.data[0]['r.encrypted_key']) {
+      return parent.data[0]['r.encrypted_key'];
+    }
+    return null;
+  }
+
+  // ─── Actor Public Key Operations ────────────────────────
+
+  /**
+   * Store a public key on an Actor node for end-to-end encryption.
+   * @param {string} actorId
+   * @param {string} publicKey — PEM or base64-encoded public key
+   */
+  async setActorPublicKey(actorId, publicKey) {
+    await this._graph.query(
+      `MATCH (a {id: $id}) SET a.public_key = $public_key`,
+      { params: { id: actorId, public_key: publicKey } },
+    );
+  }
+
+  /**
+   * Retrieve the public key stored on an Actor node.
+   * @param {string} actorId
+   * @returns {Promise<string|null>}
+   */
+  async getActorPublicKey(actorId) {
+    const result = await this._graph.roQuery(
+      `MATCH (a {id: $id}) RETURN a.public_key`,
+      { params: { id: actorId } },
+    );
+    if (!result.data || result.data.length === 0) return null;
+    return result.data[0]['a.public_key'] || null;
   }
 
   /**
@@ -61,12 +213,16 @@ export class GraphClient {
    */
   async getSpace(spaceId) {
     const result = await this._graph.roQuery(
-      `MATCH (s:Space {id: $id}) RETURN s.id, s.name, s.capacity, s.access_level, s.status`,
+      `MATCH (s:Space {id: $id}) RETURN s.id, s.name, s.capacity, s.status, s.type, s.visibility`,
       { params: { id: spaceId } },
     );
     if (!result.data || result.data.length === 0) return null;
     const row = result.data[0];
-    return { id: row['s.id'], name: row['s.name'], capacity: row['s.capacity'], access_level: row['s.access_level'], status: row['s.status'] };
+    return {
+      id: row['s.id'], name: row['s.name'], capacity: row['s.capacity'],
+      status: row['s.status'], type: row['s.type'],
+      visibility: row['s.visibility'] || 'public',
+    };
   }
 
   /**

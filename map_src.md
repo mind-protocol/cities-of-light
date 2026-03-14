@@ -1,44 +1,47 @@
 # Repository Map: cities-of-light/src
 
-*Generated: 2026-03-12 13:29*
+*Generated: 2026-03-13 19:50*
 
 ## Statistics
 
-- **Files:** 18
+- **Files:** 21
 - **Directories:** 5
-- **Total Size:** 218.4K
+- **Total Size:** 245.7K
 - **Doc Files:** 0
-- **Code Files:** 18
-- **Areas:** 7 (docs/ subfolders)
-- **Modules:** 20 (subfolders in areas)
+- **Code Files:** 21
+- **Areas:** 9 (docs/ subfolders)
+- **Modules:** 22 (subfolders in areas)
 - **DOCS Links:** 0 (0.0 avg per code file)
 
 ### By Language
 
-- javascript: 18
+- javascript: 21
 
 ## File Tree
 
 ```
-├── client/ (172.9K)
+├── client/ (188.7K)
 │   ├── public/ (1.6K)
 │   │   └── sw.js (1.6K)
 │   ├── avatar.js (9.5K)
 │   ├── main.js (35.4K)
-│   ├── memorial.js (6.3K)
 │   ├── network.js (8.4K)
+│   ├── place-app.js (7.8K)
 │   ├── scene.js (30.4K)
 │   ├── sculpture.js (6.7K)
 │   ├── voice-chat.js (8.8K)
 │   ├── voice.js (15.3K)
 │   ├── vr-controls.js (12.7K)
 │   ├── wearable-display.js (8.6K)
-│   └── (..8 more files)
-├── server/ (71.3K)
+│   └── (..12 more files)
+├── server/ (97.1K)
 │   ├── ai-citizens.js (9.5K)
 │   ├── biography-voice.js (6.1K)
-│   ├── index.js (19.7K)
+│   ├── graph-client.js (8.3K)
+│   ├── index.js (22.4K)
+│   ├── moment-pipeline.js (3.2K)
 │   ├── perception.js (3.2K)
+│   ├── place-server.js (11.6K)
 │   ├── rooms.js (4.4K)
 │   └── voice.js (28.3K)
 └── shared/ (3.4K)
@@ -65,15 +68,22 @@
 - `enableVRButton()`
 - `manualActive()`
 
-### `client/memorial.js`
-
-**Definitions:**
-- `class Memorial`
-
 ### `client/network.js`
 
 **Definitions:**
 - `class Network`
+
+### `client/place-app.js`
+
+**Definitions:**
+- `authorColor()`
+- `renderMoment()`
+- `renderSystemMessage()`
+- `updateParticipants()`
+- `sendMessage()`
+- `startRecording()`
+- `stopRecording()`
+- `escapeHtml()`
 
 ### `client/scene.js`
 
@@ -149,6 +159,11 @@
 **Definitions:**
 - `processBiographyVoice()`
 
+### `server/graph-client.js`
+
+**Definitions:**
+- `class GraphClient`
+
 ### `server/index.js`
 
 **Imports:**
@@ -161,11 +176,21 @@
 - `send()`
 - `broadcast()`
 
+### `server/moment-pipeline.js`
+
+**Definitions:**
+- `class MomentPipeline`
+
 ### `server/perception.js`
 
 **Definitions:**
 - `storeFrame()`
 - `perceptionRoutes()`
+
+### `server/place-server.js`
+
+**Definitions:**
+- `class PlaceServer`
 
 ### `server/rooms.js`
 

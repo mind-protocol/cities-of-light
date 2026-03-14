@@ -52,7 +52,8 @@ export class PlaceServer {
         if (this.momentPipeline) {
           const conn = this.connections.get(ws);
           if (!conn) { this._sendError(ws, 'Not joined'); return; }
-          await this.momentPipeline.handleInput(conn.actor_id, conn.space_id, msg.content, msg.kind || 'text', 'text');
+          const momentOpts = msg.encrypted ? { encrypted: true } : {};
+          await this.momentPipeline.handleInput(conn.actor_id, conn.space_id, msg.content, msg.kind || 'text', 'text', momentOpts);
         }
         break;
       case 'place:voice':
@@ -73,7 +74,7 @@ export class PlaceServer {
     }
   }
 
-  // JOIN: validate, create AT link, send state+history, broadcast presence
+  // JOIN: validate, check access for private spaces, create AT link, send state+history, broadcast presence
   async _handleJoin(ws, msg) {
     const { place_id, name, renderer = 'web' } = msg;
     if (!place_id) { this._sendError(ws, 'place_id required'); return; }
@@ -87,13 +88,26 @@ export class PlaceServer {
     // Generate actor_id for web clients (MCP tools provide their own via graph)
     const actor_id = msg.actor_id || `human_${randomUUID().slice(0, 8)}`;
 
-    // Get or load room state
+    // Get or load room state — joining implies existence (MERGE semantics)
     let room = this.rooms.get(place_id);
     if (!room) {
-      // Try loading from graph
-      const space = await this.graphClient.getSpace(place_id);
-      if (!space) { this._sendError(ws, `Place not found: ${place_id}`); return; }
+      // ensureSpace: MERGE in graph — creates if absent, returns existing otherwise
+      const space = await this.graphClient.ensureSpace(place_id, {
+        name: msg.place_name || place_id,
+        capacity: msg.capacity || 50,
+        type: msg.place_type || 'place',
+        visibility: msg.visibility || 'public',
+      });
       room = this._initRoom(space);
+    }
+
+    // Access check for private spaces
+    if (room.visibility === 'private') {
+      const { hasAccess } = await this.graphClient.checkAccess(actor_id, place_id);
+      if (!hasAccess) {
+        this._sendError(ws, 'Access denied: private space');
+        return;
+      }
     }
 
     // Check capacity
@@ -111,16 +125,21 @@ export class PlaceServer {
       renderer, joined_at: new Date().toISOString(),
     }).catch(e => console.error(`Graph AT link error: ${e.message}`));
 
+    // For private spaces, retrieve the actor's encrypted space key
+    const encryptedKey = await this._getSpaceKey(actor_id, place_id);
+
     // Send place state to the joining client
-    ws.send(JSON.stringify({
-      type: 'place:state',
-      place: {
-        id: room.space_id,
-        name: room.name,
-        capacity: room.capacity,
-        participants: this._serializeParticipants(room),
-      },
-    }));
+    const placeState = {
+      id: room.space_id,
+      name: room.name,
+      capacity: room.capacity,
+      visibility: room.visibility,
+      participants: this._serializeParticipants(room),
+    };
+    if (encryptedKey) {
+      placeState.encrypted_key = encryptedKey;
+    }
+    ws.send(JSON.stringify({ type: 'place:state', place: placeState }));
 
     // Send moment history
     ws.send(JSON.stringify({
@@ -180,23 +199,29 @@ export class PlaceServer {
   }
 
   async _handleCreate(ws, msg) {
-    const { name, capacity, access_level = 'public' } = msg;
+    const { name, capacity, access_level = 'public', visibility = 'public' } = msg;
     if (!name) { this._sendError(ws, 'name required'); return; }
 
     const place_id = `place_${randomUUID().replace(/-/g, '').slice(0, 12)}`;
 
-    // Create in graph
-    await this.graphClient.createSpace(place_id, name, capacity || 20, access_level, 'active');
+    // Create in graph — visibility persisted on Space node
+    await this.graphClient.createSpace(place_id, name, capacity || 20, 'active', { visibility });
+
+    // If private space and creator provided actor_id, grant owner access
+    const conn = this.connections.get(ws);
+    if (visibility === 'private' && conn) {
+      await this.graphClient.grantAccess(conn.actor_id, place_id, 'owner', msg.encrypted_key || null);
+    }
 
     // Init in-memory
-    this._initRoom({ id: place_id, name, capacity: capacity || 20, access_level, status: 'active' });
+    this._initRoom({ id: place_id, name, capacity: capacity || 20, access_level, visibility, status: 'active' });
 
     ws.send(JSON.stringify({
       type: 'place:created',
-      place: { id: place_id, name, capacity: capacity || 20, access_level },
+      place: { id: place_id, name, capacity: capacity || 20, access_level, visibility },
     }));
 
-    console.log(`Place created: ${name} (${place_id})`);
+    console.log(`Place created: ${name} (${place_id}) [visibility=${visibility}]`);
   }
 
   async _handleDiscover(ws) {
@@ -206,6 +231,7 @@ export class PlaceServer {
       places.push({
         id, name: room.name, capacity: room.capacity,
         access_level: room.access_level,
+        visibility: room.visibility,
         participants: room.participants.size,
       });
     }
@@ -313,6 +339,22 @@ export class PlaceServer {
     if (this._reconcileInterval) clearInterval(this._reconcileInterval);
   }
 
+  // ─── Encryption Support ──────────────────────────────────
+
+  /**
+   * Get the encrypted space key for an actor in a private space.
+   * Returns null for public spaces (no encryption needed).
+   * Returns the encrypted key string for private spaces (client decrypts locally).
+   * @param {string} actorId
+   * @param {string} spaceId
+   * @returns {Promise<string|null>}
+   */
+  async _getSpaceKey(actorId, spaceId) {
+    const isPrivate = await this.graphClient.isSpacePrivate(spaceId);
+    if (!isPrivate) return null;
+    return this.graphClient.getEncryptedSpaceKey(actorId, spaceId);
+  }
+
   // ─── Helpers ───────────────────────────────────────────
 
   _initRoom(space) {
@@ -321,6 +363,7 @@ export class PlaceServer {
       name: space.name,
       capacity: space.capacity,
       access_level: space.access_level || 'public',
+      visibility: space.visibility || 'public',
       participants: new Map(),
       momentBuffer: [],
       status: space.status || 'active',

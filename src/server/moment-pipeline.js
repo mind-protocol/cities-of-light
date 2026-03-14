@@ -13,8 +13,17 @@ export class MomentPipeline {
 
   /**
    * Handle text input: create Moment, persist to graph, broadcast.
+   * Content may arrive pre-encrypted for private spaces — the pipeline
+   * does not perform encryption itself. Callers (PlaceServer, MCP tools)
+   * are responsible for encrypting content before passing it here.
+   * @param {string} actorId
+   * @param {string} spaceId
+   * @param {string} content — plaintext or pre-encrypted content
+   * @param {string} kind
+   * @param {string} source
+   * @param {Object} opts — optional: { encrypted: boolean }
    */
-  async handleInput(actorId, spaceId, content, kind = 'text', source = 'text') {
+  async handleInput(actorId, spaceId, content, kind = 'text', source = 'text', opts = {}) {
     if (!content || !content.trim()) return;
 
     const room = this.placeServer.rooms.get(spaceId);
@@ -41,6 +50,7 @@ export class MomentPipeline {
       source,
       timestamp,
       energy: 1.0,
+      encrypted: opts.encrypted || false,
     };
 
     // Wait for graph to get the moment ID, then create links

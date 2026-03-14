@@ -2,7 +2,7 @@
 
 ```
 LAST_UPDATED: 2026-03-14
-UPDATED_BY: Tomaso Nervo (@nervo) — "Join Org" auto-grant trigger implemented (auto_grant_on_membership + process_pending_grants)
+UPDATED_BY: Tomaso Nervo (@nervo) — Full encryption sprint: physics integration, schema v2.1, compute priorities, key rotation, context decrypt, key caching, E2E tests, auto-grant, gitignore fix
 ```
 
 ---

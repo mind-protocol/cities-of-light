@@ -1,20 +1,21 @@
 # Repository Map: cities-of-light
 
-*Generated: 2026-03-12 13:29*
+*Generated: 2026-03-13 19:50*
 
-- **Files:** 197
-- **Directories:** 56
-- **Total Size:** 3.5M
-- **Doc Files:** 147
-- **Code Files:** 41
-- **Areas:** 7 (docs/ subfolders)
-- **Modules:** 20 (subfolders in areas)
+- **Files:** 247
+- **Directories:** 71
+- **Total Size:** 4.0M
+- **Doc Files:** 169
+- **Code Files:** 69
+- **Areas:** 9 (docs/ subfolders)
+- **Modules:** 22 (subfolders in areas)
 - **DOCS Links:** 0 (0.0 avg per code file)
 
-- markdown: 147
-- python: 21
-- javascript: 19
-- shell: 1
+- markdown: 169
+- javascript: 35
+- python: 30
+- shell: 3
+- html: 1
 
 ```
 ├── citizens/ (21.7K)
@@ -29,7 +30,18 @@
 │   ├── voce/ (3.7K)
 │   │   └── CLAUDE.md (3.7K)
 │   └── CLAUDE.md (3.2K)
-├── docs/ (2.8M)
+├── docs/ (3.0M)
+│   ├── architecture/ (48.5K)
+│   │   └── engine/ (48.5K)
+│   │       ├── ALGORITHM_Engine.md (5.4K)
+│   │       ├── BEHAVIORS_Engine.md (3.8K)
+│   │       ├── HEALTH_Engine.md (2.1K)
+│   │       ├── IMPLEMENTATION_Engine.md (4.3K)
+│   │       ├── OBJECTIVES_Engine.md (2.1K)
+│   │       ├── PATTERNS_Engine.md (9.2K)
+│   │       ├── SYNC_Engine.md (6.0K)
+│   │       ├── V2_SPEC_Airtable_Venice.md (12.5K)
+│   │       └── VALIDATION_Engine.md (3.1K)
 │   ├── archive/ (414.5K)
 │   │   ├── architecture/ (29.5K)
 │   │   │   └── unity-quest3-architecture.md (29.5K)
@@ -54,29 +66,39 @@
 │   │   ├── research-state-of-art.md (16.7K)
 │   │   ├── spatial-workspace-spec.md (16.2K)
 │   │   └── (..2 more files)
-│   ├── citizens/ (345.4K)
-│   │   ├── embodiment/ (106.2K)
+│   ├── citizens/ (361.5K)
+│   │   ├── embodiment/ (110.4K)
 │   │   │   ├── ALGORITHM_Embodiment.md (20.1K)
 │   │   │   ├── BEHAVIORS_Embodiment.md (13.3K)
 │   │   │   ├── IMPLEMENTATION_Embodiment.md (42.3K)
 │   │   │   ├── PATTERNS_Embodiment.md (10.4K)
-│   │   │   ├── SYNC_Embodiment.md (12.1K)
+│   │   │   ├── SYNC_Embodiment.md (16.4K)
 │   │   │   └── VALIDATION_Embodiment.md (8.0K)
-│   │   ├── mind/ (126.8K)
+│   │   ├── mind/ (133.6K)
 │   │   │   ├── ALGORITHM_Mind.md (28.7K)
 │   │   │   ├── BEHAVIORS_Mind.md (14.9K)
 │   │   │   ├── IMPLEMENTATION_Mind.md (44.3K)
 │   │   │   ├── PATTERNS_Mind.md (13.4K)
-│   │   │   ├── SYNC_Mind.md (15.7K)
+│   │   │   ├── SYNC_Mind.md (22.4K)
 │   │   │   └── VALIDATION_Mind.md (9.8K)
-│   │   └── population/ (112.4K)
+│   │   └── population/ (117.5K)
 │   │       ├── ALGORITHM_Population.md (24.9K)
 │   │       ├── BEHAVIORS_Population.md (9.6K)
 │   │       ├── IMPLEMENTATION_Population.md (50.4K)
-│   │       ├── PATTERNS_Population.md (10.0K)
-│   │       ├── SYNC_Population.md (7.9K)
+│   │       ├── PATTERNS_Population.md (13.2K)
+│   │       ├── SYNC_Population.md (9.8K)
 │   │       └── VALIDATION_Population.md (9.6K)
-│   ├── economy/ (360.5K)
+│   ├── communication/ (91.7K)
+│   │   └── living-places/ (91.7K)
+│   │       ├── ALGORITHM_Living_Places.md (16.4K)
+│   │       ├── BEHAVIORS_Living_Places.md (10.5K)
+│   │       ├── HEALTH_Living_Places.md (18.1K)
+│   │       ├── IMPLEMENTATION_Living_Places.md (15.9K)
+│   │       ├── OBJECTIVES_Living_Places.md (7.6K)
+│   │       ├── PATTERNS_Living_Places.md (10.9K)
+│   │       ├── SYNC_Living_Places.md (4.8K)
+│   │       └── VALIDATION_Living_Places.md (7.5K)
+│   ├── economy/ (366.6K)
 │   │   ├── governance/ (130.8K)
 │   │   │   ├── ALGORITHM_Governance.md (43.8K)
 │   │   │   ├── BEHAVIORS_Governance.md (10.1K)
@@ -91,14 +113,14 @@
 │   │   │   ├── PATTERNS_Simulation.md (10.5K)
 │   │   │   ├── SYNC_Simulation.md (7.6K)
 │   │   │   └── VALIDATION_Simulation.md (14.6K)
-│   │   └── sync/ (114.0K)
+│   │   └── sync/ (120.2K)
 │   │       ├── ALGORITHM_Sync.md (30.2K)
 │   │       ├── BEHAVIORS_Sync.md (9.4K)
 │   │       ├── IMPLEMENTATION_Sync.md (41.2K)
-│   │       ├── PATTERNS_Sync.md (10.3K)
-│   │       ├── SYNC_Sync.md (8.0K)
+│   │       ├── PATTERNS_Sync.md (14.4K)
+│   │       ├── SYNC_Sync.md (9.9K)
 │   │       └── VALIDATION_Sync.md (15.0K)
-│   ├── infra/ (314.0K)
+│   ├── infra/ (315.8K)
 │   │   ├── deployment/ (106.3K)
 │   │   │   ├── ALGORITHM_Deployment.md (32.6K)
 │   │   │   ├── BEHAVIORS_Deployment.md (7.8K)
@@ -113,14 +135,14 @@
 │   │   │   ├── PATTERNS_Performance.md (11.8K)
 │   │   │   ├── SYNC_Performance.md (10.3K)
 │   │   │   └── VALIDATION_Performance.md (19.3K)
-│   │   └── server/ (101.5K)
+│   │   └── server/ (103.3K)
 │   │       ├── ALGORITHM_Server.md (30.5K)
 │   │       ├── BEHAVIORS_Server.md (7.8K)
 │   │       ├── IMPLEMENTATION_Server.md (25.0K)
 │   │       ├── PATTERNS_Server.md (12.6K)
-│   │       ├── SYNC_Server.md (8.9K)
+│   │       ├── SYNC_Server.md (10.6K)
 │   │       └── VALIDATION_Server.md (16.7K)
-│   ├── narrative/ (427.6K)
+│   ├── narrative/ (430.4K)
 │   │   ├── events/ (154.5K)
 │   │   │   ├── ALGORITHM_Events.md (44.6K)
 │   │   │   ├── BEHAVIORS_Events.md (11.0K)
@@ -128,12 +150,12 @@
 │   │   │   ├── PATTERNS_Events.md (14.3K)
 │   │   │   ├── SYNC_Events.md (12.5K)
 │   │   │   └── VALIDATION_Events.md (10.5K)
-│   │   ├── graph/ (138.5K)
+│   │   ├── graph/ (141.3K)
 │   │   │   ├── ALGORITHM_Graph.md (44.3K)
 │   │   │   ├── BEHAVIORS_Graph.md (11.2K)
 │   │   │   ├── IMPLEMENTATION_Graph.md (53.5K)
 │   │   │   ├── PATTERNS_Graph.md (11.6K)
-│   │   │   ├── SYNC_Graph.md (10.4K)
+│   │   │   ├── SYNC_Graph.md (13.1K)
 │   │   │   └── VALIDATION_Graph.md (7.6K)
 │   │   └── physics/ (134.6K)
 │   │       ├── ALGORITHM_Physics.md (49.0K)
@@ -142,13 +164,13 @@
 │   │       ├── PATTERNS_Physics.md (14.9K)
 │   │       ├── SYNC_Physics.md (4.0K)
 │   │       └── VALIDATION_Physics.md (10.3K)
-│   ├── voice/ (188.1K)
-│   │   ├── pipeline/ (86.1K)
+│   ├── voice/ (190.1K)
+│   │   ├── pipeline/ (88.1K)
 │   │   │   ├── ALGORITHM_Pipeline.md (17.1K)
 │   │   │   ├── BEHAVIORS_Pipeline.md (9.7K)
 │   │   │   ├── IMPLEMENTATION_Pipeline.md (19.1K)
 │   │   │   ├── PATTERNS_Pipeline.md (11.2K)
-│   │   │   ├── SYNC_Pipeline.md (14.9K)
+│   │   │   ├── SYNC_Pipeline.md (16.9K)
 │   │   │   └── VALIDATION_Pipeline.md (14.1K)
 │   │   └── spatial/ (102.0K)
 │   │       ├── ALGORITHM_Spatial.md (29.7K)
@@ -157,7 +179,7 @@
 │   │       ├── PATTERNS_Spatial.md (10.1K)
 │   │       ├── SYNC_Spatial.md (11.4K)
 │   │       └── VALIDATION_Spatial.md (16.3K)
-│   ├── world/ (374.8K)
+│   ├── world/ (386.8K)
 │   │   ├── atmosphere/ (127.0K)
 │   │   │   ├── ALGORITHM_Atmosphere.md (47.2K)
 │   │   │   ├── BEHAVIORS_Atmosphere.md (9.7K)
@@ -165,12 +187,12 @@
 │   │   │   ├── PATTERNS_Atmosphere.md (13.1K)
 │   │   │   ├── SYNC_Atmosphere.md (8.8K)
 │   │   │   └── VALIDATION_Atmosphere.md (15.4K)
-│   │   ├── districts/ (107.3K)
+│   │   ├── districts/ (119.3K)
 │   │   │   ├── ALGORITHM_Districts.md (27.7K)
 │   │   │   ├── BEHAVIORS_Districts.md (12.8K)
 │   │   │   ├── IMPLEMENTATION_Districts.md (32.2K)
-│   │   │   ├── PATTERNS_Districts.md (9.9K)
-│   │   │   ├── SYNC_Districts.md (9.7K)
+│   │   │   ├── PATTERNS_Districts.md (17.9K)
+│   │   │   ├── SYNC_Districts.md (13.6K)
 │   │   │   └── VALIDATION_Districts.md (15.1K)
 │   │   └── navigation/ (140.5K)
 │   │       ├── ALGORITHM_Navigation.md (46.8K)
@@ -180,16 +202,35 @@
 │   │       ├── SYNC_Navigation.md (9.1K)
 │   │       └── VALIDATION_Navigation.md (18.6K)
 │   ├── 00_MAP_Venezia.md (16.8K)
-│   ├── 03_BEHAVIORS_Venezia.md (8.8K)
 │   ├── 04_ALGORITHM_Venezia.md (11.1K)
 │   ├── 06_IMPLEMENTATION_Venezia.md (10.5K)
-│   ├── CONCEPT_Cross_Repo_Integration.md (13.7K)
+│   ├── 07_SYNC_Venezia.md (18.6K)
+│   ├── CONCEPT_Cross_Repo_Integration.md (14.1K)
 │   ├── ESTIMATION_Complexity_Matrix.md (20.3K)
 │   ├── ESTIMATION_Dependency_Graph.md (16.8K)
 │   ├── ESTIMATION_Implementation_Sequence.md (58.3K)
 │   ├── ESTIMATION_Milestone_Plan.md (34.1K)
-│   ├── map.md (184.9K)
+│   ├── map.md (185.4K)
 │   └── (..4 more files)
+├── engine/ (165.8K)
+│   ├── client/ (119.5K)
+│   │   ├── app.js (43.9K)
+│   │   ├── bridge-renderer.js (12.4K)
+│   │   ├── building-renderer.js (10.9K)
+│   │   ├── index.html (6.0K)
+│   │   ├── particles-engine.js (13.6K)
+│   │   ├── waypoints-engine.js (8.7K)
+│   │   ├── world-loader.js (17.7K)
+│   │   └── zone-ambient-engine.js (6.2K)
+│   ├── server/ (36.2K)
+│   │   ├── entity-manager.js (12.1K)
+│   │   ├── state-server.js (9.2K)
+│   │   └── voice-pipeline.js (14.9K)
+│   ├── shared/ (1.5K)
+│   │   └── protocol.js (1.5K)
+│   ├── index.js (6.7K)
+│   ├── start.sh (1.1K)
+│   └── vite.config.js (931)
 ├── scripts/ (73.1K)
 │   ├── cities_speak.py (2.0K)
 │   ├── ingest_first_donor.py (5.6K)
@@ -229,26 +270,29 @@
 ├── shrine/ (3.7K)
 │   └── state/ (3.7K)
 │       └── physics_events.jsonl (3.7K)
-├── src/ (247.6K)
-│   ├── client/ (172.9K)
+├── src/ (289.2K)
+│   ├── client/ (188.7K)
 │   │   ├── public/ (1.6K)
 │   │   │   └── sw.js (1.6K)
 │   │   ├── avatar.js (9.5K)
 │   │   ├── main.js (35.4K)
-│   │   ├── memorial.js (6.3K)
 │   │   ├── network.js (8.4K)
+│   │   ├── place-app.js (7.8K)
 │   │   ├── scene.js (30.4K)
 │   │   ├── sculpture.js (6.7K)
 │   │   ├── voice-chat.js (8.8K)
 │   │   ├── voice.js (15.3K)
 │   │   ├── vr-controls.js (12.7K)
 │   │   ├── wearable-display.js (8.6K)
-│   │   └── (..8 more files)
-│   ├── server/ (71.3K)
+│   │   └── (..12 more files)
+│   ├── server/ (97.1K)
 │   │   ├── ai-citizens.js (9.5K)
 │   │   ├── biography-voice.js (6.1K)
-│   │   ├── index.js (19.7K)
+│   │   ├── graph-client.js (8.3K)
+│   │   ├── index.js (22.4K)
+│   │   ├── moment-pipeline.js (3.2K)
 │   │   ├── perception.js (3.2K)
+│   │   ├── place-server.js (11.6K)
 │   │   ├── rooms.js (4.4K)
 │   │   └── voice.js (28.3K)
 │   └── shared/ (3.4K)
@@ -276,11 +320,36 @@
 │   ├── PREFLIGHT.md (6.5K)
 │   ├── QUEST3_BUILD_TONIGHT.md (9.9K)
 │   └── SCENE_WIRING.md (4.0K)
+├── worlds/ (132.5K)
+│   └── venezia/ (132.5K)
+│       ├── data/
+│       │   └── (..1 more files)
+│       ├── docs/ (3.6K)
+│       │   └── map.md (3.6K)
+│       ├── lore/ (1.2K)
+│       │   └── world-context.md (1.2K)
+│       ├── prompts/ (454)
+│       │   └── (..1 more files)
+│       ├── scripts/ (87.2K)
+│       │   ├── export_all.py (1.1K)
+│       │   ├── export_bridges.py (5.7K)
+│       │   ├── export_buildings.py (5.1K)
+│       │   ├── export_citizens.py (9.7K)
+│       │   ├── export_full_airtable.py (7.1K)
+│       │   ├── export_lands.py (6.4K)
+│       │   ├── lookup.py (6.7K)
+│       │   ├── poc_mind_context_assembly.py (24.6K)
+│       │   └── seed_venice_graph.py (20.9K)
+│       ├── AGENTS.md (35.3K)
+│       ├── README.md (933)
+│       ├── map.md (3.1K)
+│       └── (..3 more files)
 ├── AGENTS.md (33.0K)
-├── map.md (185.4K)
+├── map.md (200.8K)
 ├── map_src.md (3.3K)
+├── render-start.sh (4.0K)
 ├── start.sh (2.7K)
-└── vite.config.js (802)
+└── vite.config.js (1.2K)
 ```
 
 **Code refs:**
@@ -370,6 +439,100 @@
 - ## Your Home
 - ## Key Context
 - ## First Principle
+
+**Sections:**
+- # ALGORITHM: architecture/engine — How It Works
+- ## A1: World Loading Sequence
+- ## A2: Entity Tier Assignment
+- ## A3: Voice Routing
+- ## A4: Physics Bridge Tick
+- ## A5: Manemus Integration
+- ## A6: Portal Transition
+
+**Sections:**
+- # BEHAVIORS: architecture/engine — Observable Effects
+- ## B1: World Loading
+- ## B2: Entity Lifecycle
+- ## B3: Voice Pipeline
+- ## B4: Physics Tick
+- ## B5: Multi-Client Sync
+- ## B6: AI Perception (via Manemus)
+- ## B7: Portal Transition
+
+**Sections:**
+- # HEALTH: architecture/engine — Runtime Verification
+- ## H1: Manifest Loaded
+- ## H2: Entity Source Connected
+- ## H3: Voice Pipeline Operational
+- ## H4: Physics Bridge Ticking
+- ## H5: Manemus Connection
+- ## H6: World-Specific Content Leak
+
+**Code refs:**
+- `src/client/avatar.js`
+- `src/client/main.js`
+- `src/client/network.js`
+- `src/client/scene.js`
+- `src/server/index.js`
+- `src/server/rooms.js`
+- `src/server/voice.js`
+- `src/shared/zones.js`
+
+**Sections:**
+- # IMPLEMENTATION: architecture/engine — Code Architecture
+- ## Current State → Target State
+
+**Sections:**
+- # OBJECTIVES: architecture/engine — What We Optimize For
+- ## O1: One Engine, N Worlds (Primary)
+- ## O2: Humans and AIs Share the Same Space
+- ## O3: Multi-Platform Without Fragmentation
+- ## O4: World Repos Own Content, Engine Owns Rendering
+- ## Objective Ranking
+
+**Sections:**
+- # PATTERNS: architecture/engine — Design Philosophy
+- ## The Three-Repo Pattern
+- ## Decision 1: The WorldManifest Is the Contract
+- ## Decision 2: Entity, Not Citizen
+- ## Decision 3: Physics Is a Plugin, Not a Dependency
+- ## Decision 4: Manemus Is the AI Substrate, Not the Engine
+- ## Decision 5: Multi-Client Architecture
+- ## Decision 6: Hub World (Lumina Prime)
+- ## Scope: What Is Engine vs What Is World
+- ## What Is NOT In Scope for the Engine
+
+**Code refs:**
+- `engine/client/app.js`
+- `engine/index.js`
+- `engine/shared/protocol.js`
+
+**Sections:**
+- # SYNC: architecture/engine — Current State
+- ## CURRENT STATE
+- ## RECENT CHANGES
+- ## HANDOFF: FOR AGENTS
+- ## HANDOFF: FOR HUMAN
+- ## TODO
+
+**Sections:**
+- # V2 SPEC: Airtable-Driven Venice
+- ## Goal
+- ## Features (in delivery order)
+- ## Data Pipeline
+- ## Manifest V2 Schema Additions
+- ## Implementation Order
+- ## Open Questions
+
+**Sections:**
+- # VALIDATION: architecture/engine — Invariants
+- ## I1: Engine Contains Zero World-Specific Content
+- ## I2: WorldManifest Is the Single Point of Configuration
+- ## I3: Entity Tier Budget Is Respected
+- ## I4: Physics Bridge Is Optional
+- ## I5: Manemus Is Optional
+- ## I6: Client Protocol Is Stable
+- ## I7: Portal Transitions Preserve Identity
 
 **Sections:**
 - # Cities of Light — Unity Quest 3 Architecture
@@ -624,7 +787,7 @@
 - `src/client/citizens/citizen-avatar.js`
 
 **Sections:**
-- # Citizens/Embodiment — Algorithm: Rendering 186 Citizens on Quest 3
+- # Citizens/Embodiment — Algorithm: Rendering 152 Citizens on Quest 3
 - ## CHAIN
 - ## OVERVIEW
 - ## DATA STRUCTURES
@@ -651,7 +814,7 @@
 - ## ANTI-BEHAVIORS
 
 **Sections:**
-- # IMPLEMENTATION: citizens/embodiment -- Rendering 186 Citizens on Quest 3
+- # IMPLEMENTATION: citizens/embodiment -- Rendering 152 Citizens on Quest 3
 - ## CHAIN
 - ## FILE MAP
 - ## NPM PACKAGES
@@ -693,6 +856,7 @@
 - `src/client/main.js`
 - `src/client/scene.js`
 - `src/shared/zones.js`
+- `venezia/scripts/export_full_airtable.py`
 
 **Doc refs:**
 - `docs/00_MAP_Venezia.md`
@@ -711,6 +875,7 @@
 - ## HANDOFF: FOR HUMAN
 - ## TODO
 - ## POINTERS
+- ## Reconciliation with Reality (2026-03-13)
 
 **Sections:**
 - # Citizens/Embodiment -- Validation: Health Checks for the Visual Identity System
@@ -898,12 +1063,14 @@
 - ## Design Anti-Patterns (What This Module Must Never Become)
 
 **Code refs:**
+- `main_engine.py`
 - `mood_helper.py`
 - `relationship_helpers.py`
+- `venezia/scripts/export_full_airtable.py`
 
 **Sections:**
 - # SYNC: citizens/mind -- Current State
-- ## Status: DESIGN COMPLETE, IMPLEMENTATION GAP
+- ## Status: DESIGN COMPLETE, IMPLEMENTATION GAP → DATA ENRICHED
 - ## What Exists in La Serenissima (PRODUCTION)
 - ## What Exists in Cities of Light (PLACEHOLDER)
 - ## The Bridge: What Needs to Happen
@@ -912,6 +1079,8 @@
 - ## Open Questions
 - ## Risks
 - ## Next Action
+- ## Reconciliation with Reality (2026-03-13)
+- ## For the Next Citizen
 
 **Sections:**
 - # Citizens/Mind -- Validation: Health Checks for the Cognition System
@@ -926,7 +1095,7 @@
 - `src/client/citizens/citizen-manager.js`
 
 **Sections:**
-- # Citizens/Population -- Algorithm: Managing 186 Citizens at 72fps
+- # Citizens/Population -- Algorithm: Managing 152 Citizens at 72fps
 - ## CHAIN
 - ## OVERVIEW
 - ## DATA STRUCTURES
@@ -960,7 +1129,7 @@
 - `network.js`
 
 **Sections:**
-- # IMPLEMENTATION: citizens/population -- Managing 186 Citizens at 72fps
+- # IMPLEMENTATION: citizens/population -- Managing 152 Citizens at 72fps
 - ## CHAIN
 - ## FILE MAP
 - ## NPM PACKAGES
@@ -978,9 +1147,10 @@
 
 **Code refs:**
 - `src/client/citizens/citizen-manager.js`
+- `venezia/scripts/poc_mind_context_assembly.py`
 
 **Sections:**
-- # Citizens/Population -- Patterns: 186 Citizens in 14 Milliseconds
+- # Citizens/Population -- Patterns: 152 Citizens in 14 Milliseconds
 - ## CHAIN
 - ## THE PROBLEM
 - ## THE PATTERN
@@ -989,11 +1159,14 @@
 - ## DEPENDENCIES
 - ## PERFORMANCE BUDGET
 - ## SCOPE
+- ## Reconciliation with Reality (2026-03-13)
 
 **Code refs:**
+- `poc_mind_context_assembly.py`
 - `src/client/avatar.js`
 - `src/client/main.js`
 - `src/server/index.js`
+- `venezia/scripts/poc_mind_context_assembly.py`
 
 **Doc refs:**
 - `docs/00_MAP_Venezia.md`
@@ -1011,6 +1184,7 @@
 - ## HANDOFF: FOR HUMAN
 - ## TODO
 - ## POINTERS
+- ## Reconciliation with Reality (2026-03-13)
 
 **Sections:**
 - # Citizens/Population -- Validation: Health Checks for Population Management
@@ -1020,6 +1194,141 @@
 - ## ACCEPTANCE CRITERIA
 - ## ANTI-PATTERNS
 - ## DATA INTEGRITY
+
+**Code refs:**
+- `engine/server/place-server.js`
+
+**Sections:**
+- # ALGORITHM: Living Places
+- ## Chain
+- ## Objectives and Behaviors
+- ## Overview
+- ## Data Structures
+- ## Algorithm: V1 Place Server
+- ## Algorithm: V3 Spatial Extensions
+- ## Data Flow
+- ## Complexity
+- ## Helper Functions
+- ## Interactions
+- ## Markers
+
+**Code refs:**
+- `engine/server/place-server.js`
+
+**Sections:**
+- # BEHAVIORS: Living Places
+- ## Chain
+- ## B1: Place Creation
+- ## B2: Joining a Place
+- ## B3: Speaking (Creating a Moment)
+- ## B4: Perceiving (Receiving Moments)
+- ## B5: Sharing Media
+- ## B6: Leaving a Place
+- ## B7: Place Discovery
+- ## B8: Ambient Context Injection
+- ## B9: Turn Management
+- ## B10: Conversation Crystallization
+- ## Objectives Served
+- ## Anti-Behaviors
+- ## Markers
+
+**Code refs:**
+- `engine/server/place-health-checker.js`
+
+**Sections:**
+- # Living Places — Health: Verification Mechanics and Coverage
+- ## WHEN TO USE HEALTH (NOT TESTS)
+- ## PURPOSE OF THIS FILE
+- ## WHY THIS PATTERN
+- ## CHAIN
+- ## FLOWS ANALYSIS (TRIGGERS + FREQUENCY)
+- ## HEALTH INDICATORS SELECTED
+- ## OBJECTIVES COVERAGE
+- ## STATUS (RESULT INDICATOR)
+- ## DOCK TYPES USED
+- ## CHECKER INDEX
+- ## INDICATOR: Delivery Latency
+- ## INDICATOR: Presence Accuracy
+- ## INDICATOR: Graph Persistence Integrity
+- ## HOW TO RUN
+- # Run all health checks for Living Places
+- # Run a specific checker
+- ## KNOWN GAPS
+- ## MARKERS
+
+**Code refs:**
+- `engine/client/app.js`
+- `engine/shared/protocol.js`
+- `src/client/network.js`
+- `src/server/place-server.js`
+
+**Sections:**
+- # IMPLEMENTATION: Living Places
+- ## Chain
+- ## Existing Infrastructure
+- ## Code Architecture
+- ## Component Design
+- ## Protocol Extension
+- ## Graph Schema
+- ## Data Flow
+- ## Integration Points
+- # mind-mcp/runtime/tools/place_join.py
+- ## Environment
+- # Graph database
+- # Voice (reuse existing)
+- # Server
+- ## Implementation Order
+- ## Markers
+
+**Sections:**
+- # OBJECTIVES: Living Places
+- ## Primary Objective
+- ## Secondary Objectives
+- ## Objective Hierarchy
+- ## Non-Objectives
+- ## Version Phases
+- ## Success Criteria
+- ## Tradeoffs
+- ## Pointers
+- ## Markers
+
+**Code refs:**
+- `engine/server/place-server.js`
+
+**Sections:**
+- # PATTERNS: Living Places
+- ## Chain
+- ## The Problem
+- ## The Pattern
+- ## Principles
+- ## Scope
+- ## Dependencies
+- ## Inspirations
+- ## Behaviors Supported
+- ## Behaviors Prevented
+- ## Markers
+
+**Code refs:**
+- `src/server/index.js`
+
+**Sections:**
+- # SYNC: Living Places
+- ## Current State
+- ## Blocking Issues
+- ## Open Questions Resolved
+- ## What's Next
+- ## Handoff
+- ## Pointers
+- ## History
+
+**Sections:**
+- # VALIDATION: Living Places
+- ## Chain
+- ## Purpose
+- ## Invariants
+- ## Invariant Index
+- ## Priority
+- ## Markers
 
 **Sections:**
 - # ALGORITHM: economy/governance -- How It Works
@@ -1473,7 +1782,7 @@
 - ## Testing Strategy
 - # Verify the simulation is producing activities
 - # Verify the cache is populated
-- # Expected: {"lastSyncTime":"2026-...","ageMinutes":3,"citizenCount":186,...}
+- # Expected: {"lastSyncTime":"2026-...","ageMinutes":3,"citizenCount":152,...}
 - # 1. Check a specific citizen's state through the Venezia API
 - # Expected: citizen object with current activity
 - # 2. Verify the 3D client receives updates
@@ -1649,6 +1958,10 @@
 - ## Error Handling
 - ## Timing Budget
 
+**Code refs:**
+- `venezia/scripts/export_full_airtable.py`
+- `venezia/scripts/poc_mind_context_assembly.py`
+
 **Sections:**
 - # PATTERNS -- Economy Sync
 - ## Core Principle: Airtable Owns the Data, Express Owns the Speed
@@ -1661,12 +1974,15 @@
 - ## Airtable Rate Limit Handling
 - ## Error Handling
 - ## Anti-Patterns
+- ## Reconciliation with Reality (2026-03-13)
 
 **Code refs:**
 - `index.js`
 - `rooms.js`
 - `src/server/index.js`
 - `src/server/rooms.js`
+- `venezia/scripts/export_full_airtable.py`
+- `venezia/scripts/poc_mind_context_assembly.py`
 
 **Sections:**
 - # SYNC -- Economy Sync
@@ -1677,6 +1993,7 @@
 - ## Dependencies
 - ## Priority Roadmap
 - ## Open Questions
+- ## Reconciliation with Reality (2026-03-13)
 
 **Sections:**
 - # VALIDATION: economy/sync -- What Must Be True
@@ -2008,6 +2325,7 @@
 - `src/server/perception.js`
 - `src/server/rooms.js`
 - `src/server/voice.js`
+- `venezia/scripts/poc_mind_context_assembly.py`
 
 **Sections:**
 - # SYNC -- Server
@@ -2016,6 +2334,7 @@
 - ## Architecture: Current vs Target
 - ## Deployment Notes
 - ## Priority Roadmap
+- ## Reconciliation with Reality (2026-03-13)
 
 **Sections:**
 - # VALIDATION -- Server
@@ -2495,7 +2814,7 @@
 - # Run on startup and periodically (every hour).
 - # Returns a health report identifying potential problems.
 - # Count all node types
-- # Expected ranges for a 186-citizen Venice graph
+- # Expected ranges for a 152-citizen Venice graph
 - # Check for characters with no beliefs (narratively dead citizens)
 - # Check for energy anomalies
 - # Check for unflipped moments near threshold
@@ -2564,8 +2883,10 @@
 - `ngram/engine/physics/graph/graph_interface.py`
 - `ngram/engine/physics/graph/graph_ops.py`
 - `ngram/engine/physics/tick_runner.py`
+- `poc_mind_context_assembly.py`
 - `scripts/seed_venice_graph.py`
 - `tick_v1_2.py`
+- `venezia/scripts/seed_venice_graph.py`
 
 **Doc refs:**
 - `docs/00_MAP_Venezia.md`
@@ -2574,7 +2895,7 @@
 
 **Sections:**
 - # SYNC: narrative/graph -- Current State
-- ## Status: SEEDING IN PROGRESS
+- ## Status: SEEDED
 - ## What Exists Now
 - ## Dependencies
 - ## Build Order
@@ -2583,6 +2904,7 @@
 - ## Open Questions
 - ## Risks
 - ## Pointers
+- ## Reconciliation with Reality (2026-03-13)
 
 **Sections:**
 - # VALIDATION: narrative/graph -- What Must Be True
@@ -3025,6 +3347,7 @@
 - ## File Map
 - ## Deployment Notes
 - ## Priority Roadmap
+- ## Reconciliation with Reality (2026-03-13)
 
 **Sections:**
 - # VALIDATION -- Voice Pipeline
@@ -3492,6 +3815,7 @@
 - `scene.js`
 - `shared/districts.js`
 - `shared/zones.js`
+- `src/scene.js`
 
 **Sections:**
 - # PATTERNS: world/districts — Design Philosophy
@@ -3506,23 +3830,22 @@
 - ## What Is In Scope
 - ## What Is NOT In Scope
 - ## Relationship to Existing Code
+- ## Reconciliation with Reality (2026-03-13)
 
 **Code refs:**
-- `scene.js`
-- `shared/zones.js`
 - `src/client/scene.js`
-- `src/shared/districts.js`
 - `src/shared/zones.js`
-- `waypoints.js`
 
 **Sections:**
 - # SYNC: world/districts — Current State
-- ## Status: NOT BUILT
+- ## Status: NOT BUILT → DATA EXPORTED + ENGINE SCAFFOLDED
 - ## What Exists Now
-- ## Dependencies (What Must Exist Before Districts Can Work)
-- ## Build Order
-- ## Open Questions
-- ## Risks
+- ## Answered Questions (from doc chain open questions)
+- ## Remaining Open Questions
+- ## Revised Build Order
+- ## Dependencies (Updated)
+- ## Risks (Updated)
+- ## For the Next Citizen
 
 **Sections:**
 - # VALIDATION: world/districts — What Must Be True
@@ -3806,17 +4129,6 @@
 - ## Dependency Graph
 
 **Sections:**
-- # BEHAVIORS: Venezia — Observable Effects
-- ## B1. Entering the World
-- ## B2. Moving Through the City
-- ## B3. Encountering Citizens
-- ## B4. Witnessing Citizen Life
-- ## B5. World Events (Blood Ledger Physics)
-- ## B6. Sensory Design
-- ## B7. Leaving and Returning
-- ## B8. Edge Cases
-
-**Sections:**
 - # ALGORITHM: Venezia — How It Works
 - ## A1. World Tick (Master Loop)
 - ## A2. Citizen Rendering Pipeline
@@ -3844,6 +4156,41 @@
 - ## Performance Budget (Quest 3)
 - ## Key Interfaces
 - ## Deployment
+
+**Code refs:**
+- `engine/client/app.js`
+- `engine/index.js`
+- `engine/shared/protocol.js`
+- `src/client/avatar.js`
+- `src/client/main.js`
+- `src/client/network.js`
+- `src/client/perception.js`
+- `src/client/scene.js`
+- `src/client/sculpture.js`
+- `src/client/voice.js`
+- `src/client/waypoints.js`
+- `src/server/index.js`
+- `src/server/perception.js`
+- `src/server/rooms.js`
+- `src/server/voice.js`
+- `src/shared/zones.js`
+- `venezia/scripts/export_full_airtable.py`
+
+**Sections:**
+- # SYNC: Venezia — Current State
+- ## Status: DESIGNING → INVENTORIED
+- ## Codebase Inventory
+- ## Module Status: 6 Areas, 17 Modules
+- ## Answered Questions (from exploration)
+- ## POC-1 Task Breakdown: One District, Three Citizens
+- ## Proposed Citizen Assignments
+- ## Doc Chain Creation Order
+- ## Open Questions (Updated 2026-03-13)
+- ## Data Inventory (2026-03-13)
+- ## Module SYNC Status (2026-03-13)
+- ## Risks (Updated 2026-03-13)
+- ## Wake-Up Campaign (2026-03-13)
+- ## Handoff Notes (Updated)
 
 **Code refs:**
 - `app/api/registry/citizens/route.ts`
@@ -4183,6 +4530,85 @@
 - # Repository Map: cities-of-light
 
 **Definitions:**
+- `updateDesktopMovement()`
+- `class ManifestZoneAmbient`
+- `dz()`
+- `class ManifestWaypoints`
+- `resolveVisitorName()`
+- `name()`
+- `initWorld()`
+- `connectNetwork()`
+- `initVoiceChat()`
+- `setupVoice()`
+- `enableAudio()`
+- `initVoice()`
+- `setupWebXR()`
+- `enableVRButton()`
+- `manualActive()`
+
+**Definitions:**
+- `buildVenetianArch()`
+- `buildFlat()`
+- `applyArchDeformation()`
+- `createLabelSprite()`
+- `class BridgeRenderer`
+- `cx()`
+- `cz()`
+
+**Definitions:**
+- `darkenColor()`
+- `class BuildingRenderer`
+- `sizeScale()`
+- `bgX()`
+
+**Definitions:**
+- `parseColor()`
+- `seededRandom()`
+- `class ParticlesEngine`
+- `avgSize()`
+- `avgSize()`
+- `baseOpacity()`
+
+**Definitions:**
+- `parseColor()`
+- `getZoneParticleColor()`
+- `class WaypointsEngine`
+
+**Definitions:**
+- `class WorldLoader`
+
+**Definitions:**
+- `parseColor()`
+- `resolveAtmosphere()`
+- `detectNearestZone()`
+- `class ZoneAmbientEngine`
+
+**Definitions:**
+- `class EntityManager`
+- `dy()`
+
+**Imports:**
+- `shared/protocol.js`
+
+**Definitions:**
+- `createServer()`
+- `broadcast()`
+
+**Definitions:**
+- `class VoicePipeline`
+
+**Imports:**
+- `server/state-server.js`
+- `server/entity-manager.js`
+- `server/voice-pipeline.js`
+
+**Definitions:**
+- `getManifestPath()`
+- `main()`
+- `OpenAI()`
+- `loadEntities()`
+
+**Definitions:**
 - `def speak()`
 - `def main()`
 
@@ -4347,10 +4773,17 @@
 - `manualActive()`
 
 **Definitions:**
-- `class Memorial`
+- `class Network`
 
 **Definitions:**
-- `class Network`
+- `authorColor()`
+- `renderMoment()`
+- `renderSystemMessage()`
+- `updateParticipants()`
+- `sendMessage()`
+- `startRecording()`
+- `stopRecording()`
+- `escapeHtml()`
 
 **Imports:**
 - `shared/zones.js`
@@ -4410,6 +4843,9 @@
 **Definitions:**
 - `processBiographyVoice()`
 
+**Definitions:**
+- `class GraphClient`
+
 **Imports:**
 - `shared/zones.js`
 
@@ -4421,8 +4857,14 @@
 - `broadcast()`
 
 **Definitions:**
+- `class MomentPipeline`
+
+**Definitions:**
 - `storeFrame()`
 - `perceptionRoutes()`
+
+**Definitions:**
+- `class PlaceServer`
 
 **Definitions:**
 - `generateCode()`
@@ -4585,6 +5027,163 @@
 
 **Code refs:**
 - `doctor_cli_parser_and_run_checker.py`
+- `scripts/export_all.py`
+- `scripts/export_bridges.py`
+- `scripts/export_buildings.py`
+- `scripts/export_citizens.py`
+- `scripts/export_lands.py`
+- `scripts/lookup.py`
+- `semantic_proximity_based_character_node_selector.py`
+- `snake_case.py`
+
+**Sections:**
+- # Repository Map: venezia
+- ## Statistics
+- ## File Tree
+- ## File Details
+
+**Sections:**
+- # Venezia — World Context
+- ## The Islands
+- ## The Citizens
+- ## The Visitor
+
+**Definitions:**
+- `def main()`
+
+**Definitions:**
+- `def wgs84_to_xz()`
+- `def convert_coord()`
+- `def slugify()`
+- `def main()`
+
+**Definitions:**
+- `def wgs84_to_xz()`
+- `def parse_coord()`
+- `def slugify()`
+- `def first_linked()`
+- `def main()`
+
+**Definitions:**
+- `def wgs84_to_xz()`
+- `def parse_coord()`
+- `def slugify()`
+- `def parse_name_with_nickname()`
+- `def main()`
+
+**Definitions:**
+- `def wgs84_to_xz()`
+- `def position_to_xz()`
+- `def export_table()`
+- `def main()`
+
+**Definitions:**
+- `def wgs84_to_xz()`
+- `def convert_coord()`
+- `def convert_coord_list()`
+- `def slugify()`
+- `def main()`
+
+**Definitions:**
+- `def load_citizens()`
+- `def cmd_citizen()`
+- `def cmd_search()`
+- `def cmd_stats()`
+- `def cmd_org()`
+- `def cmd_institutions()`
+- `def main()`
+
+**Definitions:**
+- `def load_data()`
+- `def find_citizen()`
+- `def find_relationships()`
+- `def find_citizen_buildings()`
+- `def extract_personality_traits()`
+- `def compute_mood()`
+- `def determine_behavior_constraints()`
+- `def determine_truthfulness()`
+- `def _get_redis()`
+- `def query_citizen_beliefs()`
+- `def query_district_narratives()`
+- `def query_active_decrees()`
+- `def assemble_system_prompt()`
+- `def assemble_context_block()`
+- `def main()`
+
+**Definitions:**
+- `def load_json()`
+- `def escape_cypher()`
+- `def build_citizen_synthesis()`
+- `def build_citizen_content()`
+- `def citizen_district_id()`
+- `def seed_graph()`
+
+**Code refs:**
+- `doctor_cli_parser_and_run_checker.py`
+- `semantic_proximity_based_character_node_selector.py`
+- `snake_case.py`
+
+**Sections:**
+- # venezia - Agent Instructions
+- # Working Principles
+- ## Architecture: One Solution Per Problem
+- ## Verification: Test Before Claiming Built
+- ## Communication: Depth Over Brevity
+- ## Quality: Never Degrade
+- ## Code Discipline: No Safety Theater
+- ## Experience: User Before Infrastructure
+- ## Doc Chain First: Read Before Acting
+- ## Feedback Loop: Human-Agent Collaboration
+- ## Organism Thinking
+- ## How These Principles Integrate
+- # mind Framework
+- ## WHY THIS PROTOCOL EXISTS
+- ## ARCHITECTURE: 4 LAYERS
+- ## COMPANION: PRINCIPLES.md
+- ## THE CORE INSIGHT
+- ## HOW TO USE THIS
+- ## FILE TYPES AND THEIR PURPOSE
+- ## KEY PRINCIPLES (from PRINCIPLES.md)
+- ## STRUCTURING YOUR DOCS
+- ## WHEN DOCS DON'T EXIST
+- ## THE DOCUMENTATION PROCESS
+- ## Maturity
+- ## NAMING ENGINEERING PRINCIPLES
+- ## MARKERS
+- ## CLI COMMANDS
+- # Run scripts with local runtime
+- # my_script.py - imports work normally
+- ## MCP MEMBRANE TOOLS
+- ## MIND UNIVERSAL SCHEMA
+- ## THE PROTOCOL IS A TOOL
+- ## Before Any Task
+- ## After Any Change
+
+**Sections:**
+- # Venezia
+- ## Usage
+- ## Structure
+- ## Part of Mind Protocol
+
+**Code refs:**
+- `doctor_cli_parser_and_run_checker.py`
+- `scripts/export_all.py`
+- `scripts/export_bridges.py`
+- `scripts/export_buildings.py`
+- `scripts/export_citizens.py`
+- `scripts/export_lands.py`
+- `scripts/lookup.py`
+- `semantic_proximity_based_character_node_selector.py`
+- `snake_case.py`
+
+**Sections:**
+- # Repository Map: venezia
+- ## Statistics
+- ## File Tree
+- ## File Details
+
+**Code refs:**
+- `doctor_cli_parser_and_run_checker.py`
 - `semantic_proximity_based_character_node_selector.py`
 - `snake_case.py`
 
@@ -4675,7 +5274,10 @@
 - `eat_processor.py`
 - `effects.js`
 - `emit.js`
+- `engine/client/app.js`
+- `engine/index.js`
 - `engine/physics/graph/graph_queries.py`
+- `engine/shared/protocol.js`
 - `exploration.py`
 - `fetch_from_storage_activity_creator.py`
 - `file_grievance_activity_creator.py`
@@ -4707,6 +5309,7 @@
 - `list_land_for_sale_creator.py`
 - `main.js`
 - `main.py`
+- `main_engine.py`
 - `make_offer_for_land_creator.py`
 - `manage_import_contract_creator.py`
 - `manage_markup_buy_contract_creator.py`
@@ -4740,6 +5343,7 @@
 - `orchestrator.py`
 - `organize_collective_delivery_stratagem_processor.py`
 - `organize_gathering_stratagem_processor.py`
+- `poc_mind_context_assembly.py`
 - `political_campaign_stratagem_processor.py`
 - `pray_processor.py`
 - `printing_propaganda_stratagem_processor.py`
@@ -4762,6 +5366,12 @@
 - `scheduler.py`
 - `schema.js`
 - `scripts/audio_buffer.py`
+- `scripts/export_all.py`
+- `scripts/export_bridges.py`
+- `scripts/export_buildings.py`
+- `scripts/export_citizens.py`
+- `scripts/export_lands.py`
+- `scripts/lookup.py`
 - `scripts/physics_dryrun.py`
 - `scripts/physics_scheduler.py`
 - `scripts/seed_venice_graph.py`
@@ -4778,6 +5388,7 @@
 - `server/voice.js`
 - `services/app.py`
 - `shared/districts.js`
+- `shared/protocol.js`
 - `shared/zones.js`
 - `shrine/viz/server.py`
 - `snake_case.py`
@@ -4798,6 +5409,7 @@
 - `src/client/venice/transitions.js`
 - `src/client/voice.js`
 - `src/client/waypoints.js`
+- `src/scene.js`
 - `src/server/graph/mutations.js`
 - `src/server/graph/queries.js`
 - `src/server/index.js`
@@ -4826,6 +5438,9 @@
 - `tick.js`
 - `tick_runner.py`
 - `tick_v1_2.py`
+- `venezia/scripts/export_full_airtable.py`
+- `venezia/scripts/poc_mind_context_assembly.py`
+- `venezia/scripts/seed_venice_graph.py`
 - `voice.js`
 - `voice_server.py`
 - `waypoints.js`

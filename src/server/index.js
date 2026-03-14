@@ -20,6 +20,7 @@ import { RoomManager } from './rooms.js';
 import { GraphClient } from './graph-client.js';
 import { PlaceServer } from './place-server.js';
 import { MomentPipeline } from './moment-pipeline.js';
+import { PhysicsBridge } from './physics-bridge.js';
 import OpenAI from 'openai';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -31,6 +32,7 @@ const citizens = new Map(); // id → { position, rotation, name, persona, zone,
 const connections = new Map(); // ws → citizenId
 const roomManager = new RoomManager();
 let placeServer = null;
+let physicsBridge = null;
 
 // ─── Express (HTTP API) ─────────────────────────────────
 
@@ -139,6 +141,29 @@ app.post('/api/places', async (req, res) => {
 app.post('/api/places/:id/notify', async (req, res) => {
   if (!placeServer) return res.status(503).json({ error: 'Living Places not available' });
   await placeServer.handleNotifyHTTP(req, res);
+});
+
+// ─── Physics API ──────────────────────────────────────
+app.get('/api/physics', (req, res) => {
+  if (!physicsBridge) return res.status(503).json({ error: 'Physics engine not available' });
+  const lastResult = physicsBridge.getLastTickResult();
+  res.json({
+    running: !physicsBridge._stopped,
+    tick_count: physicsBridge._tickCount,
+    tick_interval_ms: physicsBridge.tickInterval,
+    last_tick: lastResult ? {
+      success: lastResult.success,
+      tick: lastResult.tick,
+      elapsed_ms: lastResult.elapsed_ms,
+      summary: lastResult.summary,
+    } : null,
+  });
+});
+
+app.post('/api/physics/tick', async (req, res) => {
+  if (!physicsBridge) return res.status(503).json({ error: 'Physics engine not available' });
+  const result = await physicsBridge.runOnce();
+  res.json(result || { error: 'Tick skipped (already in progress)' });
 });
 
 // ─── Speak endpoint (sessions push voice into the world) ──
@@ -663,21 +688,58 @@ const aiManager = new AICitizenManager(broadcast, openai);
 // Speak endpoint uses global broadcast (available to all rooms)
 // The /speak route's send function already uses broadcast — that's correct.
 
-// ─── Living Places (graph-backed meeting rooms) ─────────
+// ─── Living Places + Physics Engine ─────────────────────
+const graphName = process.env.FALKORDB_GRAPH || 'venezia';
 try {
   const graphClient = await GraphClient.connect({
     host: process.env.FALKORDB_HOST || 'localhost',
     port: parseInt(process.env.FALKORDB_PORT || '6379'),
-    graph: process.env.FALKORDB_GRAPH || 'manemus',
+    graph: graphName,
   });
+
+  // Living Places
   placeServer = new PlaceServer(graphClient);
   const momentPipeline = new MomentPipeline(graphClient, placeServer, processVoiceStreaming);
   placeServer.setMomentPipeline(momentPipeline);
   placeServer.startReconciliation();
   console.log('Living Places: active on /places/ws');
+
+  // Physics Bridge — narrative tick engine
+  const tickInterval = parseInt(process.env.PHYSICS_TICK_INTERVAL || '300000');
+  physicsBridge = new PhysicsBridge({
+    graphClient,
+    wsServer: wss,
+    tickInterval,
+  });
+
+  // Log physics events
+  physicsBridge.on('narrative.moment_flip', (payload) => {
+    console.log(`[Physics] Moment flip: ${payload.count} moment(s) completed at tick #${payload.tick}`);
+  });
+  physicsBridge.on('narrative.event', (payload) => {
+    console.log(`[Physics] Narrative event: ${payload.type} — ${payload.description}`);
+  });
+  physicsBridge.on('error', (err) => {
+    console.error(`[Physics] Error: ${err.message}`);
+  });
+
+  // Start the tick loop (first tick runs immediately)
+  await physicsBridge.start();
+  console.log(`Physics engine: active (graph=${graphName}, interval=${tickInterval}ms)`);
 } catch (e) {
-  console.warn(`Living Places: disabled (${e.message})`);
+  console.warn(`Graph services: disabled (${e.message})`);
 }
+
+// ─── Graceful shutdown ──────────────────────────────────
+function shutdown(signal) {
+  console.log(`\n${signal} received, shutting down...`);
+  if (physicsBridge) physicsBridge.stop();
+  server.close();
+  if (httpsServer) httpsServer.close();
+  process.exit(0);
+}
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT', () => shutdown('SIGINT'));
 
 console.log('Waiting for citizens...');
 console.log('Room system active (default: LOBBY0)');
