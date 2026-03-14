@@ -245,6 +245,33 @@ export function createServer({ port = 8800, manifest, basePath }) {
     });
   });
 
+  // Membrane ping — lightweight citizen liveness check (for L4 registry)
+  app.get('/membrane/ping/:handle', (req, res) => {
+    const handle = req.params.handle;
+    const fs = require('fs');
+    const path = require('path');
+    const citizensDir = path.resolve(process.cwd(), 'citizens');
+    const hasProfile = fs.existsSync(path.join(citizensDir, handle, 'profile.json'));
+    const hasClaude = fs.existsSync(path.join(citizensDir, handle, 'CLAUDE.md'));
+    const inEngine = app.entityManager && app.entityManager.entities.has(handle);
+    res.json({
+      handle,
+      alive: hasProfile || hasClaude || inEngine,
+      profile: hasProfile,
+      brain_nodes: inEngine ? 1 : 0,
+      has_keys: fs.existsSync(path.resolve(process.cwd(), '.keys', handle)),
+    });
+  });
+
+  app.get('/membrane/info', (req, res) => {
+    res.json({
+      world: manifest.name,
+      protocol: PROTOCOL_VERSION,
+      entities: app.entityManager ? app.entityManager.entities.size : 0,
+      clients: clients.size,
+    });
+  });
+
   // Voice processing — HTTP mode (non-streaming)
   // POST /voice { audio: base64, position: {x,y,z}, name: string, format?: string }
   app.post('/voice', async (req, res) => {
