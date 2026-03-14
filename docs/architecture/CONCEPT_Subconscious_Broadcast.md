@@ -369,6 +369,70 @@ MARKET DYNAMICS:
 
 ## CONSTANTS
 
+## THE THERMODYNAMIC RESONANCE FORMULA
+
+Zero magic numbers. All multipliers derive from the caller's limbic state.
+
+```
+TARGET_ENERGY = Flow_topology × Compatibility × Target_weight
+
+Where:
+
+  Flow_topology = (spatial + relational) × (1 - friction)
+    spatial    = Space.present × D_affiliation
+    relational = Link.trust × D_self_preservation + Link.affinity × D_affiliation
+
+  Compatibility = (1 - arousal) × Sim_vec + arousal × Sim_lex
+    Sim_vec = domain relevance (trade/role matches query)
+    Sim_lex = explicit mention (@handle in text)
+
+  Target_weight = citizen's consolidated weight (Laws 5/6/7)
+
+  Narrative_bonus = Σ(r1.energy × r2.energy) × (1 - arousal)
+    Only traversed when calm. Panic skips narratives.
+```
+
+**How the formula shape-shifts by arousal:**
+
+```
+PANIC (arousal ≈ 0.9):
+  Compatibility ≈ 0.1 × Sim_vec + 0.9 × Sim_lex
+  Flow ≈ Link.trust × D_self_preservation
+  Narrative ≈ 0.1 × (near zero)
+  → SNIPER: trust + explicit mentions only. Ignores domain, stories, friends.
+
+MODERATE (arousal ≈ 0.4):
+  Compatibility ≈ 0.6 × Sim_vec + 0.4 × Sim_lex
+  Flow ≈ balanced spatial + relational
+  Narrative ≈ 0.6 × (active)
+  → ROUNDTABLE: 3-5 diverse perspectives from space, friends, shared stories.
+
+FLOW (arousal ≈ 0.3):
+  Compatibility ≈ 0.7 × Sim_vec + 0.3 × Sim_lex
+  Flow ≈ minimal (low affiliation, low self_preservation)
+  Narrative ≈ 0.7 × (dominant)
+  → FRONTIER: bypasses social circle. Energy flows through shared narratives
+    to the heaviest domain experts in the universe.
+
+CALM (arousal ≈ 0.1):
+  Compatibility ≈ 0.9 × Sim_vec + 0.1 × Sim_lex
+  Flow ≈ near zero (no personal routing)
+  Narrative ≈ 0.9 × (maximum)
+  → DRAGNET: pure semantic overlap across entire graph. Maximum fan-out.
+    Hundreds of data points to Graph/File, bypassing WM entirely.
+```
+
+**Fan-in destination by scenario:**
+
+| Scenario Group | Arousal | Fan-out | Fan-in Destination | WM Entries |
+|---|---|---|---|---|
+| Emergency, Toxic, Overwhelmed | ~0.9 | Narrow (trust-gated) | WM (need action NOW) | 1-3 |
+| Impasse, Advice, Mentoring | ~0.4 | Medium (space + affinity) | WM (need to think) | 3-5 |
+| Frontier, Generativity | ~0.3 | Wide (narrative traversal) | WM (best) + Graph (rest) | 3-5 |
+| Investigation, Polling, Critique | ~0.1 | Maximum (semantic only) | Graph + File (bulk) | 0 (graph only) |
+
+---
+
 **Design principle: no subcall-specific constants.** All dynamics derived from existing graph physics:
 
 | What | Derived From | Physics |
