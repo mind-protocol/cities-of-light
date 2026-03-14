@@ -376,3 +376,27 @@ Contre-Terre's brain seed prototype (868 nodes) could be the template for how al
 | 2026-03-13 | v0.0.0 | cities_of_light |
 
 ---
+
+## Init: 2026-03-14 16:17
+
+| Setting | Value |
+|---------|-------|
+| Version | v0.0.0 |
+| Database | falkordb |
+| Graph | cities_of_light |
+
+**Steps completed:** ecosystem, capabilities, runtime, ai_configs, skills, database_config, database_setup, file_ingest, capabilities_graph, env_example, mcp_config, gitignore, overview, embeddings, health_checks
+
+---
+
+## Init: 2026-03-14 17:50
+
+| Setting | Value |
+|---------|-------|
+| Version | v0.0.0 |
+| Database | falkordb |
+| Graph | cities_of_light |
+
+**Steps completed:** ecosystem, capabilities, runtime, ai_configs, skills, database_config, database_setup, file_ingest, capabilities_graph, env_example, mcp_config, gitignore, overview, embeddings, health_checks
+
+---
