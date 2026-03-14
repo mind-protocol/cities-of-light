@@ -166,6 +166,111 @@ app.post('/api/physics/tick', async (req, res) => {
   res.json(result || { error: 'Tick skipped (already in progress)' });
 });
 
+// ─── Citizen Brain API (graph-backed context) ─────────
+// Returns real data from FalkorDB — what a citizen thinks, knows, and is doing
+
+let _graphClientRef = null; // set after GraphClient connects
+
+app.get('/api/citizen/:id/context', async (req, res) => {
+  if (!_graphClientRef) return res.status(503).json({ error: 'Graph not connected' });
+  const citizenId = req.params.id;
+
+  try {
+    // Query citizen's real state from graph
+    const result = await _graphClientRef.query(`
+      MATCH (a:Actor {id: $id})
+      OPTIONAL MATCH (a)-[r]->(n)
+      WHERE n.node_type IN ['narrative', 'moment', 'space']
+      RETURN a.id AS id, a.name AS name, a.synthesis AS synthesis,
+             a.weight AS weight, a.energy AS energy,
+             collect(DISTINCT {
+               type: n.node_type,
+               name: n.name,
+               synthesis: n.synthesis,
+               weight: r.weight
+             })[0..10] AS connections
+    `, { id: citizenId });
+
+    if (!result || result.length === 0) {
+      return res.status(404).json({ error: 'Citizen not found' });
+    }
+
+    const citizen = result[0];
+    res.json({
+      id: citizen.id,
+      name: citizen.name,
+      synthesis: citizen.synthesis,
+      energy: citizen.energy,
+      weight: citizen.weight,
+      connections: citizen.connections || [],
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.get('/api/citizen/:id/thought', async (req, res) => {
+  if (!_graphClientRef) return res.status(503).json({ error: 'Graph not connected' });
+  const citizenId = req.params.id;
+
+  try {
+    // Get citizen's current narratives and recent moments — these ARE their thoughts
+    const result = await _graphClientRef.query(`
+      MATCH (a:Actor {id: $id})-[r]->(n:Narrative)
+      RETURN n.synthesis AS thought, r.weight AS weight, r.energy AS energy
+      ORDER BY r.energy DESC, r.weight DESC
+      LIMIT 5
+    `, { id: citizenId });
+
+    // Also get recent moments
+    const moments = await _graphClientRef.query(`
+      MATCH (a:Actor {id: $id})-[r]->(m:Moment)
+      RETURN m.synthesis AS thought, m.content AS content, r.weight AS weight
+      ORDER BY m.created_at_s DESC
+      LIMIT 3
+    `, { id: citizenId });
+
+    const thoughts = [
+      ...(result || []).map(r => ({ text: r.thought, source: 'narrative', weight: r.weight, energy: r.energy })),
+      ...(moments || []).map(m => ({ text: m.thought || m.content, source: 'moment', weight: m.weight })),
+    ].filter(t => t.text);
+
+    res.json({ citizen_id: citizenId, thoughts });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// Batch endpoint — get thoughts for multiple citizens at once (for ambient bubbles)
+app.post('/api/citizens/thoughts', async (req, res) => {
+  if (!_graphClientRef) return res.status(503).json({ error: 'Graph not connected' });
+  const { citizen_ids } = req.body || {};
+  if (!citizen_ids || !Array.isArray(citizen_ids)) {
+    return res.status(400).json({ error: 'citizen_ids array required' });
+  }
+
+  try {
+    const result = await _graphClientRef.query(`
+      MATCH (a:Actor)-[r]->(n:Narrative)
+      WHERE a.id IN $ids
+      RETURN a.id AS citizen_id, n.synthesis AS thought, r.energy AS energy
+      ORDER BY r.energy DESC
+    `, { ids: citizen_ids });
+
+    // Group by citizen, take top thought
+    const thoughts = {};
+    for (const row of (result || [])) {
+      if (!thoughts[row.citizen_id] && row.thought) {
+        thoughts[row.citizen_id] = row.thought;
+      }
+    }
+
+    res.json({ thoughts });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // ─── Speak endpoint (sessions push voice into the world) ──
 // POST /speak { text, speaker?, session_id? }
 // Runs TTS and broadcasts audio to all connected clients.
@@ -707,6 +812,8 @@ try {
     port: parseInt(process.env.FALKORDB_PORT || '6379'),
     graph: graphName,
   });
+
+  _graphClientRef = graphClient;
 
   // Living Places
   placeServer = new PlaceServer(graphClient);

@@ -161,7 +161,7 @@ const CLASS_COLORS = {
 // Nearby buildings cache — filled after buildings load
 let buildingPositions = [];
 
-// Conversation snippets — short phrases citizens say when near each other
+// Conversation snippets — fallback, replaced by real graph thoughts when available
 const GREETINGS = [
   'Buongiorno!', 'Come sta?', 'Che bel tempo!', 'Avete sentito?',
   'Il Consiglio ha deciso...', 'I prezzi al Rialto...', 'Una gondola per due?',
@@ -345,17 +345,14 @@ function checkConversations() {
       const dist = Math.sqrt(dx * dx + dz * dz);
 
       if (dist < CONVO_DISTANCE && Math.random() < 0.15) {
-        // Start conversation
-        const textA = GREETINGS[Math.floor(Math.random() * GREETINGS.length)];
-        const textB = GREETINGS[Math.floor(Math.random() * GREETINGS.length)];
-
+        // Start conversation — try real thoughts from graph, fallback to greetings
         udA.state = 'talking';
-        udA.stateTimer = 3 + Math.random() * 3;
-        showBubble(groupA, textA);
-
+        udA.stateTimer = 5 + Math.random() * 4;
         udB.state = 'talking';
-        udB.stateTimer = 3 + Math.random() * 3;
-        showBubble(groupB, textB);
+        udB.stateTimer = 5 + Math.random() * 4;
+
+        // Show real thoughts from graph (async)
+        fetchThoughts(idA, idB, groupA, groupB);
 
         // Face each other
         groupA.rotation.y = Math.atan2(dx, dz) + Math.PI;
@@ -364,6 +361,34 @@ function checkConversations() {
       }
     }
   }
+}
+
+async function fetchThoughts(idA, idB, groupA, groupB) {
+  const fallbackA = GREETINGS[Math.floor(Math.random() * GREETINGS.length)];
+  const fallbackB = GREETINGS[Math.floor(Math.random() * GREETINGS.length)];
+
+  try {
+    const resp = await fetch('/api/citizens/thoughts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ citizen_ids: [idA, idB] }),
+    });
+
+    if (resp.ok) {
+      const data = await resp.json();
+      const textA = data.thoughts?.[idA] || fallbackA;
+      const textB = data.thoughts?.[idB] || fallbackB;
+      // Truncate for bubble display
+      showBubble(groupA, textA.length > 60 ? textA.slice(0, 57) + '...' : textA);
+      showBubble(groupB, textB.length > 60 ? textB.slice(0, 57) + '...' : textB);
+      return;
+    }
+  } catch (e) {
+    // Graph not available — use fallback
+  }
+
+  showBubble(groupA, fallbackA);
+  showBubble(groupB, fallbackB);
 }
 
 function showBubble(group, text) {
@@ -446,7 +471,7 @@ window.addEventListener('click', (event) => {
   }
 });
 
-function showCitizenPanel(citizen) {
+async function showCitizenPanel(citizen) {
   const panel = document.getElementById('citizen-panel');
   if (!panel) return;
 
@@ -463,6 +488,30 @@ function showCitizenPanel(citizen) {
   btn.textContent = 'Choisir comme partenaire';
 
   panel.style.display = 'block';
+
+  // Fetch real context from graph
+  const citizenId = citizen.id || citizen.username;
+  const connectionsEl = document.getElementById('cp-connections');
+  if (connectionsEl && citizenId) {
+    connectionsEl.textContent = 'Loading...';
+    try {
+      const resp = await fetch(`/api/citizen/${encodeURIComponent(citizenId)}/context`);
+      if (resp.ok) {
+        const data = await resp.json();
+        const connTexts = (data.connections || [])
+          .filter(c => c.synthesis)
+          .map(c => c.synthesis)
+          .slice(0, 5);
+        connectionsEl.textContent = connTexts.length > 0
+          ? connTexts.join(' • ')
+          : data.synthesis || 'A citizen of Venice.';
+      } else {
+        connectionsEl.textContent = '';
+      }
+    } catch {
+      connectionsEl.textContent = '';
+    }
+  }
 }
 
 window.choosePartner = function() {
