@@ -203,7 +203,8 @@ function spawnCitizens(citizens, world) {
   }
 
   console.log(`Citizens spawned: ${spawned}/${citizens.length}`);
-  document.getElementById('status').innerHTML = `<span class="connected">${spawned} citizens alive</span>`;
+  const el = document.getElementById('status');
+  if (el) el.innerHTML = `<span class="connected">${spawned} citizens alive</span>`;
 }
 
 function makeLabel(text) {
@@ -231,13 +232,11 @@ const worldLoader = new WorldLoader(scene, renderer);
 
 async function init() {
   const statusEl = document.getElementById('status');
-  const worldNameEl = document.getElementById('world-name');
 
   try {
-    statusEl.innerHTML = '<span>Loading Venice...</span>';
+    if (statusEl) statusEl.innerHTML = '<span>Loading Venice...</span>';
 
     const world = await worldLoader.load('/worlds/venezia/world-manifest.json');
-    worldNameEl.textContent = world.manifest.display_name || world.manifest.name;
 
     // Render buildings
     if (world.buildings && world.buildings.length > 0) {
