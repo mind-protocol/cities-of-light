@@ -253,6 +253,23 @@ app.get('/integration/state', (req, res) => {
   });
 });
 
+// ─── World data (Venezia JSON — lands, buildings, bridges, citizens) ──
+
+const veneziaDir = process.env.VENEZIA_DIR || join(__dirname, '..', '..', 'worlds', 'venezia');
+if (existsSync(veneziaDir)) {
+  app.use('/worlds/venezia', express.static(veneziaDir));
+  console.log(`Serving Venezia world data from ${veneziaDir}`);
+} else {
+  // Try symlink or absolute path
+  const altDir = '/home/mind-protocol/venezia';
+  if (existsSync(altDir)) {
+    app.use('/worlds/venezia', express.static(altDir));
+    console.log(`Serving Venezia world data from ${altDir}`);
+  } else {
+    console.warn('Venezia world data not found — 3D client will not load world');
+  }
+}
+
 // ─── Vault media (videos for memorial playback) ──────────
 
 const vaultDir = join(__dirname, '..', '..', 'data', 'vault');
