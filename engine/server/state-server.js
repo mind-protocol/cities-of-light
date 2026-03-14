@@ -248,7 +248,7 @@ export function createServer({ port = 8800, manifest, basePath }) {
   // Membrane ping — lightweight citizen liveness check (for L4 registry)
   app.get('/membrane/ping/:handle', (req, res) => {
     const handle = req.params.handle;
-    const base = options.basePath || process.cwd();
+    const base = process.cwd();
     const citizensDir = resolve(base, 'citizens');
     const hasProfile = existsSync(join(citizensDir, handle, 'profile.json'));
     const hasClaude = existsSync(join(citizensDir, handle, 'CLAUDE.md'));
