@@ -1,0 +1,1416 @@
+[
+  {
+    "id": "actor_citoyen_bongiwe",
+    "name": "Marchande principale de Kahlamba",
+    "social_class": "leader",
+    "occupation": "leader, cuisinier",
+    "description": "Bongiwe tient le comptoir principal du marche de Kahlamba depuis vingt-deux ans. Ses mains sentent le cuir tanne et le sel — elle negocie en Contact si vite que les caravaniers du Nord n'arrivent pas a suivre.",
+    "synthesis": "Marchande principale de Kahlamba, negociatrice en Contact rapide",
+    "archipel": "space_archipel_sud",
+    "age": 47,
+    "position": {
+      "x": 8.365607907473027,
+      "z": -28.499354686639983
+    }
+  },
+  {
+    "id": "actor_citoyen_vusi",
+    "name": "Caravanier veteran de La Longue",
+    "social_class": "cartographe",
+    "occupation": "cartographe, specialiste_survie",
+    "description": "Vusi est caravanier sur La Longue depuis qu'il a seize ans. Il connait chaque veine de roche stable entre Kahlamba et Ingwe par la frequence qu'elle envoie dans ses talons.",
+    "synthesis": "Caravanier veteran de La Longue, lit les veines par les pieds",
+    "archipel": "space_archipel_sud",
+    "age": 34,
+    "position": {
+      "x": -13.498240897852845,
+      "z": -16.607355711070635
+    }
+  },
+  {
+    "id": "actor_citoyen_nosipho_sud",
+    "name": "Archiviste tactile du Consortium",
+    "social_class": "leader",
+    "occupation": "leader",
+    "description": "Nosipho gere les archives tactiles du Consortium — les sequences de Contact qui encodent les decisions entre archipels. Elle reproduit de memoire quarante ans de deliberations.",
+    "synthesis": "Archiviste tactile du Consortium, memoire vivante des deliberations inter-archipels",
+    "archipel": "space_archipel_sud",
+    "age": 61,
+    "position": {
+      "x": 14.188272849840743,
+      "z": 10.601969245374676
+    }
+  },
+  {
+    "id": "actor_citoyen_siphelele",
+    "name": "Cuisinier du marche de Kahlamba",
+    "social_class": "cuisinier",
+    "occupation": "cuisinier",
+    "description": "Siphelele est cuisinier au marche — sa bouillie de Kahlamba est la reference. Il dose le sel de Nkosazana a l'instinct et n'a jamais surdose, ce qui inquiete les superstitieux.",
+    "synthesis": "Cuisinier du marche de Kahlamba, doseur instinctif de sel",
+    "archipel": "space_archipel_sud",
+    "age": 29,
+    "position": {
+      "x": 23.530774062290725,
+      "z": -24.78367004223503
+    }
+  },
+  {
+    "id": "actor_citoyen_zanele_sud",
+    "name": "Zanele Sud",
+    "social_class": "leader",
+    "occupation": "leader, cartographe",
+    "description": "Zanele organise les departs d'expedition depuis le dome du Consortium. Deux de ses fils sont morts dans le desert sismique — elle prepare chaque expedition comme si c'etait la derniere.",
+    "synthesis": "Organisatrice des expeditions du Consortium, meticuleuse par le deuil",
+    "archipel": "space_archipel_sud",
+    "age": 52,
+    "position": {
+      "x": -4.684690818883773,
+      "z": -28.21216683371578
+    }
+  },
+  {
+    "id": "actor_citoyen_buhle_sud",
+    "name": "Messagere entre Kahlamba et Ndaba",
+    "social_class": "cartographe",
+    "occupation": "cartographe",
+    "description": "Buhle fait la navette entre Kahlamba et Ndaba avec les commandes de cordage. A dix-sept ans, elle connait chaque tisserand de Ndaba par l'odeur de ses mains.",
+    "synthesis": "Messagere entre Kahlamba et Ndaba, reconnait les tisserands a l'odeur",
+    "archipel": "space_archipel_sud",
+    "age": 17,
+    "position": {
+      "x": -16.881721511783798,
+      "z": 0.3213172862017437
+    }
+  },
+  {
+    "id": "actor_citoyen_mandla_sud",
+    "name": "Mandla Sud",
+    "social_class": "mineur",
+    "occupation": "mineur, specialiste_roche",
+    "description": "Mandla est forgeron de caissons amortisseurs — les boitiers de basalte qui protegent les instruments fragiles pendant le transport. Chaque caisson est calibre a la main pour une frequence de resonance precise.",
+    "synthesis": "Forgeron de caissons amortisseurs a Kahlamba, calibration manuelle",
+    "archipel": "space_archipel_sud",
+    "age": 41,
+    "position": {
+      "x": -28.407841818968183,
+      "z": -18.06974095880109
+    }
+  },
+  {
+    "id": "actor_citoyen_thandeka_sud",
+    "name": "Ainee des reservoirs souterrains",
+    "social_class": "specialiste_oceans",
+    "occupation": "specialiste_oceans, speleologue",
+    "description": "Thandeka est l'ainee des fabricants de reservoirs souterrains de Kahlamba. Elle connait le reseau de nappes phreatiques mieux que les pecheurs de Lesedi et refuse de partager ses cartes mentales.",
+    "synthesis": "Ainee des reservoirs souterrains, gardienne des nappes de Kahlamba",
+    "archipel": "space_archipel_sud",
+    "age": 68,
+    "position": {
+      "x": 8.993066266771393,
+      "z": 2.696488836192998
+    }
+  },
+  {
+    "id": "actor_citoyen_mzamo",
+    "name": "Mzamo",
+    "social_class": "specialiste_escalade",
+    "occupation": "specialiste_escalade",
+    "description": "Mzamo tient l'echoppe de reparation de hamacs au marche. Il tresse, coud et remplace les cordes d'ancrage usees. Son Contact de diagnostic — une paume posee sur le hamac — dit l'usure en trois secondes.",
+    "synthesis": "Reparateur de hamacs au marche de Kahlamba, diagnostic tactile",
+    "archipel": "space_archipel_sud",
+    "age": 36,
+    "position": {
+      "x": -16.773562677558196,
+      "z": 5.355941032554526
+    }
+  },
+  {
+    "id": "actor_citoyen_ayanda",
+    "name": "Ecouteur du Consortium a Kahlamba",
+    "social_class": "ecouteur",
+    "occupation": "ecouteur",
+    "description": "Ayanda est ecouteur au service du Consortium — il passe ses journees pieds nus sur le basalte a lire les signaux de fond et transmettre les alertes sismiques aux marchands du marche.",
+    "synthesis": "Ecouteur du Consortium a Kahlamba, veille sismique du marche",
+    "archipel": "space_archipel_sud",
+    "age": 25,
+    "position": {
+      "x": 18.565827400669598,
+      "z": -29.61007441931634
+    }
+  },
+  {
+    "id": "actor_citoyen_nomalanga_sud",
+    "name": "Maitresse-tisserande de Ndaba",
+    "social_class": "specialiste_escalade",
+    "occupation": "specialiste_escalade",
+    "description": "Nomalanga est maitresse-tisserande a Ndaba — elle tresse la triple tresse de Kwanele les yeux fermes. Elle forme les apprentis en leur faisant defaire et refaire la meme corde jusqu'a ce que leurs mains sachent sans leurs yeux.",
+    "synthesis": "Maitresse-tisserande de Ndaba, gardienne de la triple tresse de Kwanele",
+    "archipel": "space_archipel_sud",
+    "age": 55,
+    "position": {
+      "x": 18.34915510996847,
+      "z": 11.888363699293613
+    }
+  },
+  {
+    "id": "actor_citoyen_siyabonga_sud",
+    "name": "Jeune cordier de Ndaba",
+    "social_class": "specialiste_escalade",
+    "occupation": "specialiste_escalade",
+    "description": "Siyabonga est le plus jeune cordier de Ndaba — il n'a pas encore la marche pigeonne mais ses mains sont deja celles d'un tresseur. Il reve de partir en caravane avec les cordes qu'il fabrique.",
+    "synthesis": "Jeune cordier de Ndaba, mains de tresseur, reve de caravane",
+    "archipel": "space_archipel_sud",
+    "age": 19,
+    "position": {
+      "x": -9.584969008920488,
+      "z": -20.671230011293105
+    }
+  },
+  {
+    "id": "actor_citoyen_lindiwe_sud",
+    "name": "Apprentie-cordiere de Ndaba",
+    "social_class": "specialiste_escalade",
+    "occupation": "specialiste_escalade",
+    "description": "Lindiwe est apprentie-cordiere a Ndaba. Elle est la petite-fille de la petite-fille de Nobanzi — celle qui a defait les cordes de Kwanele. Lindiwe tresse comme pour racheter quelque chose, disent les anciens.",
+    "synthesis": "Apprentie-cordiere de Ndaba, descendante de Nobanzi, tresse avec une intensite de rachat",
+    "archipel": "space_archipel_sud",
+    "age": 22,
+    "position": {
+      "x": 27.432784332406875,
+      "z": -9.804327293242395
+    }
+  },
+  {
+    "id": "actor_citoyen_thulani_sud",
+    "name": "Pecheur d'eau de Lesedi",
+    "social_class": "specialiste_oceans",
+    "occupation": "specialiste_oceans, specialiste_escalade",
+    "description": "Thulani est pecheur d'eau a Lesedi — il descend dans les fissures phreatiques avec une gourde de cuir et remonte l'eau froide et bleutee que tout le Sud boit en fermant les yeux.",
+    "synthesis": "Pecheur d'eau de Lesedi, plongeur des fissures phreatiques",
+    "archipel": "space_archipel_sud",
+    "age": 33,
+    "position": {
+      "x": -24.435249397191125,
+      "z": -24.19701738999216
+    }
+  },
+  {
+    "id": "actor_citoyen_nomvula_sud",
+    "name": "Doyenne de Lesedi",
+    "social_class": "specialiste_oceans",
+    "occupation": "specialiste_oceans",
+    "description": "Nomvula est la doyenne de Lesedi. Elle ne descend plus dans les fissures mais elle sent l'eau monter ou descendre rien qu'en posant la paume sur le basalte au-dessus de la nappe.",
+    "synthesis": "Doyenne de Lesedi, sent les nappes par le basalte",
+    "archipel": "space_archipel_sud",
+    "age": 70,
+    "position": {
+      "x": 20.849661980847586,
+      "z": 6.223561882013463
+    }
+  },
+  {
+    "id": "actor_citoyen_lungile_nord",
+    "name": "Tailleur d'essieux veteran d'Umzimkhulu",
+    "social_class": "mineur",
+    "occupation": "mineur, specialiste_roche",
+    "description": "Lungile taille des essieux de basalte a Umzimkhulu depuis quarante ans. Ses mains sont si calleuses que son Contact ressemble a du morse — sec, precis, sans nuance. Il dit que la nuance est pour les gens du Sud.",
+    "synthesis": "Tailleur d'essieux veteran d'Umzimkhulu, Contact dur et sans nuance",
+    "archipel": "space_archipel_nord",
+    "age": 58,
+    "position": {
+      "x": 58.427696396462814,
+      "z": 133.78390720162906
+    }
+  },
+  {
+    "id": "actor_citoyen_ntombi_nord",
+    "name": "Luthiere de sismographes a Umzimkhulu",
+    "social_class": "ecouteur",
+    "occupation": "ecouteur, specialiste_roche",
+    "description": "Ntombi construit des sismographes au troisieme niveau d'Umzimkhulu. Chaque instrument est une sculpture de granite et de fibre — elle les calibre en les ecoutant vibrer, l'oreille collee a la roche.",
+    "synthesis": "Luthiere de sismographes a Umzimkhulu, calibre a l'oreille",
+    "archipel": "space_archipel_nord",
+    "age": 44,
+    "position": {
+      "x": 42.17368548728204,
+      "z": 148.38694583876224
+    }
+  },
+  {
+    "id": "actor_citoyen_gugu",
+    "name": "Gugu",
+    "social_class": "mineur",
+    "occupation": "mineur",
+    "description": "Gugu vit au cinquieme niveau d'Umzimkhulu — la ou le granite est le plus froid et le plus dense. Elle est la plus ancienne habitante du niveau, et sa peau est si froide qu'on dit qu'elle a le sang de la roche.",
+    "synthesis": "Ancienne du cinquieme niveau d'Umzimkhulu, peau froide comme le granite",
+    "archipel": "space_archipel_nord",
+    "age": 67,
+    "position": {
+      "x": 32.71206263250121,
+      "z": 123.12243787639362
+    }
+  },
+  {
+    "id": "actor_citoyen_bhekani",
+    "name": "Meteorologue d'Umzimkhulu",
+    "social_class": "meteorologue",
+    "occupation": "meteorologue, ecouteur",
+    "description": "Bhekani est meteorologue a Umzimkhulu — il lit les variations de pression atmospherique a travers les courants d'air qui traversent les cinq niveaux. Quand l'air du cinquieme niveau remonte, il sait que le granite se rechauffe.",
+    "synthesis": "Meteorologue d'Umzimkhulu, lit les courants d'air entre les niveaux",
+    "archipel": "space_archipel_nord",
+    "age": 38,
+    "position": {
+      "x": 59.764279855179694,
+      "z": 127.11118514185476
+    }
+  },
+  {
+    "id": "actor_citoyen_zandile",
+    "name": "Ecouteur en chef d'Umzimkhulu",
+    "social_class": "ecouteur",
+    "occupation": "ecouteur",
+    "description": "Zandile est l'ecouteur en chef d'Umzimkhulu. Elle a etudie les techniques de Dumisani telles que les porteurs les ont transmises. Son corps capte les infra-basses que les sismographes de Ntombi ne detectent pas.",
+    "synthesis": "Ecouteur en chef d'Umzimkhulu, heritiere des techniques de Dumisani",
+    "archipel": "space_archipel_nord",
+    "age": 50,
+    "position": {
+      "x": 61.702414018646635,
+      "z": 124.64112871540573
+    }
+  },
+  {
+    "id": "actor_citoyen_mbuso",
+    "name": "Mineur patient d'Umzimkhulu",
+    "social_class": "mineur",
+    "occupation": "mineur",
+    "description": "Mbuso est mineur au deuxieme niveau. Il place les coins de basalte dans les fissures avec une patience que les gens du Sud trouvent insupportable — il attend parfois trois jours qu'un seisme de la bonne magnitude fasse le travail.",
+    "synthesis": "Mineur patient d'Umzimkhulu, placeur de coins, attend le bon seisme",
+    "archipel": "space_archipel_nord",
+    "age": 31,
+    "position": {
+      "x": 52.27431017289541,
+      "z": 92.74946301933973
+    }
+  },
+  {
+    "id": "actor_citoyen_sindiswa",
+    "name": "Juge du conseil d'Umzimkhulu",
+    "social_class": "leader",
+    "occupation": "leader",
+    "description": "Sindiswa est la juge du conseil d'Umzimkhulu. Ses poings sur les epaules des plaignants disent le verdict — la pression dit le tort, la duree dit la peine. Personne ne conteste un poing de Sindiswa.",
+    "synthesis": "Juge du conseil d'Umzimkhulu, rend ses verdicts par la pression du poing",
+    "archipel": "space_archipel_nord",
+    "age": 63,
+    "position": {
+      "x": 23.673896539092812,
+      "z": 107.36327781612643
+    }
+  },
+  {
+    "id": "actor_citoyen_dumisa_nord",
+    "name": "Cuisinier du Nord",
+    "social_class": "cuisinier",
+    "occupation": "cuisinier",
+    "description": "Dumisa brasse la bouillie grise du Nord au premier niveau. Il y ajoute la poudre de granite qui use les dents et la pate d'essieu de Mantolo que les gens des autres archipels refusent de gouter.",
+    "synthesis": "Cuisinier du Nord, specialiste de la bouillie grise a la poudre de granite",
+    "archipel": "space_archipel_nord",
+    "age": 42,
+    "position": {
+      "x": 14.78751861541765,
+      "z": 103.96745318166181
+    }
+  },
+  {
+    "id": "actor_citoyen_khanyisile",
+    "name": "Khanyisile",
+    "social_class": "ecouteur",
+    "occupation": "ecouteur",
+    "description": "Khanyisile est apprentie ecouteur — elle a seize ans et passe ses journees assise sur le granite du troisieme niveau, les paumes a plat, a apprendre la difference entre une replique de magnitude 3.8 et une de 3.9.",
+    "synthesis": "Apprentie ecouteur de seize ans a Umzimkhulu, en formation sur le granite",
+    "archipel": "space_archipel_nord",
+    "age": 16,
+    "position": {
+      "x": 16.060085764583746,
+      "z": 106.67841618660553
+    }
+  },
+  {
+    "id": "actor_citoyen_nqobile",
+    "name": "Maitre-tailleur de Mantolo",
+    "social_class": "specialiste_roche",
+    "occupation": "specialiste_roche, mineur",
+    "description": "Nqobile est maitre-tailleur a Mantolo. Il sait ou poser un coin pour que le granite se fende en eclats impairs — les eclats sains. On dit que ses mains lisent les fissures internes de la roche comme d'autres lisent le Contact.",
+    "synthesis": "Maitre-tailleur de Mantolo, lit les fissures internes du granite",
+    "archipel": "space_archipel_nord",
+    "age": 56,
+    "position": {
+      "x": 48.14106665586401,
+      "z": 111.88993073820505
+    }
+  },
+  {
+    "id": "actor_citoyen_thembekile",
+    "name": "Tailleuse de niches funeraires a Mantolo",
+    "social_class": "specialiste_roche",
+    "occupation": "specialiste_roche",
+    "description": "Thembekile est tailleuse de niches funeraires a Mantolo. Elle sculpte les tombes dans le granite en une journee, utilisant les seismes eux-memes pour fendre la roche dans la bonne direction.",
+    "synthesis": "Tailleuse de niches funeraires a Mantolo, sculpte avec les seismes",
+    "archipel": "space_archipel_nord",
+    "age": 45,
+    "position": {
+      "x": 32.21085802701296,
+      "z": 102.57042184628926
+    }
+  },
+  {
+    "id": "actor_citoyen_phila",
+    "name": "Jeune tailleur de Mantolo",
+    "social_class": "specialiste_roche",
+    "occupation": "specialiste_roche, mineur",
+    "description": "Phila est le plus jeune tailleur de Mantolo. Il a les mains deja calleuses a vingt ans et frappe les murs en marchant, comme tous les gens de Mantolo, mais plus fort — il n'a pas encore appris a doser.",
+    "synthesis": "Jeune tailleur de Mantolo, frappe les murs trop fort",
+    "archipel": "space_archipel_nord",
+    "age": 20,
+    "position": {
+      "x": 26.018669322946803,
+      "z": 146.19927526274964
+    }
+  },
+  {
+    "id": "actor_citoyen_sizwe_ouest",
+    "name": "Maitre des ponts d'Ingwe",
+    "social_class": "cartographe",
+    "occupation": "cartographe, specialiste_escalade",
+    "description": "Sizwe est maitre des ponts d'Ingwe — premier debout chaque matin, il teste la tension des cordes entre les trois blocs avant que quiconque ne traverse. Ses mains lisent la derive de la nuit en trois secondes.",
+    "synthesis": "Maitre des ponts d'Ingwe, lit la derive nocturne par la tension des cordes",
+    "archipel": "space_archipel_ouest",
+    "age": 48,
+    "position": {
+      "x": -91.1178768852044,
+      "z": 36.54786034001929
+    }
+  },
+  {
+    "id": "actor_citoyen_nolwazi_ouest",
+    "name": "Cartographe corporelle d'Ingwe",
+    "social_class": "cartographe",
+    "occupation": "cartographe",
+    "description": "Nolwazi est cartographe corporelle a Ingwe. Elle encode la position relative des trois blocs par Contact sur l'avant-bras — chaque pression represente une distance, chaque angle de doigt une direction de derive.",
+    "synthesis": "Cartographe corporelle d'Ingwe, encode la derive en Contact sur l'avant-bras",
+    "archipel": "space_archipel_ouest",
+    "age": 35,
+    "position": {
+      "x": -119.73168110811417,
+      "z": 43.747607877020954
+    }
+  },
+  {
+    "id": "actor_citoyen_velile",
+    "name": "Juge des litiges de pont a Ingwe",
+    "social_class": "leader",
+    "occupation": "leader",
+    "description": "Velile est juge des litiges de pont a Ingwe — quand un pont casse et qu'un tiers de la population doit choisir, c'est Velile qui tranche. Son Contact de verdict est un geste de derive : tirer-repousser, comme le salut, mais une seule fois.",
+    "synthesis": "Juge des litiges de pont a Ingwe, tranche les choix de derive",
+    "archipel": "space_archipel_ouest",
+    "age": 59,
+    "position": {
+      "x": -120.1958503742843,
+      "z": 22.76732650545887
+    }
+  },
+  {
+    "id": "actor_citoyen_zoleka_ouest",
+    "name": "Ajusteuse de ponts d'Ingwe",
+    "social_class": "specialiste_escalade",
+    "occupation": "specialiste_escalade",
+    "description": "Zoleka est ajusteuse de ponts a Ingwe — elle retend, relache et remplace les cordes des ponts entre les blocs chaque matin. Ses bras sont les plus forts de l'Ouest, et son Contact a la douceur paradoxale des gens tres puissants.",
+    "synthesis": "Ajusteuse de ponts d'Ingwe, bras les plus forts de l'Ouest",
+    "archipel": "space_archipel_ouest",
+    "age": 27,
+    "position": {
+      "x": -70.62859896180429,
+      "z": 38.399985591245574
+    }
+  },
+  {
+    "id": "actor_citoyen_luthando",
+    "name": "Cuisinier d'Ingwe",
+    "social_class": "cuisinier",
+    "occupation": "cuisinier, biologiste",
+    "description": "Luthando est cuisinier a Ingwe — il prepare la bouillie froide du soir et la pate de lichen qu'il recolte lui-meme dans les micro-fissures du gres. Ses dents sont vertes du lichen qu'il mache pour liberer les enzymes.",
+    "synthesis": "Cuisinier d'Ingwe, recolteur de lichen, dents vertes",
+    "archipel": "space_archipel_ouest",
+    "age": 40,
+    "position": {
+      "x": -96.58301537352122,
+      "z": 41.07685505939248
+    }
+  },
+  {
+    "id": "actor_citoyen_anele",
+    "name": "Doyenne d'Ingwe",
+    "social_class": "predicteur",
+    "occupation": "predicteur",
+    "description": "Anele est la doyenne des Roulantes — nee sur le bloc central d'Ingwe il y a soixante-neuf ans, elle a vu les trois blocs deriver de onze metres depuis sa naissance. Elle dit que les blocs s'eloignent et que ses petits-enfants verront le premier pont casser.",
+    "synthesis": "Doyenne d'Ingwe, temoin de onze metres de derive, predit la cassure",
+    "archipel": "space_archipel_ouest",
+    "age": 69,
+    "position": {
+      "x": -79.42888478861143,
+      "z": 46.55999469277469
+    }
+  },
+  {
+    "id": "actor_citoyen_sandile_ouest",
+    "name": "Caravanier de l'Ouest",
+    "social_class": "cartographe",
+    "occupation": "cartographe, specialiste_survie",
+    "description": "Sandile est le seul caravanier natif de l'Ouest. Il guide les caravanes sur La Longue entre Ingwe et Kahlamba, son roulis de marche deroutant les caravaniers du Sud qui ne comprennent pas comment on peut marcher de travers et arriver droit.",
+    "synthesis": "Caravanier de l'Ouest, guide La Longue, marche de travers et arrive droit",
+    "archipel": "space_archipel_ouest",
+    "age": 32,
+    "position": {
+      "x": -116.25711568215374,
+      "z": 1.9260146342422644
+    }
+  },
+  {
+    "id": "actor_citoyen_mbalenhle",
+    "name": "Survivaliste de Zama",
+    "social_class": "specialiste_survie",
+    "occupation": "specialiste_survie, biologiste",
+    "description": "Mbalenhle est survivaliste a Zama — elle sait extraire l'eau d'un cactus sismique, dormir sur une pente de vingt degres, et reperer les tubercules par la texture du sol sous ses pieds nus.",
+    "synthesis": "Survivaliste de Zama, extraction d'eau et lecture du sol",
+    "archipel": "space_archipel_ouest",
+    "age": 37,
+    "position": {
+      "x": -111.07281711645508,
+      "z": 16.064452558542165
+    }
+  },
+  {
+    "id": "actor_citoyen_xolani_ouest",
+    "name": "Ancien de Zama",
+    "social_class": "specialiste_survie",
+    "occupation": "specialiste_survie, leader",
+    "description": "Xolani est l'ancien de Zama — le bloc solitaire. Il a forme Enama pendant ses deux saisons ici. Il dit qu'on n'apprend la survie qu'en oubliant le confort, et que le confort est tout ce qui ne bouge pas.",
+    "synthesis": "Ancien de Zama, a forme Enama, philosophe de l'inconfort",
+    "archipel": "space_archipel_ouest",
+    "age": 64,
+    "position": {
+      "x": -117.34102938482042,
+      "z": 56.57458286010326
+    }
+  },
+  {
+    "id": "actor_citoyen_nombuso_nordest",
+    "name": "Formatrice d'ecouteurs a Mhluzi",
+    "social_class": "ecouteur",
+    "occupation": "ecouteur, meteorologue",
+    "description": "Nombuso forme les apprentis ecouteurs a Mhluzi. Elle entend les repliques 4 secondes avant les instruments -- et refuse de l'admettre, parce qu'admettre ca ferait d'elle une predictrice.",
+    "synthesis": "Formatrice d'ecouteurs a Mhluzi, entend avant les instruments mais refuse le titre de predictrice",
+    "archipel": "space_archipel_nord_est",
+    "age": 44,
+    "position": {
+      "x": 122.58205758836013,
+      "z": 68.88067284790867
+    }
+  },
+  {
+    "id": "actor_citoyen_vusumuzi",
+    "name": "Doyen des predicteurs de Mhluzi",
+    "social_class": "predicteur",
+    "occupation": "predicteur",
+    "description": "Vusumuzi est le plus ancien predicteur de Mhluzi. Son tremens est devenu si constant que son corps ne cesse jamais de vibrer -- meme dans le sommeil, ses mains tremblent contre le hamac.",
+    "synthesis": "Doyen des predicteurs de Mhluzi, tremens permanent jusque dans le sommeil",
+    "archipel": "space_archipel_nord_est",
+    "age": 67,
+    "position": {
+      "x": 109.3263199176928,
+      "z": 73.73791406363986
+    }
+  },
+  {
+    "id": "actor_citoyen_zintle",
+    "name": "Apprentie ecouteuse de 16 ans a Mhluzi",
+    "social_class": "ecouteur",
+    "occupation": "ecouteur",
+    "description": "Zintle est apprentie ecouteuse, seize ans, revenue de six mois a la Faille de Khensi. Elle distingue neuf frequences la ou les instruments en lisent trois. Nombuso dit qu'elle est la meilleure depuis Sihle.",
+    "synthesis": "Apprentie ecouteuse de 16 ans a Mhluzi, talent exceptionnel forme a la Faille de Khensi",
+    "archipel": "space_archipel_nord_est",
+    "age": 16,
+    "position": {
+      "x": 124.87285538443261,
+      "z": 77.53111115524393
+    }
+  },
+  {
+    "id": "actor_citoyen_bhekumuzi",
+    "name": "Meteorologue de Mhluzi",
+    "social_class": "meteorologue",
+    "occupation": "meteorologue, ecouteur",
+    "description": "Bhekumuzi enseigne la meteorologie aux ecouteurs de Mhluzi. Il lit les variations de pression atmospherique par le changement de resonance du schiste -- quand la pression baisse, les feuillets chantent plus aigu.",
+    "synthesis": "Meteorologue de Mhluzi, lit la pression atmospherique dans la resonance du schiste",
+    "archipel": "space_archipel_nord_est",
+    "age": 52,
+    "position": {
+      "x": 85.89280998988315,
+      "z": 64.79765046163901
+    }
+  },
+  {
+    "id": "actor_citoyen_nomalanga_nordest",
+    "name": "Predictrice et cuisiniere a Mhluzi",
+    "social_class": "predicteur",
+    "occupation": "predicteur, cuisinier",
+    "description": "Nomalanga est predictrice et cuisiniere a Mhluzi. Elle dose le sel dans la soupe claire en fonction de ce que son tremens lui dit du lendemain -- plus le tremens est aigu, plus elle sale.",
+    "synthesis": "Predictrice et cuisiniere a Mhluzi, dose le sel selon son tremens",
+    "archipel": "space_archipel_nord_est",
+    "age": 38,
+    "position": {
+      "x": 103.68208804978904,
+      "z": 65.76449651137611
+    }
+  },
+  {
+    "id": "actor_citoyen_khanyiso",
+    "name": "Reparateur de passerelles a Mhluzi",
+    "social_class": "survivaliste",
+    "occupation": "survivaliste, grimpeur",
+    "description": "Khanyiso repare les passerelles de corde de Mhluzi. Il connait chaque noeud du reseau aerien par le toucher et detecte les cordes fatiguees avant qu'elles ne cassent. Survivaliste forme a Zama pendant une saison.",
+    "synthesis": "Reparateur de passerelles a Mhluzi, survivaliste forme aux Roulantes, connait le reseau aerien au toucher",
+    "archipel": "space_archipel_nord_est",
+    "age": 31,
+    "position": {
+      "x": 105.07515941341242,
+      "z": 103.86937301614861
+    }
+  },
+  {
+    "id": "actor_citoyen_lindelwa",
+    "name": "Registre du Consortium a Mhluzi",
+    "social_class": "ecouteur",
+    "occupation": "ecouteur",
+    "description": "Lindelwa tient les registres du Consortium a Mhluzi. Ancienne ecouteuse dont l'audition sismique a decline a trente ans -- elle a reconverti sa precision en comptabilite tactile.",
+    "synthesis": "Registre du Consortium a Mhluzi, ancienne ecouteuse reconvertie en comptable tactile",
+    "archipel": "space_archipel_nord_est",
+    "age": 35,
+    "position": {
+      "x": 93.96403030842384,
+      "z": 63.159245549437
+    }
+  },
+  {
+    "id": "actor_citoyen_mthokozisi",
+    "name": "Jeune predicteur a Mhluzi",
+    "social_class": "predicteur",
+    "occupation": "predicteur",
+    "description": "Mthokozisi est un jeune predicteur de dix-neuf ans, le plus violent vomisseur de Mhluzi. Son corps reagit aux changements de frequence avec une precision que Vusumuzi qualifie de 'trop rapide pour etre saine'.",
+    "synthesis": "Jeune predicteur a Mhluzi, reactions physiques d'une violence et d'une precision inhabituelles",
+    "archipel": "space_archipel_nord_est",
+    "age": 19,
+    "position": {
+      "x": 129.8522563897066,
+      "z": 80.57157762058787
+    }
+  },
+  {
+    "id": "actor_citoyen_zoleka_nordest",
+    "name": "Tante de Nandi a Iziphuku",
+    "social_class": "ecouteur",
+    "occupation": "ecouteur",
+    "description": "Zoleka est la tante de Nandi a Iziphuku. Elle tient le village-tube quand les jeunes partent a Mhluzi. Son Contact est si rapide que les visiteurs croient qu'elle leur donne des ordres alors qu'elle dit bonjour.",
+    "synthesis": "Tante de Nandi a Iziphuku, gardienne du village-tube, Contact d'une rapidite incomprehensible pour les etrangers",
+    "archipel": "space_archipel_nord_est",
+    "age": 58,
+    "position": {
+      "x": 75.45456473042763,
+      "z": 52.82698252548407
+    }
+  },
+  {
+    "id": "actor_citoyen_siphamandla_nordest",
+    "name": "Cousin de Nandi a Iziphuku",
+    "social_class": "survivaliste",
+    "occupation": "survivaliste",
+    "description": "Siphamandla est le cousin de Nandi, ne a Iziphuku. Il fabrique des hamacs en cocon pour les predicteurs -- les seuls hamacs qui isolent assez le corps pour que le tremens ne se transmette pas aux cordes.",
+    "synthesis": "Cousin de Nandi a Iziphuku, fabricant de hamacs-cocons pour predicteurs",
+    "archipel": "space_archipel_nord_est",
+    "age": 26,
+    "position": {
+      "x": 76.57894782103955,
+      "z": 87.6467625021854
+    }
+  },
+  {
+    "id": "actor_citoyen_ntombizodwa",
+    "name": "Ntombizodwa",
+    "social_class": "survivaliste",
+    "occupation": "survivaliste",
+    "description": "Ntombizodwa tisse les fibres vibrantes de Phakade en tissus d'aeromaitre. Elle reconnait la qualite d'une fibre en la frottant entre ses doigts -- une fibre qui vibre a la bonne frequence lui donne la chair de poule.",
+    "synthesis": "Tisserande de tissus d'aeromaitre a Phakade, juge la fibre par la chair de poule qu'elle provoque",
+    "archipel": "space_archipel_nord_est",
+    "age": 49,
+    "position": {
+      "x": 117.52476186177785,
+      "z": 75.32959800798105
+    }
+  },
+  {
+    "id": "actor_citoyen_mandlenkosi",
+    "name": "Recolteur de fibres vibrantes a Phakade",
+    "social_class": "biologiste",
+    "occupation": "biologiste",
+    "description": "Mandlenkosi recolte les fibres vibrantes sur les pentes seches au-dessus de Phakade. Il connait chaque plante par l'angle de sa tige face au vent et selectionne les fibres selon la saison sismique.",
+    "synthesis": "Recolteur de fibres vibrantes a Phakade, selectionne les plantes par l'angle de la tige et la saison sismique",
+    "archipel": "space_archipel_nord_est",
+    "age": 33,
+    "position": {
+      "x": 73.81166236911743,
+      "z": 72.8971571903922
+    }
+  },
+  {
+    "id": "actor_citoyen_thandeka_est",
+    "name": "Marchande de sel a Umsizi",
+    "social_class": "leader",
+    "occupation": "leader",
+    "description": "Thandeka dirige le commerce du sel a Umsizi. Ses doigts comptent les cristaux de sel par taille et purete -- elle fixe les prix en Contact, du bout des phalanges, sans qu'un mot soit prononce.",
+    "synthesis": "Marchande de sel a Umsizi, fixe les prix par Contact digital, autorite commerciale des Salines",
+    "archipel": "space_archipel_est",
+    "age": 53,
+    "position": {
+      "x": 139.7672828144058,
+      "z": -28.253139294051778
+    }
+  },
+  {
+    "id": "actor_citoyen_bonginkosi",
+    "name": "Specialiste des explosifs a Umsizi",
+    "social_class": "explosifs",
+    "occupation": "explosifs",
+    "description": "Bonginkosi est specialiste des explosifs a Umsizi. Il fabrique les charges a partir de cristaux de gypse broyes et de soufre des Chaudes. Ses mains sont couvertes de micro-cicatrices blanches.",
+    "synthesis": "Specialiste des explosifs a Umsizi, fabrique les charges avec gypse et soufre, mains marquees de cicatrices",
+    "archipel": "space_archipel_est",
+    "age": 41,
+    "position": {
+      "x": 138.2647026568171,
+      "z": -8.35321786593012
+    }
+  },
+  {
+    "id": "actor_citoyen_nomvula_est",
+    "name": "Nomvula Est",
+    "social_class": "survivaliste",
+    "occupation": "survivaliste",
+    "description": "Nomvula fabrique les voiles de protection contre la lumiere des cristaux. Elle teint les tissus avec des pigments mineraux qu'elle broie elle-meme, dosant l'opacite pour chaque client selon la sensibilite de ses yeux.",
+    "synthesis": "Fabricante de voiles de protection a Umsizi, teint les tissus selon la sensibilite oculaire de chaque client",
+    "archipel": "space_archipel_est",
+    "age": 37,
+    "position": {
+      "x": 80.68886131656917,
+      "z": -16.756690838388323
+    }
+  },
+  {
+    "id": "actor_citoyen_siyabonga_est",
+    "name": "Cristallier a Umsizi",
+    "social_class": "mineur",
+    "occupation": "mineur",
+    "description": "Siyabonga est cristallier a Umsizi -- il sculpte le gypse en outils, en recipients, en lames. Il travaille les cristaux avec une precision de phalange que seul un enfant des Salines peut developper.",
+    "synthesis": "Cristallier a Umsizi, sculpte le gypse en outils et ustensiles avec une dexterite de phalange",
+    "archipel": "space_archipel_est",
+    "age": 28,
+    "position": {
+      "x": 120.90262214159449,
+      "z": -27.781780175472292
+    }
+  },
+  {
+    "id": "actor_citoyen_lungile_est",
+    "name": "Ecouteuse de seismes a Umsizi",
+    "social_class": "ecouteur",
+    "occupation": "ecouteur",
+    "description": "Lungile est ecouteuse de seismes a Umsizi, specialisee dans la lecture du gypse. Le gypse tinte, ne gronde pas -- elle a developpe une ecoute de cristal que les ecouteurs de Mhluzi ne comprennent pas.",
+    "synthesis": "Ecouteuse de seismes a Umsizi, specialiste de la lecture du tintement cristallin du gypse",
+    "archipel": "space_archipel_est",
+    "age": 45,
+    "position": {
+      "x": 96.00951139715256,
+      "z": -21.542292085211514
+    }
+  },
+  {
+    "id": "actor_citoyen_andile",
+    "name": "Caravanier de la Muette a Umsizi",
+    "social_class": "survivaliste",
+    "occupation": "survivaliste, cartographe",
+    "description": "Andile est caravanier entre Umsizi et le Nord via la Muette. Il transporte le sel et connait la route du silence mieux que quiconque -- six jours sans Contact tellurique, les pieds qui ne sentent rien.",
+    "synthesis": "Caravanier de la Muette a Umsizi, specialiste de la route silencieuse entre l'Est et le Nord",
+    "archipel": "space_archipel_est",
+    "age": 34,
+    "position": {
+      "x": 86.69313041575259,
+      "z": -33.914084959853696
+    }
+  },
+  {
+    "id": "actor_citoyen_zinhle",
+    "name": "Caramelisatrice de sel a Umsizi",
+    "social_class": "cuisinier",
+    "occupation": "cuisinier",
+    "description": "Zinhle caramelise le sel a Umsizi. Elle chauffe les cristaux de gypse sur des roches du piemont jusqu'a obtenir les blocs ambres que les enfants sucent. Son sel caramelise est le seul produit de luxe des Salines.",
+    "synthesis": "Caramelisatrice de sel a Umsizi, produit les blocs ambres suces par les enfants -- seul luxe des Salines",
+    "archipel": "space_archipel_est",
+    "age": 60,
+    "position": {
+      "x": 107.22342237975238,
+      "z": -2.7710443487351952
+    }
+  },
+  {
+    "id": "actor_citoyen_nokwanda",
+    "name": "Extractrice de sel a Nkosazana",
+    "social_class": "mineur",
+    "occupation": "mineur, grimpeur",
+    "description": "Nokwanda descend dans les fissures de gypse a Nkosazana pour extraire le sel gris. Ses gants de cuir sont les plus epais du village -- elle les use en trois semaines. Ses mains nues sont intactes, jamais exposees.",
+    "synthesis": "Extractrice de sel a Nkosazana, gants les plus epais du village, mains nues jamais exposees au gypse",
+    "archipel": "space_archipel_est",
+    "age": 29,
+    "position": {
+      "x": 132.55117642269164,
+      "z": -44.196656954934554
+    }
+  },
+  {
+    "id": "actor_citoyen_dumisile",
+    "name": "Doyenne de Nkosazana",
+    "social_class": "mineur",
+    "occupation": "mineur",
+    "description": "Dumisile est la doyenne de Nkosazana, ancienne extractrice reconvertie en formatrice. Elle enseigne aux apprenties comment compter les cristaux par le son qu'ils font en tombant dans le sac.",
+    "synthesis": "Doyenne de Nkosazana, formatrice des extractrices de sel, enseigne le comptage au son des cristaux",
+    "archipel": "space_archipel_est",
+    "age": 70,
+    "position": {
+      "x": 110.0351667830179,
+      "z": -49.280887168192116
+    }
+  },
+  {
+    "id": "actor_citoyen_sizwe_est",
+    "name": "Seul homme extracteur de Nkosazana",
+    "social_class": "mineur",
+    "occupation": "mineur, survivaliste",
+    "description": "Sizwe est le seul homme extracteur de Nkosazana. Il a la demarche en canard la plus prononcee du village et fabrique les gants de cuir pour les autres extracteurs -- il connait la main de chacun par coeur.",
+    "synthesis": "Seul homme extracteur de Nkosazana, gantier du village, connait chaque main par le toucher",
+    "archipel": "space_archipel_est",
+    "age": 42,
+    "position": {
+      "x": 134.75767036068925,
+      "z": -7.768885809793986
+    }
+  },
+  {
+    "id": "actor_citoyen_mqondisi",
+    "name": "Geologue en chef a Bhekisisa",
+    "social_class": "geologue",
+    "occupation": "geologue, leader",
+    "description": "Mqondisi est geologue en chef a Bhekisisa. Il decide quand le camp bouge -- sa langue, couverte de cicatrices de roche lechee, lit le basalte jeune comme d'autres lisent un visage.",
+    "synthesis": "Geologue en chef a Bhekisisa, decide les deplacements du camp, lit le basalte a la langue",
+    "archipel": "space_archipel_centre_sud",
+    "age": 55,
+    "position": {
+      "x": 7.906687486917974,
+      "z": -51.66303030803969
+    }
+  },
+  {
+    "id": "actor_citoyen_noxolo",
+    "name": "Aeromaitre a Bhekisisa",
+    "social_class": "aeromaitre",
+    "occupation": "aeromaitre",
+    "description": "Noxolo est aeromaitre a Bhekisisa, formee aux Champs de Soufre. Son tissu est le plus noir du camp -- elle lit le soufre avec une precision qui permet de prevoir les emanations deux heures a l'avance.",
+    "synthesis": "Aeromaitre a Bhekisisa, formee aux Champs de Soufre, prevoit les emanations toxiques deux heures avant",
+    "archipel": "space_archipel_centre_sud",
+    "age": 36,
+    "position": {
+      "x": 26.538212686290336,
+      "z": -80.82964388702192
+    }
+  },
+  {
+    "id": "actor_citoyen_anathi",
+    "name": "Anathi",
+    "social_class": "survivaliste",
+    "occupation": "survivaliste, leader",
+    "description": "Anathi est la responsable du demontage a Bhekisisa. Quand Mqondisi dit 'on bouge', Anathi transforme le camp en caravane en six heures. Elle connait chaque piquet, chaque chariot, chaque sangle par le toucher.",
+    "synthesis": "Responsable du demontage du camp a Bhekisisa, transforme 800 personnes en caravane en six heures",
+    "archipel": "space_archipel_centre_sud",
+    "age": 43,
+    "position": {
+      "x": 35.750648004509074,
+      "z": -57.63725819282246
+    }
+  },
+  {
+    "id": "actor_citoyen_phiwokuhle",
+    "name": "Phiwokuhle",
+    "social_class": "aeromaitre",
+    "occupation": "aeromaitre",
+    "description": "Phiwokuhle est apprenti aeromaitre de vingt ans, ne a Bhekisisa. Il a passe son examen final aux Champs de Soufre le mois dernier. Son tissu est encore clair -- il n'a pas encore absorbe assez de soufre pour devenir fiable.",
+    "synthesis": "Apprenti aeromaitre de 20 ans a Bhekisisa, tissu encore clair, sorti des Champs de Soufre",
+    "archipel": "space_archipel_centre_sud",
+    "age": 20,
+    "position": {
+      "x": 36.71758871783349,
+      "z": -58.17877966828935
+    }
+  },
+  {
+    "id": "actor_citoyen_buyiswa",
+    "name": "Cuisiniere de Bhekisisa",
+    "social_class": "cuisinier",
+    "occupation": "cuisinier",
+    "description": "Buyiswa est cuisiniere du camp de Bhekisisa. Elle prepare les rations liquides les plus denses de Contre-Terre -- sa mixture brune se mange a la cuillere. Les caravaniers des autres archipels la recrachent.",
+    "synthesis": "Cuisiniere de Bhekisisa, prepare les rations liquides les plus denses de Contre-Terre",
+    "archipel": "space_archipel_centre_sud",
+    "age": 48,
+    "position": {
+      "x": -9.965686232323389,
+      "z": -70.55063657971962
+    }
+  },
+  {
+    "id": "actor_citoyen_lindokuhle",
+    "name": "Mineur-geologue a Bhekisisa",
+    "social_class": "mineur",
+    "occupation": "mineur, geologue",
+    "description": "Lindokuhle est mineur et geologue a Bhekisisa, specialise dans les sondages de basalte avant les deplacements du camp. Il frappe le sol avec un outil de basalte et lit la reponse comme un ecouteur lit le sismographe.",
+    "synthesis": "Mineur-geologue a Bhekisisa, sonde le basalte avant chaque deplacement du camp",
+    "archipel": "space_archipel_centre_sud",
+    "age": 39,
+    "position": {
+      "x": -8.83139545685006,
+      "z": -34.25408302412298
+    }
+  },
+  {
+    "id": "actor_citoyen_nosipho_centresud",
+    "name": "Meteorologue du Consortium a Bhekisisa",
+    "social_class": "meteorologue",
+    "occupation": "meteorologue",
+    "description": "Nosipho est meteorologue du Consortium a Bhekisisa. Elle correlate les lectures de soufre de Noxolo avec les donnees sismiques pour prevoir les fenetres de passage vers le piemont.",
+    "synthesis": "Meteorologue du Consortium a Bhekisisa, calcule les fenetres de passage vers le piemont volcanique",
+    "archipel": "space_archipel_centre_sud",
+    "age": 32,
+    "position": {
+      "x": 42.723312669391056,
+      "z": -40.100068238329236
+    }
+  },
+  {
+    "id": "actor_citoyen_thulani_centresud",
+    "name": "Predicteur a Bhekisisa",
+    "social_class": "predicteur",
+    "occupation": "predicteur",
+    "description": "Thulani est predicteur a Bhekisisa. Il a le tremens le plus precis du Centre-Sud mais refuse de quitter le camp -- il dit que son corps est calibre sur le volcan et que l'eloigner serait le rendre sourd.",
+    "synthesis": "Predicteur a Bhekisisa, calibre sur le volcan, refuse de quitter le camp de peur de perdre sa calibration",
+    "archipel": "space_archipel_centre_sud",
+    "age": 51,
+    "position": {
+      "x": 8.450847524159684,
+      "z": -86.52449001034874
+    }
+  },
+  {
+    "id": "actor_citoyen_zanele_centresud",
+    "name": "Biologiste a Bhekisisa",
+    "social_class": "biologiste",
+    "occupation": "biologiste",
+    "description": "Zanele est biologiste a Bhekisisa. Elle etudie les lezards de basalte et les cactus sismiques qui survivent pres du piemont, cartographiant les especes qui reculent quand le soufre avance.",
+    "synthesis": "Biologiste a Bhekisisa, etudie la faune et flore du piemont volcanique, lit l'avancee du soufre dans le recul des especes",
+    "archipel": "space_archipel_centre_sud",
+    "age": 27,
+    "position": {
+      "x": 42.680575952242435,
+      "z": -33.183033282120356
+    }
+  },
+  {
+    "id": "actor_citoyen_mfundo",
+    "name": "Cartographe du Consortium a Bhekisisa",
+    "social_class": "cartographe",
+    "occupation": "cartographe",
+    "description": "Mfundo est cartographe du Consortium a Bhekisisa, charge de tenir a jour la carte des zones praticables entre le camp et le piemont. Chaque deplacement efface sa carte precedente.",
+    "synthesis": "Cartographe du Consortium a Bhekisisa, cartographie les zones praticables vers le piemont -- chaque deplacement remet a zero",
+    "archipel": "space_archipel_centre_sud",
+    "age": 46,
+    "position": {
+      "x": -4.860792875927274,
+      "z": -60.84057220100317
+    }
+  },
+  {
+    "id": "actor_citoyen_nomathemba",
+    "name": "Gardienne en chef de Themba",
+    "social_class": "grimpeur",
+    "occupation": "grimpeur, survivaliste",
+    "description": "Nomathemba est la gardienne en chef de Themba. Elle decide qui passe vers le piemont et qui ne passe pas. Son grip de verification est le plus fort du Centre-Sud -- quand elle serre l'avant-bras, on ne ment pas.",
+    "synthesis": "Gardienne en chef de Themba, controle l'acces au piemont, grip de verification incontournable",
+    "archipel": "space_archipel_centre_sud",
+    "age": 47,
+    "position": {
+      "x": -5.847248891896982,
+      "z": -44.36387008456611
+    }
+  },
+  {
+    "id": "actor_citoyen_sibusiso",
+    "name": "Sibusiso",
+    "social_class": "biologiste",
+    "occupation": "biologiste, speleo",
+    "description": "Sibusiso entretient les filaments bioluminescents a l'entree du reseau souterrain. Il connait chaque filament par la nuance de vert qu'il emet et sait quand un filament meurt avant qu'il ne s'eteigne.",
+    "synthesis": "Gardien des filaments bioluminescents a Themba, connait chaque filament par sa nuance de vert",
+    "archipel": "space_archipel_centre_sud",
+    "age": 24,
+    "position": {
+      "x": 35.950065758419264,
+      "z": -82.29651213001424
+    }
+  },
+  {
+    "id": "actor_citoyen_busisiwe_centresud",
+    "name": "Cartographe de Themba",
+    "social_class": "cartographe",
+    "occupation": "cartographe, speleo",
+    "description": "Busisiwe est la cartographe de Themba, specialisee dans la transition surface-souterrain. Elle dessine en Contact sur l'avant-bras les cartes de la zone ou la lumiere du jour cede la place aux filaments.",
+    "synthesis": "Cartographe de Themba, specialiste de la transition surface-souterrain, dessine les cartes en Contact",
+    "archipel": "space_archipel_centre_sud",
+    "age": 40,
+    "position": {
+      "x": 18.51694268592388,
+      "z": -57.01178439030337
+    }
+  },
+  {
+    "id": "actor_citoyen_nombuso_sudouest",
+    "name": "Speleologue veterane de Sibaya",
+    "social_class": "speleologue",
+    "occupation": "speleologue, cartographe",
+    "description": "Doyenne des speleos de Sibaya. Ses mains connaissent les 37 grottes mieux que n'importe quelle carte tactile -- elle les a toutes parcourues a 14 ans et n'a jamais cesse depuis.",
+    "synthesis": "Speleologue veterane de Sibaya, 62 ans, memoire vivante du reseau de grottes.",
+    "archipel": "space_archipel_sud_ouest",
+    "age": 62,
+    "position": {
+      "x": -94.09660226359645,
+      "z": -37.65401753488455
+    }
+  },
+  {
+    "id": "actor_citoyen_vuyelwa",
+    "name": "Speleologue de Sibaya",
+    "social_class": "speleologue",
+    "occupation": "speleologue",
+    "description": "Speleo qui ne dort qu'en profondeur. Elle descend dans les grottes inferieures chaque soir et remonte a l'aube, les mains blanchies par le calcaire humide.",
+    "synthesis": "Speleologue de Sibaya, 34 ans, specialiste des grottes inferieures et des siphons.",
+    "archipel": "space_archipel_sud_ouest",
+    "age": 34,
+    "position": {
+      "x": -84.61172358794678,
+      "z": -77.29210767347507
+    }
+  },
+  {
+    "id": "actor_citoyen_buhle_sudouest",
+    "name": "Mineur-speleologue de Sibaya",
+    "social_class": "mineur",
+    "occupation": "mineur, speleologue",
+    "description": "Mineur-speleo dont les poings sonnent le calcaire comme d'autres sonnent le granite. Il frappe les parois en descendant -- trois coups, toujours trois -- et connait la densite de chaque couche.",
+    "synthesis": "Mineur-speleologue de Sibaya, 41 ans, specialiste du calcaire profond.",
+    "archipel": "space_archipel_sud_ouest",
+    "age": 41,
+    "position": {
+      "x": -77.64223467323251,
+      "z": -46.20413585460143
+    }
+  },
+  {
+    "id": "actor_citoyen_zoleka_sudouest",
+    "name": "Cuisiniere de Sibaya",
+    "social_class": "cuisinier",
+    "occupation": "cuisinier",
+    "description": "Cuisiniere de Sibaya, inventrice d'une bouillie aux champignons des troisieme et quatrieme grottes. Elle descend chaque matin cueillir dans le noir, les mains seules la guident.",
+    "synthesis": "Cuisiniere de Sibaya, 28 ans, specialiste des champignons souterrains.",
+    "archipel": "space_archipel_sud_ouest",
+    "age": 28,
+    "position": {
+      "x": -97.93093619661825,
+      "z": -71.2970225219463
+    }
+  },
+  {
+    "id": "actor_citoyen_mthunzi",
+    "name": "Apprenti speleologue de Sibaya",
+    "social_class": "speleologue",
+    "occupation": "speleologue, escalade",
+    "description": "Le plus jeune speleo certifie de Sibaya. A seize ans, il descend deja dans les grottes du deuxieme niveau seul. Ses pieds agrippent le calcaire comme une deuxieme paire de mains.",
+    "synthesis": "Apprenti speleologue de Sibaya, 16 ans, grimpeur naturel des puits verticaux.",
+    "archipel": "space_archipel_sud_ouest",
+    "age": 16,
+    "position": {
+      "x": -50.29103860034632,
+      "z": -51.00731654163279
+    }
+  },
+  {
+    "id": "actor_citoyen_nomalanga_sudouest",
+    "name": "Cartographe de corde de Sibaya",
+    "social_class": "cartographe",
+    "occupation": "cartographe",
+    "description": "Cartographe de corde de Sibaya. Elle encode la topologie des grottes sur des cordes a noeuds que les speleos emportent en descente -- chaque noeud est un embranchement, chaque espace entre noeuds est une distance.",
+    "synthesis": "Cartographe de corde de Sibaya, 47 ans, encode le reseau de grottes en noeuds tactiles.",
+    "archipel": "space_archipel_sud_ouest",
+    "age": 47,
+    "position": {
+      "x": -83.71399496512976,
+      "z": -58.94544953786456
+    }
+  },
+  {
+    "id": "actor_citoyen_sandile_sudouest",
+    "name": "Gardien des eaux de Sibaya",
+    "social_class": "specialiste_oceans",
+    "occupation": "specialiste_oceans, survivaliste",
+    "description": "Gardien des eaux de Sibaya. Il surveille les niveaux des rigoles souterraines et alerte quand le debit change. Dort le pied dans l'eau pour sentir les variations nocturnes.",
+    "synthesis": "Gardien des eaux de Sibaya, 55 ans, specialiste des nappes et des rigoles.",
+    "archipel": "space_archipel_sud_ouest",
+    "age": 55,
+    "position": {
+      "x": -102.73974824790406,
+      "z": -76.51815977810656
+    }
+  },
+  {
+    "id": "actor_citoyen_thandeka_sudouest",
+    "name": "Maitresse cartographe de Mathamo",
+    "social_class": "cartographe",
+    "occupation": "cartographe",
+    "description": "Maitresse cartographe de Mathamo. C'est elle qui a forme Senzo a la cartographie tactile -- ses avant-bras portent la carte de tout le reseau souterrain des Creuses.",
+    "synthesis": "Maitresse cartographe de Mathamo, 58 ans, formatrice de Senzo, avant-bras couverts de cartes tactiles.",
+    "archipel": "space_archipel_sud_ouest",
+    "age": 58,
+    "position": {
+      "x": -89.71486627115269,
+      "z": -54.701476892566
+    }
+  },
+  {
+    "id": "actor_citoyen_gcina",
+    "name": "Apprenti cartographe de Mathamo",
+    "social_class": "cartographe",
+    "occupation": "cartographe, speleologue",
+    "description": "Apprenti cartographe de Mathamo, yeux fermes en permanence quand il travaille. Ses mains apprennent les tunnels avec une precision que Thandeka dit superieure a la sienne au meme age.",
+    "synthesis": "Apprenti cartographe de Mathamo, 22 ans, toucher exceptionnellement precis.",
+    "archipel": "space_archipel_sud_ouest",
+    "age": 22,
+    "position": {
+      "x": -96.19311604420538,
+      "z": -76.78695693290643
+    }
+  },
+  {
+    "id": "actor_citoyen_lindiwe_sudouest",
+    "name": "Geologue de Mathamo",
+    "social_class": "specialiste_roche",
+    "occupation": "specialiste_roche, cartographe",
+    "description": "Geologue de Mathamo, specialiste du calcaire karstique. Elle leche les parois pour determiner l'age de la dissolution. Sa langue distingue sept stades de calcaire.",
+    "synthesis": "Geologue de Mathamo, 39 ans, lit l'age du calcaire par la langue, sept stades de dissolution.",
+    "archipel": "space_archipel_sud_ouest",
+    "age": 39,
+    "position": {
+      "x": -105.74041483945805,
+      "z": -52.13382256379406
+    }
+  },
+  {
+    "id": "actor_citoyen_khanya",
+    "name": "Ancienne du Village des Sourds",
+    "social_class": "predicteur",
+    "occupation": "predicteur",
+    "description": "L'ancienne du village. En tremens d'Os permanent depuis huit ans. Ses trois doigts sur le sol lisent des frequences que personne d'autre ne percoit. C'est elle qui enseigne le geste inconnu.",
+    "synthesis": "Ancienne du Village des Sourds, 70 ans, en tremens d'Os, gardienne du geste inconnu.",
+    "archipel": "space_village_sourds",
+    "age": 70,
+    "position": {
+      "x": -16.263492971330738,
+      "z": 24.32520078036768
+    }
+  },
+  {
+    "id": "actor_citoyen_mandla_sourds",
+    "name": "Gardien des canaux du Village des Sourds",
+    "social_class": "specialiste_oceans",
+    "occupation": "specialiste_oceans, biologiste",
+    "description": "Gardien des canaux d'eau bioluminescents. Il entretient les rigoles qui alimentent le village et les filaments qui les eclairent. Sourd de naissance, il lit l'eau par ses pieds.",
+    "synthesis": "Gardien des canaux du Village des Sourds, 44 ans, sourd de naissance, entretient rigoles et bioluminescence.",
+    "archipel": "space_village_sourds",
+    "age": 44,
+    "position": {
+      "x": 21.578124015224788,
+      "z": -25.748559006680793
+    }
+  },
+  {
+    "id": "actor_citoyen_zodwa",
+    "name": "Biologiste du Village des Sourds",
+    "social_class": "biologiste",
+    "occupation": "biologiste",
+    "description": "Biologiste du village, specialiste des filaments bioluminescents. Elle cultive les colonies fongiques qui eclairent les cavernes et sait les multiplier par bouturage.",
+    "synthesis": "Biologiste du Village des Sourds, 36 ans, specialiste des filaments bioluminescents.",
+    "archipel": "space_village_sourds",
+    "age": 36,
+    "position": {
+      "x": -15.719721937860287,
+      "z": 10.138666697776834
+    }
+  },
+  {
+    "id": "actor_citoyen_ayize",
+    "name": "Enfant du Village des Sourds",
+    "social_class": "citoyen",
+    "occupation": "",
+    "description": "Ne sourd il y a onze ans. Le plus jeune a maitriser le Contact a 3 doigts avec fluidite. Ses mains bougent si vite que les visiteurs de surface ne suivent pas.",
+    "synthesis": "Enfant du Village des Sourds, 11 ans, ne sourd, Contact a 3 doigts d'une fluidite precoce.",
+    "archipel": "space_village_sourds",
+    "age": 11,
+    "position": {
+      "x": -17.145791557773684,
+      "z": -22.0612890764985
+    }
+  },
+  {
+    "id": "actor_citoyen_sisanda",
+    "name": "Enfant du Village des Sourds",
+    "social_class": "citoyen",
+    "occupation": "",
+    "description": "Nee sourde, sept ans. Elle grimpe les parois des cavernes avec une agilite qui inquiete les adultes. Ses pieds nus sont sa seule connexion au monde vibratoire.",
+    "synthesis": "Enfant du Village des Sourds, 7 ans, nee sourde, grimpeuse instinctive des parois.",
+    "archipel": "space_village_sourds",
+    "age": 7,
+    "position": {
+      "x": 26.13085443484026,
+      "z": 4.262585599517067
+    }
+  },
+  {
+    "id": "actor_citoyen_ntombi_centresud",
+    "name": "Predictrice du Village des Sourds",
+    "social_class": "predicteur",
+    "occupation": "predicteur",
+    "description": "Predictrice du village, sourde depuis l'age de seize ans apres une exposition prolongee aux infra-basses de la faille. Ses pieds lisent le sol avec une precision que la surface ne connait pas.",
+    "synthesis": "Predictrice du Village des Sourds, 52 ans, devenue sourde a 16 ans, lecture au sol la plus fine de Contre-Terre.",
+    "archipel": "space_archipel_centre_sud",
+    "age": 52,
+    "position": {
+      "x": 18.36026157870765,
+      "z": -42.922834542554796
+    }
+  },
+  {
+    "id": "actor_citoyen_fundiswa",
+    "name": "Cartographe du Village des Sourds",
+    "social_class": "cartographe",
+    "occupation": "cartographe, speleologue",
+    "description": "Cartographe du village, trace les galeries entre le Village et la surface. Seul lien regulier avec le monde d'en haut. Ses avant-bras portent la carte du chemin que l'expedition empruntera.",
+    "synthesis": "Cartographe du Village des Sourds, 48 ans, trace les galeries vers la surface, lien avec le monde d'en haut.",
+    "archipel": "space_village_sourds",
+    "age": 48,
+    "position": {
+      "x": 18.449819865998606,
+      "z": -18.575405138287337
+    }
+  },
+  {
+    "id": "actor_citoyen_nolwazi_sourds",
+    "name": "Cuisiniere du Village des Sourds",
+    "social_class": "cuisinier",
+    "occupation": "cuisinier, biologiste",
+    "description": "Cuisiniere du village, maitrise la preparation de bouillies a partir des champignons et lichens des profondeurs. Ses doigts sont toujours humides et taches de pigments fongiques.",
+    "synthesis": "Cuisiniere du Village des Sourds, 33 ans, maitrise de la cuisine fongique des profondeurs.",
+    "archipel": "space_village_sourds",
+    "age": 33,
+    "position": {
+      "x": -24.1841511462706,
+      "z": -4.1369290556173475
+    }
+  },
+  {
+    "id": "actor_citoyen_qhawe",
+    "name": "Veteran caravanier",
+    "social_class": "survivaliste",
+    "occupation": "survivaliste, cartographe",
+    "description": "Doyen des caravaniers, 37 traversees de la Longue. Connait chaque veine de roche stable par la frequence sous ses pieds. Son corps parle cinq dialectes de Contact sans effort.",
+    "synthesis": "Veteran caravanier, 59 ans, 37 traversees de la Longue, polyglotte tactile a cinq dialectes.",
+    "archipel": "space_archipel_sud",
+    "age": 59,
+    "position": {
+      "x": -4.585282618804754,
+      "z": -1.9785199177995025
+    }
+  },
+  {
+    "id": "actor_citoyen_fikile",
+    "name": "Messagere caravaniere",
+    "social_class": "cartographe",
+    "occupation": "cartographe, survivaliste",
+    "description": "Messagere de caravane, fidelite parfaite. Elle recoit un Contact et le retransmet a l'identique apres des jours de marche. Ses mains sont la memoire du monde entre les archipels.",
+    "synthesis": "Messagere caravaniere, 31 ans, fidelite de transmission parfaite, memoire tactile exceptionnelle.",
+    "archipel": "space_archipel_nord_est",
+    "age": 31,
+    "position": {
+      "x": 113.74455096759104,
+      "z": 90.40187283759809
+    }
+  },
+  {
+    "id": "actor_citoyen_siphamandla_sud",
+    "name": "Apprenti caravanier",
+    "social_class": "survivaliste",
+    "occupation": "survivaliste",
+    "description": "Apprenti caravanier de dix-sept ans, enfant metis sismique (mere du Sud, pere du Nord-Est). Son corps supporte les changements de frequence mieux que les adultes. Premiere traversee en cours.",
+    "synthesis": "Apprenti caravanier, 17 ans, metis sismique Sud/Nord-Est, seuil de tremens eleve.",
+    "archipel": "space_archipel_sud",
+    "age": 17,
+    "position": {
+      "x": 29.04991268195797,
+      "z": -24.094927730882468
+    }
+  },
+  {
+    "id": "actor_citoyen_busisiwe_ouest",
+    "name": "Cuisiniere caravaniere",
+    "social_class": "cuisinier",
+    "occupation": "cuisinier, survivaliste",
+    "description": "Cuisiniere de caravane, sait preparer la bouillie a partir de n'importe quel ingredient de n'importe quel archipel. Son odeur change selon la derniere route -- elle porte les epices de tous les mondes.",
+    "synthesis": "Cuisiniere caravaniere, 42 ans, adapte la bouillie a chaque archipel, porte les odeurs de tous les mondes.",
+    "archipel": "space_archipel_ouest",
+    "age": 42,
+    "position": {
+      "x": -105.84272307386388,
+      "z": 20.358156323697788
+    }
+  },
+  {
+    "id": "actor_citoyen_lethiwe",
+    "name": "Caravanier-ecouteur",
+    "social_class": "ecouteur",
+    "occupation": "ecouteur, survivaliste",
+    "description": "Caravanier-ecouteur, le nez colle au sol pendant les pauses. Ses oreilles entendent les repliques a travers les veines de roche. Il choisit les routes par la frequence, pas par la distance.",
+    "synthesis": "Caravanier-ecouteur, 38 ans, choisit les routes par la frequence sismique des veines.",
+    "archipel": "space_archipel_nord",
+    "age": 38,
+    "position": {
+      "x": 61.70035218116746,
+      "z": 104.91938003521713
+    }
+  },
+  {
+    "id": "actor_citoyen_xolani_est",
+    "name": "Caravanier-explosiviste",
+    "social_class": "specialiste_explosifs",
+    "occupation": "specialiste_explosifs, survivaliste",
+    "description": "Caravanier explosiviste, transporte les charges de sel et les meches de Nkosazana. Ses gestes sont les plus lents de la caravane -- un homme qui marche comme s'il portait un nouveau-ne.",
+    "synthesis": "Caravanier-explosiviste, 46 ans, transporte les charges des Salines, gestes d'une lenteur deliberee.",
+    "archipel": "space_archipel_est",
+    "age": 46,
+    "position": {
+      "x": 91.4125345064487,
+      "z": -33.083187130012085
+    }
+  },
+  {
+    "id": "actor_citoyen_nonhle",
+    "name": "Caravaniere-cartographe",
+    "social_class": "cartographe",
+    "occupation": "cartographe, survivaliste",
+    "description": "Caravaniere-cartographe, dessine les routes sur ses propres bras avec de l'encre de champignon. Quand ses bras sont pleins, elle efface et recommence. Vingt-deux traversees.",
+    "synthesis": "Caravaniere-cartographe, 50 ans, 22 traversees, carte vivante sur ses propres bras.",
+    "archipel": "space_archipel_sud_ouest",
+    "age": 50,
+    "position": {
+      "x": -84.68710160993575,
+      "z": -73.28729131998358
+    }
+  },
+  {
+    "id": "actor_citoyen_dumisa_nordest",
+    "name": "Hermite-predicteur",
+    "social_class": "predicteur",
+    "occupation": "predicteur",
+    "description": "Ancien predicteur des Seches, parti apres que ses predictions aient ete ignorees trois fois de suite. Vit seul sur un promontoire de basalte entre le Sud et l'Ouest, les pieds dans le vent.",
+    "synthesis": "Hermite-predicteur, 64 ans, ancien de Mhluzi, vit seul entre le Sud et l'Ouest apres trois predictions ignorees.",
+    "archipel": "space_archipel_nord_est",
+    "age": 64,
+    "position": {
+      "x": 84.98838687292603,
+      "z": 105.39593595656078
+    }
+  },
+  {
+    "id": "actor_citoyen_lungelo",
+    "name": "Tisserande exilee",
+    "social_class": "escalade",
+    "occupation": "escalade",
+    "description": "Tisserande exilee de Ndaba. A coupe une corde -- l'interdit absolu des grimpeurs. Vit dans une grotte entre les Creuses et le desert, fabrique des cordes que personne ne vient chercher.",
+    "synthesis": "Tisserande exilee, 37 ans, bannie de Ndaba pour avoir coupe une corde, vit seule entre les Creuses et le desert.",
+    "archipel": "space_archipel_sud",
+    "age": 37,
+    "position": {
+      "x": -3.4121552967925837,
+      "z": 21.680946285709837
+    }
+  },
+  {
+    "id": "actor_citoyen_thokozile",
+    "name": "Meteorologue solitaire",
+    "social_class": "meteorologue",
+    "occupation": "meteorologue",
+    "description": "Meteorologue solitaire installee pres de la Dent Noire. Elle lit l'atmosphere depuis ce point fixe, envoie ses lectures par caravane. Son doigt mouille leve est le premier geste que les caravaniers voient en arrivant.",
+    "synthesis": "Meteorologue solitaire, 53 ans, poste d'observation a la Dent Noire, envoie ses lectures par caravane.",
+    "archipel": "space_archipel_nord",
+    "age": 53,
+    "position": {
+      "x": 43.01951874699088,
+      "z": 93.03529977149287
+    }
+  },
+  {
+    "id": "actor_citoyen_wakhile",
+    "name": "Mineur aveugle",
+    "social_class": "mineur",
+    "occupation": "mineur, ecouteur",
+    "description": "Ancien mineur de Mantolo, devenu aveugle apres un eboulement. Vit seul pres de la Faille de Khensi, ou il ecoute les infra-basses que ses yeux ne peuvent plus voir. Les ecouteurs en formation le consultent.",
+    "synthesis": "Mineur aveugle, 61 ans, vit pres de la Faille de Khensi, consultant pour les ecouteurs en formation.",
+    "archipel": "space_archipel_nord",
+    "age": 61,
+    "position": {
+      "x": 69.9569481047636,
+      "z": 140.16165510479712
+    }
+  },
+  {
+    "id": "actor_citoyen_thandiwe",
+    "name": "Biologiste nomade",
+    "social_class": "biologiste",
+    "occupation": "biologiste, survivaliste",
+    "description": "Biologiste nomade qui ne s'installe nulle part. Elle suit les mycéliums entre les archipels, cartographie les reseaux fongiques souterrains. Les champignons ne connaissent pas de frontieres.",
+    "synthesis": "Biologiste nomade, 45 ans, suit les myceliums entre les archipels, cartographie les reseaux fongiques.",
+    "archipel": "space_archipel_centre_sud",
+    "age": 45,
+    "position": {
+      "x": 48.13977543708508,
+      "z": -34.41798101951235
+    }
+  }
+]

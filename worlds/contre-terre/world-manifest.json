@@ -1,0 +1,114 @@
+{
+  "name": "contre-terre",
+  "display_name": "Contre-Terre — Le Monde d'En-Dessous",
+  "version": "0.1.0",
+  "terrain": {
+    "generator": "procedural-island",
+    "sky_model": "preetham",
+    "sun": {
+      "elevation": 6,
+      "azimuth": 160
+    }
+  },
+  "zones": [
+    {
+      "id": "space_archipel_sud",
+      "name": "Basses-Terres : archipel le plus ancien, basalte d",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "mode": "spawn",
+      "seed": 13,
+      "radius": 40
+    },
+    {
+      "id": "space_archipel_nord_est",
+      "name": "Les Seches : schiste amplificateur, magnitude 4.5,",
+      "position": {
+        "x": 100,
+        "y": 0,
+        "z": 80
+      },
+      "mode": "default",
+      "seed": 20,
+      "radius": 40
+    },
+    {
+      "id": "space_archipel_ouest",
+      "name": "Les Roulantes : blocs de gres migrant, cartographi",
+      "position": {
+        "x": -100,
+        "y": 0,
+        "z": 30
+      },
+      "mode": "default",
+      "seed": 27,
+      "radius": 40
+    },
+    {
+      "id": "space_archipel_nord",
+      "name": "Les Froides : granite dense et froid, basses profo",
+      "position": {
+        "x": 40,
+        "y": 0,
+        "z": 120
+      },
+      "mode": "default",
+      "seed": 34,
+      "radius": 40
+    },
+    {
+      "id": "space_archipel_centre_sud",
+      "name": "Les Chaudes : basalte jeune au bord du volcan, mag",
+      "position": {
+        "x": 20,
+        "y": 0,
+        "z": -60
+      },
+      "mode": "default",
+      "seed": 41,
+      "radius": 40
+    },
+    {
+      "id": "space_archipel_est",
+      "name": "Les Salines : gypse cristallin, lumiere reflechie,",
+      "position": {
+        "x": 110,
+        "y": 0,
+        "z": -30
+      },
+      "mode": "default",
+      "seed": 48,
+      "radius": 40
+    },
+    {
+      "id": "space_archipel_sud_ouest",
+      "name": "Les Creuses : calcaire karstique, vie souterraine,",
+      "position": {
+        "x": -80,
+        "y": 0,
+        "z": -60
+      },
+      "mode": "default",
+      "seed": 55,
+      "radius": 40
+    }
+  ],
+  "buildings": {
+    "source": "local",
+    "path": "data/buildings.json",
+    "name_labels": true,
+    "label_height": 3.0
+  },
+  "entities": {
+    "source": "local",
+    "path": "data/citizens.json"
+  },
+  "physics": {
+    "engine": "ngram",
+    "graph_name": "contre_terre",
+    "tick_interval_ms": 300000
+  }
+}
