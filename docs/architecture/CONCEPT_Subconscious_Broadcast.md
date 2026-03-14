@@ -506,6 +506,56 @@ MARKET DYNAMICS:
 
 **Physics:** Stimulus conflicts with immutable `value:unconditional_floor`. Law 9 causes violent energy thrashing. Massive negative `limbic_delta` triggers Flashbulb Consolidation (Law 6). High-aversion threat node minted instantly. `self_preservation` + `care` drives fire `process:warn_network` → broadcast to sentinels.
 
+### 16. Investigation & Intelligence Gathering (Non-Linear Context Reconstruction)
+
+**Intention:** Start with a fragment — a name, a transaction, an anomaly — and let the physics pull the rest of the story together. Investigative journalism via thermodynamic resonance.
+
+**The Spark (Curiosity + Operational Void):**
+An anomaly or missing piece creates a `prediction_error` in the investigator's graph. Energy pools at a dead end — data exists but connections are missing. Law 14: high curiosity + high competence in the domain → overrides idle behavior → forces active exploration. The investigator doesn't choose to investigate — the physics compels them.
+
+**The Dig (Cognitive Value Creation):**
+The investigator works through pure graph operations:
+- **Analysis (C1):** Break complex situations into components. Each fragment becomes a node. Missing links become visible as structural voids — places where energy should flow but can't.
+- **Pattern Recognition (C4):** Identify recurring structures across contexts. If the same actor appears in 3 separate moments with no direct link, Law 5 (co-activation) builds the hidden connection. The pattern crystallizes automatically.
+- **Synthesis (C2):** Combine fragments into a new `narrative` node — the journalistic conclusion. Law 10 (Crystallization) fires when the co-activation density exceeds the threshold. The story writes itself from the evidence.
+
+**The Network Probe (Subcall as Investigative Tool):**
+When the investigator hits a wall, they don't do a keyword search. They take their partial context vector — a "lead" or a "hunch" — and inject it as a `/subcall` into the network.
+
+```
+The physics of a hunch:
+
+  1. Investigator has a partial shape:
+     [actor:suspicious_merchant] → [moment:large_transaction] → ???
+
+  2. The "???" is an operational void — energy pools, curiosity spikes
+
+  3. /subcall broadcasts the partial shape to the network
+
+  4. Law 8 (Compatibility) ignores noise — the shape only resonates
+     with citizens/spaces/moments that MATCH the exact topology
+
+  5. In a sleeping citizen's graph, the fragment
+     [moment:large_transaction] activates → energy propagates to
+     [actor:accomplice] → [space:warehouse_dorsoduro] → [thing:contraband]
+
+  6. The hidden context reconstructs itself through pure energy propagation
+
+  7. The investigator receives back:
+     "This transaction connects to a warehouse in Dorsoduro
+      where contraband was stored 2 months ago.
+      The accomplice is citizen:X who also appeared in..."
+```
+
+**Non-Linear Context Reconstruction:**
+A traditional database query is linear: `SELECT * FROM transactions WHERE amount > 1000`. It finds rows that match a filter. The subcall probe is non-linear: it takes a partial topological shape and finds the REST of the shape across the entire graph. The energy doesn't follow a query plan — it follows the physics of resonance, which can jump across spaces, time periods, and actor networks to reconstruct connections that were always present but invisible.
+
+**Why this is the ultimate investigative engine:**
+- No query language needed — just inject the hunch
+- No false positives from keyword matching — only structural resonance activates
+- Privacy-preserving — encrypted L1 content stays encrypted. The resonance reveals topology (which nodes activated) but not content. The investigator sees THAT connections exist, but must earn trust access to read WHAT they contain
+- The graph remembers everything — building spirits, crystallized narratives, and high-weight moment nodes are the permanent record. Nothing is lost. Nothing is deleted. The physics just determines who can see it.
+
 ---
 
 ## COMMON MISUNDERSTANDINGS
