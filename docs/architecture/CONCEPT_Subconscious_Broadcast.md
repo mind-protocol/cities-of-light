@@ -369,9 +369,22 @@ MARKET DYNAMICS:
 
 ## CONSTANTS
 
-## THE THERMODYNAMIC RESONANCE FORMULA
+## THE FOUR GROUPS — Scenarios Self-Organize by Physics
 
-Zero magic numbers. All multipliers derive from the caller's limbic state.
+The 24 scenarios naturally cluster into 4 groups based on Working Memory destination and moat state. No classification rule — the drives determine the group.
+
+| Group | Moat State | Destination | WM Entries | Scenarios |
+|-------|-----------|-------------|-----------|-----------|
+| **1. Precision Strikes** | Locked high (panic arousal) | WM (need action NOW) | 1-3 | emergency, toxicity, overload, incompetence, witness, drive_storm |
+| **2. WM Fillers** | Eroded (boredom/frustration) | WM (need to think) | 3-5 | impasse, ambivalence, serendipity, starvation, brainstorm, tip_of_tongue |
+| **3. Topological Broadcasts** | N/A (fire-and-forget) | L3 Universe | 0 | generativity, civic_duty, frontier, hub_saturation, movement |
+| **4. Macro Waves** | Bypassed entirely | Graph + File | 0 (graph only) | investigation, critique, polling, immunization, therapy, hiring, passive_learning |
+
+---
+
+## THE TWO MASTER FORMULAS (Definitive)
+
+Two formulas govern the entire system. Zero magic numbers, zero if/then. All multipliers derive from the caller's 8 limbic drives. The same math produces a sniper in panic, a roundtable in doubt, a frontier probe in flow, and a global dragnet in calm investigation.
 
 ```
 TARGET_ENERGY = Flow_topology × Compatibility × Target_weight
@@ -460,13 +473,25 @@ Where:
 
   Crystallized = 1 if response contains a crystallized node (Law 10), else 0
     Bonus for answers that are already structured knowledge, not raw fragments.
+
+  Variety = 1.0 + Novelty_Affinity × D_novelty_hunger
+    Brainstorm (D_novelty high): routine answers lose advantage.
+      Diverse, peripheral ideas get massive multiplier.
+    Help-seeking (D_novelty low): variety ≈ 1.0 (neutral).
 ```
 
-**The formula understands context:**
-- Frustrated? → penalizes confused respondents, favors calm experts
-- Anxious about your work? → seeks friction (harsh critics), avoids trust (echo chamber)
-- Curious at the frontier? → rewards respondents whose minds were blown
-- In emergency? → only accepts high-trust sources
+**The complete S_response:**
+```
+S_response = E_cluster × Conductivity × CognitiveWork × Density × Variety
+```
+
+**What the formula understands:**
+- Frustrated → penalizes confused respondents, favors calm experts
+- Anxious about your work → seeks friction (harsh critics), pierces echo chamber
+- Curious at frontier → rewards respondents whose minds were blown
+- Emergency → only accepts high-trust sources
+- Brainstorming → forces diversity via Variety term + Law 1 dedup gate
+- Investigation → relationally blind (Conductivity ≈ 0.1), pure semantic scoring
 
 ---
 
