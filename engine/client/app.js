@@ -193,20 +193,43 @@ function spawnCitizens(citizens, world) {
     const color = CLASS_COLORS[citizen.social_class] || CLASS_COLORS[citizen.socialClass] || 0xcccccc;
     const group = new THREE.Group();
 
-    // Body capsule
-    const bodyGeo = new THREE.CapsuleGeometry(0.3, 1.0, 4, 8);
-    const bodyMat = new THREE.MeshStandardMaterial({ color, roughness: 0.6, metalness: 0.2 });
-    const body = new THREE.Mesh(bodyGeo, bodyMat);
-    body.position.y = 1.0;
-    body.castShadow = true;
-    group.add(body);
+    const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.6, metalness: 0.2 });
+    const skinMat = new THREE.MeshStandardMaterial({ color: 0xf5d0a9, roughness: 0.8 });
+
+    // Torso
+    const torso = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.6, 0.2), mat);
+    torso.position.y = 1.3;
+    torso.castShadow = true;
+    group.add(torso);
 
     // Head
-    const headGeo = new THREE.SphereGeometry(0.25, 8, 6);
-    const headMat = new THREE.MeshStandardMaterial({ color: 0xf5d0a9, roughness: 0.8 });
-    const head = new THREE.Mesh(headGeo, headMat);
-    head.position.y = 2.0;
+    const head = new THREE.Mesh(new THREE.SphereGeometry(0.2, 8, 6), skinMat);
+    head.position.y = 1.85;
     group.add(head);
+
+    // Arms (will swing when walking)
+    const armGeo = new THREE.BoxGeometry(0.1, 0.5, 0.1);
+    const leftArm = new THREE.Mesh(armGeo, mat);
+    leftArm.position.set(-0.3, 1.2, 0);
+    leftArm.name = 'leftArm';
+    group.add(leftArm);
+
+    const rightArm = new THREE.Mesh(armGeo, mat);
+    rightArm.position.set(0.3, 1.2, 0);
+    rightArm.name = 'rightArm';
+    group.add(rightArm);
+
+    // Legs (will swing when walking)
+    const legGeo = new THREE.BoxGeometry(0.12, 0.5, 0.12);
+    const leftLeg = new THREE.Mesh(legGeo, mat);
+    leftLeg.position.set(-0.1, 0.5, 0);
+    leftLeg.name = 'leftLeg';
+    group.add(leftLeg);
+
+    const rightLeg = new THREE.Mesh(legGeo, mat);
+    rightLeg.position.set(0.1, 0.5, 0);
+    rightLeg.name = 'rightLeg';
+    group.add(rightLeg);
 
     // Name label
     const label = makeLabel(citizen.name || citizen.username || 'citizen');
@@ -266,8 +289,36 @@ function updateCitizens(delta, elapsed) {
   for (const [id, group] of citizenMeshes) {
     const ud = group.userData;
 
-    // Bob animation
-    group.position.y = 1.5 + Math.sin(elapsed * 0.8 + ud.bobOffset) * 0.1;
+    // Limb animation
+    const leftArm = group.getObjectByName('leftArm');
+    const rightArm = group.getObjectByName('rightArm');
+    const leftLeg = group.getObjectByName('leftLeg');
+    const rightLeg = group.getObjectByName('rightLeg');
+
+    if (ud.state === 'walking') {
+      // Walking swing
+      const swing = Math.sin(elapsed * 6 + ud.bobOffset) * 0.5;
+      if (leftArm) leftArm.rotation.x = swing;
+      if (rightArm) rightArm.rotation.x = -swing;
+      if (leftLeg) leftLeg.rotation.x = -swing * 0.7;
+      if (rightLeg) rightLeg.rotation.x = swing * 0.7;
+      // Slight bob while walking
+      group.position.y = 1.5 + Math.abs(Math.sin(elapsed * 6 + ud.bobOffset)) * 0.08;
+    } else if (ud.state === 'talking') {
+      // Gesturing — arms move gently
+      if (leftArm) leftArm.rotation.x = Math.sin(elapsed * 3 + ud.bobOffset) * 0.3;
+      if (rightArm) rightArm.rotation.x = Math.sin(elapsed * 2.5 + ud.bobOffset + 1) * 0.4;
+      if (leftLeg) leftLeg.rotation.x = 0;
+      if (rightLeg) rightLeg.rotation.x = 0;
+      group.position.y = 1.5;
+    } else {
+      // Idle — subtle breathing
+      if (leftArm) leftArm.rotation.x = 0;
+      if (rightArm) rightArm.rotation.x = 0;
+      if (leftLeg) leftLeg.rotation.x = 0;
+      if (rightLeg) rightLeg.rotation.x = 0;
+      group.position.y = 1.5 + Math.sin(elapsed * 0.8 + ud.bobOffset) * 0.05;
+    }
 
     // State machine
     ud.stateTimer -= delta;
@@ -625,6 +676,7 @@ function animate() {
   updateMovement(delta);
   controls.update();
   updateCitizens(delta, elapsed);
+  checkPlayerProximity(elapsed);
   sendPosition(elapsed);
   renderer.render(scene, camera);
 }
@@ -636,6 +688,138 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
+// ─── Citizen Perception (AI sees you approach) ────────
+
+const PERCEPTION_DISTANCE = 8;  // meters — citizen "sees" you
+const PERCEPTION_COOLDOWN = 30; // seconds — don't re-trigger same citizen
+const perceivedRecently = new Map(); // citizenId -> timestamp
+let perceiving = false; // prevent concurrent calls
+
+// Secondary camera for citizen POV screenshots
+const citizenCamera = new THREE.PerspectiveCamera(70, 1, 0.1, 200);
+const citizenRenderTarget = new THREE.WebGLRenderTarget(256, 256);
+
+function checkPlayerProximity(elapsed) {
+  if (perceiving) return;
+
+  for (const [id, group] of citizenMeshes) {
+    const dx = camera.position.x - group.position.x;
+    const dz = camera.position.z - group.position.z;
+    const dist = Math.sqrt(dx * dx + dz * dz);
+
+    if (dist > PERCEPTION_DISTANCE) continue;
+    if (dist < 1) continue; // too close, already interacting
+
+    // Cooldown check
+    const lastPerceived = perceivedRecently.get(id) || 0;
+    if (elapsed - lastPerceived < PERCEPTION_COOLDOWN) continue;
+
+    // Don't trigger if citizen is already talking
+    if (group.userData.state === 'talking') continue;
+
+    // Trigger perception!
+    perceivedRecently.set(id, elapsed);
+    perceiving = true;
+
+    triggerPerception(id, group).finally(() => { perceiving = false; });
+    break; // one at a time
+  }
+}
+
+async function triggerPerception(citizenId, group) {
+  const citizen = group.userData.citizen;
+  if (!citizen) return;
+
+  // Citizen turns to face the player
+  const dx = camera.position.x - group.position.x;
+  const dz = camera.position.z - group.position.z;
+  group.rotation.y = Math.atan2(dx, dz);
+
+  // Render a frame from the citizen's POV (looking at the player)
+  let screenshot_base64 = null;
+  try {
+    citizenCamera.position.copy(group.position);
+    citizenCamera.position.y += 1.7; // eye height
+    citizenCamera.lookAt(camera.position.x, camera.position.y, camera.position.z);
+
+    renderer.setRenderTarget(citizenRenderTarget);
+    renderer.render(scene, citizenCamera);
+    renderer.setRenderTarget(null);
+
+    // Read pixels to canvas -> JPEG base64
+    const pixels = new Uint8Array(256 * 256 * 4);
+    renderer.readRenderTargetPixels(citizenRenderTarget, 0, 0, 256, 256, pixels);
+
+    const cvs = document.createElement('canvas');
+    cvs.width = 256;
+    cvs.height = 256;
+    const ctx = cvs.getContext('2d');
+    const imgData = ctx.createImageData(256, 256);
+    // Flip Y (WebGL is bottom-up)
+    for (let y = 0; y < 256; y++) {
+      for (let x = 0; x < 256; x++) {
+        const srcIdx = ((255 - y) * 256 + x) * 4;
+        const dstIdx = (y * 256 + x) * 4;
+        imgData.data[dstIdx] = pixels[srcIdx];
+        imgData.data[dstIdx + 1] = pixels[srcIdx + 1];
+        imgData.data[dstIdx + 2] = pixels[srcIdx + 2];
+        imgData.data[dstIdx + 3] = 255;
+      }
+    }
+    ctx.putImageData(imgData, 0, 0);
+    screenshot_base64 = cvs.toDataURL('image/jpeg', 0.7).split(',')[1];
+  } catch (e) {
+    console.warn('Screenshot capture failed:', e.message);
+  }
+
+  // Show thinking indicator
+  showBubble(group, '...');
+  group.userData.state = 'talking';
+  group.userData.stateTimer = 30; // long timer while waiting for AI
+
+  // Find nearest building name
+  let nearestBuilding = '';
+  let minBldDist = Infinity;
+  for (const pos of buildingPositions) {
+    const bdx = group.position.x - pos.x;
+    const bdz = group.position.z - pos.z;
+    const bdist = Math.sqrt(bdx * bdx + bdz * bdz);
+    if (bdist < minBldDist) {
+      minBldDist = bdist;
+      nearestBuilding = pos.name || '';
+    }
+  }
+
+  try {
+    const resp = await fetch(`/api/citizen/${encodeURIComponent(citizenId)}/perceive`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        screenshot_base64,
+        player_name: visitorName,
+        location_name: nearestBuilding ? `near ${nearestBuilding}` : 'Venice',
+        nearby_building: nearestBuilding,
+        time_of_day: new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }),
+      }),
+    });
+
+    if (resp.ok) {
+      const data = await resp.json();
+      removeBubble(group);
+      showBubble(group, data.text.length > 80 ? data.text.slice(0, 77) + '...' : data.text);
+      group.userData.stateTimer = 8 + Math.random() * 4;
+      console.log(`[Perception] ${data.citizen_name}: "${data.text}"`);
+    } else {
+      removeBubble(group);
+      group.userData.state = 'idle';
+    }
+  } catch (e) {
+    console.warn(`[Perception] Failed for ${citizenId}:`, e.message);
+    removeBubble(group);
+    group.userData.state = 'idle';
+  }
+}
 
 // ─── Multiplayer (WebSocket) ───────────────────────────
 

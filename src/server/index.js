@@ -271,6 +271,73 @@ app.post('/api/citizens/thoughts', async (req, res) => {
   }
 });
 
+// ─── Citizen Perception (AI sees the player) ─────────
+// Player enters a citizen's field of view → citizen reacts
+
+import Anthropic from '@anthropic-ai/sdk';
+const anthropic = new Anthropic();
+
+app.post('/api/citizen/:id/perceive', async (req, res) => {
+  if (!_graphClientRef) return res.status(503).json({ error: 'Graph not connected' });
+  const citizenId = req.params.id;
+  const { screenshot_base64, player_name, location_name, nearby_building, time_of_day } = req.body || {};
+
+  try {
+    // Get citizen context from graph
+    const ctxResult = await _graphClientRef.query(`
+      MATCH (a:Actor {id: $id})
+      OPTIONAL MATCH (a)-[r]->(n:Narrative)
+      WITH a, collect(n.synthesis)[0..3] AS thoughts
+      RETURN a.name AS name, a.synthesis AS synthesis, thoughts
+    `, { id: citizenId });
+
+    if (!ctxResult || ctxResult.length === 0) {
+      return res.status(404).json({ error: 'Citizen not found' });
+    }
+
+    const citizen = ctxResult[0];
+    const thoughts = (citizen.thoughts || []).filter(Boolean).join('. ');
+
+    // Build the perception prompt
+    const locationCtx = location_name ? `You are at ${location_name}.` : '';
+    const buildingCtx = nearby_building ? `Nearby: ${nearby_building}.` : '';
+    const timeCtx = time_of_day || new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+
+    const systemPrompt = `You are ${citizen.name}, a citizen of Venice in the year 1499.
+${citizen.synthesis || ''}
+Your current thoughts: ${thoughts || 'going about your day'}
+${locationCtx} ${buildingCtx}
+It is ${timeCtx}.
+
+A person${player_name ? ` named ${player_name}` : ''} is approaching you. React naturally — you are busy with your life but notice them. Speak in character, in English (with occasional Italian words). Be brief (1-3 sentences). Reference your actual activities and thoughts.`;
+
+    // Build messages — with or without screenshot
+    const content = [];
+    if (screenshot_base64) {
+      content.push({
+        type: 'image',
+        source: { type: 'base64', media_type: 'image/jpeg', data: screenshot_base64 },
+      });
+      content.push({ type: 'text', text: 'You see this approaching you. React in character.' });
+    } else {
+      content.push({ type: 'text', text: 'Someone is approaching you. React in character.' });
+    }
+
+    const response = await anthropic.messages.create({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 150,
+      system: systemPrompt,
+      messages: [{ role: 'user', content }],
+    });
+
+    const text = response.content?.[0]?.text || '';
+    res.json({ citizen_id: citizenId, citizen_name: citizen.name, text });
+  } catch (e) {
+    console.error(`[Perception] ${citizenId} error:`, e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // ─── Speak endpoint (sessions push voice into the world) ──
 // POST /speak { text, speaker?, session_id? }
 // Runs TTS and broadcasts audio to all connected clients.
