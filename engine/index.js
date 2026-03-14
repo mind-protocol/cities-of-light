@@ -150,7 +150,7 @@ async function main() {
     app.use(express.static(distDir));
     // SPA fallback: serve index.html for all non-API routes
     app.get('*', (req, res, next) => {
-      if (req.path.startsWith('/api') || req.path.startsWith('/worlds') || req.path.startsWith('/ws') || req.path.startsWith('/world') || req.path.startsWith('/health')) {
+      if (req.path.startsWith('/api') || req.path.startsWith('/worlds') || req.path.startsWith('/ws') || req.path.startsWith('/world') || req.path.startsWith('/health') || req.path.startsWith('/membrane') || req.path.startsWith('/ping')) {
         return next();
       }
       res.sendFile(resolve(distDir, 'index.html'));
