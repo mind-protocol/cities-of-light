@@ -493,6 +493,7 @@ function animate() {
   updateMovement(delta);
   controls.update();
   updateCitizens(delta, elapsed);
+  sendPosition(elapsed);
   renderer.render(scene, camera);
 }
 
@@ -504,7 +505,120 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
+// ─── Multiplayer (WebSocket) ───────────────────────────
+
+const visitors = new Map(); // visitorId -> THREE.Group
+
+const params = new URLSearchParams(location.search);
+const visitorName = params.get('name') || 'Visitor_' + Math.random().toString(36).slice(2, 6);
+
+let ws = null;
+let myId = null;
+
+function connectMultiplayer() {
+  const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+  ws = new WebSocket(`${protocol}//${location.host}/ws`);
+
+  ws.onopen = () => {
+    ws.send(JSON.stringify({
+      type: 'join',
+      name: visitorName,
+      persona: 'visitor',
+    }));
+  };
+
+  ws.onmessage = (event) => {
+    const msg = JSON.parse(event.data);
+
+    switch (msg.type) {
+      case 'welcome':
+        myId = msg.citizenId;
+        console.log(`Connected as ${visitorName} (${myId})`);
+        break;
+
+      case 'citizen_joined': {
+        if (msg.citizenId === myId) break;
+        const group = createVisitorAvatar(msg.name || 'Visitor');
+        scene.add(group);
+        visitors.set(msg.citizenId, group);
+        break;
+      }
+
+      case 'citizen_moved': {
+        if (msg.citizenId === myId) break;
+        const v = visitors.get(msg.citizenId);
+        if (v && msg.position) {
+          v.position.set(msg.position.x, msg.position.y, msg.position.z);
+        }
+        break;
+      }
+
+      case 'citizen_left': {
+        const v = visitors.get(msg.citizenId);
+        if (v) {
+          scene.remove(v);
+          visitors.delete(msg.citizenId);
+        }
+        break;
+      }
+    }
+  };
+
+  ws.onclose = () => {
+    console.log('Disconnected, reconnecting in 3s...');
+    setTimeout(connectMultiplayer, 3000);
+  };
+}
+
+function createVisitorAvatar(name) {
+  const group = new THREE.Group();
+
+  // Body — teal capsule (distinct from AI citizens)
+  const bodyGeo = new THREE.CapsuleGeometry(0.35, 1.2, 4, 8);
+  const bodyMat = new THREE.MeshStandardMaterial({ color: 0x00ddaa, roughness: 0.4, metalness: 0.3, emissive: 0x004433, emissiveIntensity: 0.3 });
+  const body = new THREE.Mesh(bodyGeo, bodyMat);
+  body.position.y = 1.0;
+  group.add(body);
+
+  // Head
+  const headGeo = new THREE.SphereGeometry(0.28, 8, 6);
+  const headMat = new THREE.MeshStandardMaterial({ color: 0xf5d0a9, roughness: 0.8 });
+  const head = new THREE.Mesh(headGeo, headMat);
+  head.position.y = 2.1;
+  group.add(head);
+
+  // Name label
+  const label = makeLabel(name);
+  label.position.y = 2.7;
+  group.add(label);
+
+  // Glow ring (visitors glow teal)
+  const ringGeo = new THREE.TorusGeometry(0.5, 0.03, 8, 24);
+  const ringMat = new THREE.MeshStandardMaterial({ color: 0x00ffaa, emissive: 0x00ffaa, emissiveIntensity: 0.8, transparent: true, opacity: 0.6 });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.rotation.x = -Math.PI / 2;
+  ring.position.y = 0.1;
+  group.add(ring);
+
+  return group;
+}
+
+// Send position every 100ms
+let lastSendTime = 0;
+function sendPosition(elapsed) {
+  if (!ws || ws.readyState !== 1 || !myId) return;
+  if (elapsed - lastSendTime < 0.1) return;
+  lastSendTime = elapsed;
+
+  ws.send(JSON.stringify({
+    type: 'position',
+    position: { x: camera.position.x, y: camera.position.y, z: camera.position.z },
+    rotation: { x: 0, y: camera.rotation.y, z: 0, w: 1 },
+  }));
+}
+
 // ─── Start ─────────────────────────────────────────────
 
 init();
+connectMultiplayer();
 animate();
