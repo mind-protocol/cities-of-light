@@ -14,6 +14,9 @@
  * - Broadcast state changes via WebSocket
  */
 
+import { mkdirSync, appendFileSync } from 'fs';
+import { resolve, dirname } from 'path';
+
 export class EntityManager {
   /**
    * @param {object} manifest — the parsed WorldManifest
@@ -35,6 +38,7 @@ export class EntityManager {
 
     // AI config from manifest
     this.aiConfig = manifest.ai_config || {};
+    this.memoryBasePath = this.aiConfig.memory_path ? resolve(this.aiConfig.memory_path) : null;
 
     // Entity state map: id → entity state
     this.entities = new Map();
@@ -76,6 +80,10 @@ export class EntityManager {
         wanderRadius: desc.wander_radius || 8,
         promptPath: desc.prompt_path || null,
         systemPrompt: desc.system_prompt || null,
+        class: desc.class || desc.social_class || null,
+        occupation: desc.occupation || null,
+        economy: desc.economy || null,
+        personality: desc.personality || null,
 
         // Avatar (from descriptor)
         avatar: desc.avatar || { shape: 'sphere', color: '0xffffff' },
@@ -93,6 +101,7 @@ export class EntityManager {
         action: 'idle', // idle | wandering | speaking
         targetPosition: null,
         conversationHistory: [],
+        spawned: false,
       };
 
       this.entities.set(entity.id, entity);
@@ -126,6 +135,7 @@ export class EntityManager {
   getAllStates() {
     const states = [];
     for (const [id, e] of this.entities) {
+      if (!e.spawned) continue;
       states.push({
         entityId: id,
         name: e.name,
@@ -184,6 +194,8 @@ export class EntityManager {
           newTier,
         });
       }
+
+      this._applySpawnState(entity);
     }
   }
 
@@ -238,8 +250,16 @@ export class EntityManager {
         entity.conversationHistory.splice(0, entity.conversationHistory.length - 10);
       }
 
-      // Get system prompt
-      const systemPrompt = entity.systemPrompt || 'You are an entity in a shared virtual world.';
+      // Get enriched system prompt context
+      const identityCard = [
+        `Name: ${entity.name}`,
+        entity.class ? `Class: ${entity.class}` : null,
+        entity.occupation ? `Occupation: ${entity.occupation}` : null,
+        entity.personality ? `Personality: ${JSON.stringify(entity.personality)}` : null,
+        entity.economy ? `Economy: ${JSON.stringify(entity.economy)}` : null,
+      ].filter(Boolean).join('\n');
+
+      const systemPrompt = `${entity.systemPrompt || 'You are an entity in a shared virtual world.'}\n\n${identityCard}\n\nRespond in-character with world-grounded detail.`;
 
       // LLM call
       const result = await this.llmClient.chat.completions.create({
@@ -264,6 +284,14 @@ export class EntityManager {
         entity.conversationHistory.splice(0, entity.conversationHistory.length - 10);
       }
 
+      this._writeMemoryNode({
+        entityId: id,
+        speakerName,
+        transcription,
+        response,
+        timestamp: now,
+      });
+
       entity.action = 'wandering';
 
       return {
@@ -272,6 +300,7 @@ export class EntityManager {
         text: response,
         position: { ...entity.position },
         voiceConfig: entity.voice,
+        className: entity.class,
       };
     } catch (e) {
       console.error(`Entity ${entity.name} LLM error:`, e.message);
@@ -333,6 +362,7 @@ export class EntityManager {
     const now = Date.now();
 
     for (const [id, entity] of this.entities) {
+      if (!entity.spawned) continue;
       const homeZone = this.zones.get(entity.homeZone);
       if (!homeZone) continue;
 
@@ -390,7 +420,7 @@ export class EntityManager {
 
   _broadcastAllStates() {
     for (const [id, entity] of this.entities) {
-      this._broadcastEntityState(entity);
+      this._applySpawnState(entity);
     }
   }
 

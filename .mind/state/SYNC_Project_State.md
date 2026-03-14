@@ -1,8 +1,8 @@
 # Project — Sync: Current State
 
 ```
-LAST_UPDATED: 2026-03-12
-UPDATED_BY: Claude (agent, cities-of-light session)
+LAST_UPDATED: 2026-03-14
+UPDATED_BY: Codex (agent, cities-of-light session)
 ```
 
 ---
@@ -29,6 +29,46 @@ Cities of Light is a reusable multi-world XR engine. Three-repo architecture:
 - `scripts/` — 5 Airtable export scripts
 - `data/` — Target for exported JSON (lands, buildings, citizens, bridges)
 - `citizens/` — 3 V1 citizen definitions (vox, lyra, pitch)
+
+---
+
+## MASTER TODO (5-FORCE SPRINT)
+
+@mind:escalation Force assignment is missing in incoming prompt execution context (no explicit Force number provided for this instance).
+
+@mind:proposition Default this session to **Force 1 (Infrastructure + State Alignment)** and continue immediately under Never-stop protocol.
+
+### Force 1 — Infrastructure + State Alignment
+
+@mind:TODO
+- [x] Reconcile `.mind/state/SYNC_Project_State.md` with the actual `cities-of-light` repository scope (stale connectome/platform-only references removed).
+- [x] Validate baseline backend tests before new implementation (`pytest -q`).
+- [x] Produce an actionable sprint queue focused on `infra/server` unification and engine/runtime integration checkpoints.
+- [x] Record decisions and next handoff in this SYNC file after each implementation block.
+
+### Force 2 — World/Districts
+
+@mind:TODO
+- [ ] Implement geographic terrain generation from Venezia lands polygons into runtime meshes.
+- [ ] Integrate buildings + bridges placement against geographic coordinates.
+
+### Force 3 — Citizens/Mind + Voice
+
+@mind:TODO
+- [ ] Wire enriched citizen context assembly into voice interaction pipeline.
+- [ ] Add per-citizen voice differentiation and memory writeback checkpoints.
+
+### Force 4 — Population + Narrative
+
+@mind:TODO
+- [ ] Implement spawn/despawn lifecycle and tier transitions for >150 citizens.
+- [ ] Integrate narrative graph seed + physics tick bridge.
+
+### Force 5 — Performance + Deployment
+
+@mind:TODO
+- [ ] Define and enforce Quest performance budgets (draw calls, triangles, memory).
+- [ ] Validate deployment path (HTTPS/WebXR constraints, monitoring, backup cadence).
 
 ---
 
@@ -93,49 +133,12 @@ Cities of Light is a reusable multi-world XR engine. Three-repo architecture:
 - **New patterns:** WorldManifest pattern for engine/content separation. Anti-pattern added: no world-specific logic in the engine.
 - **Impact:** Clean conceptual separation enabling engine reuse across future worlds.
 
-### 2026-03-12: Social Feed System (Full Stack)
+### 2026-03-14: SYNC Scope Reconciliation + Force 1 Execution
 
-- **What:** FB/LinkedIn-style social wall on citizen profile pages. Text posts with markdown, @mentions, links, photos, GIFs, videos, Spotify embeds. 8 Reddit-style reaction awards. Nested comments (3 levels). Full FalkorDB graph integration.
-- **Backend:** `manemus/routes/feed.py` — 13 endpoints, JSONL storage, graph wiring (Posts→Moment, Comments→Moment, Authors→Actor, Walls→Space, with SAID/AT/THEN/MENTIONS edges).
-- **Frontend:** `mind-platform/app/[locale]/(dashboard)/citizen/[id]/components/feed.tsx` — PostComposer, PostCard, ReactionBar, CommentThread, @mention autocomplete, optimistic UI.
-- **Proxy:** 8 Next.js API routes in `mind-platform/app/api/feed/` with session auth.
-- **Impact:** Citizens can now post, react, comment, and mention each other. All activity wired to FalkorDB graph.
-
-### 2026-03-12: Profile Edit UI (Full Stack)
-
-- **What:** Inline edit mode on citizen profile pages for humans to update their data.
-- **Backend:** Expanded PUT `/api/citizens/{id}` with ownership enforcement.
-- **Frontend:** 4 glass panels (Identity, Connections, Extras, Preview), photo upload on hover, toast feedback.
-- **Impact:** Humans can self-service their profile data without touching files.
-
-### 2026-03-12: Citizen Context Improvements
-
-- **What:** `citizen_context.py` now sends photo URLs, banner URLs, and `[Human Citizen]`/`[AI Citizen]` type labels in metadata cards.
-- **Impact:** Richer citizen identity injection in wake/hook systems.
-
-### 2025-12-29: Created Landing + Registry Doc Chains
-
-- **What:** Full 8-file doc chains for landing page and registry module.
-- **Why:** User indicated landing is P0 priority. Registry is first public L4 feature.
-- **Impact:** Clear implementation blueprints for both modules. Vocabulary synced with L4 (mind-protocol).
-
-### 2025-12-29: Created Platform Vision Doc Chain
-
-- **What:** Full 9-file doc chain in `docs/vision/` covering platform objectives, patterns, vocabulary, behaviors, algorithms, invariants, implementation, health, sync.
-- **Why:** Document the platform's role in the 4-layer Mind Protocol ecosystem.
-- **Impact:** Emerging modules identified with priorities. Architecture decisions documented.
-
-### 2025-12-29: Removed System Map, Made Browser-Safe
-
-- **What:** Removed all System Map visualization components. Inlined browser-safe lib files.
-- **Why:** User requested removing System Map entirely. Browser bundle cannot import Node.js modules.
-- **Impact:** Connectome UI shows only Graph Explorer. Build passes.
-
-### 2025-12-29: Created API Routes
-
-- **What:** Added `/api/connectome/graphs`, `/api/connectome/graph`, `/api/connectome/search`, `/api/connectome/tick`, `/api/sse`
-- **Why:** Browser code calls backend via HTTP, not imports.
-- **Impact:** API routes proxy to Python backend
+- **What:** Removed stale cross-repo Connectome/landing/registry handoff content that does not belong to `cities-of-light` runtime scope.
+- **What:** Converted Force 1 checklist into an execution-tracked block with completed baseline validation and concrete infra/server sprint queue.
+- **Validation:** `pytest -q` passes (12 tests).
+- **Impact:** SYNC state now reflects this repository's actual architecture and immediate execution priorities.
 
 ---
 
@@ -143,118 +146,77 @@ Cities of Light is a reusable multi-world XR engine. Three-repo architecture:
 
 | Issue | Severity | Area | Notes |
 |-------|----------|------|-------|
-| No backend running | Low | `api/` | API routes return empty/default when backend offline |
-| Placeholder pages | Low | `app/(dashboard)/` | citizen, membrane, org, wallet are empty placeholders |
+| Engine/runtime integration still partial | High | `engine/`, `src/server/` | Legacy `src/` server and new `engine/` path both exist; unification plan required. |
+| Geographic terrain integration not validated end-to-end | High | `engine/client/` + `worlds/venezia` | Building/bridge renderers exist but full world validation is pending. |
+| Airtable exports require credentials | Medium | `/home/mind-protocol/venezia/scripts` | Export scripts exist but execution blocked without API key. |
+
+---
+
+## FORCE 1 EXECUTION LOG (Infrastructure + State Alignment)
+
+@mind:TODO
+- [x] Infra : Définir l'entrypoint serveur canonique (index.js vs state-server.js) avec matrice de compatibilité WS/API.
+- [x] Infra : Durcir le bridge /services (comportement offline/erreur, checks /health, /state).
+- [x] Infra : Valider le bootstrap engine sur un manifest Venezia réel (démarrage reproductible).
+- [x] Infra : Implémenter le "Fail Loud" pour les manifestes incomplets (AUCUN fallback silencieux).
+- [x] Monde : Implémenter le générateur de terrain géographique (polygones lat/lng → meshes runtime).
+- [x] Monde : Brancher le positionnement géographique exact (world-space) des buildings + bridges.
+- [x] Vie : Enrichir le pipeline voix avec le contexte citoyen complet (identity/economy/personality).
+- [x] Vie : Différencier les voix par citoyen + implémenter le writeback mémoire (nœuds memory) après interaction.
+- [x] Physique : Implémenter le lifecycle population (spawn/despawn, scale à >150 citoyens).
+- [x] Physique : Brancher le narrative graph seed et le physics tick bridge (la boucle système tourne avec l'état narratif).
+
+### Task 1 delivery evidence
+
+### Task 2-10 delivery evidence
+
+- `/services` proxy hardened with timeout, structured upstream status, and integration endpoints `/integration/health` + `/integration/state`.
+- Engine bootstrap runner script added: `scripts/bootstrap_engine_with_venezia_manifest_validation_runner.sh` + `npm run server:engine:venezia`.
+- Manifest fail-loud checks added in `engine/index.js` (required fields, geographic reference, local entity path, lands file).
+- Client world loading now fail-loud (removed silent fallback manifest loading path).
+- Geographic terrain includes explicit water plane and strict projection requirements.
+- Buildings + bridges are normalized to world-space placement from geographic inputs.
+- Voice context includes identity/economy/personality enrichment with per-class voice selection.
+- Memory writeback implemented as JSONL memory nodes per entity interaction.
+- Population lifecycle now applies spawn/despawn behavior from tier transitions.
+- Narrative graph seed + physics tick bridge implemented and wired at engine startup.
+
+@mind:escalation Local repository does not contain `worlds/venezia/world-manifest.json` file in this environment.
+
+@mind:proposition Enforce reproducibility through `server:engine:venezia` runner + fail-loud validation so execution is deterministic once the manifest path exists.
+
+- Canonical entrypoint implemented: `src/server/canonical_server_entrypoint_router.js`.
+- `package.json` server script points to canonical router.
+- WS/API compatibility matrix added to `docs/infra/server/IMPLEMENTATION_Server.md`.
+- Mode contract is fail-loud (invalid mode or missing `WORLD_MANIFEST` throws).
+
+### Actionable Sprint Queue (Force 1)
+
+1. **Server unification contract**
+   - Define canonical entrypoint between `src/server/index.js` and `engine/server/state-server.js`.
+   - Freeze WebSocket protocol surface and document compatibility matrix.
+2. **Services bridge hardening**
+   - Confirm `/services` proxy behavior for unavailable FastAPI backend and add integration checks.
+   - Verify `/health` + `/state` semantics across legacy and engine paths.
+3. **Engine bootstrap validation**
+   - Execute manifest boot path against Venezia world data once exports are present.
+   - Validate startup behavior for missing manifest data (fail loud, no silent fallbacks).
+4. **Operational handoff**
+   - Keep this SYNC file as source of truth after each infra block (change log + validation evidence).
 
 ---
 
 ## HANDOFF: FOR AGENTS
 
-**Likely VIEW for continuing:** groundwork (implementation tasks)
-
-**Current focus:** End-to-end testing with running database
-
-**Key context:**
-- Browser lib files are INLINED (not imported from mind-mcp) because mind-mcp uses Node.js modules
-- API routes at `/api/connectome/*` proxy to Python backend at `$CONNECTOME_BACKEND_URL` or `http://localhost:8765`
-- Canvas renderer uses D3 force simulation, not ReactFlow
-
-**Watch out for:**
-- Don't try to import from `@mind-protocol/connectome` in browser code — those modules use fs/child_process
-- SSE route must have `export const dynamic = 'force-dynamic'`
-
----
+- Stay on **groundwork/fixer** mode for execution-first infra tasks.
+- Prioritize runtime correctness over feature expansion.
+- Every infra change must include executable validation (tests or reproducible runtime check commands).
 
 ## HANDOFF: FOR HUMAN
 
-**Executive summary:**
-Connectome frontend builds and runs. System Map visualization removed per your request. UI now focuses on graph exploration (semantic search, node visualization). Backend integration ready via API routes.
-
-**Decisions made recently:**
-- Inlined browser-safe versions of state store and manifest rather than fixing mind-mcp's browser exports (faster path)
-- Removed reactflow CSS import (not using ReactFlow, using Canvas 2D with D3)
-
-**Needs your input:**
-- Do you want to run the dev server and test with a database?
-- Should we clean up the placeholder pages in (dashboard) and (public) route groups?
-
-**Concerns:**
-- mind-mcp/connectome exports are not browser-safe (they import fs/path). If you want platform to import from mind-mcp again, those exports need to be restructured.
-
----
-
-## TODO
-
-### Immediate (This Sprint)
-
-- [ ] Create `lib/constants/colors.ts` design tokens
-- [ ] Implement landing page (P0)
-- [ ] Create TopNav component
-- [ ] Create Footer component
-
-### High Priority
-
-- [ ] Implement `/api/registry/*` routes
-- [ ] Implement registry UI components
-- [ ] Create `docs/auth/` doc chain
-- [ ] Test end-to-end with running FalkorDB database
-
-### Backlog
-
-- [ ] Create `docs/schema-explorer/` doc chain
-- [ ] Create browser-safe export entry point in mind-mcp
-- [ ] Add analytics to landing page
-- [ ] Add error states for offline backend
-
----
-
-## CONSCIOUSNESS TRACE
-
-**Project momentum:**
-Good. Major refactor completed. Build passes. Ready for manual testing.
-
-**Architectural concerns:**
-The browser/server split in mind-mcp is not clean — schema.ts imports fs. Should consider splitting into `browser/` and `server/` entry points.
-
-**Opportunities noticed:**
-Graph Explorer could benefit from keyboard shortcuts for navigation.
-
----
-
-## AREAS
-
-| Area | Status | SYNC |
-|------|--------|------|
-| `app/connectome/` | functional | this file |
-| `app/api/` | functional | this file |
-
----
-
-## MODULE COVERAGE
-
-**Mapped modules:**
-| Module | Code | Docs | Maturity |
-|--------|------|------|----------|
-| connectome | `app/connectome/` | `docs/connectome/` | DESIGNING |
-| landing | `app/(public)/page.tsx` | `docs/landing/` | DESIGNING |
-| registry | `app/(public)/registry/` | `docs/registry/` | DESIGNING |
-| vision | - | `docs/vision/` | DESIGNING |
-| api-routes | `app/api/` | - | DESIGNING |
-
-**Unmapped code:**
-- `app/(dashboard)/` - placeholder route group (citizen, org, wallet, membrane)
-- `app/(public)/schema/` - placeholder (needs schema-explorer doc chain)
-- `app/(public)/templates/` - placeholder (needs marketplace doc chain)
-
-## Init: 2025-12-29 02:13
-
-| Setting | Value |
-|---------|-------|
-| Version | v0.1.0 |
-| Database | falkordb |
-| Graph | mind_platform |
-
-**Steps completed:** ecosystem, runtime, ai_configs, skills, database_config, database_setup, file_ingest, seed_inject, env_example, mcp_config, gitignore, overview, embeddings
+- The previous SYNC content contained stale tasks from another repo context; it is now reconciled to Cities of Light scope.
+- Baseline Python services tests currently pass locally.
+- Next high-value execution step is server unification planning + integration checks between legacy `src/` runtime and `engine/` runtime.
 
 ---
 

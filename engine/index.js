@@ -13,6 +13,7 @@ import { resolve, dirname, join } from 'path';
 import { createServer } from './server/state-server.js';
 import { EntityManager } from './server/entity-manager.js';
 import { VoicePipeline } from './server/voice-pipeline.js';
+import { NarrativeGraphSeedAndTickBridge } from './server/narrative_graph_seed_and_tick_bridge.js';
 
 function getManifestPath() {
   // CLI arg: --world <path>
@@ -30,6 +31,37 @@ function getManifestPath() {
   process.exit(1);
 }
 
+
+function validateManifestOrThrow(manifest, basePath) {
+  if (!manifest || typeof manifest !== 'object') throw new Error('Manifest must be an object');
+  if (!manifest.name) throw new Error('Manifest missing required field: name');
+  if (!manifest.version) throw new Error('Manifest missing required field: version');
+  if (!manifest.terrain?.generator) throw new Error('Manifest missing required field: terrain.generator');
+  if (!Array.isArray(manifest.zones)) throw new Error('Manifest missing required field: zones[]');
+
+  if (manifest.terrain.generator === 'geographic') {
+    const ref = manifest.terrain.reference || manifest.reference;
+    if (!ref || typeof ref.lat !== 'number' || typeof ref.lng !== 'number') {
+      throw new Error('Geographic terrain requires terrain.reference { lat, lng }');
+    }
+
+    if (!manifest.lands?.path) {
+      throw new Error('Geographic terrain requires lands.path');
+    }
+    const landsPath = resolve(basePath, manifest.lands.path);
+    if (!existsSync(landsPath)) {
+      throw new Error(`Geographic lands file missing: ${landsPath}`);
+    }
+  }
+
+  if (manifest.entities?.source === 'local') {
+    const entitiesPath = resolve(basePath, manifest.entities.path || 'citizens/');
+    if (!existsSync(entitiesPath)) {
+      throw new Error(`Local entities path missing: ${entitiesPath}`);
+    }
+  }
+}
+
 async function main() {
   const manifestPath = getManifestPath();
 
@@ -44,16 +76,16 @@ async function main() {
   // 1. Load manifest
   const manifest = JSON.parse(readFileSync(manifestPath, 'utf-8'));
   const basePath = dirname(manifestPath);
+  validateManifestOrThrow(manifest, basePath);
   console.log(`  World: ${manifest.display_name || manifest.name}`);
   console.log(`  Version: ${manifest.version}`);
 
   // 1b. If geographic terrain, load lands data and create zones from it
-  if (manifest.terrain?.generator === 'geographic' && manifest.lands) {
-    const landsPath = resolve(basePath, manifest.lands.path || 'data/lands.json');
-    if (existsSync(landsPath)) {
-      const landsData = JSON.parse(readFileSync(landsPath, 'utf-8'));
-      // Create zone entries from each land
-      for (const land of landsData) {
+  if (manifest.terrain?.generator === 'geographic') {
+    const landsPath = resolve(basePath, manifest.lands.path);
+    const landsData = JSON.parse(readFileSync(landsPath, 'utf-8'));
+    for (const land of landsData) {
+      if (!manifest.zones.find(z => z.id === land.id)) {
         manifest.zones.push({
           id: land.id,
           name: land.name,
@@ -61,8 +93,8 @@ async function main() {
           mode: 'default',
         });
       }
-      console.log(`  Lands: ${landsData.length} (geographic zones created)`);
     }
+    console.log(`  Lands: ${landsData.length} (geographic zones created)`);
   }
   console.log(`  Zones: ${manifest.zones?.length || 0}`);
 
@@ -126,6 +158,16 @@ async function main() {
   }
 
   // 10. Physics bridge (if configured)
+
+  const physicsBridge = new NarrativeGraphSeedAndTickBridge({
+    manifest,
+    basePath,
+    broadcast,
+  });
+  physicsBridge.validateOrThrow();
+  await physicsBridge.seed();
+  physicsBridge.start();
+
   if (manifest.physics?.engine && manifest.physics.engine !== 'none') {
     console.log(`  Physics: ${manifest.physics.engine} (tick: ${manifest.physics.tick_interval_ms}ms)`);
   } else {

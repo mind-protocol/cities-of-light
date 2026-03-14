@@ -167,24 +167,65 @@ app.post('/speak', async (req, res) => {
 const SERVICES_URL = process.env.CITIES_SERVICES_URL || 'http://localhost:8900';
 
 app.use('/services', async (req, res) => {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 5000);
+
   try {
     const url = `${SERVICES_URL}${req.url}`;
     const fetchOpts = {
       method: req.method,
       headers: { 'Content-Type': 'application/json' },
+      signal: controller.signal,
     };
+
     if (req.method !== 'GET' && req.method !== 'HEAD') {
-      fetchOpts.body = JSON.stringify(req.body);
+      fetchOpts.body = JSON.stringify(req.body || {});
     }
+
     const resp = await fetch(url, fetchOpts);
-    const data = await resp.json();
-    res.status(resp.status).json(data);
-  } catch (e) {
-    res.status(503).json({
-      error: 'services_unavailable',
-      message: 'FastAPI services not running. Start with: uvicorn services.app:app --port 8900',
+    const contentType = resp.headers.get('content-type') || '';
+    const payload = contentType.includes('application/json')
+      ? await resp.json()
+      : { raw: await resp.text() };
+
+    res.status(resp.status).json({
+      ok: resp.ok,
+      upstream: SERVICES_URL,
+      status: resp.status,
+      data: payload,
     });
+  } catch (e) {
+    const timeoutHit = e.name === 'AbortError';
+    res.status(503).json({
+      error: timeoutHit ? 'services_timeout' : 'services_unavailable',
+      message: timeoutHit
+        ? 'FastAPI services timeout after 5000ms'
+        : 'FastAPI services not running. Start with: uvicorn services.app:app --port 8900',
+      upstream: SERVICES_URL,
+    });
+  } finally {
+    clearTimeout(timeout);
   }
+});
+
+app.get('/integration/health', async (req, res) => {
+  let services = { ok: false, status: 503 };
+  try {
+    const r = await fetch(`${SERVICES_URL}/health`);
+    services = { ok: r.ok, status: r.status };
+  } catch {}
+
+  res.json({
+    server: { ok: true, uptime: process.uptime() },
+    services,
+  });
+});
+
+app.get('/integration/state', (req, res) => {
+  res.json({
+    local: { citizens: citizens.size, connections: connections.size },
+    services_upstream: SERVICES_URL,
+  });
 });
 
 // ─── Vault media (videos for memorial playback) ──────────

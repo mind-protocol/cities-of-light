@@ -499,6 +499,8 @@ zoneAmbient.onZoneChanged = (oldZone, newZone) => {
 };
 
 const waypoints = new ManifestWaypoints(scene);
+let buildingRenderer = null;
+let bridgeRenderer = null;
 waypoints.onTeleport = (targetZone) => {
   const zx = targetZone.position?.x ?? 0;
   const zz = targetZone.position?.z ?? 0;
@@ -546,20 +548,27 @@ async function initWorld() {
   try {
     world = await worldLoader.load(manifestPath);
   } catch (e) {
-    console.error('Failed to load world manifest:', e);
-    // Fallback: try loading directly as JSON file
-    try {
-      world = await worldLoader.load('/worlds/venezia/world-manifest.json');
-    } catch (e2) {
-      console.error('World load failed completely:', e2);
-      return;
-    }
+    console.error('World load failed (fail loud):', e);
+    throw e;
   }
 
   // 2. Extract zones as array for ambient + waypoints
   const zones = worldLoader.getZonesArray();
   zoneAmbient.setZones(zones);
   waypoints.setZones(zones);
+
+  if (buildingRenderer) buildingRenderer.dispose();
+  if (bridgeRenderer) bridgeRenderer.dispose();
+
+  if (world.buildings?.length) {
+    buildingRenderer = new BuildingRenderer(scene, world.manifest.buildings || {});
+    buildingRenderer.render(world.buildings);
+  }
+
+  if (world.bridgesData?.length) {
+    bridgeRenderer = new BridgeRenderer(scene, world.manifest.bridges || {});
+    bridgeRenderer.render(world.bridgesData);
+  }
 
   // 3. Resolve visitor identity
   localAvatarName = resolveVisitorName();

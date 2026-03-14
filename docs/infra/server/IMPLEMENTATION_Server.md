@@ -901,3 +901,50 @@ src/server/
   physics-bridge.js     ← NEW: FalkorDB physics tick runner
   serenissima-sync.js   ← NEW: Airtable data sync (15min)
 ```
+
+## Canonical Server Entrypoint (2026-03-14)
+
+Cities of Light now exposes a single canonical Node entrypoint:
+
+- `src/server/canonical_server_entrypoint_router.js`
+
+Runtime mode is selected by `CITIES_SERVER_MODE`:
+
+- `legacy` (default) → boots `src/server/index.js`
+- `engine` → boots `engine/index.js` and requires `WORLD_MANIFEST`
+
+Fail-loud contract:
+
+- `CITIES_SERVER_MODE=engine` without `WORLD_MANIFEST` throws immediately.
+- Unsupported `CITIES_SERVER_MODE` throws immediately.
+- No silent fallback from `engine` to `legacy` is allowed.
+
+### WS/API compatibility matrix
+
+| Capability | Legacy (`src/server/index.js`) | Engine (`engine/server/state-server.js` via `engine/index.js`) |
+|---|---|---|
+| WS endpoint | `/ws` | `/ws` |
+| HTTP health | `/health` | `/health` |
+| State snapshot | `/state` | `/api/entities` + WS `state_snapshot` |
+| Rooms API | `/api/rooms` | Not implemented (world-agnostic baseline) |
+| Places API | `/api/places` | Not implemented (world-agnostic baseline) |
+| Services proxy (`/services`) | Present | Not present by default |
+| Voice HTTP | `/speak` (+ legacy voice routes) | `/voice` |
+| Voice WS | Legacy `voice` messages | `voice_data` stream messages |
+
+Migration note:
+- Canonical process entrypoint is unified, but feature parity is intentionally explicit and incomplete.
+- Consumers should treat room/place endpoints as legacy-only until parity work lands in engine mode.
+
+## Full Stack Sprint Delivery (2026-03-14, batch 2-10)
+
+- Services bridge hardening implemented in `src/server/index.js` with timeout + structured upstream error semantics.
+- Integration probe endpoints added: `/integration/health`, `/integration/state`.
+- Engine bootstrap reproducibility runner added: `scripts/bootstrap_engine_with_venezia_manifest_validation_runner.sh`.
+- Engine manifest validation upgraded to fail-loud in `engine/index.js`.
+- Narrative physics bridge wired in `engine/server/narrative_graph_seed_and_tick_bridge.js`.
+- Geographic projection utilities added for exact world-space placement.
+- Geographic terrain now includes explicit water plane and strict projection contract.
+- Voice pipeline now supports class-based voice routing and enriched citizen context.
+- Entity manager now writes memory nodes (`memory_nodes.jsonl`) and applies spawn/despawn lifecycle via tiers.
+

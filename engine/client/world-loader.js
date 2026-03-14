@@ -12,6 +12,7 @@
  */
 
 import * as THREE from 'three';
+import { createEquirectangularProjector, centroidFromPolygon } from '../shared/geographic_projection_utilities.js';
 
 export class WorldLoader {
   constructor(scene, renderer) {
@@ -48,7 +49,17 @@ export class WorldLoader {
       portalZones: [],
       atmosphere: null,
       _cleanupFns: [],
+      projection: null,
     };
+
+    // Projection used for geographic terrain/building/bridge placement
+    if (manifest.terrain?.generator === 'geographic') {
+      const ref = manifest.terrain.reference || manifest.reference || null;
+      if (!ref || typeof ref.lat !== 'number' || typeof ref.lng !== 'number') {
+        throw new Error('Geographic terrain requires terrain.reference { lat, lng } in manifest');
+      }
+      world.projection = createEquirectangularProjector(ref.lat, ref.lng, manifest.terrain.scale || 1);
+    }
 
     // 4. Configure global atmosphere
     world.atmosphere = this._setupAtmosphere(manifest, world.group);
@@ -186,6 +197,17 @@ export class WorldLoader {
 
       case 'geographic': {
         const landsData = await this._loadLandsData(manifest, world.basePath);
+
+        // Water plane for canals and sea level reference
+        const water = new THREE.Mesh(
+          new THREE.PlaneGeometry(12000, 12000),
+          new THREE.MeshStandardMaterial({ color: 0x2c6a92, roughness: 0.25, metalness: 0.1, transparent: true, opacity: 0.9 })
+        );
+        water.rotation.x = -Math.PI / 2;
+        water.position.y = manifest.terrain.water_level ?? 0;
+        water.name = 'water_plane';
+        world.group.add(water);
+
         for (const land of landsData) {
           const island = this._generateGeographicIsland(land, manifest.terrain);
           world.group.add(island);
@@ -381,7 +403,10 @@ export class WorldLoader {
     if (!response.ok) {
       throw new Error(`Failed to load buildings data: ${fullPath} (${response.status})`);
     }
-    return response.json();
+    const buildings = await response.json();
+
+    // Normalize to world-space positions for renderer consumption
+    return buildings.map((b) => this._normalizeGeographicPlacement(b, manifest));
   }
 
   async _loadBridgesData(manifest, basePath) {
@@ -391,7 +416,33 @@ export class WorldLoader {
     if (!response.ok) {
       throw new Error(`Failed to load bridges data: ${fullPath} (${response.status})`);
     }
-    return response.json();
+    const bridges = await response.json();
+    return bridges.map((b) => this._normalizeBridgePlacement(b, manifest));
+  }
+
+  _normalizeGeographicPlacement(entry, manifest) {
+    if (entry.position && typeof entry.position.x === 'number' && typeof entry.position.z === 'number') {
+      return entry;
+    }
+
+    if (manifest.terrain?.generator !== 'geographic') {
+      throw new Error(`Entry ${entry.id || entry.name || 'unknown'} missing world-space position`);
+    }
+
+    const ref = manifest.terrain.reference || manifest.reference || null;
+    if (!ref) throw new Error('Geographic placement requires terrain.reference');
+    const project = createEquirectangularProjector(ref.lat, ref.lng, manifest.terrain.scale || 1);
+
+    if (typeof entry.lat === 'number' && typeof entry.lng === 'number') {
+      return { ...entry, position: project({ lat: entry.lat, lng: entry.lng }) };
+    }
+
+    if (Array.isArray(entry.polygon) && entry.polygon.length > 0) {
+      const c = centroidFromPolygon(entry.polygon);
+      return { ...entry, position: { x: c.x, z: c.z } };
+    }
+
+    throw new Error(`Geographic entry ${entry.id || entry.name || 'unknown'} missing lat/lng or polygon`);
   }
 
   _setupZones(manifest, world) {

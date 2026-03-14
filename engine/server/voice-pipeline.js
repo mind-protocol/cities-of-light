@@ -43,6 +43,7 @@ export class VoicePipeline {
 
     // Default ElevenLabs voice ID when entity has no voice config
     this.defaultVoiceId = ttsConfig.default_voice_id || process.env.ELEVENLABS_VOICE_ID || null;
+    this.voiceByClass = ttsConfig.voice_by_class || {};
   }
 
   // ─── STT ────────────────────────────────────────────────
@@ -228,7 +229,7 @@ export class VoicePipeline {
       };
     }
 
-    const { entityId, entityName, text, position: entityPos, voiceConfig } = entityResponse;
+    const { entityId, entityName, text, position: entityPos, voiceConfig, className } = entityResponse;
     const llmMs = Date.now() - startTime;
     console.log(`Voice LLM: ${entityName} -> "${text}" (${llmMs}ms STT+LLM)`);
 
@@ -242,7 +243,7 @@ export class VoicePipeline {
     });
 
     // 5. TTS
-    const voiceId = this._resolveVoiceId(voiceConfig);
+    const voiceId = this._resolveVoiceId(voiceConfig, className);
     let audioBase64 = null;
 
     // Try ElevenLabs first
@@ -322,7 +323,7 @@ export class VoicePipeline {
       return;
     }
 
-    const { entityId, entityName, text, position: entityPos, voiceConfig } = entityResponse;
+    const { entityId, entityName, text, position: entityPos, voiceConfig, className } = entityResponse;
     const llmMs = Date.now() - startTime;
     console.log(`Voice LLM: ${entityName} -> "${text}" (${llmMs}ms STT+LLM)`);
 
@@ -349,7 +350,7 @@ export class VoicePipeline {
 
     // 6. Stream TTS chunks
     let chunksStreamed = 0;
-    const voiceId = this._resolveVoiceId(voiceConfig);
+    const voiceId = this._resolveVoiceId(voiceConfig, className);
 
     if (voiceId) {
       chunksStreamed = await this._ttsElevenLabsStream(text, voiceId, (chunk, index) => {
