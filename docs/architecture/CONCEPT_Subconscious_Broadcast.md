@@ -422,6 +422,54 @@ CALM (arousal ≈ 0.1):
     Hundreds of data points to Graph/File, bypassing WM entirely.
 ```
 
+## THE RESPONSE SELECTION FORMULA
+
+The response scoring is also drive-weighted. Two critical insights:
+
+1. **Trust is not always good.** For critique, you need friction (challenge), not trust (agreement). The formula uses `anxiety` to seek out friction.
+2. **Effort is not expertise.** If your question caused a massive limbic delta in the respondent, they're guessing. True expertise produces zero limbic delta — the answer was already consolidated.
+
+```
+S_response = E_cluster
+           × Conductivity
+           × Cognitive_Work
+           × (1 + 0.5 × Crystallized)
+
+Where:
+
+  E_cluster = total energy of the response nodes (actual, from target's graph)
+
+  Conductivity = max(0.1,
+      Link.trust × D_self_preservation    // crisis → trust matters
+    + Link.friction × D_anxiety           // critique → friction matters
+  )
+
+    Emergency (D_sp high):   conductivity ≈ trust (only accept trusted sources)
+    Critique (D_anx high):   conductivity ≈ friction (seek challengers, not friends)
+    Investigation (both low): conductivity ≈ 0.1 (neutral — accept everyone)
+
+  Cognitive_Work = 1.0
+    + Σ|ΔLimbic_target| × D_curiosity      // frontier: target's mind was blown = bonus
+    - Σ|ΔLimbic_target| × D_frustration    // impasse: target struggled = penalty
+
+    Pushing frontier (D_curiosity high):
+      High ΔLimbic in target = massive bonus (you want ideas that provoked thought)
+    Searching for help (D_frustration high):
+      High ΔLimbic in target = penalty (calm expert > confused guesser)
+      Zero ΔLimbic + high E_cluster = the expert knew instantly = maximum score
+
+  Crystallized = 1 if response contains a crystallized node (Law 10), else 0
+    Bonus for answers that are already structured knowledge, not raw fragments.
+```
+
+**The formula understands context:**
+- Frustrated? → penalizes confused respondents, favors calm experts
+- Anxious about your work? → seeks friction (harsh critics), avoids trust (echo chamber)
+- Curious at the frontier? → rewards respondents whose minds were blown
+- In emergency? → only accepts high-trust sources
+
+---
+
 **Fan-in destination by scenario:**
 
 | Scenario Group | Arousal | Fan-out | Fan-in Destination | WM Entries |
