@@ -1,0 +1,3827 @@
+[
+  {
+    "id": "small-warehouse-at-salizada-dei-mercanti-da-rialto",
+    "name": "Small Warehouse at Salizada dei Mercanti da Rialto",
+    "english_name": "Small Warehouse at Salizada dei Mercanti da Rialto",
+    "category": "business",
+    "type": "small_warehouse",
+    "size": 1,
+    "position": {
+      "x": -203.01,
+      "z": -160.5
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-dei-frari",
+    "name": "Fisherman's Cottage at Riva dei Frari",
+    "english_name": "Fisherman's Cottage at Riva dei Frari",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -1149.85,
+      "z": -300.64
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dellarsenale-vecchio",
+    "name": "Bridge at Ponte dell'Arsenale Vecchio",
+    "english_name": "Bridge at Ponte dell'Arsenale Vecchio",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": 1618.94,
+      "z": 767.48
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-sottoportego-dei-marinai",
+    "name": "Contract Stall at Sottoportego dei Marinai",
+    "english_name": "Contract Stall at Sottoportego dei Marinai",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": 1553.5,
+      "z": 678.6
+    },
+    "image_url": null,
+    "owner_id": "StormRider",
+    "land_id": null
+  },
+  {
+    "id": "inn-at-calle-della-misericordia",
+    "name": "Inn at Calle della Misericordia",
+    "english_name": "Inn at Calle della Misericordia",
+    "category": "business",
+    "type": "inn",
+    "size": 1,
+    "position": {
+      "x": 2102.61,
+      "z": 1370.83
+    },
+    "image_url": null,
+    "owner_id": "Trade4Fun",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-velutai",
+    "name": "Bridge at Ponte dei Velutai",
+    "english_name": "Bridge at Ponte dei Velutai",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -395.39,
+      "z": 39.0
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-zingari",
+    "name": "Bridge at Ponte dei Zingari",
+    "english_name": "Bridge at Ponte dei Zingari",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -798.85,
+      "z": -115.51
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-well-at-fondamenta-della-calcina",
+    "name": "Public Well at Fondamenta della Calcina",
+    "english_name": "Public Well at Fondamenta della Calcina",
+    "category": "passive",
+    "type": "public_well",
+    "size": 1,
+    "position": {
+      "x": -1662.77,
+      "z": 1168.85
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "cargo-landing-at-riva-di-san-giacomo",
+    "name": "Cargo Landing at Riva di San Giacomo",
+    "english_name": "Cargo Landing at Riva di San Giacomo",
+    "category": "business",
+    "type": "cargo_landing",
+    "size": 1,
+    "position": {
+      "x": -445.59,
+      "z": 1301.11
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "inn-at-unknown-street",
+    "name": "Inn at Unknown Street",
+    "english_name": "Inn at Unknown Street",
+    "category": "business",
+    "type": "inn",
+    "size": 1,
+    "position": {
+      "x": -1152.37,
+      "z": -380.61
+    },
+    "image_url": null,
+    "owner_id": "adriatic_captain",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-della-malvasia",
+    "name": "Fisherman's Cottage at Riva della Malvasia",
+    "english_name": "Fisherman's Cottage at Riva della Malvasia",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -813.8,
+      "z": -529.89
+    },
+    "image_url": null,
+    "owner_id": "MerchantLegend",
+    "land_id": null
+  },
+  {
+    "id": "paper-mill",
+    "name": "Paper Mill",
+    "english_name": "Paper Mill",
+    "category": "business",
+    "type": "paper_mill",
+    "size": 1,
+    "position": {
+      "x": -1381.43,
+      "z": -59.72
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-barnabiti",
+    "name": "Bridge at Ponte dei Barnabiti",
+    "english_name": "Bridge at Ponte dei Barnabiti",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -909.38,
+      "z": 487.48
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bakery-at-calle-dei-albanesi",
+    "name": "Bakery at Calle dei Albanesi",
+    "english_name": "Bakery at Calle dei Albanesi",
+    "category": "business",
+    "type": "bakery",
+    "size": 1,
+    "position": {
+      "x": 886.96,
+      "z": -60.58
+    },
+    "image_url": null,
+    "owner_id": "GamingPatrizio",
+    "land_id": null
+  },
+  {
+    "id": "merchants-house-at-ruga-dei-oresi",
+    "name": "Merchant's House at Ruga dei Oresi",
+    "english_name": "Merchant's House at Ruga dei Oresi",
+    "category": "home",
+    "type": "merchant_s_house",
+    "size": 1,
+    "position": {
+      "x": 1902.53,
+      "z": 1073.87
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-fondachi",
+    "name": "Bridge at Ponte dei Fondachi",
+    "english_name": "Bridge at Ponte dei Fondachi",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -423.05,
+      "z": 383.13
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-rio-ter-del-capitello",
+    "name": "Contract Stall at Rio Terà del Capitello",
+    "english_name": "Contract Stall at Rio Terà del Capitello",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": -855.48,
+      "z": -570.39
+    },
+    "image_url": null,
+    "owner_id": "EliteInvestor",
+    "land_id": null
+  },
+  {
+    "id": "public-well-at-calle-del-chiostro",
+    "name": "Public Well at Calle del Chiostro",
+    "english_name": "Public Well at Calle del Chiostro",
+    "category": "passive",
+    "type": "public_well",
+    "size": 1,
+    "position": {
+      "x": -761.82,
+      "z": 1245.9
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-bath-at-rio-ter-del-melone",
+    "name": "Public Bath at Rio Terà del Melone",
+    "english_name": "Public Bath at Rio Terà del Melone",
+    "category": "business",
+    "type": "public_bath",
+    "size": 1,
+    "position": {
+      "x": -396.34,
+      "z": 1548.11
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "gondola-station-at-fondamenta-dei-vetrai",
+    "name": "Gondola Station at Fondamenta dei Vetrai",
+    "english_name": "Gondola Station at Fondamenta dei Vetrai",
+    "category": "business",
+    "type": "gondola_station",
+    "size": 1,
+    "position": {
+      "x": -731.2,
+      "z": 889.96
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-del-leone-bianco",
+    "name": "Fisherman's Cottage at Fondamenta del Leone Bianco",
+    "english_name": "Fisherman's Cottage at Fondamenta del Leone Bianco",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 2075.26,
+      "z": 706.29
+    },
+    "image_url": null,
+    "owner_id": "Italia",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-dei-brentatori",
+    "name": "Fisherman's Cottage at Riva dei Brentatori",
+    "english_name": "Fisherman's Cottage at Riva dei Brentatori",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -1978.98,
+      "z": 547.16
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-riva-dei-mori",
+    "name": "Public Dock at Riva dei Mori",
+    "english_name": "Public Dock at Riva dei Mori",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": -685.59,
+      "z": -1284.47
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-camerlenghi",
+    "name": "Bridge at Ponte dei Camerlenghi",
+    "english_name": "Bridge at Ponte dei Camerlenghi",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": 465.0,
+      "z": 47.2
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-dei-castellani-vecchi",
+    "name": "Fisherman's Cottage at Fondamenta dei Castellani Vecchi",
+    "english_name": "Fisherman's Cottage at Fondamenta dei Castellani Vecchi",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 1372.52,
+      "z": 763.08
+    },
+    "image_url": null,
+    "owner_id": "rialto_sailor1",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-del-formager",
+    "name": "Fisherman's Cottage at Riva del Formager",
+    "english_name": "Fisherman's Cottage at Riva del Formager",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -369.7,
+      "z": 723.48
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-catecumeni",
+    "name": "Bridge at Ponte dei Catecumeni",
+    "english_name": "Bridge at Ponte dei Catecumeni",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -862.2,
+      "z": -1183.99
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "masons-lodge-at-fondamenta-della-fornace",
+    "name": "Masons' Lodge at Fondamenta della Fornace",
+    "english_name": "Masons' Lodge at Fondamenta della Fornace",
+    "category": "business",
+    "type": "masons_lodge",
+    "size": 1,
+    "position": {
+      "x": -1456.35,
+      "z": -525.55
+    },
+    "image_url": null,
+    "owner_id": "Italia",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-della-basilica",
+    "name": "Bridge at Ponte della Basilica",
+    "english_name": "Bridge at Ponte della Basilica",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": 796.74,
+      "z": -154.2
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-della-sacca",
+    "name": "Bridge at Ponte della Sacca",
+    "english_name": "Bridge at Ponte della Sacca",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -1673.62,
+      "z": 1225.78
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-della-carit",
+    "name": "Fisherman's Cottage at Fondamenta della Carità",
+    "english_name": "Fisherman's Cottage at Fondamenta della Carità",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 1846.83,
+      "z": 1239.5
+    },
+    "image_url": null,
+    "owner_id": "adriatic_captain",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-corte-morosini",
+    "name": "Contract Stall at Corte Morosini",
+    "english_name": "Contract Stall at Corte Morosini",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": 1409.61,
+      "z": 679.38
+    },
+    "image_url": null,
+    "owner_id": "trader4life",
+    "land_id": null
+  },
+  {
+    "id": "merchants-house-at-calle-del-tintoretto-vecchio",
+    "name": "Merchant's House at Calle del Tintoretto Vecchio",
+    "english_name": "Merchant's House at Calle del Tintoretto Vecchio",
+    "category": "home",
+    "type": "merchant_s_house",
+    "size": 1,
+    "position": {
+      "x": -416.32,
+      "z": -659.21
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "artisans-house-at-ruga-dei-tamisi",
+    "name": "Artisan's House at Ruga dei Tamisi",
+    "english_name": "Artisan's House at Ruga dei Tamisi",
+    "category": "home",
+    "type": "artisan_s_house",
+    "size": 1,
+    "position": {
+      "x": -658.87,
+      "z": -709.34
+    },
+    "image_url": null,
+    "owner_id": "VeniceTrader88",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-falconieri",
+    "name": "Bridge at Ponte dei Falconieri",
+    "english_name": "Bridge at Ponte dei Falconieri",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -1235.34,
+      "z": -852.37
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-campiello-del-paron",
+    "name": "Contract Stall at Campiello del Paron",
+    "english_name": "Contract Stall at Campiello del Paron",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": 1264.14,
+      "z": 415.02
+    },
+    "image_url": null,
+    "owner_id": "LagoonDealer2025",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-calle-dei-mercanti-orafi",
+    "name": "Contract Stall at Calle dei Mercanti Orafi",
+    "english_name": "Contract Stall at Calle dei Mercanti Orafi",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": 275.81,
+      "z": -196.32
+    },
+    "image_url": null,
+    "owner_id": "TechnoMedici",
+    "land_id": null
+  },
+  {
+    "id": "granary-at-corte-della-munizion",
+    "name": "Granary at Corte della Munizion",
+    "english_name": "Granary at Corte della Munizion",
+    "category": "business",
+    "type": "granary",
+    "size": 1,
+    "position": {
+      "x": -495.2,
+      "z": 1380.12
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-calle-della-pasticceria",
+    "name": "Contract Stall at Calle della Pasticceria",
+    "english_name": "Contract Stall at Calle della Pasticceria",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": -552.88,
+      "z": -754.55
+    },
+    "image_url": null,
+    "owner_id": "ProSilkTrader",
+    "land_id": null
+  },
+  {
+    "id": "public-well-at-fondamenta-san-basilio",
+    "name": "Public Well at Fondamenta San Basilio",
+    "english_name": "Public Well at Fondamenta San Basilio",
+    "category": "passive",
+    "type": "public_well",
+    "size": 1,
+    "position": {
+      "x": -761.51,
+      "z": 239.98
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-fondamenta-dei-orafi",
+    "name": "Public Dock at Fondamenta dei Orafi",
+    "english_name": "Public Dock at Fondamenta dei Orafi",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": -363.06,
+      "z": 998.95
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-dei-notai",
+    "name": "Fisherman's Cottage at Riva dei Notai",
+    "english_name": "Fisherman's Cottage at Riva dei Notai",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -1452.75,
+      "z": 698.19
+    },
+    "image_url": null,
+    "owner_id": "TopGlassmaker",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-granai",
+    "name": "Bridge at Ponte dei Granai",
+    "english_name": "Bridge at Ponte dei Granai",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -168.41,
+      "z": 1443.54
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-calle-del-paradiso",
+    "name": "Contract Stall at Calle del Paradiso",
+    "english_name": "Contract Stall at Calle del Paradiso",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": 1509.32,
+      "z": 401.63
+    },
+    "image_url": null,
+    "owner_id": "GondolaDrifter",
+    "land_id": null
+  },
+  {
+    "id": "bakery-at-calle-dei-cordami",
+    "name": "Bakery at Calle dei Cordami",
+    "english_name": "Bakery at Calle dei Cordami",
+    "category": "business",
+    "type": "bakery",
+    "size": 1,
+    "position": {
+      "x": 1499.91,
+      "z": 578.63
+    },
+    "image_url": null,
+    "owner_id": "MerchantLegend",
+    "land_id": null
+  },
+  {
+    "id": "artisans-house-at-calle-dei-furlani",
+    "name": "Artisan's House at Calle dei Furlani",
+    "english_name": "Artisan's House at Calle dei Furlani",
+    "category": "home",
+    "type": "artisan_s_house",
+    "size": 1,
+    "position": {
+      "x": 111.47,
+      "z": 1499.59
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bakery-at-calle-dei-intagliatori",
+    "name": "Bakery at Calle dei Intagliatori",
+    "english_name": "Bakery at Calle dei Intagliatori",
+    "category": "business",
+    "type": "bakery",
+    "size": 1,
+    "position": {
+      "x": -772.99,
+      "z": -205.38
+    },
+    "image_url": null,
+    "owner_id": "GamingPatrizio",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-di-santagnese",
+    "name": "Fisherman's Cottage at Riva di Sant'Agnese",
+    "english_name": "Fisherman's Cottage at Riva di Sant'Agnese",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -1406.3,
+      "z": -447.09
+    },
+    "image_url": null,
+    "owner_id": "TopGlassmaker",
+    "land_id": null
+  },
+  {
+    "id": "small-warehouse-at-rio-ter-dei-gioiellieri",
+    "name": "Small Warehouse at Rio Terà dei Gioiellieri",
+    "english_name": "Small Warehouse at Rio Terà dei Gioiellieri",
+    "category": "business",
+    "type": "small_warehouse",
+    "size": 1,
+    "position": {
+      "x": -1170.78,
+      "z": 103.41
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "nobili-palazzo-at-calle-della-madonna",
+    "name": "Nobili Palazzo at Calle della Madonna",
+    "english_name": "Nobili Palazzo at Calle della Madonna",
+    "category": "home",
+    "type": "nobili_palazzo",
+    "size": 1,
+    "position": {
+      "x": 1205.81,
+      "z": 612.5
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "artisans-house-at-calle-dei-fabbri",
+    "name": "Artisan's House at Calle dei Fabbri",
+    "english_name": "Artisan's House at Calle dei Fabbri",
+    "category": "home",
+    "type": "artisan_s_house",
+    "size": 1,
+    "position": {
+      "x": 1707.6,
+      "z": 678.52
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-calle-dei-greci",
+    "name": "Contract Stall at Calle dei Greci",
+    "english_name": "Contract Stall at Calle dei Greci",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": 1458.83,
+      "z": 763.09
+    },
+    "image_url": null,
+    "owner_id": "ZenithTrader",
+    "land_id": null
+  },
+  {
+    "id": "small-warehouse-at-calle-dei-brustolon",
+    "name": "Small Warehouse at Calle dei Brustolon",
+    "english_name": "Small Warehouse at Calle dei Brustolon",
+    "category": "business",
+    "type": "small_warehouse",
+    "size": 1,
+    "position": {
+      "x": -947.81,
+      "z": -527.94
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-fondamenta-dei-burattini",
+    "name": "Public Dock at Fondamenta dei Burattini",
+    "english_name": "Public Dock at Fondamenta dei Burattini",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": 328.15,
+      "z": 1107.06
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-di-santagnese",
+    "name": "Fisherman's Cottage at Fondamenta di Sant'Agnese",
+    "english_name": "Fisherman's Cottage at Fondamenta di Sant'Agnese",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 2092.29,
+      "z": 807.85
+    },
+    "image_url": null,
+    "owner_id": "Foscari_Banker",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-fondamenta-san-domenego",
+    "name": "Contract Stall at Fondamenta San Domenego",
+    "english_name": "Contract Stall at Fondamenta San Domenego",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": 1661.2,
+      "z": 663.35
+    },
+    "image_url": null,
+    "owner_id": "Trade4Fun",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-riva-dei-tabacchi",
+    "name": "Public Dock at Riva dei Tabacchi",
+    "english_name": "Public Dock at Riva dei Tabacchi",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": -1701.74,
+      "z": 101.59
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-well-at-calle-della-scuola-di-san-mois",
+    "name": "Public Well at Calle della Scuola di San Moisè",
+    "english_name": "Public Well at Calle della Scuola di San Moisè",
+    "category": "passive",
+    "type": "public_well",
+    "size": 1,
+    "position": {
+      "x": -507.49,
+      "z": 403.47
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-fondamenta-della-lana-scarlatta",
+    "name": "Contract Stall at Fondamenta della Lana Scarlatta",
+    "english_name": "Contract Stall at Fondamenta della Lana Scarlatta",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": -1420.46,
+      "z": -813.35
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-riva-di-santa-maria-formosa-piccola",
+    "name": "Public Dock at Riva di Santa Maria Formosa Piccola",
+    "english_name": "Public Dock at Riva di Santa Maria Formosa Piccola",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": 1415.62,
+      "z": 790.91
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "mill",
+    "name": "Mill",
+    "english_name": "Mill",
+    "category": "business",
+    "type": "mill",
+    "size": 1,
+    "position": {
+      "x": -1190.68,
+      "z": -525.42
+    },
+    "image_url": null,
+    "owner_id": "the_grand_experiment",
+    "land_id": null
+  },
+  {
+    "id": "nobili-palazzo-at-salizada-dei-nobili",
+    "name": "Nobili Palazzo at Salizada dei Nobili",
+    "english_name": "Nobili Palazzo at Salizada dei Nobili",
+    "category": "home",
+    "type": "nobili_palazzo",
+    "size": 1,
+    "position": {
+      "x": 1994.51,
+      "z": 1024.37
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-varoteri-di-san-polo",
+    "name": "Bridge at Ponte dei Varoteri di San Polo",
+    "english_name": "Bridge at Ponte dei Varoteri di San Polo",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -325.65,
+      "z": -0.99
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-calle-della-scuola-grande",
+    "name": "Contract Stall at Calle della Scuola Grande",
+    "english_name": "Contract Stall at Calle della Scuola Grande",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": -1302.28,
+      "z": -380.04
+    },
+    "image_url": null,
+    "owner_id": "DragonSlayer",
+    "land_id": null
+  },
+  {
+    "id": "artisans-house-at-rio-ter-della-toletta",
+    "name": "Artisan's House at Rio Terà della Toletta",
+    "english_name": "Artisan's House at Rio Terà della Toletta",
+    "category": "home",
+    "type": "artisan_s_house",
+    "size": 1,
+    "position": {
+      "x": 1948.92,
+      "z": 927.42
+    },
+    "image_url": null,
+    "owner_id": "UrbanExplorer",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-dei-giocatori",
+    "name": "Fisherman's Cottage at Riva dei Giocatori",
+    "english_name": "Fisherman's Cottage at Riva dei Giocatori",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 262.25,
+      "z": 506.28
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-di-san-barnaba",
+    "name": "Fisherman's Cottage at Riva di San Barnaba",
+    "english_name": "Fisherman's Cottage at Riva di San Barnaba",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -1537.03,
+      "z": -664.27
+    },
+    "image_url": null,
+    "owner_id": "DogeLover88",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-della-fontana",
+    "name": "Bridge at Ponte della Fontana",
+    "english_name": "Bridge at Ponte della Fontana",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": 902.66,
+      "z": 164.48
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-di-santa-elena",
+    "name": "Fisherman's Cottage at Riva di Santa Elena",
+    "english_name": "Fisherman's Cottage at Riva di Santa Elena",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 2193.78,
+      "z": 962.1
+    },
+    "image_url": null,
+    "owner_id": "GondolaDrifter",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-dei-barcaroli",
+    "name": "Fisherman's Cottage at Fondamenta dei Barcaroli",
+    "english_name": "Fisherman's Cottage at Fondamenta dei Barcaroli",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -859.89,
+      "z": -509.5
+    },
+    "image_url": null,
+    "owner_id": "greek_trader",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-rio-ter-dei-tolentini",
+    "name": "Contract Stall at Rio Terà dei Tolentini",
+    "english_name": "Contract Stall at Rio Terà dei Tolentini",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": -1200.42,
+      "z": -274.03
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-del-magistrato-alla-carit",
+    "name": "Fisherman's Cottage at Riva del Magistrato alla Carità",
+    "english_name": "Fisherman's Cottage at Riva del Magistrato alla Carità",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 2083.78,
+      "z": 757.07
+    },
+    "image_url": null,
+    "owner_id": "TopGlassmaker",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-delle-scuole",
+    "name": "Bridge at Ponte delle Scuole",
+    "english_name": "Bridge at Ponte delle Scuole",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": 601.38,
+      "z": -78.04
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-dei-coristi",
+    "name": "Fisherman's Cottage at Riva dei Coristi",
+    "english_name": "Fisherman's Cottage at Riva dei Coristi",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 1918.94,
+      "z": -339.85
+    },
+    "image_url": null,
+    "owner_id": "TopGlassmaker",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-merceri",
+    "name": "Bridge at Ponte dei Merceri",
+    "english_name": "Bridge at Ponte dei Merceri",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -246.99,
+      "z": 831.48
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-well-at-calle-dei-boteri",
+    "name": "Public Well at Calle dei Boteri",
+    "english_name": "Public Well at Calle dei Boteri",
+    "category": "passive",
+    "type": "public_well",
+    "size": 1,
+    "position": {
+      "x": 1654.88,
+      "z": 219.09
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-dei-questori",
+    "name": "Fisherman's Cottage at Riva dei Questori",
+    "english_name": "Fisherman's Cottage at Riva dei Questori",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 188.64,
+      "z": 1189.74
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-delle-erbe",
+    "name": "Fisherman's Cottage at Fondamenta delle Erbe",
+    "english_name": "Fisherman's Cottage at Fondamenta delle Erbe",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -2006.7,
+      "z": 591.72
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "merchants-house-at-calle-dei-cerchieri",
+    "name": "Merchant's House at Calle dei Cerchieri",
+    "english_name": "Merchant's House at Calle dei Cerchieri",
+    "category": "home",
+    "type": "merchant_s_house",
+    "size": 1,
+    "position": {
+      "x": 1949.11,
+      "z": 1127.58
+    },
+    "image_url": null,
+    "owner_id": "Italia",
+    "land_id": null
+  },
+  {
+    "id": "merchants-house-at-corte-grimani-alla-fava",
+    "name": "Merchant's House at Corte Grimani alla Fava",
+    "english_name": "Merchant's House at Corte Grimani alla Fava",
+    "category": "home",
+    "type": "merchant_s_house",
+    "size": 1,
+    "position": {
+      "x": 111.39,
+      "z": -4.31
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-della-zecca",
+    "name": "Bridge at Ponte della Zecca",
+    "english_name": "Bridge at Ponte della Zecca",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": 149.04,
+      "z": 331.95
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "glassblower-workshop-at-fondamenta-dei-scudi",
+    "name": "Glassblower Workshop at Fondamenta dei Scudi",
+    "english_name": "Glassblower Workshop at Fondamenta dei Scudi",
+    "category": "business",
+    "type": "glassblower_workshop",
+    "size": 1,
+    "position": {
+      "x": 254.1,
+      "z": 1400.54
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "timber-yard-at-fondamenta-della-fontana",
+    "name": "Timber Yard at Fondamenta della Fontana",
+    "english_name": "Timber Yard at Fondamenta della Fontana",
+    "category": "business",
+    "type": "timber_yard",
+    "size": 1,
+    "position": {
+      "x": 854.79,
+      "z": 430.53
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-della-corrente",
+    "name": "Bridge at Ponte della Corrente",
+    "english_name": "Bridge at Ponte della Corrente",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": 62.49,
+      "z": -613.17
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-scrivani",
+    "name": "Bridge at Ponte dei Scrivani",
+    "english_name": "Bridge at Ponte dei Scrivani",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -1154.41,
+      "z": 1225.78
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "masons-lodge-at-sottoportego-della-carit",
+    "name": "Masons' Lodge at Sottoportego della Carità",
+    "english_name": "Masons' Lodge at Sottoportego della Carità",
+    "category": "business",
+    "type": "masons_lodge",
+    "size": 1,
+    "position": {
+      "x": -1160.17,
+      "z": 712.0
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "granary-at-calle-del-pestrin",
+    "name": "Granary at Calle del Pestrin",
+    "english_name": "Granary at Calle del Pestrin",
+    "category": "business",
+    "type": "granary",
+    "size": 1,
+    "position": {
+      "x": 1974.98,
+      "z": 873.1
+    },
+    "image_url": null,
+    "owner_id": "Italia",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-vascellari",
+    "name": "Bridge at Ponte dei Vascellari",
+    "english_name": "Bridge at Ponte dei Vascellari",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": 1845.0,
+      "z": 805.17
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-tintori-di-san-polo",
+    "name": "Bridge at Ponte dei Tintori di San Polo",
+    "english_name": "Bridge at Ponte dei Tintori di San Polo",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -366.11,
+      "z": -370.97
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-dei-granai",
+    "name": "Fisherman's Cottage at Fondamenta dei Granai",
+    "english_name": "Fisherman's Cottage at Fondamenta dei Granai",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -1840.39,
+      "z": 324.32
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "nobili-palazzo-at-fondamenta-dei-drapieri",
+    "name": "Nobili Palazzo at Fondamenta dei Drapieri",
+    "english_name": "Nobili Palazzo at Fondamenta dei Drapieri",
+    "category": "home",
+    "type": "nobili_palazzo",
+    "size": 1,
+    "position": {
+      "x": 216.93,
+      "z": 1348.34
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-del-lazaretto",
+    "name": "Fisherman's Cottage at Riva del Lazaretto",
+    "english_name": "Fisherman's Cottage at Riva del Lazaretto",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -1868.1,
+      "z": 368.94
+    },
+    "image_url": null,
+    "owner_id": "BankingWizard99",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-sottoportego-delle-acque",
+    "name": "Contract Stall at Sottoportego delle Acque",
+    "english_name": "Contract Stall at Sottoportego delle Acque",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": 1657.53,
+      "z": 162.83
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "artisans-house-at-ruga-dei-orafi-castellani",
+    "name": "Artisan's House at Ruga dei Orafi Castellani",
+    "english_name": "Artisan's House at Ruga dei Orafi Castellani",
+    "category": "home",
+    "type": "artisan_s_house",
+    "size": 1,
+    "position": {
+      "x": 494.21,
+      "z": -29.18
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "luxury-showroom-at-ruga-degli-speziali",
+    "name": "Luxury Showroom at Ruga degli Speziali",
+    "english_name": "Luxury Showroom at Ruga degli Speziali",
+    "category": "business",
+    "type": "luxury_showroom",
+    "size": 1,
+    "position": {
+      "x": -373.22,
+      "z": -664.12
+    },
+    "image_url": null,
+    "owner_id": "SilkRoadRunner",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-tessitori-di-lino",
+    "name": "Bridge at Ponte dei Tessitori di Lino",
+    "english_name": "Bridge at Ponte dei Tessitori di Lino",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -362.28,
+      "z": 491.35
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bakery-at-calle-della-scuola-dei-fornai",
+    "name": "Bakery at Calle della Scuola dei Fornai",
+    "english_name": "Bakery at Calle della Scuola dei Fornai",
+    "category": "business",
+    "type": "bakery",
+    "size": 1,
+    "position": {
+      "x": -900.16,
+      "z": -809.48
+    },
+    "image_url": null,
+    "owner_id": "ShadowHunter",
+    "land_id": null
+  },
+  {
+    "id": "master-builders-workshop-at-calle-dei-bombardieri",
+    "name": "Master Builder's Workshop at Calle dei Bombardieri",
+    "english_name": "Master Builder's Workshop at Calle dei Bombardieri",
+    "category": "business",
+    "type": "master_builders_workshop",
+    "size": 1,
+    "position": {
+      "x": -981.94,
+      "z": -260.65
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-scultori",
+    "name": "Bridge at Ponte dei Scultori",
+    "english_name": "Bridge at Ponte dei Scultori",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -772.29,
+      "z": 302.99
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "blacksmith-at-salizada-dei-consoli",
+    "name": "Blacksmith at Salizada dei Consoli",
+    "english_name": "Blacksmith at Salizada dei Consoli",
+    "category": "business",
+    "type": "blacksmith",
+    "size": 1,
+    "position": {
+      "x": -57.26,
+      "z": -371.86
+    },
+    "image_url": null,
+    "owner_id": "Italia",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-dei-dorsoduranti",
+    "name": "Fisherman's Cottage at Fondamenta dei Dorsoduranti",
+    "english_name": "Fisherman's Cottage at Fondamenta dei Dorsoduranti",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -1181.7,
+      "z": -259.03
+    },
+    "image_url": null,
+    "owner_id": "adriatic_captain",
+    "land_id": null
+  },
+  {
+    "id": "public-well-at-calle-dei-remeri",
+    "name": "Public Well at Calle dei Remeri",
+    "english_name": "Public Well at Calle dei Remeri",
+    "category": "passive",
+    "type": "public_well",
+    "size": 1,
+    "position": {
+      "x": 1513.42,
+      "z": 672.08
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-fornai",
+    "name": "Bridge at Ponte dei Fornai",
+    "english_name": "Bridge at Ponte dei Fornai",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -184.34,
+      "z": 1546.01
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-bombaser",
+    "name": "Bridge at Ponte dei Bombaser",
+    "english_name": "Bridge at Ponte dei Bombaser",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": 374.08,
+      "z": 45.87
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-dei-fruttaroli",
+    "name": "Fisherman's Cottage at Fondamenta dei Fruttaroli",
+    "english_name": "Fisherman's Cottage at Fondamenta dei Fruttaroli",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -581.56,
+      "z": -558.58
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-dei-panificatori",
+    "name": "Fisherman's Cottage at Fondamenta dei Panificatori",
+    "english_name": "Fisherman's Cottage at Fondamenta dei Panificatori",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -1314.01,
+      "z": -1130.92
+    },
+    "image_url": null,
+    "owner_id": "DucatsRunner",
+    "land_id": null
+  },
+  {
+    "id": "mill",
+    "name": "Mill",
+    "english_name": "Mill",
+    "category": "business",
+    "type": "mill",
+    "size": 1,
+    "position": {
+      "x": 2046.62,
+      "z": 967.43
+    },
+    "image_url": null,
+    "owner_id": "the_grand_experiment",
+    "land_id": null
+  },
+  {
+    "id": "printing-house-at-calle-della-scuola-di-san-giovanni-evangelista",
+    "name": "Printing House at Calle della Scuola di San Giovanni Evangelista",
+    "english_name": "Printing House at Calle della Scuola di San Giovanni Evangelista",
+    "category": "business",
+    "type": "printing_house",
+    "size": 1,
+    "position": {
+      "x": -249.18,
+      "z": -106.23
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "artisans-house-at-calle-dei-impastatori",
+    "name": "Artisan's House at Calle dei Impastatori",
+    "english_name": "Artisan's House at Calle dei Impastatori",
+    "category": "home",
+    "type": "artisan_s_house",
+    "size": 1,
+    "position": {
+      "x": -998.79,
+      "z": -903.08
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-well-at-corte-dei-magistrati",
+    "name": "Public Well at Corte dei Magistrati",
+    "english_name": "Public Well at Corte dei Magistrati",
+    "category": "passive",
+    "type": "public_well",
+    "size": 1,
+    "position": {
+      "x": -189.73,
+      "z": 236.78
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-fabbri-navali",
+    "name": "Bridge at Ponte dei Fabbri Navali",
+    "english_name": "Bridge at Ponte dei Fabbri Navali",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -289.17,
+      "z": -713.43
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-fondamenta-delle-specchiere",
+    "name": "Public Dock at Fondamenta delle Specchiere",
+    "english_name": "Public Dock at Fondamenta delle Specchiere",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": -1396.33,
+      "z": 703.14
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-sottoportego-dei-preti",
+    "name": "Contract Stall at Sottoportego dei Preti",
+    "english_name": "Contract Stall at Sottoportego dei Preti",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": 1510.68,
+      "z": 713.09
+    },
+    "image_url": null,
+    "owner_id": "GamingPatrizio",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-fondamenta-delle-zattere",
+    "name": "Contract Stall at Fondamenta delle Zattere",
+    "english_name": "Contract Stall at Fondamenta delle Zattere",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": -1255.1,
+      "z": -372.3
+    },
+    "image_url": null,
+    "owner_id": "ShadowHunter",
+    "land_id": null
+  },
+  {
+    "id": "artisans-house-at-sotoportego-della-scala-doro",
+    "name": "Artisan's House at Sotoportego della Scala d'Oro",
+    "english_name": "Artisan's House at Sotoportego della Scala d'Oro",
+    "category": "home",
+    "type": "artisan_s_house",
+    "size": 1,
+    "position": {
+      "x": 113.89,
+      "z": -45.1
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-della-croce",
+    "name": "Bridge at Ponte della Croce",
+    "english_name": "Bridge at Ponte della Croce",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": 1617.7,
+      "z": 778.42
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-del-squero",
+    "name": "Fisherman's Cottage at Fondamenta del Squero",
+    "english_name": "Fisherman's Cottage at Fondamenta del Squero",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -1041.47,
+      "z": -412.14
+    },
+    "image_url": null,
+    "owner_id": "ZenithTrader",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-rio-ter-della-redenzione",
+    "name": "Contract Stall at Rio Terà della Redenzione",
+    "english_name": "Contract Stall at Rio Terà della Redenzione",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": -1189.33,
+      "z": 1391.26
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-delle-elemosine",
+    "name": "Fisherman's Cottage at Riva delle Elemosine",
+    "english_name": "Fisherman's Cottage at Riva delle Elemosine",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 2123.72,
+      "z": 1401.3
+    },
+    "image_url": null,
+    "owner_id": "StarGazer2000",
+    "land_id": null
+  },
+  {
+    "id": "nobili-palazzo-at-calle-dei-conversi",
+    "name": "Nobili Palazzo at Calle dei Conversi",
+    "english_name": "Nobili Palazzo at Calle dei Conversi",
+    "category": "home",
+    "type": "nobili_palazzo",
+    "size": 1,
+    "position": {
+      "x": -894.79,
+      "z": -574.09
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-della-botta",
+    "name": "Bridge at Ponte della Botta",
+    "english_name": "Bridge at Ponte della Botta",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -202.47,
+      "z": -201.51
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "small-warehouse-at-calle-del-chiostro",
+    "name": "Small Warehouse at Calle del Chiostro",
+    "english_name": "Small Warehouse at Calle del Chiostro",
+    "category": "business",
+    "type": "small_warehouse",
+    "size": 1,
+    "position": {
+      "x": 1774.0,
+      "z": 862.5
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "customs-house-at-calle-dei-filacanevi",
+    "name": "Customs House at Calle dei Filacanevi",
+    "english_name": "Customs House at Calle dei Filacanevi",
+    "category": "business",
+    "type": "customs_house",
+    "size": 1,
+    "position": {
+      "x": -635.91,
+      "z": -371.67
+    },
+    "image_url": null,
+    "owner_id": "TechnoMedici",
+    "land_id": null
+  },
+  {
+    "id": "art-gallery-under-construction",
+    "name": "Art Gallery (Under Construction)",
+    "english_name": "Art Gallery (Under Construction)",
+    "category": "business",
+    "type": "art_gallery",
+    "size": 1,
+    "position": {
+      "x": 1658.66,
+      "z": 822.83
+    },
+    "image_url": null,
+    "owner_id": "the_grand_experiment",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-fondamenta-della-tana",
+    "name": "Contract Stall at Fondamenta della Tana",
+    "english_name": "Contract Stall at Fondamenta della Tana",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": 1464.67,
+      "z": 623.11
+    },
+    "image_url": null,
+    "owner_id": "DesertRanger",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-rossini",
+    "name": "Bridge at Ponte dei Rossini",
+    "english_name": "Bridge at Ponte dei Rossini",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": 1635.82,
+      "z": 472.89
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-fondamenta-dei-pescatori",
+    "name": "Public Dock at Fondamenta dei Pescatori",
+    "english_name": "Public Dock at Fondamenta dei Pescatori",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": -997.25,
+      "z": 804.07
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-salizada-dei-spezieri",
+    "name": "Contract Stall at Salizada dei Spezieri",
+    "english_name": "Contract Stall at Salizada dei Spezieri",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": 1209.58,
+      "z": 452.15
+    },
+    "image_url": null,
+    "owner_id": "DucaleTechie",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-virtuosi",
+    "name": "Bridge at Ponte dei Virtuosi",
+    "english_name": "Bridge at Ponte dei Virtuosi",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": 202.86,
+      "z": 109.66
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "porter-guild-hall-at-calle-del-capitello-votivo",
+    "name": "Porter Guild Hall at Calle del Capitello Votivo",
+    "english_name": "Porter Guild Hall at Calle del Capitello Votivo",
+    "category": "business",
+    "type": "porter_guild_hall",
+    "size": 1,
+    "position": {
+      "x": 1905.0,
+      "z": 665.25
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-di-san-mois",
+    "name": "Bridge at Ponte di San Moisè",
+    "english_name": "Bridge at Ponte di San Moisè",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -894.61,
+      "z": -985.69
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-fondamenta-della-farina",
+    "name": "Public Dock at Fondamenta della Farina",
+    "english_name": "Public Dock at Fondamenta della Farina",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": -1207.61,
+      "z": -1137.12
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "artisans-house-at-rio-ter-dei-pensieri",
+    "name": "Artisan's House at Rio Terà dei Pensieri",
+    "english_name": "Artisan's House at Rio Terà dei Pensieri",
+    "category": "home",
+    "type": "artisan_s_house",
+    "size": 1,
+    "position": {
+      "x": 1661.06,
+      "z": 615.72
+    },
+    "image_url": null,
+    "owner_id": "TechnoMedici",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-dei-tessitori-cannaregiani",
+    "name": "Fisherman's Cottage at Riva dei Tessitori Cannaregiani",
+    "english_name": "Fisherman's Cottage at Riva dei Tessitori Cannaregiani",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 357.13,
+      "z": 468.14
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-bath-under-construction",
+    "name": "Public Bath (Under Construction)",
+    "english_name": "Public Bath (Under Construction)",
+    "category": "business",
+    "type": "public_bath",
+    "size": 1,
+    "position": {
+      "x": 1758.56,
+      "z": 925.4
+    },
+    "image_url": null,
+    "owner_id": "the_grand_experiment",
+    "land_id": null
+  },
+  {
+    "id": "automated-mill",
+    "name": "Automated Mill",
+    "english_name": "Automated Mill",
+    "category": "business",
+    "type": "automated_mill",
+    "size": 1,
+    "position": {
+      "x": -746.29,
+      "z": 15.83
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "blacksmith-at-calle-dei-biscottini",
+    "name": "Blacksmith at Calle dei Biscottini",
+    "english_name": "Blacksmith at Calle dei Biscottini",
+    "category": "business",
+    "type": "blacksmith",
+    "size": 1,
+    "position": {
+      "x": -664.5,
+      "z": -759.19
+    },
+    "image_url": null,
+    "owner_id": "Italia",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-fondamenta-san-silvestro",
+    "name": "Contract Stall at Fondamenta San Silvestro",
+    "english_name": "Contract Stall at Fondamenta San Silvestro",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": -963.53,
+      "z": -859.6
+    },
+    "image_url": null,
+    "owner_id": "cyprus_trader",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-riva-degli-scalpellini",
+    "name": "Public Dock at Riva degli Scalpellini",
+    "english_name": "Public Dock at Riva degli Scalpellini",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": -315.96,
+      "z": 1585.48
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "merchants-house-at-campiello-dei-tagliapietra",
+    "name": "Merchant's House at Campiello dei Tagliapietra",
+    "english_name": "Merchant's House at Campiello dei Tagliapietra",
+    "category": "home",
+    "type": "merchant_s_house",
+    "size": 1,
+    "position": {
+      "x": 1264.16,
+      "z": 613.5
+    },
+    "image_url": null,
+    "owner_id": "GamingPatrizio",
+    "land_id": null
+  },
+  {
+    "id": "artisans-house-at-corte-della-bilancia",
+    "name": "Artisan's House at Corte della Bilancia",
+    "english_name": "Artisan's House at Corte della Bilancia",
+    "category": "home",
+    "type": "artisan_s_house",
+    "size": 1,
+    "position": {
+      "x": -706.01,
+      "z": -750.16
+    },
+    "image_url": null,
+    "owner_id": "ligurian_captain",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-dei-patrizi-orientali",
+    "name": "Fisherman's Cottage at Riva dei Patrizi Orientali",
+    "english_name": "Fisherman's Cottage at Riva dei Patrizi Orientali",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 2287.36,
+      "z": 1393.66
+    },
+    "image_url": null,
+    "owner_id": "Trade4Fun",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-dei-bernardo",
+    "name": "Fisherman's Cottage at Riva dei Bernardo",
+    "english_name": "Fisherman's Cottage at Riva dei Bernardo",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 1651.33,
+      "z": -356.46
+    },
+    "image_url": null,
+    "owner_id": "MerchantLegend",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-dei-santissimi",
+    "name": "Fisherman's Cottage at Riva dei Santissimi",
+    "english_name": "Fisherman's Cottage at Riva dei Santissimi",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 1637.45,
+      "z": 54.69
+    },
+    "image_url": null,
+    "owner_id": "DragonSlayer",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-riva-dei-fcitizeni",
+    "name": "Public Dock at Riva dei Fcitizeni",
+    "english_name": "Public Dock at Riva dei Fcitizeni",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": -184.15,
+      "z": 117.95
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-well-at-corte-memo",
+    "name": "Public Well at Corte Memo",
+    "english_name": "Public Well at Corte Memo",
+    "category": "passive",
+    "type": "public_well",
+    "size": 1,
+    "position": {
+      "x": -1245.73,
+      "z": 146.35
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-calle-dei-balestrieri",
+    "name": "Contract Stall at Calle dei Balestrieri",
+    "english_name": "Contract Stall at Calle dei Balestrieri",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": 1465.14,
+      "z": 721.05
+    },
+    "image_url": null,
+    "owner_id": "ProSilkTrader",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-dei-pistori",
+    "name": "Fisherman's Cottage at Fondamenta dei Pistori",
+    "english_name": "Fisherman's Cottage at Fondamenta dei Pistori",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -688.83,
+      "z": -565.23
+    },
+    "image_url": null,
+    "owner_id": "StarGazer2000",
+    "land_id": null
+  },
+  {
+    "id": "artisans-house-at-salizada-dei-dotti",
+    "name": "Artisan's House at Salizada dei Dotti",
+    "english_name": "Artisan's House at Salizada dei Dotti",
+    "category": "home",
+    "type": "artisan_s_house",
+    "size": 1,
+    "position": {
+      "x": -1006.93,
+      "z": -630.47
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-fondamenta-dei-comparetti",
+    "name": "Public Dock at Fondamenta dei Comparetti",
+    "english_name": "Public Dock at Fondamenta dei Comparetti",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": 1565.05,
+      "z": 905.88
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "artisans-house-at-calle-dei-calafati",
+    "name": "Artisan's House at Calle dei Calafati",
+    "english_name": "Artisan's House at Calle dei Calafati",
+    "category": "home",
+    "type": "artisan_s_house",
+    "size": 1,
+    "position": {
+      "x": 1298.26,
+      "z": 617.3
+    },
+    "image_url": null,
+    "owner_id": "cyprus_trader",
+    "land_id": null
+  },
+  {
+    "id": "public-well-at-rio-ter-dei-baretteri",
+    "name": "Public Well at Rio Terà dei Baretteri",
+    "english_name": "Public Well at Rio Terà dei Baretteri",
+    "category": "passive",
+    "type": "public_well",
+    "size": 1,
+    "position": {
+      "x": 1685.96,
+      "z": 296.14
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "artisans-house-at-salizada-dei-musicisti",
+    "name": "Artisan's House at Salizada dei Musicisti",
+    "english_name": "Artisan's House at Salizada dei Musicisti",
+    "category": "home",
+    "type": "artisan_s_house",
+    "size": 1,
+    "position": {
+      "x": 291.83,
+      "z": 91.31
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-fondamenta-dei-vetrai",
+    "name": "Contract Stall at Fondamenta dei Vetrai",
+    "english_name": "Contract Stall at Fondamenta dei Vetrai",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": 1266.33,
+      "z": 576.95
+    },
+    "image_url": null,
+    "owner_id": "SilkRoadRunner",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-dei-carmelitani",
+    "name": "Fisherman's Cottage at Fondamenta dei Carmelitani",
+    "english_name": "Fisherman's Cottage at Fondamenta dei Carmelitani",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -1568.04,
+      "z": -623.08
+    },
+    "image_url": null,
+    "owner_id": "Italia",
+    "land_id": null
+  },
+  {
+    "id": "nobili-palazzo-at-calle-del-sale",
+    "name": "Nobili Palazzo at Calle del Sale",
+    "english_name": "Nobili Palazzo at Calle del Sale",
+    "category": "home",
+    "type": "nobili_palazzo",
+    "size": 1,
+    "position": {
+      "x": -808.12,
+      "z": -794.26
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-del-traghetto-san-silvestro",
+    "name": "Fisherman's Cottage at Riva del Traghetto San Silvestro",
+    "english_name": "Fisherman's Cottage at Riva del Traghetto San Silvestro",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -635.19,
+      "z": -561.91
+    },
+    "image_url": null,
+    "owner_id": "StarGazer2000",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-fondamenta-san-luca",
+    "name": "Public Dock at Fondamenta San Luca",
+    "english_name": "Public Dock at Fondamenta San Luca",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": -134.9,
+      "z": 95.51
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-calle-dei-gondolieri",
+    "name": "Contract Stall at Calle dei Gondolieri",
+    "english_name": "Contract Stall at Calle dei Gondolieri",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": -1306.26,
+      "z": -532.47
+    },
+    "image_url": null,
+    "owner_id": "Zorzi77",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-vetrari",
+    "name": "Bridge at Ponte dei Vetrari",
+    "english_name": "Bridge at Ponte dei Vetrari",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": 807.83,
+      "z": 215.22
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-di-san-zulian",
+    "name": "Bridge at Ponte di San Zulian",
+    "english_name": "Bridge at Ponte di San Zulian",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": 161.22,
+      "z": -573.7
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-delle-forbici",
+    "name": "Bridge at Ponte delle Forbici",
+    "english_name": "Bridge at Ponte delle Forbici",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -931.25,
+      "z": -348.42
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-remeri",
+    "name": "Bridge at Ponte dei Remeri",
+    "english_name": "Bridge at Ponte dei Remeri",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -315.57,
+      "z": -576.69
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-degli-accademici",
+    "name": "Fisherman's Cottage at Fondamenta degli Accademici",
+    "english_name": "Fisherman's Cottage at Fondamenta degli Accademici",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 1951.64,
+      "z": 1325.56
+    },
+    "image_url": null,
+    "owner_id": "trader4life",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-riva-dei-guaritori",
+    "name": "Public Dock at Riva dei Guaritori",
+    "english_name": "Public Dock at Riva dei Guaritori",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": 52.57,
+      "z": -794.67
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-fondamenta-san-sebastiano",
+    "name": "Public Dock at Fondamenta San Sebastiano",
+    "english_name": "Public Dock at Fondamenta San Sebastiano",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": -1026.23,
+      "z": 1108.83
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-delle-teresiane",
+    "name": "Fisherman's Cottage at Fondamenta delle Teresiane",
+    "english_name": "Fisherman's Cottage at Fondamenta delle Teresiane",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 1697.83,
+      "z": 1077.0
+    },
+    "image_url": null,
+    "owner_id": "BarbarigoCadet",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-fondamenta-degli-intagliatori",
+    "name": "Public Dock at Fondamenta degli Intagliatori",
+    "english_name": "Public Dock at Fondamenta degli Intagliatori",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": -1118.01,
+      "z": -342.23
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-sottoportego-dei-benefattori",
+    "name": "Contract Stall at Sottoportego dei Benefattori",
+    "english_name": "Contract Stall at Sottoportego dei Benefattori",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": 2098.55,
+      "z": 1212.84
+    },
+    "image_url": null,
+    "owner_id": "Italia",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-riva-dei-benefattori",
+    "name": "Public Dock at Riva dei Benefattori",
+    "english_name": "Public Dock at Riva dei Benefattori",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": 1892.96,
+      "z": 1286.46
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-calle-dei-notai",
+    "name": "Contract Stall at Calle dei Notai",
+    "english_name": "Contract Stall at Calle dei Notai",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": 1944.75,
+      "z": 733.99
+    },
+    "image_url": null,
+    "owner_id": "PixelDoge",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-del-figareto",
+    "name": "Bridge at Ponte del Figareto",
+    "english_name": "Bridge at Ponte del Figareto",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": 1606.84,
+      "z": 239.54
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bakery-at-campiello-della-farina",
+    "name": "Bakery at Campiello della Farina",
+    "english_name": "Bakery at Campiello della Farina",
+    "category": "business",
+    "type": "bakery",
+    "size": 1,
+    "position": {
+      "x": -556.31,
+      "z": -660.7
+    },
+    "image_url": null,
+    "owner_id": "UrbanExplorer",
+    "land_id": null
+  },
+  {
+    "id": "artisans-house-at-calle-dei-vedei",
+    "name": "Artisan's House at Calle dei Vedei",
+    "english_name": "Artisan's House at Calle dei Vedei",
+    "category": "home",
+    "type": "artisan_s_house",
+    "size": 1,
+    "position": {
+      "x": 1892.03,
+      "z": 1018.66
+    },
+    "image_url": null,
+    "owner_id": "ZenithTrader",
+    "land_id": null
+  },
+  {
+    "id": "brokers-office-at-calle-dei-cinque-savi",
+    "name": "Broker's Office at Calle dei Cinque Savi",
+    "english_name": "Broker's Office at Calle dei Cinque Savi",
+    "category": "business",
+    "type": "broker_s_office",
+    "size": 1,
+    "position": {
+      "x": 1205.42,
+      "z": 404.24
+    },
+    "image_url": null,
+    "owner_id": "Italia",
+    "land_id": null
+  },
+  {
+    "id": "bottega-at-sottoportego-della-disciplina",
+    "name": "Bottega at Sottoportego della Disciplina",
+    "english_name": "Bottega at Sottoportego della Disciplina",
+    "category": "business",
+    "type": "bottega",
+    "size": 1,
+    "position": {
+      "x": -1136.6,
+      "z": 1289.23
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "gondola-station-at-riva-del-gambaro",
+    "name": "Gondola Station at Riva del Gambaro",
+    "english_name": "Gondola Station at Riva del Gambaro",
+    "category": "business",
+    "type": "gondola_station",
+    "size": 1,
+    "position": {
+      "x": -209.57,
+      "z": 63.01
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "house-of-natural-sciences",
+    "name": "House of Natural Sciences",
+    "english_name": "House of Natural Sciences",
+    "category": "science",
+    "type": "house_of_natural_sciences",
+    "size": 1,
+    "position": {
+      "x": -741.98,
+      "z": -99.4
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-degli-ex-voto",
+    "name": "Fisherman's Cottage at Fondamenta degli Ex-Voto",
+    "english_name": "Fisherman's Cottage at Fondamenta degli Ex-Voto",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 1970.62,
+      "z": -348.73
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-salizada-dei-cereali",
+    "name": "Contract Stall at Salizada dei Cereali",
+    "english_name": "Contract Stall at Salizada dei Cereali",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": -758.54,
+      "z": -658.27
+    },
+    "image_url": null,
+    "owner_id": "ItalyMerchant",
+    "land_id": null
+  },
+  {
+    "id": "bottega-at-ruga-dei-tagiapiera",
+    "name": "Bottega at Ruga dei Tagiapiera",
+    "english_name": "Bottega at Ruga dei Tagiapiera",
+    "category": "business",
+    "type": "bottega",
+    "size": 1,
+    "position": {
+      "x": 637.31,
+      "z": -98.93
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "apothecary-at-calle-dellartigiano",
+    "name": "Apothecary at Calle dell'Artigiano",
+    "english_name": "Apothecary at Calle dell'Artigiano",
+    "category": "business",
+    "type": "apothecary",
+    "size": 1,
+    "position": {
+      "x": -995.22,
+      "z": -719.95
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "canal-house-under-construction",
+    "name": "Canal House (Under Construction)",
+    "english_name": "Canal House (Under Construction)",
+    "category": "home",
+    "type": "canal_house",
+    "size": 1,
+    "position": {
+      "x": 1598.27,
+      "z": 948.66
+    },
+    "image_url": null,
+    "owner_id": "the_grand_experiment",
+    "land_id": null
+  },
+  {
+    "id": "canal-house-at-fondamenta-dei-mercanti-di-tessuti",
+    "name": "Canal House at Fondamenta dei Mercanti di Tessuti",
+    "english_name": "Canal House at Fondamenta dei Mercanti di Tessuti",
+    "category": "home",
+    "type": "canal_house",
+    "size": 1,
+    "position": {
+      "x": -63.43,
+      "z": 627.09
+    },
+    "image_url": null,
+    "owner_id": "Italia",
+    "land_id": null
+  },
+  {
+    "id": "inn-at-calle-dei-forni",
+    "name": "Inn at Calle dei Forni",
+    "english_name": "Inn at Calle dei Forni",
+    "category": "business",
+    "type": "inn",
+    "size": 1,
+    "position": {
+      "x": -714.49,
+      "z": -604.76
+    },
+    "image_url": null,
+    "owner_id": "alexandria_trader",
+    "land_id": null
+  },
+  {
+    "id": "small-warehouse-at-fondamenta-del-traghetto-di-san-polo",
+    "name": "Small Warehouse at Fondamenta del Traghetto di San Polo",
+    "english_name": "Small Warehouse at Fondamenta del Traghetto di San Polo",
+    "category": "business",
+    "type": "small_warehouse",
+    "size": 1,
+    "position": {
+      "x": -500.31,
+      "z": -760.29
+    },
+    "image_url": null,
+    "owner_id": "Italia",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-dei-tintori-di-lana",
+    "name": "Fisherman's Cottage at Riva dei Tintori di Lana",
+    "english_name": "Fisherman's Cottage at Riva dei Tintori di Lana",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 1664.64,
+      "z": 1034.22
+    },
+    "image_url": null,
+    "owner_id": "BankingWizard99",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-dei-gonella",
+    "name": "Fisherman's Cottage at Fondamenta dei Gonella",
+    "english_name": "Fisherman's Cottage at Fondamenta dei Gonella",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 2108.05,
+      "z": 909.62
+    },
+    "image_url": null,
+    "owner_id": "VenicePhotographer",
+    "land_id": null
+  },
+  {
+    "id": "bottega-at-ruga-dei-pistori",
+    "name": "Bottega at Ruga dei Pistori",
+    "english_name": "Bottega at Ruga dei Pistori",
+    "category": "business",
+    "type": "bottega",
+    "size": 1,
+    "position": {
+      "x": -316.59,
+      "z": 858.9
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-calle-della-carit",
+    "name": "Contract Stall at Calle della Carità",
+    "english_name": "Contract Stall at Calle della Carità",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": -1247.54,
+      "z": -415.31
+    },
+    "image_url": null,
+    "owner_id": "BookWorm365",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-canovai",
+    "name": "Bridge at Ponte dei Canovai",
+    "english_name": "Bridge at Ponte dei Canovai",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -614.51,
+      "z": 80.25
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "granary-at-land-45-441394-12-321051",
+    "name": "Granary at land_45.441394_12.321051",
+    "english_name": "Granary at land_45.441394_12.321051",
+    "category": "business",
+    "type": "granary",
+    "size": 1,
+    "position": {
+      "x": -1152.04,
+      "z": -430.46
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "canal-house-at-riva-dei-melangoli",
+    "name": "Canal House at Riva dei Melangoli",
+    "english_name": "Canal House at Riva dei Melangoli",
+    "category": "home",
+    "type": "canal_house",
+    "size": 1,
+    "position": {
+      "x": -49.52,
+      "z": -216.55
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "artisans-house-at-campiello-della-carit",
+    "name": "Artisan's House at Campiello della Carità",
+    "english_name": "Artisan's House at Campiello della Carità",
+    "category": "home",
+    "type": "artisan_s_house",
+    "size": 1,
+    "position": {
+      "x": 1959.28,
+      "z": 980.27
+    },
+    "image_url": null,
+    "owner_id": "alexandria_trader",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-dei-mocenigo",
+    "name": "Fisherman's Cottage at Fondamenta dei Mocenigo",
+    "english_name": "Fisherman's Cottage at Fondamenta dei Mocenigo",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 81.35,
+      "z": 1590.08
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-dei-pisani",
+    "name": "Fisherman's Cottage at Fondamenta dei Pisani",
+    "english_name": "Fisherman's Cottage at Fondamenta dei Pisani",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 2067.01,
+      "z": 1382.99
+    },
+    "image_url": null,
+    "owner_id": "TechnoMedici",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-delle-reliquie",
+    "name": "Fisherman's Cottage at Fondamenta delle Reliquie",
+    "english_name": "Fisherman's Cottage at Fondamenta delle Reliquie",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 1866.15,
+      "z": -307.81
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-fondamenta-dei-camerlenghi",
+    "name": "Public Dock at Fondamenta dei Camerlenghi",
+    "english_name": "Public Dock at Fondamenta dei Camerlenghi",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": 1044.35,
+      "z": -165.37
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "town-hall-at-ruga-dei-lanaioli",
+    "name": "Town Hall at Ruga dei Lanaioli",
+    "english_name": "Town Hall at Ruga dei Lanaioli",
+    "category": "business",
+    "type": "town_hall",
+    "size": 1,
+    "position": {
+      "x": -424.26,
+      "z": -372.8
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "chapel-at-sottoportego-della-pergamena",
+    "name": "Chapel at Sottoportego della Pergamena",
+    "english_name": "Chapel at Sottoportego della Pergamena",
+    "category": "religious",
+    "type": "chapel",
+    "size": 1,
+    "position": {
+      "x": -1141.37,
+      "z": -63.01
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-dei-carmini",
+    "name": "Fisherman's Cottage at Riva dei Carmini",
+    "english_name": "Fisherman's Cottage at Riva dei Carmini",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -905.98,
+      "z": -489.11
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-dei-maschereri",
+    "name": "Fisherman's Cottage at Riva dei Maschereri",
+    "english_name": "Fisherman's Cottage at Riva dei Maschereri",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -806.81,
+      "z": -479.51
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bakery-at-calle-del-forno-pubblico",
+    "name": "Bakery at Calle del Forno Pubblico",
+    "english_name": "Bakery at Calle del Forno Pubblico",
+    "category": "business",
+    "type": "bakery",
+    "size": 1,
+    "position": {
+      "x": -898.52,
+      "z": -850.49
+    },
+    "image_url": null,
+    "owner_id": "DucaleTechie",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-ruga-degli-orefici",
+    "name": "Contract Stall at Ruga degli Orefici",
+    "english_name": "Contract Stall at Ruga degli Orefici",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": 1361.41,
+      "z": 617.48
+    },
+    "image_url": null,
+    "owner_id": "ligurian_captain",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-degli-agostiniani",
+    "name": "Fisherman's Cottage at Fondamenta degli Agostiniani",
+    "english_name": "Fisherman's Cottage at Fondamenta degli Agostiniani",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 2260.26,
+      "z": 965.42
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-della-toletta-vecchia",
+    "name": "Bridge at Ponte della Toletta Vecchia",
+    "english_name": "Bridge at Ponte della Toletta Vecchia",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -343.61,
+      "z": -602.11
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-della-madonna",
+    "name": "Fisherman's Cottage at Fondamenta della Madonna",
+    "english_name": "Fisherman's Cottage at Fondamenta della Madonna",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 1486.05,
+      "z": 11.69
+    },
+    "image_url": null,
+    "owner_id": "StarGazer2000",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-tessitori",
+    "name": "Bridge at Ponte dei Tessitori",
+    "english_name": "Bridge at Ponte dei Tessitori",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -1011.39,
+      "z": -15.37
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "small-warehouse-at-fondamenta-della-pescaria",
+    "name": "Small Warehouse at Fondamenta della Pescaria",
+    "english_name": "Small Warehouse at Fondamenta della Pescaria",
+    "category": "business",
+    "type": "small_warehouse",
+    "size": 1,
+    "position": {
+      "x": 1162.08,
+      "z": 414.27
+    },
+    "image_url": null,
+    "owner_id": "ItalyMerchant",
+    "land_id": null
+  },
+  {
+    "id": "prison",
+    "name": "Prison",
+    "english_name": "Prison",
+    "category": "Military & Defense",
+    "type": "prison",
+    "size": 1,
+    "position": {
+      "x": 1479.88,
+      "z": -371.62
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "merchants-house-at-ruga-dei-librai",
+    "name": "Merchant's House at Ruga dei Librai",
+    "english_name": "Merchant's House at Ruga dei Librai",
+    "category": "home",
+    "type": "merchant_s_house",
+    "size": 1,
+    "position": {
+      "x": -133.08,
+      "z": 170.69
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "guard-post-at-calle-della-donzella-doro",
+    "name": "Guard Post at Calle della Donzella d'Oro",
+    "english_name": "Guard Post at Calle della Donzella d'Oro",
+    "category": "business",
+    "type": "guard_post",
+    "size": 1,
+    "position": {
+      "x": 394.54,
+      "z": -29.62
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "artisans-house-at-calle-del-squero-vecchio",
+    "name": "Artisan's House at Calle del Squero Vecchio",
+    "english_name": "Artisan's House at Calle del Squero Vecchio",
+    "category": "home",
+    "type": "artisan_s_house",
+    "size": 1,
+    "position": {
+      "x": -1404.5,
+      "z": -574.32
+    },
+    "image_url": null,
+    "owner_id": "SilentObserver",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-degli-scultori",
+    "name": "Fisherman's Cottage at Riva degli Scultori",
+    "english_name": "Fisherman's Cottage at Riva degli Scultori",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 2100.81,
+      "z": 858.63
+    },
+    "image_url": null,
+    "owner_id": "MerchantLegend",
+    "land_id": null
+  },
+  {
+    "id": "doges-palace-under-construction",
+    "name": "Doge's Palace (Under Construction)",
+    "english_name": "Doge's Palace (Under Construction)",
+    "category": "unique",
+    "type": "doge_s_palace",
+    "size": 1,
+    "position": {
+      "x": -97.87,
+      "z": -107.27
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-ruga-dei-conciapelli",
+    "name": "Contract Stall at Ruga dei Conciapelli",
+    "english_name": "Contract Stall at Ruga dei Conciapelli",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": -1573.56,
+      "z": -6.41
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "merchants-house-at-ruga-dei-mercanti-da-levante",
+    "name": "Merchant's House at Ruga dei Mercanti da Levante",
+    "english_name": "Merchant's House at Ruga dei Mercanti da Levante",
+    "category": "home",
+    "type": "merchant_s_house",
+    "size": 1,
+    "position": {
+      "x": 1085.13,
+      "z": -72.29
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "artisans-house",
+    "name": "Artisan's House",
+    "english_name": "Artisan's House",
+    "category": "home",
+    "type": "artisan_s_house",
+    "size": 1,
+    "position": {
+      "x": -1306.67,
+      "z": -1057.7
+    },
+    "image_url": null,
+    "owner_id": "NLR",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-soranzo",
+    "name": "Bridge at Ponte dei Soranzo",
+    "english_name": "Bridge at Ponte dei Soranzo",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -933.51,
+      "z": 43.88
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-della-regina",
+    "name": "Bridge at Ponte della Regina",
+    "english_name": "Bridge at Ponte della Regina",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -309.13,
+      "z": -263.18
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "merchants-house-at-fondamenta-dei-loredan",
+    "name": "Merchant's House at Fondamenta dei Loredan",
+    "english_name": "Merchant's House at Fondamenta dei Loredan",
+    "category": "home",
+    "type": "merchant_s_house",
+    "size": 1,
+    "position": {
+      "x": -25.1,
+      "z": 165.64
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-fondamenta-dei-lanaioli",
+    "name": "Public Dock at Fondamenta dei Lanaioli",
+    "english_name": "Public Dock at Fondamenta dei Lanaioli",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": -322.96,
+      "z": 722.61
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "parish-church-at-corte-del-frumento",
+    "name": "Parish Church at Corte del Frumento",
+    "english_name": "Parish Church at Corte del Frumento",
+    "category": "religious",
+    "type": "parish_church",
+    "size": 1,
+    "position": {
+      "x": -1106.58,
+      "z": -916.41
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-delle-coronelle",
+    "name": "Bridge at Ponte delle Coronelle",
+    "english_name": "Bridge at Ponte delle Coronelle",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": 461.45,
+      "z": 47.28
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "printing-house-under-construction",
+    "name": "Printing House (Under Construction)",
+    "english_name": "Printing House (Under Construction)",
+    "category": "business",
+    "type": "printing_house",
+    "size": 1,
+    "position": {
+      "x": -1208.67,
+      "z": -1001.89
+    },
+    "image_url": null,
+    "owner_id": "NLR",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-di-san-zulian",
+    "name": "Bridge at Ponte di San Zulian",
+    "english_name": "Bridge at Ponte di San Zulian",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": 1679.4,
+      "z": 269.05
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "guard-post-at-ramo-delle-porpore",
+    "name": "Guard Post at Ramo delle Porpore",
+    "english_name": "Guard Post at Ramo delle Porpore",
+    "category": "business",
+    "type": "guard_post",
+    "size": 1,
+    "position": {
+      "x": -1319.54,
+      "z": -954.96
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "artisans-house-at-calle-del-forno-vecchio",
+    "name": "Artisan's House at Calle del Forno Vecchio",
+    "english_name": "Artisan's House at Calle del Forno Vecchio",
+    "category": "home",
+    "type": "artisan_s_house",
+    "size": 1,
+    "position": {
+      "x": -813.38,
+      "z": -755.76
+    },
+    "image_url": null,
+    "owner_id": "Italia",
+    "land_id": null
+  },
+  {
+    "id": "bakery-at-rio-ter-dei-magazzini",
+    "name": "Bakery at Rio Terà dei Magazzini",
+    "english_name": "Bakery at Rio Terà dei Magazzini",
+    "category": "business",
+    "type": "bakery",
+    "size": 1,
+    "position": {
+      "x": -863.06,
+      "z": -797.55
+    },
+    "image_url": null,
+    "owner_id": "QuantumLeap",
+    "land_id": null
+  },
+  {
+    "id": "chapel-at-sottoportego-della-giustizia",
+    "name": "Chapel at Sottoportego della Giustizia",
+    "english_name": "Chapel at Sottoportego della Giustizia",
+    "category": "religious",
+    "type": "chapel",
+    "size": 1,
+    "position": {
+      "x": -244.96,
+      "z": 296.25
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-dei-spezieri",
+    "name": "Bridge at Ponte dei Spezieri",
+    "english_name": "Bridge at Ponte dei Spezieri",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -832.67,
+      "z": 774.66
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-fondamenta-della-misericordia",
+    "name": "Public Dock at Fondamenta della Misericordia",
+    "english_name": "Public Dock at Fondamenta della Misericordia",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": -1373.28,
+      "z": -204.06
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "merceria-at-calle-dei-oratori",
+    "name": "Merceria at Calle dei Oratori",
+    "english_name": "Merceria at Calle dei Oratori",
+    "category": "business",
+    "type": "merceria",
+    "size": 1,
+    "position": {
+      "x": -249.25,
+      "z": 1396.01
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-riva-delle-assi",
+    "name": "Public Dock at Riva delle Assi",
+    "english_name": "Public Dock at Riva delle Assi",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": 629.58,
+      "z": -411.54
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "public-well-at-sottoportego-delle-elemosine",
+    "name": "Public Well at Sottoportego delle Elemosine",
+    "english_name": "Public Well at Sottoportego delle Elemosine",
+    "category": "passive",
+    "type": "public_well",
+    "size": 1,
+    "position": {
+      "x": 1946.16,
+      "z": 1019.29
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-rio-ter-delle-muneghe",
+    "name": "Contract Stall at Rio Terà delle Muneghe",
+    "english_name": "Contract Stall at Rio Terà delle Muneghe",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": 1359.88,
+      "z": 714.72
+    },
+    "image_url": null,
+    "owner_id": "TravelBug23",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-rio-ter-dei-scudi",
+    "name": "Contract Stall at Rio Terà dei Scudi",
+    "english_name": "Contract Stall at Rio Terà dei Scudi",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": 1457.02,
+      "z": 678.94
+    },
+    "image_url": null,
+    "owner_id": "ShippingMogul",
+    "land_id": null
+  },
+  {
+    "id": "artisans-house-at-calle-dei-squeri",
+    "name": "Artisan's House at Calle dei Squeri",
+    "english_name": "Artisan's House at Calle dei Squeri",
+    "category": "home",
+    "type": "artisan_s_house",
+    "size": 1,
+    "position": {
+      "x": 1450.93,
+      "z": 523.96
+    },
+    "image_url": null,
+    "owner_id": "Italia",
+    "land_id": null
+  },
+  {
+    "id": "contract-stall-at-rio-ter-delle-madonnelle",
+    "name": "Contract Stall at Rio Terà delle Madonnelle",
+    "english_name": "Contract Stall at Rio Terà delle Madonnelle",
+    "category": "business",
+    "type": "market_stall",
+    "size": 1,
+    "position": {
+      "x": 1866.56,
+      "z": -165.92
+    },
+    "image_url": null,
+    "owner_id": "BarbarigoCadet",
+    "land_id": null
+  },
+  {
+    "id": "artisans-house-at-salizada-dei-frumenti",
+    "name": "Artisan's House at Salizada dei Frumenti",
+    "english_name": "Artisan's House at Salizada dei Frumenti",
+    "category": "home",
+    "type": "artisan_s_house",
+    "size": 1,
+    "position": {
+      "x": -762.53,
+      "z": -754.55
+    },
+    "image_url": null,
+    "owner_id": "DucaleTechie",
+    "land_id": null
+  },
+  {
+    "id": "boat-workshop-at-fondamenta-delle-maravegie",
+    "name": "Boat Workshop at Fondamenta delle Maravegie",
+    "english_name": "Boat Workshop at Fondamenta delle Maravegie",
+    "category": "business",
+    "type": "boat_workshop",
+    "size": 1,
+    "position": {
+      "x": -1507.32,
+      "z": 957.39
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bottega-at-fondamenta-del-soccorso",
+    "name": "Bottega at Fondamenta del Soccorso",
+    "english_name": "Bottega at Fondamenta del Soccorso",
+    "category": "business",
+    "type": "bottega",
+    "size": 1,
+    "position": {
+      "x": -1296.58,
+      "z": -422.59
+    },
+    "image_url": null,
+    "owner_id": "SilkRoadRunner",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-fondamenta-dei-carmini",
+    "name": "Fisherman's Cottage at Fondamenta dei Carmini",
+    "english_name": "Fisherman's Cottage at Fondamenta dei Carmini",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 1631.45,
+      "z": 991.44
+    },
+    "image_url": null,
+    "owner_id": "ItalyMerchant",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-di-san-rocco",
+    "name": "Bridge at Ponte di San Rocco",
+    "english_name": "Bridge at Ponte di San Rocco",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -693.4,
+      "z": 1397.89
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-dei-corteleri",
+    "name": "Fisherman's Cottage at Riva dei Corteleri",
+    "english_name": "Fisherman's Cottage at Riva dei Corteleri",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -1086.16,
+      "z": -383.85
+    },
+    "image_url": null,
+    "owner_id": "TravelBug23",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-riva-del-ridotto",
+    "name": "Public Dock at Riva del Ridotto",
+    "english_name": "Public Dock at Riva del Ridotto",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": -116.45,
+      "z": 636.41
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-della-toletta",
+    "name": "Fisherman's Cottage at Riva della Toletta",
+    "english_name": "Fisherman's Cottage at Riva della Toletta",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": -1309.75,
+      "z": -271.34
+    },
+    "image_url": null,
+    "owner_id": "DucaleTechie",
+    "land_id": null
+  },
+  {
+    "id": "bakery-at-calle-del-forno",
+    "name": "Bakery at Calle del Forno",
+    "english_name": "Bakery at Calle del Forno",
+    "category": "business",
+    "type": "bakery",
+    "size": 1,
+    "position": {
+      "x": 1553.25,
+      "z": 713.31
+    },
+    "image_url": null,
+    "owner_id": "Debug42",
+    "land_id": null
+  },
+  {
+    "id": "bakery-at-calle-della-scuola-dei-laneri",
+    "name": "Bakery at Calle della Scuola dei Laneri",
+    "english_name": "Bakery at Calle della Scuola dei Laneri",
+    "category": "business",
+    "type": "bakery",
+    "size": 1,
+    "position": {
+      "x": 391.34,
+      "z": 253.8
+    },
+    "image_url": null,
+    "owner_id": "GamingPatrizio",
+    "land_id": null
+  },
+  {
+    "id": "public-well-at-ruga-dei-sarti",
+    "name": "Public Well at Ruga dei Sarti",
+    "english_name": "Public Well at Ruga dei Sarti",
+    "category": "passive",
+    "type": "public_well",
+    "size": 1,
+    "position": {
+      "x": -1893.98,
+      "z": 469.02
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "goldsmith-workshop-at-salizada-san-trovaso",
+    "name": "Goldsmith Workshop at Salizada San Trovaso",
+    "english_name": "Goldsmith Workshop at Salizada San Trovaso",
+    "category": "business",
+    "type": "goldsmith_workshop",
+    "size": 1,
+    "position": {
+      "x": -1195.58,
+      "z": 1113.03
+    },
+    "image_url": null,
+    "owner_id": "SilkRoadRunner",
+    "land_id": null
+  },
+  {
+    "id": "public-dock-at-riva-dei-vinattieri",
+    "name": "Public Dock at Riva dei Vinattieri",
+    "english_name": "Public Dock at Riva dei Vinattieri",
+    "category": "business",
+    "type": "public_dock",
+    "size": 1,
+    "position": {
+      "x": -80.85,
+      "z": -889.4
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "bridge-at-ponte-del-fontego-piccolo",
+    "name": "Bridge at Ponte del Fontego Piccolo",
+    "english_name": "Bridge at Ponte del Fontego Piccolo",
+    "category": "bridge",
+    "type": "bridge",
+    "size": 1,
+    "position": {
+      "x": -719.8,
+      "z": 184.6
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "canal-house-at-riva-dei-biscottai",
+    "name": "Canal House at Riva dei Biscottai",
+    "english_name": "Canal House at Riva dei Biscottai",
+    "category": "home",
+    "type": "canal_house",
+    "size": 1,
+    "position": {
+      "x": -1502.64,
+      "z": -514.45
+    },
+    "image_url": null,
+    "owner_id": "ConsiglioDeiDieci",
+    "land_id": null
+  },
+  {
+    "id": "fishermans-cottage-at-riva-di-san-vidal",
+    "name": "Fisherman's Cottage at Riva di San Vidal",
+    "english_name": "Fisherman's Cottage at Riva di San Vidal",
+    "category": "home",
+    "type": "fisherman_s_cottage",
+    "size": 1,
+    "position": {
+      "x": 2010.3,
+      "z": 1364.68
+    },
+    "image_url": null,
+    "owner_id": "greek_trader",
+    "land_id": null
+  }
+]

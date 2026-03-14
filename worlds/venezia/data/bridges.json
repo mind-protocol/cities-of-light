@@ -1,0 +1,5639 @@
+[
+  {
+    "id": "ponte-delle-zattere",
+    "name": "Ponte delle Zattere",
+    "english_name": "Bridge of the Rafts",
+    "from": {
+      "x": -106.84,
+      "z": 795.0
+    },
+    "to": {
+      "x": -114.38,
+      "z": 802.3
+    },
+    "from_polygon": "polygon-1745878844120",
+    "to_polygon": "polygon-1745878859083",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -110.61,
+      "z": 798.65
+    }
+  },
+  {
+    "id": "ponte-dei-saloni",
+    "name": "Ponte dei Saloni",
+    "english_name": "Bridge of the Great Halls",
+    "from": {
+      "x": -114.38,
+      "z": 802.3
+    },
+    "to": {
+      "x": -106.84,
+      "z": 795.0
+    },
+    "from_polygon": "polygon-1745878859083",
+    "to_polygon": "polygon-1745878844120",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -110.61,
+      "z": 798.65
+    }
+  },
+  {
+    "id": "ponte-dei-formosini",
+    "name": "Ponte dei Formosini",
+    "english_name": "Bridge of the Formosa People",
+    "from": {
+      "x": -227.77,
+      "z": 937.47
+    },
+    "to": {
+      "x": -237.12,
+      "z": 939.98
+    },
+    "from_polygon": "polygon-1745878859083",
+    "to_polygon": "polygon-1745878927349",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -232.45,
+      "z": 938.72
+    }
+  },
+  {
+    "id": "ponte-dei-lanaioli",
+    "name": "Ponte dei Lanaioli",
+    "english_name": "Bridge of the Wool Workers",
+    "from": {
+      "x": -426.78,
+      "z": 847.95
+    },
+    "to": {
+      "x": -417.9,
+      "z": 839.93
+    },
+    "from_polygon": "polygon-1745878962632",
+    "to_polygon": "polygon-1745878927349",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -422.34,
+      "z": 843.94
+    }
+  },
+  {
+    "id": "ponte-del-traghetto",
+    "name": "Ponte del Traghetto",
+    "english_name": "Bridge of the Ferry",
+    "from": {
+      "x": -532.13,
+      "z": 910.58
+    },
+    "to": {
+      "x": -536.13,
+      "z": 901.24
+    },
+    "from_polygon": "polygon-1745878962632",
+    "to_polygon": "polygon-1745878999491",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -534.13,
+      "z": 905.91
+    }
+  },
+  {
+    "id": "ponte-dei-greci",
+    "name": "Ponte dei Greci",
+    "english_name": "Bridge of the Greeks",
+    "from": {
+      "x": -517.06,
+      "z": 853.18
+    },
+    "to": {
+      "x": -510.04,
+      "z": 864.43
+    },
+    "from_polygon": "polygon-1745878999491",
+    "to_polygon": "polygon-1745878962632",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -513.55,
+      "z": 858.8
+    }
+  },
+  {
+    "id": "ponte-dei-flangini",
+    "name": "Ponte dei Flangini",
+    "english_name": "Bridge of the Flangini",
+    "from": {
+      "x": -725.74,
+      "z": 750.39
+    },
+    "to": {
+      "x": -737.98,
+      "z": 753.44
+    },
+    "from_polygon": "polygon-1745878999491",
+    "to_polygon": "polygon-1745879036720",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -731.86,
+      "z": 751.91
+    }
+  },
+  {
+    "id": "ponte-dei-cerchieri",
+    "name": "Ponte dei Cerchieri",
+    "english_name": "Bridge of the Coopers",
+    "from": {
+      "x": -760.19,
+      "z": 575.47
+    },
+    "to": {
+      "x": -744.26,
+      "z": 578.8
+    },
+    "from_polygon": "polygon-1745879015190",
+    "to_polygon": "polygon-1745879036720",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -752.22,
+      "z": 577.13
+    }
+  },
+  {
+    "id": "ponte-dei-tintori",
+    "name": "Ponte dei Tintori",
+    "english_name": "Bridge of the Dyers",
+    "from": {
+      "x": -744.26,
+      "z": 578.8
+    },
+    "to": {
+      "x": -760.19,
+      "z": 575.47
+    },
+    "from_polygon": "polygon-1745879036720",
+    "to_polygon": "polygon-1745879015190",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -752.22,
+      "z": 577.13
+    }
+  },
+  {
+    "id": "ponte-della-seta",
+    "name": "Ponte della Seta",
+    "english_name": "Bridge of Silk",
+    "from": {
+      "x": -721.64,
+      "z": 697.81
+    },
+    "to": {
+      "x": -713.58,
+      "z": 707.11
+    },
+    "from_polygon": "polygon-1745879036720",
+    "to_polygon": "polygon-1745878999491",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -717.61,
+      "z": 702.46
+    }
+  },
+  {
+    "id": "ponte-dei-spezieri",
+    "name": "Ponte dei Spezieri",
+    "english_name": "Bridge of the Spice Merchants",
+    "from": {
+      "x": -832.68,
+      "z": 774.66
+    },
+    "to": {
+      "x": -833.16,
+      "z": 793.5
+    },
+    "from_polygon": "polygon-1745879036720",
+    "to_polygon": "polygon-1745879142005",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -832.92,
+      "z": 784.08
+    }
+  },
+  {
+    "id": "ponte-di-santa-apollonia",
+    "name": "Ponte di Santa Apollonia",
+    "english_name": "Bridge of Saint Apollonia",
+    "from": {
+      "x": -862.85,
+      "z": 658.14
+    },
+    "to": {
+      "x": -873.32,
+      "z": 664.38
+    },
+    "from_polygon": "polygon-1745879036720",
+    "to_polygon": "polygon-1745879056576",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -868.08,
+      "z": 661.26
+    }
+  },
+  {
+    "id": "ponte-dei-santieri",
+    "name": "Ponte dei Santieri",
+    "english_name": "Bridge of the Icon Makers",
+    "from": {
+      "x": -931.57,
+      "z": 584.07
+    },
+    "to": {
+      "x": -931.99,
+      "z": 575.33
+    },
+    "from_polygon": "polygon-1745879056576",
+    "to_polygon": "polygon-1745879086976",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -931.78,
+      "z": 579.7
+    }
+  },
+  {
+    "id": "ponte-della-carit",
+    "name": "Ponte della Carità",
+    "english_name": "Bridge of Charity",
+    "from": {
+      "x": -872.07,
+      "z": 619.86
+    },
+    "to": {
+      "x": -862.85,
+      "z": 625.68
+    },
+    "from_polygon": "polygon-1745879056576",
+    "to_polygon": "polygon-1745879036720",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -867.46,
+      "z": 622.77
+    }
+  },
+  {
+    "id": "ponte-dei-pellegrini",
+    "name": "Ponte dei Pellegrini",
+    "english_name": "Bridge of the Pilgrims",
+    "from": {
+      "x": -1017.47,
+      "z": 691.85
+    },
+    "to": {
+      "x": -1024.51,
+      "z": 696.68
+    },
+    "from_polygon": "polygon-1745879056576",
+    "to_polygon": "polygon-1745879142005",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1020.99,
+      "z": 694.26
+    }
+  },
+  {
+    "id": "ponte-dei-barnabiti",
+    "name": "Ponte dei Barnabiti",
+    "english_name": "Bridge of the Barnabites",
+    "from": {
+      "x": -909.36,
+      "z": 487.53
+    },
+    "to": {
+      "x": -892.94,
+      "z": 472.8
+    },
+    "from_polygon": "polygon-1745879086976",
+    "to_polygon": "polygon-1745879117945",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -901.15,
+      "z": 480.16
+    }
+  },
+  {
+    "id": "ponte-della-toletta",
+    "name": "Ponte della Toletta",
+    "english_name": "Bridge of the Toilette",
+    "from": {
+      "x": -931.99,
+      "z": 575.33
+    },
+    "to": {
+      "x": -931.57,
+      "z": 584.07
+    },
+    "from_polygon": "polygon-1745879086976",
+    "to_polygon": "polygon-1745879056576",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -931.78,
+      "z": 579.7
+    }
+  },
+  {
+    "id": "ponte-dei-cavalli",
+    "name": "Ponte dei Cavalli",
+    "english_name": "Bridge of the Horses",
+    "from": {
+      "x": -1082.0,
+      "z": 566.18
+    },
+    "to": {
+      "x": -1089.88,
+      "z": 582.66
+    },
+    "from_polygon": "polygon-1745879086976",
+    "to_polygon": "polygon-1745879142005",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1085.94,
+      "z": 574.42
+    }
+  },
+  {
+    "id": "ponte-degli-arcieri",
+    "name": "Ponte degli Arcieri",
+    "english_name": "Bridge of the Archers",
+    "from": {
+      "x": -1004.4,
+      "z": 340.48
+    },
+    "to": {
+      "x": -1015.24,
+      "z": 342.18
+    },
+    "from_polygon": "polygon-1745879117945",
+    "to_polygon": "polygon-1745879262533",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1009.82,
+      "z": 341.33
+    }
+  },
+  {
+    "id": "ponte-dei-scultori",
+    "name": "Ponte dei Scultori",
+    "english_name": "Bridge of the Sculptors",
+    "from": {
+      "x": -772.26,
+      "z": 303.03
+    },
+    "to": {
+      "x": -760.72,
+      "z": 298.56
+    },
+    "from_polygon": "polygon-1745879117945",
+    "to_polygon": "polygon-1745879420223",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -766.49,
+      "z": 300.79
+    }
+  },
+  {
+    "id": "ponte-di-san-basilio",
+    "name": "Ponte di San Basilio",
+    "english_name": "Bridge of Saint Basil",
+    "from": {
+      "x": -789.02,
+      "z": 457.4
+    },
+    "to": {
+      "x": -788.68,
+      "z": 463.81
+    },
+    "from_polygon": "polygon-1745879117945",
+    "to_polygon": "polygon-1745879086976",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -788.85,
+      "z": 460.61
+    }
+  },
+  {
+    "id": "ponte-di-ognissanti",
+    "name": "Ponte di Ognissanti",
+    "english_name": "Bridge of All Saints",
+    "from": {
+      "x": -833.16,
+      "z": 793.5
+    },
+    "to": {
+      "x": -832.68,
+      "z": 774.66
+    },
+    "from_polygon": "polygon-1745879142005",
+    "to_polygon": "polygon-1745879036720",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -832.92,
+      "z": 784.08
+    }
+  },
+  {
+    "id": "ponte-dei-remeri",
+    "name": "Ponte dei Remeri",
+    "english_name": "Bridge of the Oar Makers",
+    "from": {
+      "x": -1024.51,
+      "z": 696.68
+    },
+    "to": {
+      "x": -1017.47,
+      "z": 691.85
+    },
+    "from_polygon": "polygon-1745879142005",
+    "to_polygon": "polygon-1745879056576",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1020.99,
+      "z": 694.26
+    }
+  },
+  {
+    "id": "ponte-della-lana",
+    "name": "Ponte della Lana",
+    "english_name": "Bridge of Wool",
+    "from": {
+      "x": -1089.88,
+      "z": 582.66
+    },
+    "to": {
+      "x": -1082.0,
+      "z": 566.18
+    },
+    "from_polygon": "polygon-1745879142005",
+    "to_polygon": "polygon-1745879086976",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1085.94,
+      "z": 574.42
+    }
+  },
+  {
+    "id": "ponte-dei-carmini",
+    "name": "Ponte dei Carmini",
+    "english_name": "Bridge of the Carmelites",
+    "from": {
+      "x": -1190.44,
+      "z": 603.46
+    },
+    "to": {
+      "x": -1202.73,
+      "z": 604.15
+    },
+    "from_polygon": "polygon-1745879142005",
+    "to_polygon": "polygon-1745879165953",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1196.59,
+      "z": 603.81
+    }
+  },
+  {
+    "id": "ponte-dei-librai",
+    "name": "Ponte dei Librai",
+    "english_name": "Bridge of the Booksellers",
+    "from": {
+      "x": -1202.73,
+      "z": 604.15
+    },
+    "to": {
+      "x": -1190.44,
+      "z": 603.46
+    },
+    "from_polygon": "polygon-1745879165953",
+    "to_polygon": "polygon-1745879142005",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1196.59,
+      "z": 603.81
+    }
+  },
+  {
+    "id": "ponte-della-colomba",
+    "name": "Ponte della Colomba",
+    "english_name": "Bridge of the Dove",
+    "from": {
+      "x": -1330.12,
+      "z": 538.4
+    },
+    "to": {
+      "x": -1349.43,
+      "z": 534.59
+    },
+    "from_polygon": "polygon-1745879165953",
+    "to_polygon": "polygon-1745879183695",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1339.77,
+      "z": 536.5
+    }
+  },
+  {
+    "id": "ponte-dei-procuratori",
+    "name": "Ponte dei Procuratori",
+    "english_name": "Bridge of the Procurators",
+    "from": {
+      "x": -1198.58,
+      "z": 364.4
+    },
+    "to": {
+      "x": -1189.13,
+      "z": 356.74
+    },
+    "from_polygon": "polygon-1745879183695",
+    "to_polygon": "polygon-1745879262533",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1193.86,
+      "z": 360.57
+    }
+  },
+  {
+    "id": "ponte-delle-maschere",
+    "name": "Ponte delle Maschere",
+    "english_name": "Bridge of the Masks",
+    "from": {
+      "x": -1349.43,
+      "z": 534.59
+    },
+    "to": {
+      "x": -1330.12,
+      "z": 538.4
+    },
+    "from_polygon": "polygon-1745879183695",
+    "to_polygon": "polygon-1745879165953",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1339.77,
+      "z": 536.5
+    }
+  },
+  {
+    "id": "ponte-degli-orologi",
+    "name": "Ponte degli Orologi",
+    "english_name": "Bridge of the Clockmakers",
+    "from": {
+      "x": -1523.74,
+      "z": 511.7
+    },
+    "to": {
+      "x": -1538.3,
+      "z": 498.12
+    },
+    "from_polygon": "polygon-1745879183695",
+    "to_polygon": "polygon-1745879206602",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1531.02,
+      "z": 504.91
+    }
+  },
+  {
+    "id": "ponte-dei-marinai",
+    "name": "Ponte dei Marinai",
+    "english_name": "Bridge of the Sailors",
+    "from": {
+      "x": -1538.3,
+      "z": 498.12
+    },
+    "to": {
+      "x": -1523.74,
+      "z": 511.7
+    },
+    "from_polygon": "polygon-1745879206602",
+    "to_polygon": "polygon-1745879183695",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1531.02,
+      "z": 504.91
+    }
+  },
+  {
+    "id": "ponte-dei-tintori-di-seta",
+    "name": "Ponte dei Tintori di Seta",
+    "english_name": "Bridge of the Silk Dyers",
+    "from": {
+      "x": -1325.08,
+      "z": 259.83
+    },
+    "to": {
+      "x": -1315.93,
+      "z": 245.89
+    },
+    "from_polygon": "polygon-1745879220627",
+    "to_polygon": "polygon-1745879227449",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1320.51,
+      "z": 252.86
+    }
+  },
+  {
+    "id": "ponte-degli-erbaioli",
+    "name": "Ponte degli Erbaioli",
+    "english_name": "Bridge of the Herb Sellers",
+    "from": {
+      "x": -1328.23,
+      "z": 197.62
+    },
+    "to": {
+      "x": -1334.23,
+      "z": 192.76
+    },
+    "from_polygon": "polygon-1745879227449",
+    "to_polygon": "polygon-1745879238426",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1331.23,
+      "z": 195.19
+    }
+  },
+  {
+    "id": "ponte-dei-bottai",
+    "name": "Ponte dei Bottai",
+    "english_name": "Bridge of the Coopers",
+    "from": {
+      "x": -1315.93,
+      "z": 245.89
+    },
+    "to": {
+      "x": -1325.08,
+      "z": 259.83
+    },
+    "from_polygon": "polygon-1745879227449",
+    "to_polygon": "polygon-1745879220627",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1320.51,
+      "z": 252.86
+    }
+  },
+  {
+    "id": "ponte-dei-merciai",
+    "name": "Ponte dei Merciai",
+    "english_name": "Bridge of the Mercers",
+    "from": {
+      "x": -1391.29,
+      "z": 96.92
+    },
+    "to": {
+      "x": -1415.21,
+      "z": 92.64
+    },
+    "from_polygon": "polygon-1745879238426",
+    "to_polygon": "polygon-1745879292558",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1403.25,
+      "z": 94.78
+    }
+  },
+  {
+    "id": "ponte-della-farina",
+    "name": "Ponte della Farina",
+    "english_name": "Bridge of Flour",
+    "from": {
+      "x": -1334.23,
+      "z": 192.76
+    },
+    "to": {
+      "x": -1328.23,
+      "z": 197.62
+    },
+    "from_polygon": "polygon-1745879238426",
+    "to_polygon": "polygon-1745879227449",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1331.23,
+      "z": 195.19
+    }
+  },
+  {
+    "id": "ponte-dei-ragusei",
+    "name": "Ponte dei Ragusei",
+    "english_name": "Bridge of the Ragusans",
+    "from": {
+      "x": -1015.24,
+      "z": 342.18
+    },
+    "to": {
+      "x": -1004.4,
+      "z": 340.48
+    },
+    "from_polygon": "polygon-1745879262533",
+    "to_polygon": "polygon-1745879117945",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1009.82,
+      "z": 341.33
+    }
+  },
+  {
+    "id": "ponte-dei-cordari",
+    "name": "Ponte dei Cordari",
+    "english_name": "Bridge of the Ropemakers",
+    "from": {
+      "x": -1189.13,
+      "z": 356.74
+    },
+    "to": {
+      "x": -1198.58,
+      "z": 364.4
+    },
+    "from_polygon": "polygon-1745879262533",
+    "to_polygon": "polygon-1745879183695",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1193.86,
+      "z": 360.57
+    }
+  },
+  {
+    "id": "ponte-della-misericordia",
+    "name": "Ponte della Misericordia",
+    "english_name": "Bridge of Mercy",
+    "from": {
+      "x": -1415.21,
+      "z": 92.64
+    },
+    "to": {
+      "x": -1391.29,
+      "z": 96.92
+    },
+    "from_polygon": "polygon-1745879292558",
+    "to_polygon": "polygon-1745879238426",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1403.25,
+      "z": 94.78
+    }
+  },
+  {
+    "id": "ponte-delle-eremite",
+    "name": "Ponte delle Eremite",
+    "english_name": "Bridge of the Hermit Nuns",
+    "from": {
+      "x": -1154.13,
+      "z": 45.76
+    },
+    "to": {
+      "x": -1159.68,
+      "z": 50.86
+    },
+    "from_polygon": "polygon-1745879309201",
+    "to_polygon": "polygon-1745879328980",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1156.91,
+      "z": 48.31
+    }
+  },
+  {
+    "id": "ponte-dei-vetrai",
+    "name": "Ponte dei Vetrai",
+    "english_name": "Bridge of the Glassmakers",
+    "from": {
+      "x": -1159.68,
+      "z": 50.86
+    },
+    "to": {
+      "x": -1154.13,
+      "z": 45.76
+    },
+    "from_polygon": "polygon-1745879328980",
+    "to_polygon": "polygon-1745879309201",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1156.91,
+      "z": 48.31
+    }
+  },
+  {
+    "id": "ponte-della-fenice",
+    "name": "Ponte della Fenice",
+    "english_name": "Bridge of the Phoenix",
+    "from": {
+      "x": -983.27,
+      "z": 159.87
+    },
+    "to": {
+      "x": -973.87,
+      "z": 146.13
+    },
+    "from_polygon": "polygon-1745879328980",
+    "to_polygon": "polygon-1745879354937",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -978.57,
+      "z": 153.0
+    }
+  },
+  {
+    "id": "ponte-di-san-pantalon",
+    "name": "Ponte di San Pantalon",
+    "english_name": "Bridge of Saint Pantaleon",
+    "from": {
+      "x": -1063.33,
+      "z": -54.43
+    },
+    "to": {
+      "x": -1055.3,
+      "z": -63.89
+    },
+    "from_polygon": "polygon-1745879354937",
+    "to_polygon": "polygon-1745879385958",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1059.31,
+      "z": -59.16
+    }
+  },
+  {
+    "id": "ponte-dei-tessitori",
+    "name": "Ponte dei Tessitori",
+    "english_name": "Bridge of the Weavers",
+    "from": {
+      "x": -1011.37,
+      "z": -15.32
+    },
+    "to": {
+      "x": -999.71,
+      "z": -15.15
+    },
+    "from_polygon": "polygon-1745879354937",
+    "to_polygon": "polygon-1746072707138",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1005.54,
+      "z": -15.23
+    }
+  },
+  {
+    "id": "ponte-dei-frari",
+    "name": "Ponte dei Frari",
+    "english_name": "Bridge of the Friars",
+    "from": {
+      "x": -895.72,
+      "z": 156.53
+    },
+    "to": {
+      "x": -889.78,
+      "z": 164.58
+    },
+    "from_polygon": "polygon-1745879354937",
+    "to_polygon": "polygon-1745879420223",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -892.75,
+      "z": 160.55
+    }
+  },
+  {
+    "id": "ponte-dei-calafati",
+    "name": "Ponte dei Calafati",
+    "english_name": "Bridge of the Caulkers",
+    "from": {
+      "x": -973.87,
+      "z": 146.13
+    },
+    "to": {
+      "x": -983.27,
+      "z": 159.87
+    },
+    "from_polygon": "polygon-1745879354937",
+    "to_polygon": "polygon-1745879328980",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -978.57,
+      "z": 153.0
+    }
+  },
+  {
+    "id": "ponte-dei-lavandai",
+    "name": "Ponte dei Lavandai",
+    "english_name": "Bridge of the Washers",
+    "from": {
+      "x": -937.55,
+      "z": -344.74
+    },
+    "to": {
+      "x": -931.26,
+      "z": -348.45
+    },
+    "from_polygon": "polygon-1745879385958",
+    "to_polygon": "polygon-1745879404342",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -934.4,
+      "z": -346.59
+    }
+  },
+  {
+    "id": "ponte-dei-zingari",
+    "name": "Ponte dei Zingari",
+    "english_name": "Bridge of the Gypsies",
+    "from": {
+      "x": -798.85,
+      "z": -115.48
+    },
+    "to": {
+      "x": -796.06,
+      "z": -106.69
+    },
+    "from_polygon": "polygon-1745879385958",
+    "to_polygon": "polygon-1746072707138",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -797.46,
+      "z": -111.08
+    }
+  },
+  {
+    "id": "ponte-dei-pezzetti",
+    "name": "Ponte dei Pezzetti",
+    "english_name": "Bridge of the Small Pieces",
+    "from": {
+      "x": -1055.3,
+      "z": -63.89
+    },
+    "to": {
+      "x": -1063.33,
+      "z": -54.43
+    },
+    "from_polygon": "polygon-1745879385958",
+    "to_polygon": "polygon-1745879354937",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1059.31,
+      "z": -59.16
+    }
+  },
+  {
+    "id": "ponte-dei-cappellai",
+    "name": "Ponte dei Cappellai",
+    "english_name": "Bridge of the Hatmakers",
+    "from": {
+      "x": -661.83,
+      "z": -462.87
+    },
+    "to": {
+      "x": -655.42,
+      "z": -465.74
+    },
+    "from_polygon": "polygon-1745879404342",
+    "to_polygon": "polygon-1745879481263",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -658.62,
+      "z": -464.3
+    }
+  },
+  {
+    "id": "ponte-del-cefalo",
+    "name": "Ponte del Cefalo",
+    "english_name": "Bridge of the Mullet",
+    "from": {
+      "x": -712.11,
+      "z": -150.82
+    },
+    "to": {
+      "x": -722.31,
+      "z": -144.97
+    },
+    "from_polygon": "polygon-1745879404342",
+    "to_polygon": "polygon-1746072707138",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -717.21,
+      "z": -147.89
+    }
+  },
+  {
+    "id": "ponte-dei-conti",
+    "name": "Ponte dei Conti",
+    "english_name": "Bridge of the Counts",
+    "from": {
+      "x": -805.97,
+      "z": -203.25
+    },
+    "to": {
+      "x": -827.35,
+      "z": -210.35
+    },
+    "from_polygon": "polygon-1745879404342",
+    "to_polygon": "polygon-1745879385958",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -816.66,
+      "z": -206.8
+    }
+  },
+  {
+    "id": "ponte-di-san-sebastiano",
+    "name": "Ponte di San Sebastiano",
+    "english_name": "Bridge of Saint Sebastian",
+    "from": {
+      "x": -824.41,
+      "z": 138.22
+    },
+    "to": {
+      "x": -814.78,
+      "z": 133.53
+    },
+    "from_polygon": "polygon-1745879420223",
+    "to_polygon": "polygon-1746072707138",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -819.59,
+      "z": 135.88
+    }
+  },
+  {
+    "id": "ponte-dei-incurabili",
+    "name": "Ponte dei Incurabili",
+    "english_name": "Bridge of the Incurables",
+    "from": {
+      "x": -760.72,
+      "z": 298.56
+    },
+    "to": {
+      "x": -772.26,
+      "z": 303.03
+    },
+    "from_polygon": "polygon-1745879420223",
+    "to_polygon": "polygon-1745879117945",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -766.49,
+      "z": 300.79
+    }
+  },
+  {
+    "id": "ponte-dei-tintori-di-lana",
+    "name": "Ponte dei Tintori di Lana",
+    "english_name": "Bridge of the Wool Dyers",
+    "from": {
+      "x": -889.78,
+      "z": 164.58
+    },
+    "to": {
+      "x": -895.72,
+      "z": 156.53
+    },
+    "from_polygon": "polygon-1745879420223",
+    "to_polygon": "polygon-1745879354937",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -892.75,
+      "z": 160.55
+    }
+  },
+  {
+    "id": "ponte-dei-confettieri",
+    "name": "Ponte dei Confettieri",
+    "english_name": "Bridge of the Confectioners",
+    "from": {
+      "x": -672.18,
+      "z": -347.16
+    },
+    "to": {
+      "x": -678.59,
+      "z": -358.02
+    },
+    "from_polygon": "polygon-1745879481263",
+    "to_polygon": "polygon-1745879404342",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -675.39,
+      "z": -352.59
+    }
+  },
+  {
+    "id": "ponte-dei-carmelitani",
+    "name": "Ponte dei Carmelitani",
+    "english_name": "Bridge of the Carmelites",
+    "from": {
+      "x": -1164.38,
+      "z": -748.31
+    },
+    "to": {
+      "x": -1171.84,
+      "z": -738.86
+    },
+    "from_polygon": "polygon-1745879581983",
+    "to_polygon": "polygon-1746055488132",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1168.11,
+      "z": -743.58
+    }
+  },
+  {
+    "id": "ponte-della-fornace",
+    "name": "Ponte della Fornace",
+    "english_name": "Bridge of the Kiln",
+    "from": {
+      "x": -952.07,
+      "z": -778.26
+    },
+    "to": {
+      "x": -928.51,
+      "z": -781.58
+    },
+    "from_polygon": "polygon-1745879581983",
+    "to_polygon": "polygon-1746055561861",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -940.29,
+      "z": -779.92
+    }
+  },
+  {
+    "id": "ponte-dei-fornai",
+    "name": "Ponte dei Fornai",
+    "english_name": "Bridge of the Bakers",
+    "from": {
+      "x": -184.31,
+      "z": 1545.96
+    },
+    "to": {
+      "x": -191.11,
+      "z": 1550.96
+    },
+    "from_polygon": "polygon-1746052711032",
+    "to_polygon": "polygon-1746052735791",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -187.71,
+      "z": 1548.46
+    }
+  },
+  {
+    "id": "ponte-di-san-giacomo",
+    "name": "Ponte di San Giacomo",
+    "english_name": "Bridge of Saint James",
+    "from": {
+      "x": -176.02,
+      "z": 1390.52
+    },
+    "to": {
+      "x": -160.43,
+      "z": 1392.39
+    },
+    "from_polygon": "polygon-1746052735791",
+    "to_polygon": "polygon-1746052711032",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -168.22,
+      "z": 1391.45
+    }
+  },
+  {
+    "id": "ponte-dei-filacanape",
+    "name": "Ponte dei Filacanape",
+    "english_name": "Bridge of the Ropemakers",
+    "from": {
+      "x": -559.85,
+      "z": 1406.54
+    },
+    "to": {
+      "x": -575.79,
+      "z": 1407.57
+    },
+    "from_polygon": "polygon-1746052735791",
+    "to_polygon": "polygon-1746052744386",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -567.82,
+      "z": 1407.06
+    }
+  },
+  {
+    "id": "ponte-del-forno",
+    "name": "Ponte del Forno",
+    "english_name": "Bridge of the Bakery",
+    "from": {
+      "x": -575.79,
+      "z": 1407.57
+    },
+    "to": {
+      "x": -559.85,
+      "z": 1406.54
+    },
+    "from_polygon": "polygon-1746052744386",
+    "to_polygon": "polygon-1746052735791",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -567.82,
+      "z": 1407.06
+    }
+  },
+  {
+    "id": "ponte-dei-fornari",
+    "name": "Ponte dei Fornari",
+    "english_name": "Bridge of the Bakers",
+    "from": {
+      "x": -631.66,
+      "z": 1396.75
+    },
+    "to": {
+      "x": -643.4,
+      "z": 1407.29
+    },
+    "from_polygon": "polygon-1746052744386",
+    "to_polygon": "polygon-1746052755300",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -637.53,
+      "z": 1402.02
+    }
+  },
+  {
+    "id": "ponte-di-san-rocco",
+    "name": "Ponte di San Rocco",
+    "english_name": "Bridge of Saint Roch",
+    "from": {
+      "x": -693.4,
+      "z": 1397.86
+    },
+    "to": {
+      "x": -687.53,
+      "z": 1385.93
+    },
+    "from_polygon": "polygon-1746052755300",
+    "to_polygon": "polygon-1746052744386",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -690.47,
+      "z": 1391.9
+    }
+  },
+  {
+    "id": "ponte-delle-capuccine",
+    "name": "Ponte delle Capuccine",
+    "english_name": "Bridge of the Capuchin Nuns",
+    "from": {
+      "x": -1052.76,
+      "z": 1447.92
+    },
+    "to": {
+      "x": -1064.38,
+      "z": 1439.3
+    },
+    "from_polygon": "polygon-1746052772601",
+    "to_polygon": "polygon-1746052792551",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1058.57,
+      "z": 1443.61
+    }
+  },
+  {
+    "id": "ponte-dei-gigli-bianchi",
+    "name": "Ponte dei Gigli Bianchi",
+    "english_name": "Bridge of the White Lilies",
+    "from": {
+      "x": -977.94,
+      "z": 1197.62
+    },
+    "to": {
+      "x": -990.21,
+      "z": 1199.17
+    },
+    "from_polygon": "polygon-1746052772601",
+    "to_polygon": "polygon-1746052782991",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -984.07,
+      "z": 1198.39
+    }
+  },
+  {
+    "id": "ponte-delle-convertite",
+    "name": "Ponte delle Convertite",
+    "english_name": "Bridge of the Converted Women",
+    "from": {
+      "x": -990.21,
+      "z": 1199.17
+    },
+    "to": {
+      "x": -977.94,
+      "z": 1197.62
+    },
+    "from_polygon": "polygon-1746052782991",
+    "to_polygon": "polygon-1746052772601",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -984.07,
+      "z": 1198.39
+    }
+  },
+  {
+    "id": "ponte-dei-pentecoste",
+    "name": "Ponte dei Pentecoste",
+    "english_name": "Bridge of Pentecost",
+    "from": {
+      "x": -1103.93,
+      "z": 1228.63
+    },
+    "to": {
+      "x": -1105.94,
+      "z": 1243.28
+    },
+    "from_polygon": "polygon-1746052782991",
+    "to_polygon": "polygon-1746052792551",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1104.94,
+      "z": 1235.95
+    }
+  },
+  {
+    "id": "ponte-delle-penitenti",
+    "name": "Ponte delle Penitenti",
+    "english_name": "Bridge of the Penitents",
+    "from": {
+      "x": -1202.82,
+      "z": 1208.32
+    },
+    "to": {
+      "x": -1198.8,
+      "z": 1195.67
+    },
+    "from_polygon": "polygon-1746052792551",
+    "to_polygon": "polygon-1746052782991",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1200.81,
+      "z": 1202.0
+    }
+  },
+  {
+    "id": "ponte-dei-gesuati",
+    "name": "Ponte dei Gesuati",
+    "english_name": "Bridge of the Jesuates",
+    "from": {
+      "x": -1027.5,
+      "z": 1331.93
+    },
+    "to": {
+      "x": -1022.83,
+      "z": 1347.8
+    },
+    "from_polygon": "polygon-1746052792551",
+    "to_polygon": "polygon-1746052772601",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1025.17,
+      "z": 1339.86
+    }
+  },
+  {
+    "id": "ponte-dei-lavraneri",
+    "name": "Ponte dei Lavraneri",
+    "english_name": "Bridge of the Laurel Workers",
+    "from": {
+      "x": -1680.76,
+      "z": 1204.78
+    },
+    "to": {
+      "x": -1673.64,
+      "z": 1225.8
+    },
+    "from_polygon": "polygon-1746052814583",
+    "to_polygon": "polygon-1746052823189",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1677.2,
+      "z": 1215.29
+    }
+  },
+  {
+    "id": "ponte-della-sacca",
+    "name": "Ponte della Sacca",
+    "english_name": "Bridge of the Basin",
+    "from": {
+      "x": -1673.64,
+      "z": 1225.8
+    },
+    "to": {
+      "x": -1680.76,
+      "z": 1204.78
+    },
+    "from_polygon": "polygon-1746052823189",
+    "to_polygon": "polygon-1746052814583",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1677.2,
+      "z": 1215.29
+    }
+  },
+  {
+    "id": "ponte-della-piet",
+    "name": "Ponte della Pietà",
+    "english_name": "Bridge of Mercy",
+    "from": {
+      "x": -1171.84,
+      "z": -738.86
+    },
+    "to": {
+      "x": -1164.38,
+      "z": -748.31
+    },
+    "from_polygon": "polygon-1746055488132",
+    "to_polygon": "polygon-1745879581983",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1168.11,
+      "z": -743.58
+    }
+  },
+  {
+    "id": "ponte-dei-falconieri",
+    "name": "Ponte dei Falconieri",
+    "english_name": "Bridge of the Falconers",
+    "from": {
+      "x": -1235.36,
+      "z": -852.35
+    },
+    "to": {
+      "x": -1248.27,
+      "z": -861.01
+    },
+    "from_polygon": "polygon-1746055488132",
+    "to_polygon": "polygon-1746055501491",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1241.82,
+      "z": -856.68
+    }
+  },
+  {
+    "id": "ponte-dei-tintori-di-scarlatto",
+    "name": "Ponte dei Tintori di Scarlatto",
+    "english_name": "Bridge of the Scarlet Dyers",
+    "from": {
+      "x": -1285.14,
+      "z": -822.4
+    },
+    "to": {
+      "x": -1271.06,
+      "z": -813.41
+    },
+    "from_polygon": "polygon-1746055501491",
+    "to_polygon": "polygon-1746055488132",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1278.1,
+      "z": -817.91
+    }
+  },
+  {
+    "id": "ponte-del-forno",
+    "name": "Ponte del Forno",
+    "english_name": "Bridge of the Bakery",
+    "from": {
+      "x": -858.12,
+      "z": -869.78
+    },
+    "to": {
+      "x": -841.01,
+      "z": -876.94
+    },
+    "from_polygon": "polygon-1746055561861",
+    "to_polygon": "polygon-1746055595653",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -849.56,
+      "z": -873.36
+    }
+  },
+  {
+    "id": "ponte-dei-panificatori",
+    "name": "Ponte dei Panificatori",
+    "english_name": "Bridge of the Bread Makers",
+    "from": {
+      "x": -735.76,
+      "z": -855.63
+    },
+    "to": {
+      "x": -724.44,
+      "z": -846.87
+    },
+    "from_polygon": "polygon-1746055561861",
+    "to_polygon": "polygon-1746055579728",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -730.1,
+      "z": -851.25
+    }
+  },
+  {
+    "id": "ponte-dei-tiepolo",
+    "name": "Ponte dei Tiepolo",
+    "english_name": "Bridge of the Tiepolo Family",
+    "from": {
+      "x": -441.61,
+      "z": -765.77
+    },
+    "to": {
+      "x": -435.62,
+      "z": -758.99
+    },
+    "from_polygon": "polygon-1746055561861",
+    "to_polygon": "polygon-1746055751637",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -438.61,
+      "z": -762.38
+    }
+  },
+  {
+    "id": "ponte-di-santa-agata",
+    "name": "Ponte di Santa Agata",
+    "english_name": "Bridge of Saint Agatha",
+    "from": {
+      "x": -501.11,
+      "z": -638.46
+    },
+    "to": {
+      "x": -493.99,
+      "z": -639.08
+    },
+    "from_polygon": "polygon-1746055561861",
+    "to_polygon": "polygon-1746055841290",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -497.55,
+      "z": -638.77
+    }
+  },
+  {
+    "id": "ponte-della-scuola",
+    "name": "Ponte della Scuola",
+    "english_name": "Bridge of the Guild Hall",
+    "from": {
+      "x": -928.51,
+      "z": -781.58
+    },
+    "to": {
+      "x": -952.07,
+      "z": -778.26
+    },
+    "from_polygon": "polygon-1746055561861",
+    "to_polygon": "polygon-1745879581983",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -940.29,
+      "z": -779.92
+    }
+  },
+  {
+    "id": "ponte-della-sinagoga",
+    "name": "Ponte della Sinagoga",
+    "english_name": "Bridge of the Synagogue",
+    "from": {
+      "x": -671.01,
+      "z": -830.65
+    },
+    "to": {
+      "x": -661.17,
+      "z": -824.84
+    },
+    "from_polygon": "polygon-1746055579728",
+    "to_polygon": "polygon-1746055561861",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -666.09,
+      "z": -827.75
+    }
+  },
+  {
+    "id": "ponte-del-batelo",
+    "name": "Ponte del Batelo",
+    "english_name": "Bridge of the Small Boat",
+    "from": {
+      "x": -947.03,
+      "z": -1004.48
+    },
+    "to": {
+      "x": -946.55,
+      "z": -1017.5
+    },
+    "from_polygon": "polygon-1746055595653",
+    "to_polygon": "polygon-1746055610394",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -946.79,
+      "z": -1010.99
+    }
+  },
+  {
+    "id": "ponte-dei-profumieri",
+    "name": "Ponte dei Profumieri",
+    "english_name": "Bridge of the Perfumers",
+    "from": {
+      "x": -841.01,
+      "z": -876.94
+    },
+    "to": {
+      "x": -858.12,
+      "z": -869.78
+    },
+    "from_polygon": "polygon-1746055595653",
+    "to_polygon": "polygon-1746055561861",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -849.56,
+      "z": -873.36
+    }
+  },
+  {
+    "id": "ponte-delle-capuzzine",
+    "name": "Ponte delle Capuzzine",
+    "english_name": "Bridge of the Capuchin Nuns",
+    "from": {
+      "x": -893.87,
+      "z": -998.48
+    },
+    "to": {
+      "x": -894.65,
+      "z": -985.7
+    },
+    "from_polygon": "polygon-1746055610394",
+    "to_polygon": "polygon-1746055595653",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -894.26,
+      "z": -992.09
+    }
+  },
+  {
+    "id": "ponte-delle-devote",
+    "name": "Ponte delle Devote",
+    "english_name": "Bridge of the Devout Women",
+    "from": {
+      "x": -663.76,
+      "z": -1099.99
+    },
+    "to": {
+      "x": -652.6,
+      "z": -1109.14
+    },
+    "from_polygon": "polygon-1746055650628",
+    "to_polygon": "polygon-1746055662884",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -658.18,
+      "z": -1104.56
+    }
+  },
+  {
+    "id": "ponte-della-misericordia",
+    "name": "Ponte della Misericordia",
+    "english_name": "Bridge of Mercy",
+    "from": {
+      "x": -436.66,
+      "z": -1082.05
+    },
+    "to": {
+      "x": -428.2,
+      "z": -1072.86
+    },
+    "from_polygon": "polygon-1746055662884",
+    "to_polygon": "polygon-1746055693144",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -432.43,
+      "z": -1077.45
+    }
+  },
+  {
+    "id": "ponte-dei-saccomani",
+    "name": "Ponte dei Saccomani",
+    "english_name": "Bridge of the Saccomani",
+    "from": {
+      "x": -845.9,
+      "z": -1181.99
+    },
+    "to": {
+      "x": -862.16,
+      "z": -1184.03
+    },
+    "from_polygon": "polygon-1746055662884",
+    "to_polygon": "polygon-1746055650628",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -854.03,
+      "z": -1183.01
+    }
+  },
+  {
+    "id": "ponte-dei-loredan",
+    "name": "Ponte dei Loredan",
+    "english_name": "Bridge of the Loredan Family",
+    "from": {
+      "x": -211.7,
+      "z": -917.41
+    },
+    "to": {
+      "x": -228.93,
+      "z": -913.9
+    },
+    "from_polygon": "polygon-1746055693144",
+    "to_polygon": "polygon-1746055706124",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -220.31,
+      "z": -915.66
+    }
+  },
+  {
+    "id": "ponte-degli-ambasciatori",
+    "name": "Ponte degli Ambasciatori",
+    "english_name": "Bridge of the Ambassadors",
+    "from": {
+      "x": -428.2,
+      "z": -1072.86
+    },
+    "to": {
+      "x": -436.66,
+      "z": -1082.05
+    },
+    "from_polygon": "polygon-1746055693144",
+    "to_polygon": "polygon-1746055662884",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -432.43,
+      "z": -1077.45
+    }
+  },
+  {
+    "id": "ponte-delle-due-corti",
+    "name": "Ponte delle Due Corti",
+    "english_name": "Bridge of the Two Courts",
+    "from": {
+      "x": -228.93,
+      "z": -913.9
+    },
+    "to": {
+      "x": -211.7,
+      "z": -917.41
+    },
+    "from_polygon": "polygon-1746055706124",
+    "to_polygon": "polygon-1746055693144",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -220.31,
+      "z": -915.66
+    }
+  },
+  {
+    "id": "ponte-dei-notai",
+    "name": "Ponte dei Notai",
+    "english_name": "Bridge of the Notaries",
+    "from": {
+      "x": -232.48,
+      "z": -832.72
+    },
+    "to": {
+      "x": -222.33,
+      "z": -814.33
+    },
+    "from_polygon": "polygon-1746055706124",
+    "to_polygon": "polygon-1746055739112",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -227.41,
+      "z": -823.52
+    }
+  },
+  {
+    "id": "ponte-della-misericordia-vecchia",
+    "name": "Ponte della Misericordia Vecchia",
+    "english_name": "Bridge of the Old Mercy",
+    "from": {
+      "x": -169.14,
+      "z": -775.63
+    },
+    "to": {
+      "x": -167.44,
+      "z": -761.49
+    },
+    "from_polygon": "polygon-1746055720258",
+    "to_polygon": "polygon-1746055739112",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -168.29,
+      "z": -768.56
+    }
+  },
+  {
+    "id": "ponte-dei-pignattari",
+    "name": "Ponte dei Pignattari",
+    "english_name": "Bridge of the Pot Makers",
+    "from": {
+      "x": -276.18,
+      "z": -846.36
+    },
+    "to": {
+      "x": -280.87,
+      "z": -859.14
+    },
+    "from_polygon": "polygon-1746055739112",
+    "to_polygon": "polygon-1746055706124",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -278.53,
+      "z": -852.75
+    }
+  },
+  {
+    "id": "ponte-dei-celestini",
+    "name": "Ponte dei Celestini",
+    "english_name": "Bridge of the Celestines",
+    "from": {
+      "x": -167.44,
+      "z": -761.49
+    },
+    "to": {
+      "x": -169.14,
+      "z": -775.63
+    },
+    "from_polygon": "polygon-1746055739112",
+    "to_polygon": "polygon-1746055720258",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -168.29,
+      "z": -768.56
+    }
+  },
+  {
+    "id": "ponte-dei-gatti",
+    "name": "Ponte dei Gatti",
+    "english_name": "Bridge of Cats",
+    "from": {
+      "x": -380.1,
+      "z": -704.91
+    },
+    "to": {
+      "x": -392.82,
+      "z": -702.92
+    },
+    "from_polygon": "polygon-1746055751637",
+    "to_polygon": "polygon-1746055841290",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -386.46,
+      "z": -703.92
+    }
+  },
+  {
+    "id": "ponte-dei-ceramisti",
+    "name": "Ponte dei Ceramisti",
+    "english_name": "Bridge of the Ceramicists",
+    "from": {
+      "x": -435.62,
+      "z": -758.99
+    },
+    "to": {
+      "x": -441.61,
+      "z": -765.77
+    },
+    "from_polygon": "polygon-1746055751637",
+    "to_polygon": "polygon-1746055561861",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -438.61,
+      "z": -762.38
+    }
+  },
+  {
+    "id": "ponte-della-piet-misericordiosa",
+    "name": "Ponte della Pietà Misericordiosa",
+    "english_name": "Bridge of Merciful Compassion",
+    "from": {
+      "x": -148.41,
+      "z": -599.85
+    },
+    "to": {
+      "x": -156.0,
+      "z": -599.08
+    },
+    "from_polygon": "polygon-1746055771007",
+    "to_polygon": "polygon-1746055825280",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -152.21,
+      "z": -599.47
+    }
+  },
+  {
+    "id": "ponte-dei-vendramin",
+    "name": "Ponte dei Vendramin",
+    "english_name": "Bridge of the Vendramin",
+    "from": {
+      "x": -290.51,
+      "z": -707.26
+    },
+    "to": {
+      "x": -289.21,
+      "z": -713.43
+    },
+    "from_polygon": "polygon-1746055825280",
+    "to_polygon": "polygon-1746055771007",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -289.86,
+      "z": -710.34
+    }
+  },
+  {
+    "id": "ponte-della-maddalena",
+    "name": "Ponte della Maddalena",
+    "english_name": "Bridge of the Magdalene",
+    "from": {
+      "x": -392.82,
+      "z": -702.92
+    },
+    "to": {
+      "x": -380.1,
+      "z": -704.91
+    },
+    "from_polygon": "polygon-1746055841290",
+    "to_polygon": "polygon-1746055751637",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -386.46,
+      "z": -703.92
+    }
+  },
+  {
+    "id": "ponte-dei-lanifici",
+    "name": "Ponte dei Lanifici",
+    "english_name": "Bridge of the Wool Workshops",
+    "from": {
+      "x": -348.61,
+      "z": -597.87
+    },
+    "to": {
+      "x": -343.65,
+      "z": -602.09
+    },
+    "from_polygon": "polygon-1746055841290",
+    "to_polygon": "polygon-1746055877827",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -346.13,
+      "z": -599.98
+    }
+  },
+  {
+    "id": "ponte-dei-lombardi",
+    "name": "Ponte dei Lombardi",
+    "english_name": "Bridge of the Lombards",
+    "from": {
+      "x": -493.99,
+      "z": -639.08
+    },
+    "to": {
+      "x": -501.11,
+      "z": -638.46
+    },
+    "from_polygon": "polygon-1746055841290",
+    "to_polygon": "polygon-1746055561861",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -497.55,
+      "z": -638.77
+    }
+  },
+  {
+    "id": "ponte-dei-remeri",
+    "name": "Ponte dei Remeri",
+    "english_name": "Bridge of the Oar Makers",
+    "from": {
+      "x": -315.58,
+      "z": -576.71
+    },
+    "to": {
+      "x": -320.95,
+      "z": -573.74
+    },
+    "from_polygon": "polygon-1746055877827",
+    "to_polygon": "polygon-1746055841290",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -318.27,
+      "z": -575.23
+    }
+  },
+  {
+    "id": "ponte-dei-salamoni",
+    "name": "Ponte dei Salamoni",
+    "english_name": "Bridge of the Salamons",
+    "from": {
+      "x": -180.28,
+      "z": -457.31
+    },
+    "to": {
+      "x": -181.78,
+      "z": -446.91
+    },
+    "from_polygon": "polygon-1746055909289",
+    "to_polygon": "polygon-1746055995050",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -181.03,
+      "z": -452.11
+    }
+  },
+  {
+    "id": "ponte-di-san-rocco",
+    "name": "Ponte di San Rocco",
+    "english_name": "Bridge of Saint Roch",
+    "from": {
+      "x": 207.91,
+      "z": -567.08
+    },
+    "to": {
+      "x": 210.43,
+      "z": -555.64
+    },
+    "from_polygon": "polygon-1746055928225",
+    "to_polygon": "polygon-1746055971606",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 209.17,
+      "z": -561.36
+    }
+  },
+  {
+    "id": "ponte-dei-tintori",
+    "name": "Ponte dei Tintori",
+    "english_name": "Bridge of the Dyers",
+    "from": {
+      "x": 66.7,
+      "z": -624.28
+    },
+    "to": {
+      "x": 62.51,
+      "z": -613.19
+    },
+    "from_polygon": "polygon-1746055928225",
+    "to_polygon": "polygon-1746055950767",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 64.61,
+      "z": -618.74
+    }
+  },
+  {
+    "id": "ponte-dei-naviganti",
+    "name": "Ponte dei Naviganti",
+    "english_name": "Bridge of Navigators",
+    "from": {
+      "x": 16.28,
+      "z": -635.52
+    },
+    "to": {
+      "x": 19.63,
+      "z": -643.35
+    },
+    "from_polygon": "polygon-1746055950767",
+    "to_polygon": "polygon-1746055928225",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 17.95,
+      "z": -639.44
+    }
+  },
+  {
+    "id": "ponte-dei-vinattieri",
+    "name": "Ponte dei Vinattieri",
+    "english_name": "Bridge of the Wine Merchants",
+    "from": {
+      "x": 24.94,
+      "z": -555.71
+    },
+    "to": {
+      "x": 33.74,
+      "z": -540.1
+    },
+    "from_polygon": "polygon-1746055950767",
+    "to_polygon": "polygon-1746055962882",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 29.34,
+      "z": -547.9
+    }
+  },
+  {
+    "id": "ponte-degli-ebrei",
+    "name": "Ponte degli Ebrei",
+    "english_name": "Bridge of the Jews",
+    "from": {
+      "x": -113.76,
+      "z": -545.51
+    },
+    "to": {
+      "x": -121.41,
+      "z": -543.85
+    },
+    "from_polygon": "polygon-1746055950767",
+    "to_polygon": "polygon-1746055909289",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -117.58,
+      "z": -544.68
+    }
+  },
+  {
+    "id": "ponte-degli-albanesi",
+    "name": "Ponte degli Albanesi",
+    "english_name": "Bridge of the Albanians",
+    "from": {
+      "x": -29.95,
+      "z": -571.72
+    },
+    "to": {
+      "x": -29.12,
+      "z": -578.38
+    },
+    "from_polygon": "polygon-1746055962882",
+    "to_polygon": "polygon-1746055950767",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -29.54,
+      "z": -575.05
+    }
+  },
+  {
+    "id": "ponte-della-scuola-grande",
+    "name": "Ponte della Scuola Grande",
+    "english_name": "Bridge of the Great School",
+    "from": {
+      "x": -18.43,
+      "z": -478.94
+    },
+    "to": {
+      "x": -10.82,
+      "z": -467.99
+    },
+    "from_polygon": "polygon-1746055962882",
+    "to_polygon": "polygon-1746055995050",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -14.63,
+      "z": -473.47
+    }
+  },
+  {
+    "id": "ponte-di-san-zulian",
+    "name": "Ponte di San Zulian",
+    "english_name": "Bridge of Saint Julian",
+    "from": {
+      "x": 161.26,
+      "z": -573.67
+    },
+    "to": {
+      "x": 160.84,
+      "z": -586.15
+    },
+    "from_polygon": "polygon-1746055971606",
+    "to_polygon": "polygon-1746055928225",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 161.05,
+      "z": -579.91
+    }
+  },
+  {
+    "id": "ponte-della-merceria",
+    "name": "Ponte della Merceria",
+    "english_name": "Bridge of the Mercery",
+    "from": {
+      "x": 178.72,
+      "z": -512.85
+    },
+    "to": {
+      "x": 193.25,
+      "z": -500.86
+    },
+    "from_polygon": "polygon-1746055971606",
+    "to_polygon": "polygon-1746055995050",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 185.98,
+      "z": -506.85
+    }
+  },
+  {
+    "id": "ponte-della-madonna-del-giglio",
+    "name": "Ponte della Madonna del Giglio",
+    "english_name": "Bridge of Our Lady of the Lily",
+    "from": {
+      "x": 193.25,
+      "z": -500.86
+    },
+    "to": {
+      "x": 178.72,
+      "z": -512.85
+    },
+    "from_polygon": "polygon-1746055995050",
+    "to_polygon": "polygon-1746055971606",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 185.98,
+      "z": -506.85
+    }
+  },
+  {
+    "id": "ponte-dei-gioiellieri",
+    "name": "Ponte dei Gioiellieri",
+    "english_name": "Bridge of the Jewelers",
+    "from": {
+      "x": 196.74,
+      "z": -329.58
+    },
+    "to": {
+      "x": 193.26,
+      "z": -312.5
+    },
+    "from_polygon": "polygon-1746055995050",
+    "to_polygon": "polygon-1746056070563",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 195.0,
+      "z": -321.04
+    }
+  },
+  {
+    "id": "ponte-degli-ambasciatori-orientali",
+    "name": "Ponte degli Ambasciatori Orientali",
+    "english_name": "Bridge of the Oriental Ambassadors",
+    "from": {
+      "x": -181.78,
+      "z": -446.91
+    },
+    "to": {
+      "x": -180.28,
+      "z": -457.31
+    },
+    "from_polygon": "polygon-1746055995050",
+    "to_polygon": "polygon-1746055909289",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -181.03,
+      "z": -452.11
+    }
+  },
+  {
+    "id": "ponte-della-cortesia",
+    "name": "Ponte della Cortesia",
+    "english_name": "Bridge of Courtesy",
+    "from": {
+      "x": -66.27,
+      "z": -503.21
+    },
+    "to": {
+      "x": -75.63,
+      "z": -511.4
+    },
+    "from_polygon": "polygon-1746055995050",
+    "to_polygon": "polygon-1746055962882",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -70.95,
+      "z": -507.3
+    }
+  },
+  {
+    "id": "ponte-della-stella",
+    "name": "Ponte della Stella",
+    "english_name": "Bridge of the Star",
+    "from": {
+      "x": 359.74,
+      "z": -317.51
+    },
+    "to": {
+      "x": 354.63,
+      "z": -303.92
+    },
+    "from_polygon": "polygon-1746056033630",
+    "to_polygon": "polygon-1746056149790",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 357.19,
+      "z": -310.72
+    }
+  },
+  {
+    "id": "ponte-dei-orafi",
+    "name": "Ponte dei Orafi",
+    "english_name": "Bridge of the Goldsmiths",
+    "from": {
+      "x": 304.73,
+      "z": -239.47
+    },
+    "to": {
+      "x": 298.86,
+      "z": -235.11
+    },
+    "from_polygon": "polygon-1746056033630",
+    "to_polygon": "polygon-1746056083350",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 301.79,
+      "z": -237.29
+    }
+  },
+  {
+    "id": "ponte-del-salvatore",
+    "name": "Ponte del Salvatore",
+    "english_name": "Bridge of the Savior",
+    "from": {
+      "x": 251.93,
+      "z": -371.36
+    },
+    "to": {
+      "x": 251.85,
+      "z": -362.42
+    },
+    "from_polygon": "polygon-1746056033630",
+    "to_polygon": "polygon-1746056070563",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 251.89,
+      "z": -366.89
+    }
+  },
+  {
+    "id": "ponte-dei-orefici-di-cannaregio",
+    "name": "Ponte dei Orefici di Cannaregio",
+    "english_name": "Bridge of the Goldsmiths of Cannaregio",
+    "from": {
+      "x": 234.25,
+      "z": -379.07
+    },
+    "to": {
+      "x": 236.01,
+      "z": -387.59
+    },
+    "from_polygon": "polygon-1746056070563",
+    "to_polygon": "polygon-1746056033630",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 235.13,
+      "z": -383.33
+    }
+  },
+  {
+    "id": "ponte-dei-zecchini",
+    "name": "Ponte dei Zecchini",
+    "english_name": "Bridge of the Ducats",
+    "from": {
+      "x": 271.2,
+      "z": -244.26
+    },
+    "to": {
+      "x": 272.46,
+      "z": -236.36
+    },
+    "from_polygon": "polygon-1746056070563",
+    "to_polygon": "polygon-1746056083350",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 271.83,
+      "z": -240.31
+    }
+  },
+  {
+    "id": "ponte-delle-bilance",
+    "name": "Ponte delle Bilance",
+    "english_name": "Bridge of the Scales",
+    "from": {
+      "x": 174.41,
+      "z": -184.14
+    },
+    "to": {
+      "x": 158.28,
+      "z": -185.39
+    },
+    "from_polygon": "polygon-1746056070563",
+    "to_polygon": "polygon-1746056107157",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 166.34,
+      "z": -184.76
+    }
+  },
+  {
+    "id": "ponte-dei-smalti",
+    "name": "Ponte dei Smalti",
+    "english_name": "Bridge of Enamels",
+    "from": {
+      "x": 19.79,
+      "z": -287.53
+    },
+    "to": {
+      "x": 13.62,
+      "z": -292.96
+    },
+    "from_polygon": "polygon-1746056070563",
+    "to_polygon": "polygon-1746055995050",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 16.71,
+      "z": -290.25
+    }
+  },
+  {
+    "id": "ponte-del-salvadore",
+    "name": "Ponte del Salvadore",
+    "english_name": "Bridge of the Savior",
+    "from": {
+      "x": 298.86,
+      "z": -235.11
+    },
+    "to": {
+      "x": 304.73,
+      "z": -239.47
+    },
+    "from_polygon": "polygon-1746056083350",
+    "to_polygon": "polygon-1746056033630",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 301.79,
+      "z": -237.29
+    }
+  },
+  {
+    "id": "ponte-dei-cambiavalute",
+    "name": "Ponte dei Cambiavalute",
+    "english_name": "Bridge of the Money Changers",
+    "from": {
+      "x": 272.46,
+      "z": -236.36
+    },
+    "to": {
+      "x": 271.2,
+      "z": -244.26
+    },
+    "from_polygon": "polygon-1746056083350",
+    "to_polygon": "polygon-1746056070563",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 271.83,
+      "z": -240.31
+    }
+  },
+  {
+    "id": "ponte-dei-mercanti-bizantini",
+    "name": "Ponte dei Mercanti Bizantini",
+    "english_name": "Bridge of Byzantine Merchants",
+    "from": {
+      "x": 50.8,
+      "z": -228.03
+    },
+    "to": {
+      "x": 48.28,
+      "z": -231.36
+    },
+    "from_polygon": "polygon-1746056107157",
+    "to_polygon": "polygon-1746056070563",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 49.54,
+      "z": -229.7
+    }
+  },
+  {
+    "id": "ponte-della-testa",
+    "name": "Ponte della Testa",
+    "english_name": "Bridge of the Head",
+    "from": {
+      "x": 354.63,
+      "z": -303.92
+    },
+    "to": {
+      "x": 359.74,
+      "z": -317.51
+    },
+    "from_polygon": "polygon-1746056149790",
+    "to_polygon": "polygon-1746056033630",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 357.19,
+      "z": -310.72
+    }
+  },
+  {
+    "id": "ponte-del-doge",
+    "name": "Ponte del Doge",
+    "english_name": "Bridge of the Doge",
+    "from": {
+      "x": 346.85,
+      "z": -17.75
+    },
+    "to": {
+      "x": 352.93,
+      "z": -19.29
+    },
+    "from_polygon": "polygon-1746056173670",
+    "to_polygon": "polygon-1746056244077",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 349.89,
+      "z": -18.52
+    }
+  },
+  {
+    "id": "ponte-dei-legnatoli",
+    "name": "Ponte dei Legnatoli",
+    "english_name": "Bridge of the Woodworkers",
+    "from": {
+      "x": 797.4,
+      "z": -212.42
+    },
+    "to": {
+      "x": 805.06,
+      "z": -207.45
+    },
+    "from_polygon": "polygon-1746056196666",
+    "to_polygon": "polygon-1746056493504",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 801.23,
+      "z": -209.93
+    }
+  },
+  {
+    "id": "ponte-delle-scuole",
+    "name": "Ponte delle Scuole",
+    "english_name": "Bridge of the Schools",
+    "from": {
+      "x": 601.37,
+      "z": -78.1
+    },
+    "to": {
+      "x": 603.33,
+      "z": -70.49
+    },
+    "from_polygon": "polygon-1746056196666",
+    "to_polygon": "polygon-1746056214187",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 602.35,
+      "z": -74.29
+    }
+  },
+  {
+    "id": "ponte-dei-cavalieri-lateranensi",
+    "name": "Ponte dei Cavalieri Lateranensi",
+    "english_name": "Bridge of the Knights of Saint John Lateran",
+    "from": {
+      "x": 603.33,
+      "z": -70.49
+    },
+    "to": {
+      "x": 601.37,
+      "z": -78.1
+    },
+    "from_polygon": "polygon-1746056214187",
+    "to_polygon": "polygon-1746056196666",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 602.35,
+      "z": -74.29
+    }
+  },
+  {
+    "id": "ponte-degli-ospitalieri",
+    "name": "Ponte degli Ospitalieri",
+    "english_name": "Bridge of the Hospitallers",
+    "from": {
+      "x": 674.57,
+      "z": -51.76
+    },
+    "to": {
+      "x": 679.93,
+      "z": -36.39
+    },
+    "from_polygon": "polygon-1746056214187",
+    "to_polygon": "polygon-1746056451160",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 677.25,
+      "z": -44.08
+    }
+  },
+  {
+    "id": "ponte-dei-formosini",
+    "name": "Ponte dei Formosini",
+    "english_name": "Bridge of the Formosa Residents",
+    "from": {
+      "x": 414.31,
+      "z": 102.0
+    },
+    "to": {
+      "x": 423.91,
+      "z": 103.41
+    },
+    "from_polygon": "polygon-1746056244077",
+    "to_polygon": "polygon-1746056403060",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 419.11,
+      "z": 102.71
+    }
+  },
+  {
+    "id": "ponte-dei-casselleri",
+    "name": "Ponte dei Casselleri",
+    "english_name": "Bridge of the Chest Makers",
+    "from": {
+      "x": 523.68,
+      "z": -28.86
+    },
+    "to": {
+      "x": 529.92,
+      "z": -35.98
+    },
+    "from_polygon": "polygon-1746056244077",
+    "to_polygon": "polygon-1746056377511",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 526.8,
+      "z": -32.42
+    }
+  },
+  {
+    "id": "ponte-dei-don",
+    "name": "Ponte dei Donà",
+    "english_name": "Bridge of the Donà Family",
+    "from": {
+      "x": 352.93,
+      "z": -19.29
+    },
+    "to": {
+      "x": 346.85,
+      "z": -17.75
+    },
+    "from_polygon": "polygon-1746056244077",
+    "to_polygon": "polygon-1746056173670",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 349.89,
+      "z": -18.52
+    }
+  },
+  {
+    "id": "ponte-dei-bombaser",
+    "name": "Ponte dei Bombaser",
+    "english_name": "Bridge of the Cotton Merchants",
+    "from": {
+      "x": 374.09,
+      "z": 45.83
+    },
+    "to": {
+      "x": 366.66,
+      "z": 51.37
+    },
+    "from_polygon": "polygon-1746056244077",
+    "to_polygon": "polygon-1746056319492",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 370.37,
+      "z": 48.6
+    }
+  },
+  {
+    "id": "ponte-dei-merciari-di-fava",
+    "name": "Ponte dei Merciari di Fava",
+    "english_name": "Bridge of the Fava Merchants",
+    "from": {
+      "x": 130.5,
+      "z": 91.39
+    },
+    "to": {
+      "x": 143.32,
+      "z": 86.33
+    },
+    "from_polygon": "polygon-1746056283856",
+    "to_polygon": "polygon-1746056319492",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 136.91,
+      "z": 88.86
+    }
+  },
+  {
+    "id": "ponte-della-scuola-san-teodoro",
+    "name": "Ponte della Scuola San Teodoro",
+    "english_name": "Bridge of St. Theodore's School",
+    "from": {
+      "x": 63.88,
+      "z": 167.95
+    },
+    "to": {
+      "x": 66.63,
+      "z": 181.61
+    },
+    "from_polygon": "polygon-1746056283856",
+    "to_polygon": "polygon-1746056351603",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 65.26,
+      "z": 174.78
+    }
+  },
+  {
+    "id": "ponte-dei-giustinian",
+    "name": "Ponte dei Giustinian",
+    "english_name": "Bridge of the Giustinian",
+    "from": {
+      "x": 366.66,
+      "z": 51.37
+    },
+    "to": {
+      "x": 374.09,
+      "z": 45.83
+    },
+    "from_polygon": "polygon-1746056319492",
+    "to_polygon": "polygon-1746056244077",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 370.37,
+      "z": 48.6
+    }
+  },
+  {
+    "id": "ponte-dei-virtuosi",
+    "name": "Ponte dei Virtuosi",
+    "english_name": "Bridge of the Virtuosos",
+    "from": {
+      "x": 202.82,
+      "z": 109.63
+    },
+    "to": {
+      "x": 207.64,
+      "z": 115.84
+    },
+    "from_polygon": "polygon-1746056319492",
+    "to_polygon": "polygon-1746056876739",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 205.23,
+      "z": 112.73
+    }
+  },
+  {
+    "id": "ponte-della-fenice-antica",
+    "name": "Ponte della Fenice Antica",
+    "english_name": "Bridge of the Ancient Phoenix",
+    "from": {
+      "x": 143.32,
+      "z": 86.33
+    },
+    "to": {
+      "x": 130.5,
+      "z": 91.39
+    },
+    "from_polygon": "polygon-1746056319492",
+    "to_polygon": "polygon-1746056283856",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 136.91,
+      "z": 88.86
+    }
+  },
+  {
+    "id": "ponte-dei-fcitizeni",
+    "name": "Ponte dei Fcitizeni",
+    "english_name": "Bridge of the Spindle Makers",
+    "from": {
+      "x": 0.43,
+      "z": 114.21
+    },
+    "to": {
+      "x": 0.18,
+      "z": 103.04
+    },
+    "from_polygon": "polygon-1746056351603",
+    "to_polygon": "polygon-1746056283856",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 0.31,
+      "z": 108.62
+    }
+  },
+  {
+    "id": "ponte-dei-oresi",
+    "name": "Ponte dei Oresi",
+    "english_name": "Bridge of the Goldsmiths",
+    "from": {
+      "x": 73.34,
+      "z": 216.57
+    },
+    "to": {
+      "x": 80.32,
+      "z": 217.33
+    },
+    "from_polygon": "polygon-1746056351603",
+    "to_polygon": "polygon-1746056619863",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 76.83,
+      "z": 216.95
+    }
+  },
+  {
+    "id": "ponte-della-zecca-vecchia",
+    "name": "Ponte della Zecca Vecchia",
+    "english_name": "Bridge of the Old Mint",
+    "from": {
+      "x": -65.77,
+      "z": 306.86
+    },
+    "to": {
+      "x": -71.01,
+      "z": 315.15
+    },
+    "from_polygon": "polygon-1746056351603",
+    "to_polygon": "polygon-1746056876739",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -68.39,
+      "z": 311.01
+    }
+  },
+  {
+    "id": "ponte-dei-stoffe",
+    "name": "Ponte dei Stoffe",
+    "english_name": "Bridge of the Fabrics",
+    "from": {
+      "x": -167.18,
+      "z": 205.75
+    },
+    "to": {
+      "x": -171.12,
+      "z": 215.79
+    },
+    "from_polygon": "polygon-1746056351603",
+    "to_polygon": "polygon-1746056541940",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -169.15,
+      "z": 210.77
+    }
+  },
+  {
+    "id": "ponte-dei-benedettini",
+    "name": "Ponte dei Benedettini",
+    "english_name": "Bridge of the Benedictines",
+    "from": {
+      "x": 534.11,
+      "z": -62.19
+    },
+    "to": {
+      "x": 526.4,
+      "z": -65.48
+    },
+    "from_polygon": "polygon-1746056377511",
+    "to_polygon": "polygon-1746056244077",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 530.25,
+      "z": -63.83
+    }
+  },
+  {
+    "id": "ponte-di-san-severo",
+    "name": "Ponte di San Severo",
+    "english_name": "Bridge of Saint Severo",
+    "from": {
+      "x": 612.89,
+      "z": 194.54
+    },
+    "to": {
+      "x": 619.67,
+      "z": 202.55
+    },
+    "from_polygon": "polygon-1746056377511",
+    "to_polygon": "polygon-1746056923664",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 616.28,
+      "z": 198.54
+    }
+  },
+  {
+    "id": "ponte-dei-calegheri-vecchi",
+    "name": "Ponte dei Calegheri Vecchi",
+    "english_name": "Bridge of the Old Shoemakers",
+    "from": {
+      "x": 595.29,
+      "z": 163.75
+    },
+    "to": {
+      "x": 586.49,
+      "z": 159.59
+    },
+    "from_polygon": "polygon-1746056377511",
+    "to_polygon": "polygon-1746056403060",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 590.89,
+      "z": 161.67
+    }
+  },
+  {
+    "id": "ponte-del-pozzo-roverso",
+    "name": "Ponte del Pozzo Roverso",
+    "english_name": "Bridge of the Reversed Well",
+    "from": {
+      "x": 533.69,
+      "z": 68.05
+    },
+    "to": {
+      "x": 549.19,
+      "z": 73.87
+    },
+    "from_polygon": "polygon-1746056403060",
+    "to_polygon": "polygon-1746056377511",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 541.44,
+      "z": 70.96
+    }
+  },
+  {
+    "id": "ponte-dei-marangoni",
+    "name": "Ponte dei Marangoni",
+    "english_name": "Bridge of the Carpenters",
+    "from": {
+      "x": 420.55,
+      "z": 173.32
+    },
+    "to": {
+      "x": 416.44,
+      "z": 178.41
+    },
+    "from_polygon": "polygon-1746056403060",
+    "to_polygon": "polygon-1746056903912",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 418.5,
+      "z": 175.87
+    }
+  },
+  {
+    "id": "ponte-dei-bisanti",
+    "name": "Ponte dei Bisanti",
+    "english_name": "Bridge of the Byzants",
+    "from": {
+      "x": 423.91,
+      "z": 103.41
+    },
+    "to": {
+      "x": 414.31,
+      "z": 102.0
+    },
+    "from_polygon": "polygon-1746056403060",
+    "to_polygon": "polygon-1746056244077",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 419.11,
+      "z": 102.71
+    }
+  },
+  {
+    "id": "ponte-dei-bizantini",
+    "name": "Ponte dei Bizantini",
+    "english_name": "Bridge of the Byzantines",
+    "from": {
+      "x": 679.93,
+      "z": -36.39
+    },
+    "to": {
+      "x": 674.57,
+      "z": -51.76
+    },
+    "from_polygon": "polygon-1746056451160",
+    "to_polygon": "polygon-1746056214187",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 677.25,
+      "z": -44.08
+    }
+  },
+  {
+    "id": "ponte-della-chiesa-greca",
+    "name": "Ponte della Chiesa Greca",
+    "english_name": "Bridge of the Greek Church",
+    "from": {
+      "x": 787.2,
+      "z": 70.96
+    },
+    "to": {
+      "x": 793.61,
+      "z": 73.43
+    },
+    "from_polygon": "polygon-1746056451160",
+    "to_polygon": "polygon-1746056974299",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 790.4,
+      "z": 72.19
+    }
+  },
+  {
+    "id": "ponte-della-confraternita",
+    "name": "Ponte della Confraternita",
+    "english_name": "Bridge of the Brotherhood",
+    "from": {
+      "x": 680.76,
+      "z": 283.72
+    },
+    "to": {
+      "x": 669.53,
+      "z": 268.71
+    },
+    "from_polygon": "polygon-1746056451160",
+    "to_polygon": "polygon-1746056923664",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 675.15,
+      "z": 276.21
+    }
+  },
+  {
+    "id": "ponte-dei-notabili",
+    "name": "Ponte dei Notabili",
+    "english_name": "Bridge of the Notables",
+    "from": {
+      "x": 788.39,
+      "z": -101.06
+    },
+    "to": {
+      "x": 781.06,
+      "z": -100.49
+    },
+    "from_polygon": "polygon-1746056493504",
+    "to_polygon": "polygon-1746056196666",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 784.72,
+      "z": -100.78
+    }
+  },
+  {
+    "id": "ponte-degli-avvocati",
+    "name": "Ponte degli Avvocati",
+    "english_name": "Bridge of the Lawyers",
+    "from": {
+      "x": -171.12,
+      "z": 215.79
+    },
+    "to": {
+      "x": -167.18,
+      "z": 205.75
+    },
+    "from_polygon": "polygon-1746056541940",
+    "to_polygon": "polygon-1746056351603",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -169.15,
+      "z": 210.77
+    }
+  },
+  {
+    "id": "ponte-della-giustizia",
+    "name": "Ponte della Giustizia",
+    "english_name": "Bridge of Justice",
+    "from": {
+      "x": -186.62,
+      "z": 345.2
+    },
+    "to": {
+      "x": -176.13,
+      "z": 344.14
+    },
+    "from_polygon": "polygon-1746056541940",
+    "to_polygon": "polygon-1746056582235",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -181.38,
+      "z": 344.67
+    }
+  },
+  {
+    "id": "ponte-del-tribunale",
+    "name": "Ponte del Tribunale",
+    "english_name": "Bridge of the Tribunal",
+    "from": {
+      "x": -296.5,
+      "z": 410.85
+    },
+    "to": {
+      "x": -295.59,
+      "z": 425.23
+    },
+    "from_polygon": "polygon-1746056541940",
+    "to_polygon": "polygon-1746056735293",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -296.05,
+      "z": 418.04
+    }
+  },
+  {
+    "id": "ponte-dei-procuratori",
+    "name": "Ponte dei Procuratori",
+    "english_name": "Bridge of the Procurators",
+    "from": {
+      "x": -353.49,
+      "z": 255.64
+    },
+    "to": {
+      "x": -359.87,
+      "z": 255.3
+    },
+    "from_polygon": "polygon-1746056541940",
+    "to_polygon": "polygon-1746056559199",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -356.68,
+      "z": 255.47
+    }
+  },
+  {
+    "id": "ponte-dellalbero",
+    "name": "Ponte dell'Albero",
+    "english_name": "Bridge of the Tree",
+    "from": {
+      "x": -359.87,
+      "z": 255.3
+    },
+    "to": {
+      "x": -353.49,
+      "z": 255.64
+    },
+    "from_polygon": "polygon-1746056559199",
+    "to_polygon": "polygon-1746056541940",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -356.68,
+      "z": 255.47
+    }
+  },
+  {
+    "id": "ponte-dei-cerimonieri",
+    "name": "Ponte dei Cerimonieri",
+    "english_name": "Bridge of the Ceremonialists",
+    "from": {
+      "x": -417.07,
+      "z": 300.45
+    },
+    "to": {
+      "x": -414.68,
+      "z": 304.45
+    },
+    "from_polygon": "polygon-1746056559199",
+    "to_polygon": "polygon-1746056711688",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -415.88,
+      "z": 302.45
+    }
+  },
+  {
+    "id": "ponte-dei-caffettieri",
+    "name": "Ponte dei Caffettieri",
+    "english_name": "Bridge of the Coffee Makers",
+    "from": {
+      "x": -81.01,
+      "z": 365.78
+    },
+    "to": {
+      "x": -76.49,
+      "z": 362.14
+    },
+    "from_polygon": "polygon-1746056582235",
+    "to_polygon": "polygon-1746056876739",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -78.75,
+      "z": 363.96
+    }
+  },
+  {
+    "id": "ponte-della-spezieria",
+    "name": "Ponte della Spezieria",
+    "english_name": "Bridge of the Spice Shop",
+    "from": {
+      "x": -108.25,
+      "z": 441.09
+    },
+    "to": {
+      "x": -102.0,
+      "z": 443.54
+    },
+    "from_polygon": "polygon-1746056582235",
+    "to_polygon": "polygon-1746056790924",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -105.12,
+      "z": 442.32
+    }
+  },
+  {
+    "id": "ponte-dei-pasticcieri",
+    "name": "Ponte dei Pasticcieri",
+    "english_name": "Bridge of the Pastry Makers",
+    "from": {
+      "x": -214.26,
+      "z": 378.26
+    },
+    "to": {
+      "x": -219.31,
+      "z": 375.9
+    },
+    "from_polygon": "polygon-1746056582235",
+    "to_polygon": "polygon-1746056541940",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -216.78,
+      "z": 377.08
+    }
+  },
+  {
+    "id": "ponte-dei-favri",
+    "name": "Ponte dei Favri",
+    "english_name": "Bridge of the Blacksmiths",
+    "from": {
+      "x": 146.11,
+      "z": 213.17
+    },
+    "to": {
+      "x": 144.37,
+      "z": 206.55
+    },
+    "from_polygon": "polygon-1746056619863",
+    "to_polygon": "polygon-1746056876739",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 145.24,
+      "z": 209.86
+    }
+  },
+  {
+    "id": "ponte-dei-consorti",
+    "name": "Ponte dei Consorti",
+    "english_name": "Bridge of the Consortiums",
+    "from": {
+      "x": 80.32,
+      "z": 217.33
+    },
+    "to": {
+      "x": 73.34,
+      "z": 216.57
+    },
+    "from_polygon": "polygon-1746056619863",
+    "to_polygon": "polygon-1746056351603",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 76.83,
+      "z": 216.95
+    }
+  },
+  {
+    "id": "ponte-dei-lezze",
+    "name": "Ponte dei Lezze",
+    "english_name": "Bridge of the Lezze",
+    "from": {
+      "x": -543.11,
+      "z": 507.72
+    },
+    "to": {
+      "x": -541.02,
+      "z": 512.51
+    },
+    "from_polygon": "polygon-1746056660534",
+    "to_polygon": "polygon-1746056675315",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -542.07,
+      "z": 510.11
+    }
+  },
+  {
+    "id": "ponte-di-san-mois",
+    "name": "Ponte di San Moisè",
+    "english_name": "Bridge of Saint Moses",
+    "from": {
+      "x": -483.82,
+      "z": 462.78
+    },
+    "to": {
+      "x": -475.02,
+      "z": 464.24
+    },
+    "from_polygon": "polygon-1746056660534",
+    "to_polygon": "polygon-1746056711688",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -479.42,
+      "z": 463.51
+    }
+  },
+  {
+    "id": "ponte-dei-giustinian",
+    "name": "Ponte dei Giustinian",
+    "english_name": "Bridge of the Giustinian",
+    "from": {
+      "x": -541.02,
+      "z": 512.51
+    },
+    "to": {
+      "x": -543.11,
+      "z": 507.72
+    },
+    "from_polygon": "polygon-1746056675315",
+    "to_polygon": "polygon-1746056660534",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -542.07,
+      "z": 510.11
+    }
+  },
+  {
+    "id": "ponte-della-fenice-nuova",
+    "name": "Ponte della Fenice Nuova",
+    "english_name": "Bridge of the New Phoenix",
+    "from": {
+      "x": -458.68,
+      "z": 482.55
+    },
+    "to": {
+      "x": -451.56,
+      "z": 480.47
+    },
+    "from_polygon": "polygon-1746056675315",
+    "to_polygon": "polygon-1746056711688",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -455.12,
+      "z": 481.51
+    }
+  },
+  {
+    "id": "ponte-dei-narisi",
+    "name": "Ponte dei Narisi",
+    "english_name": "Bridge of the Narisi",
+    "from": {
+      "x": -396.67,
+      "z": 600.9
+    },
+    "to": {
+      "x": -393.3,
+      "z": 603.42
+    },
+    "from_polygon": "polygon-1746056711688",
+    "to_polygon": "polygon-1746056735293",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -394.98,
+      "z": 602.16
+    }
+  },
+  {
+    "id": "ponte-degli-ormesini",
+    "name": "Ponte degli Ormesini",
+    "english_name": "Bridge of the Ormesini",
+    "from": {
+      "x": -414.68,
+      "z": 304.45
+    },
+    "to": {
+      "x": -417.07,
+      "z": 300.45
+    },
+    "from_polygon": "polygon-1746056711688",
+    "to_polygon": "polygon-1746056559199",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -415.88,
+      "z": 302.45
+    }
+  },
+  {
+    "id": "ponte-dei-fondachi",
+    "name": "Ponte dei Fondachi",
+    "english_name": "Bridge of the Warehouses",
+    "from": {
+      "x": -423.06,
+      "z": 383.1
+    },
+    "to": {
+      "x": -428.09,
+      "z": 384.55
+    },
+    "from_polygon": "polygon-1746056711688",
+    "to_polygon": "polygon-1746056660534",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -425.58,
+      "z": 383.82
+    }
+  },
+  {
+    "id": "ponte-dei-vedrai-di-murano",
+    "name": "Ponte dei Vedrai di Murano",
+    "english_name": "Bridge of the Murano Glassmakers",
+    "from": {
+      "x": -451.56,
+      "z": 480.47
+    },
+    "to": {
+      "x": -458.68,
+      "z": 482.55
+    },
+    "from_polygon": "polygon-1746056711688",
+    "to_polygon": "polygon-1746056675315",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -455.12,
+      "z": 481.51
+    }
+  },
+  {
+    "id": "ponte-degli-zaguri",
+    "name": "Ponte degli Zaguri",
+    "english_name": "Bridge of the Zaguri",
+    "from": {
+      "x": -342.02,
+      "z": 438.88
+    },
+    "to": {
+      "x": -345.13,
+      "z": 436.61
+    },
+    "from_polygon": "polygon-1746056735293",
+    "to_polygon": "polygon-1746056711688",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -343.57,
+      "z": 437.75
+    }
+  },
+  {
+    "id": "ponte-della-rosa-doro",
+    "name": "Ponte della Rosa d'Oro",
+    "english_name": "Bridge of the Golden Rose",
+    "from": {
+      "x": -303.55,
+      "z": 480.57
+    },
+    "to": {
+      "x": -298.1,
+      "z": 477.25
+    },
+    "from_polygon": "polygon-1746056735293",
+    "to_polygon": "polygon-1746056756754",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -300.83,
+      "z": 478.91
+    }
+  },
+  {
+    "id": "ponte-dei-miniaturisti",
+    "name": "Ponte dei Miniaturisti",
+    "english_name": "Bridge of the Miniaturists",
+    "from": {
+      "x": -295.59,
+      "z": 425.23
+    },
+    "to": {
+      "x": -296.5,
+      "z": 410.85
+    },
+    "from_polygon": "polygon-1746056735293",
+    "to_polygon": "polygon-1746056541940",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -296.05,
+      "z": 418.04
+    }
+  },
+  {
+    "id": "ponte-dei-narisi",
+    "name": "Ponte dei Narisi",
+    "english_name": "Bridge of the Narisi",
+    "from": {
+      "x": -298.1,
+      "z": 477.25
+    },
+    "to": {
+      "x": -303.55,
+      "z": 480.57
+    },
+    "from_polygon": "polygon-1746056756754",
+    "to_polygon": "polygon-1746056735293",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -300.83,
+      "z": 478.91
+    }
+  },
+  {
+    "id": "ponte-della-feltrina",
+    "name": "Ponte della Feltrina",
+    "english_name": "Bridge of Feltrina",
+    "from": {
+      "x": -183.99,
+      "z": 538.42
+    },
+    "to": {
+      "x": -178.4,
+      "z": 542.58
+    },
+    "from_polygon": "polygon-1746056766342",
+    "to_polygon": "polygon-1746056790924",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -181.19,
+      "z": 540.5
+    }
+  },
+  {
+    "id": "ponte-dei-gioiellieri-di-san-mois",
+    "name": "Ponte dei Gioiellieri di San Moisè",
+    "english_name": "Bridge of the Jewelers of San Moisè",
+    "from": {
+      "x": -21.96,
+      "z": 489.31
+    },
+    "to": {
+      "x": -14.48,
+      "z": 488.64
+    },
+    "from_polygon": "polygon-1746056790924",
+    "to_polygon": "polygon-1746056876739",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -18.22,
+      "z": 488.97
+    }
+  },
+  {
+    "id": "ponte-della-scuola-di-san-mois",
+    "name": "Ponte della Scuola di San Moisè",
+    "english_name": "Bridge of the School of San Moisè",
+    "from": {
+      "x": -173.93,
+      "z": 594.18
+    },
+    "to": {
+      "x": -179.24,
+      "z": 595.43
+    },
+    "from_polygon": "polygon-1746056790924",
+    "to_polygon": "polygon-1746056766342",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -176.58,
+      "z": 594.8
+    }
+  },
+  {
+    "id": "ponte-dei-vallaresso",
+    "name": "Ponte dei Vallaresso",
+    "english_name": "Bridge of the Vallaresso Family",
+    "from": {
+      "x": -102.0,
+      "z": 443.54
+    },
+    "to": {
+      "x": -108.25,
+      "z": 441.09
+    },
+    "from_polygon": "polygon-1746056790924",
+    "to_polygon": "polygon-1746056582235",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -105.12,
+      "z": 442.32
+    }
+  },
+  {
+    "id": "ponte-dei-fabbri",
+    "name": "Ponte dei Fabbri",
+    "english_name": "Bridge of the Blacksmiths",
+    "from": {
+      "x": -99.12,
+      "z": 325.1
+    },
+    "to": {
+      "x": -103.49,
+      "z": 322.26
+    },
+    "from_polygon": "polygon-1746056876739",
+    "to_polygon": "polygon-1746056351603",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -101.3,
+      "z": 323.68
+    }
+  },
+  {
+    "id": "ponte-delle-guglie-piccole",
+    "name": "Ponte delle Guglie Piccole",
+    "english_name": "Bridge of the Small Spires",
+    "from": {
+      "x": -76.49,
+      "z": 362.14
+    },
+    "to": {
+      "x": -81.01,
+      "z": 365.78
+    },
+    "from_polygon": "polygon-1746056876739",
+    "to_polygon": "polygon-1746056582235",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -78.75,
+      "z": 363.96
+    }
+  },
+  {
+    "id": "ponte-dei-tre-archi-minore",
+    "name": "Ponte dei Tre Archi Minore",
+    "english_name": "Bridge of the Three Minor Arches",
+    "from": {
+      "x": -14.48,
+      "z": 488.64
+    },
+    "to": {
+      "x": -21.96,
+      "z": 489.31
+    },
+    "from_polygon": "polygon-1746056876739",
+    "to_polygon": "polygon-1746056790924",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -18.22,
+      "z": 488.97
+    }
+  },
+  {
+    "id": "ponte-dei-squeri",
+    "name": "Ponte dei Squeri",
+    "english_name": "Bridge of the Shipyards",
+    "from": {
+      "x": 386.39,
+      "z": 346.88
+    },
+    "to": {
+      "x": 390.67,
+      "z": 340.07
+    },
+    "from_polygon": "polygon-1746056876739",
+    "to_polygon": "polygon-1746056903912",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 388.53,
+      "z": 343.47
+    }
+  },
+  {
+    "id": "ponte-dei-lagunari",
+    "name": "Ponte dei Lagunari",
+    "english_name": "Bridge of the Lagoon Dwellers",
+    "from": {
+      "x": 207.64,
+      "z": 115.84
+    },
+    "to": {
+      "x": 202.82,
+      "z": 109.63
+    },
+    "from_polygon": "polygon-1746056876739",
+    "to_polygon": "polygon-1746056319492",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 205.23,
+      "z": 112.73
+    }
+  },
+  {
+    "id": "ponte-della-canapa",
+    "name": "Ponte della Canapa",
+    "english_name": "Bridge of Hemp",
+    "from": {
+      "x": 144.37,
+      "z": 206.55
+    },
+    "to": {
+      "x": 146.11,
+      "z": 213.17
+    },
+    "from_polygon": "polygon-1746056876739",
+    "to_polygon": "polygon-1746056619863",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 145.24,
+      "z": 209.86
+    }
+  },
+  {
+    "id": "ponte-delle-rasse",
+    "name": "Ponte delle Rasse",
+    "english_name": "Bridge of the Sailcloths",
+    "from": {
+      "x": 416.44,
+      "z": 178.41
+    },
+    "to": {
+      "x": 420.55,
+      "z": 173.32
+    },
+    "from_polygon": "polygon-1746056903912",
+    "to_polygon": "polygon-1746056403060",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 418.5,
+      "z": 175.87
+    }
+  },
+  {
+    "id": "ponte-dei-velieri",
+    "name": "Ponte dei Velieri",
+    "english_name": "Bridge of the Sailmakers",
+    "from": {
+      "x": 498.01,
+      "z": 309.9
+    },
+    "to": {
+      "x": 502.76,
+      "z": 312.54
+    },
+    "from_polygon": "polygon-1746056903912",
+    "to_polygon": "polygon-1746056923664",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 500.39,
+      "z": 311.22
+    }
+  },
+  {
+    "id": "ponte-dei-cordai",
+    "name": "Ponte dei Cordai",
+    "english_name": "Bridge of the Ropemakers",
+    "from": {
+      "x": 390.67,
+      "z": 340.07
+    },
+    "to": {
+      "x": 386.39,
+      "z": 346.88
+    },
+    "from_polygon": "polygon-1746056903912",
+    "to_polygon": "polygon-1746056876739",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 388.53,
+      "z": 343.47
+    }
+  },
+  {
+    "id": "ponte-di-san-zaccaria",
+    "name": "Ponte di San Zaccaria",
+    "english_name": "Bridge of Saint Zacharias",
+    "from": {
+      "x": 669.53,
+      "z": 268.71
+    },
+    "to": {
+      "x": 680.76,
+      "z": 283.72
+    },
+    "from_polygon": "polygon-1746056923664",
+    "to_polygon": "polygon-1746056451160",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 675.15,
+      "z": 276.21
+    }
+  },
+  {
+    "id": "ponte-delle-monache",
+    "name": "Ponte delle Monache",
+    "english_name": "Bridge of the Nuns",
+    "from": {
+      "x": 507.37,
+      "z": 367.6
+    },
+    "to": {
+      "x": 501.65,
+      "z": 368.99
+    },
+    "from_polygon": "polygon-1746056923664",
+    "to_polygon": "polygon-1746056903912",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 504.51,
+      "z": 368.3
+    }
+  },
+  {
+    "id": "ponte-dei-dogi",
+    "name": "Ponte dei Dogi",
+    "english_name": "Bridge of the Doges",
+    "from": {
+      "x": 619.67,
+      "z": 202.55
+    },
+    "to": {
+      "x": 612.89,
+      "z": 194.54
+    },
+    "from_polygon": "polygon-1746056923664",
+    "to_polygon": "polygon-1746056377511",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 616.28,
+      "z": 198.54
+    }
+  },
+  {
+    "id": "ponte-della-fontana",
+    "name": "Ponte della Fontana",
+    "english_name": "Bridge of the Fountain",
+    "from": {
+      "x": 902.66,
+      "z": 164.43
+    },
+    "to": {
+      "x": 915.75,
+      "z": 163.72
+    },
+    "from_polygon": "polygon-1746056974299",
+    "to_polygon": "polygon-1746057007426",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 909.21,
+      "z": 164.07
+    }
+  },
+  {
+    "id": "ponte-di-san-provolo",
+    "name": "Ponte di San Provolo",
+    "english_name": "Bridge of Saint Provolus",
+    "from": {
+      "x": 1009.41,
+      "z": 364.99
+    },
+    "to": {
+      "x": 1018.12,
+      "z": 370.56
+    },
+    "from_polygon": "polygon-1746056974299",
+    "to_polygon": "polygon-1746057051612",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1013.76,
+      "z": 367.78
+    }
+  },
+  {
+    "id": "ponte-dei-vetrari",
+    "name": "Ponte dei Vetrari",
+    "english_name": "Bridge of the Glassmakers",
+    "from": {
+      "x": 807.86,
+      "z": 215.2
+    },
+    "to": {
+      "x": 793.9,
+      "z": 223.67
+    },
+    "from_polygon": "polygon-1746056974299",
+    "to_polygon": "polygon-1746056451160",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 800.88,
+      "z": 219.43
+    }
+  },
+  {
+    "id": "ponte-del-bastione",
+    "name": "Ponte del Bastione",
+    "english_name": "Bridge of the Bastion",
+    "from": {
+      "x": 1056.96,
+      "z": 193.26
+    },
+    "to": {
+      "x": 1062.83,
+      "z": 192.43
+    },
+    "from_polygon": "polygon-1746057007426",
+    "to_polygon": "polygon-1746057029127",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1059.89,
+      "z": 192.84
+    }
+  },
+  {
+    "id": "ponte-degli-arsenalotti",
+    "name": "Ponte degli Arsenalotti",
+    "english_name": "Bridge of the Arsenal Workers",
+    "from": {
+      "x": 915.75,
+      "z": 163.72
+    },
+    "to": {
+      "x": 902.66,
+      "z": 164.43
+    },
+    "from_polygon": "polygon-1746057007426",
+    "to_polygon": "polygon-1746056974299",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 909.21,
+      "z": 164.07
+    }
+  },
+  {
+    "id": "ponte-dellanzolo",
+    "name": "Ponte dell'Anzolo",
+    "english_name": "Bridge of the Angel",
+    "from": {
+      "x": 1062.83,
+      "z": 192.43
+    },
+    "to": {
+      "x": 1056.96,
+      "z": 193.26
+    },
+    "from_polygon": "polygon-1746057029127",
+    "to_polygon": "polygon-1746057007426",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1059.89,
+      "z": 192.84
+    }
+  },
+  {
+    "id": "ponte-dei-forni",
+    "name": "Ponte dei Forni",
+    "english_name": "Bridge of the Bakeries",
+    "from": {
+      "x": 1106.11,
+      "z": 390.53
+    },
+    "to": {
+      "x": 1122.9,
+      "z": 383.89
+    },
+    "from_polygon": "polygon-1746057051612",
+    "to_polygon": "polygon-1746057275948",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1114.51,
+      "z": 387.21
+    }
+  },
+  {
+    "id": "ponte-dei-ducali",
+    "name": "Ponte dei Ducali",
+    "english_name": "Bridge of the Ducal Officials",
+    "from": {
+      "x": 1018.12,
+      "z": 370.56
+    },
+    "to": {
+      "x": 1009.41,
+      "z": 364.99
+    },
+    "from_polygon": "polygon-1746057051612",
+    "to_polygon": "polygon-1746056974299",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1013.76,
+      "z": 367.78
+    }
+  },
+  {
+    "id": "ponte-dei-cambisti",
+    "name": "Ponte dei Cambisti",
+    "english_name": "Bridge of the Money Changers",
+    "from": {
+      "x": 1684.39,
+      "z": 258.22
+    },
+    "to": {
+      "x": 1679.37,
+      "z": 269.04
+    },
+    "from_polygon": "polygon-1746057275948",
+    "to_polygon": "polygon-1746057305470",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1681.88,
+      "z": 263.63
+    }
+  },
+  {
+    "id": "ponte-della-stadera",
+    "name": "Ponte della Stadera",
+    "english_name": "Bridge of the Scale",
+    "from": {
+      "x": 1624.05,
+      "z": 227.43
+    },
+    "to": {
+      "x": 1606.87,
+      "z": 239.5
+    },
+    "from_polygon": "polygon-1746057275948",
+    "to_polygon": "polygon-1746057291098",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1615.46,
+      "z": 233.46
+    }
+  },
+  {
+    "id": "ponte-dei-tedeschi",
+    "name": "Ponte dei Tedeschi",
+    "english_name": "Bridge of the Germans",
+    "from": {
+      "x": 1512.59,
+      "z": 478.14
+    },
+    "to": {
+      "x": 1510.89,
+      "z": 490.6
+    },
+    "from_polygon": "polygon-1746057275948",
+    "to_polygon": "polygon-1746057352428",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1511.74,
+      "z": 484.37
+    }
+  },
+  {
+    "id": "ponte-dei-nicolotti",
+    "name": "Ponte dei Nicolotti",
+    "english_name": "Bridge of the Nicolotti Faction",
+    "from": {
+      "x": 1122.9,
+      "z": 383.89
+    },
+    "to": {
+      "x": 1106.11,
+      "z": 390.53
+    },
+    "from_polygon": "polygon-1746057275948",
+    "to_polygon": "polygon-1746057051612",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1114.51,
+      "z": 387.21
+    }
+  },
+  {
+    "id": "ponte-del-figareto",
+    "name": "Ponte del Figareto",
+    "english_name": "Bridge of the Small Fig Tree",
+    "from": {
+      "x": 1606.87,
+      "z": 239.5
+    },
+    "to": {
+      "x": 1624.05,
+      "z": 227.43
+    },
+    "from_polygon": "polygon-1746057291098",
+    "to_polygon": "polygon-1746057275948",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1615.46,
+      "z": 233.46
+    }
+  },
+  {
+    "id": "ponte-dei-musici",
+    "name": "Ponte dei Musici",
+    "english_name": "Bridge of the Musicians",
+    "from": {
+      "x": 1655.06,
+      "z": 309.4
+    },
+    "to": {
+      "x": 1664.28,
+      "z": 303.99
+    },
+    "from_polygon": "polygon-1746057291098",
+    "to_polygon": "polygon-1746057305470",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1659.67,
+      "z": 306.7
+    }
+  },
+  {
+    "id": "ponte-di-san-zulian",
+    "name": "Ponte di San Zulian",
+    "english_name": "Bridge of Saint Julian",
+    "from": {
+      "x": 1679.37,
+      "z": 269.04
+    },
+    "to": {
+      "x": 1684.39,
+      "z": 258.22
+    },
+    "from_polygon": "polygon-1746057305470",
+    "to_polygon": "polygon-1746057275948",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1681.88,
+      "z": 263.63
+    }
+  },
+  {
+    "id": "ponte-dei-gioiellieri-di-san-zulian",
+    "name": "Ponte dei Gioiellieri di San Zulian",
+    "english_name": "Bridge of the Jewelers of Saint Julian",
+    "from": {
+      "x": 1644.17,
+      "z": 471.27
+    },
+    "to": {
+      "x": 1635.79,
+      "z": 472.93
+    },
+    "from_polygon": "polygon-1746057305470",
+    "to_polygon": "polygon-1746057291098",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1639.98,
+      "z": 472.1
+    }
+  },
+  {
+    "id": "ponte-di-san-domenego",
+    "name": "Ponte di San Domenego",
+    "english_name": "Bridge of Saint Dominic",
+    "from": {
+      "x": 1481.34,
+      "z": 795.42
+    },
+    "to": {
+      "x": 1497.2,
+      "z": 803.51
+    },
+    "from_polygon": "polygon-1746057352428",
+    "to_polygon": "polygon-1746057372815",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1489.27,
+      "z": 799.46
+    }
+  },
+  {
+    "id": "ponte-dei-tagliapietra",
+    "name": "Ponte dei Tagliapietra",
+    "english_name": "Bridge of the Stonemasons",
+    "from": {
+      "x": 1834.16,
+      "z": 692.21
+    },
+    "to": {
+      "x": 1845.66,
+      "z": 694.85
+    },
+    "from_polygon": "polygon-1746057352428",
+    "to_polygon": "polygon-1746057412398",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1839.91,
+      "z": 693.53
+    }
+  },
+  {
+    "id": "ponte-dei-loredan",
+    "name": "Ponte dei Loredan",
+    "english_name": "Bridge of the Loredan Family",
+    "from": {
+      "x": 1510.89,
+      "z": 490.6
+    },
+    "to": {
+      "x": 1512.59,
+      "z": 478.14
+    },
+    "from_polygon": "polygon-1746057352428",
+    "to_polygon": "polygon-1746057275948",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1511.74,
+      "z": 484.37
+    }
+  },
+  {
+    "id": "ponte-delle-terese",
+    "name": "Ponte delle Terese",
+    "english_name": "Bridge of the Teresians",
+    "from": {
+      "x": 1497.2,
+      "z": 803.51
+    },
+    "to": {
+      "x": 1481.34,
+      "z": 795.42
+    },
+    "from_polygon": "polygon-1746057372815",
+    "to_polygon": "polygon-1746057352428",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1489.27,
+      "z": 799.46
+    }
+  },
+  {
+    "id": "ponte-dei-vascellari",
+    "name": "Ponte dei Vascellari",
+    "english_name": "Bridge of the Shipwrights",
+    "from": {
+      "x": 1844.99,
+      "z": 805.17
+    },
+    "to": {
+      "x": 1860.18,
+      "z": 808.04
+    },
+    "from_polygon": "polygon-1746057372815",
+    "to_polygon": "polygon-1746057412398",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1852.58,
+      "z": 806.6
+    }
+  },
+  {
+    "id": "ponte-della-carit-antica",
+    "name": "Ponte della Carità Antica",
+    "english_name": "Bridge of the Ancient Charity",
+    "from": {
+      "x": 1845.66,
+      "z": 694.85
+    },
+    "to": {
+      "x": 1834.16,
+      "z": 692.21
+    },
+    "from_polygon": "polygon-1746057412398",
+    "to_polygon": "polygon-1746057352428",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1839.91,
+      "z": 693.53
+    }
+  },
+  {
+    "id": "ponte-dei-benefattori",
+    "name": "Ponte dei Benefattori",
+    "english_name": "Bridge of the Benefactors",
+    "from": {
+      "x": 1860.18,
+      "z": 808.04
+    },
+    "to": {
+      "x": 1844.99,
+      "z": 805.17
+    },
+    "from_polygon": "polygon-1746057412398",
+    "to_polygon": "polygon-1746057372815",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": 1852.58,
+      "z": 806.6
+    }
+  },
+  {
+    "id": "ponte-di-san-thom",
+    "name": "Ponte di San Thomà",
+    "english_name": "Bridge of Saint Thomas",
+    "from": {
+      "x": -642.7,
+      "z": 125.49
+    },
+    "to": {
+      "x": -631.29,
+      "z": 122.68
+    },
+    "from_polygon": "polygon-1746072707138",
+    "to_polygon": "polygon-1746072737712",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -636.99,
+      "z": 124.08
+    }
+  },
+  {
+    "id": "ponte-dei-botteri",
+    "name": "Ponte dei Botteri",
+    "english_name": "Bridge of the Barrel Makers",
+    "from": {
+      "x": -722.31,
+      "z": -144.97
+    },
+    "to": {
+      "x": -712.11,
+      "z": -150.82
+    },
+    "from_polygon": "polygon-1746072707138",
+    "to_polygon": "polygon-1745879404342",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -717.21,
+      "z": -147.89
+    }
+  },
+  {
+    "id": "ponte-dei-panattoni",
+    "name": "Ponte dei Panattoni",
+    "english_name": "Bridge of the Bread Makers",
+    "from": {
+      "x": -796.06,
+      "z": -106.69
+    },
+    "to": {
+      "x": -798.85,
+      "z": -115.48
+    },
+    "from_polygon": "polygon-1746072707138",
+    "to_polygon": "polygon-1745879385958",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -797.46,
+      "z": -111.08
+    }
+  },
+  {
+    "id": "ponte-degli-intagliatori",
+    "name": "Ponte degli Intagliatori",
+    "english_name": "Bridge of the Wood Carvers",
+    "from": {
+      "x": -999.71,
+      "z": -15.15
+    },
+    "to": {
+      "x": -1011.37,
+      "z": -15.32
+    },
+    "from_polygon": "polygon-1746072707138",
+    "to_polygon": "polygon-1745879354937",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -1005.54,
+      "z": -15.23
+    }
+  },
+  {
+    "id": "ponte-della-scuola-grande",
+    "name": "Ponte della Scuola Grande",
+    "english_name": "Bridge of the Great School",
+    "from": {
+      "x": -814.78,
+      "z": 133.53
+    },
+    "to": {
+      "x": -824.41,
+      "z": 138.22
+    },
+    "from_polygon": "polygon-1746072707138",
+    "to_polygon": "polygon-1745879420223",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -819.59,
+      "z": 135.88
+    }
+  },
+  {
+    "id": "ponte-dei-saoneri",
+    "name": "Ponte dei Saoneri",
+    "english_name": "Bridge of the Soap Makers",
+    "from": {
+      "x": -679.9,
+      "z": -12.97
+    },
+    "to": {
+      "x": -694.66,
+      "z": -20.98
+    },
+    "from_polygon": "polygon-1746072737712",
+    "to_polygon": "polygon-1746072707138",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -687.28,
+      "z": -16.97
+    }
+  },
+  {
+    "id": "ponte-del-megio",
+    "name": "Ponte del Megio",
+    "english_name": "Bridge of Millet",
+    "from": {
+      "x": -498.68,
+      "z": -440.46
+    },
+    "to": {
+      "x": -493.17,
+      "z": -440.88
+    },
+    "from_polygon": "polygon-1746072757215",
+    "to_polygon": "polygon-1746072788813",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -495.93,
+      "z": -440.67
+    }
+  },
+  {
+    "id": "ponte-di-san-stae",
+    "name": "Ponte di San Stae",
+    "english_name": "Bridge of Saint Eustachius",
+    "from": {
+      "x": -369.52,
+      "z": -375.05
+    },
+    "to": {
+      "x": -366.12,
+      "z": -370.95
+    },
+    "from_polygon": "polygon-1746072788813",
+    "to_polygon": "polygon-1746072892556",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -367.82,
+      "z": -373.0
+    }
+  },
+  {
+    "id": "ponte-dei-damaschi",
+    "name": "Ponte dei Damaschi",
+    "english_name": "Bridge of the Damask Weavers",
+    "from": {
+      "x": -493.17,
+      "z": -440.88
+    },
+    "to": {
+      "x": -498.68,
+      "z": -440.46
+    },
+    "from_polygon": "polygon-1746072788813",
+    "to_polygon": "polygon-1746072757215",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -495.93,
+      "z": -440.67
+    }
+  },
+  {
+    "id": "ponte-dei-velutai",
+    "name": "Ponte dei Velutai",
+    "english_name": "Bridge of the Velvet Makers",
+    "from": {
+      "x": -395.39,
+      "z": 39.0
+    },
+    "to": {
+      "x": -391.2,
+      "z": 36.51
+    },
+    "from_polygon": "polygon-1746072856331",
+    "to_polygon": "polygon-1746072871983",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -393.29,
+      "z": 37.76
+    }
+  },
+  {
+    "id": "ponte-del-forno",
+    "name": "Ponte del Forno",
+    "english_name": "Bridge of the Bakery",
+    "from": {
+      "x": -328.34,
+      "z": 1.97
+    },
+    "to": {
+      "x": -325.68,
+      "z": -1.02
+    },
+    "from_polygon": "polygon-1746072871983",
+    "to_polygon": "polygon-1746072967949",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -327.01,
+      "z": 0.48
+    }
+  },
+  {
+    "id": "ponte-della-croce-piccola",
+    "name": "Ponte della Croce Piccola",
+    "english_name": "Bridge of the Little Cross",
+    "from": {
+      "x": -382.4,
+      "z": 76.04
+    },
+    "to": {
+      "x": -387.42,
+      "z": 77.7
+    },
+    "from_polygon": "polygon-1746072871983",
+    "to_polygon": "polygon-1746072856331",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -384.91,
+      "z": 76.87
+    }
+  },
+  {
+    "id": "ponte-del-diavolo",
+    "name": "Ponte del Diavolo",
+    "english_name": "Devil's Bridge",
+    "from": {
+      "x": -387.91,
+      "z": -259.44
+    },
+    "to": {
+      "x": -387.28,
+      "z": -252.28
+    },
+    "from_polygon": "polygon-1746072892556",
+    "to_polygon": "polygon-1746072917032",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -387.59,
+      "z": -255.86
+    }
+  },
+  {
+    "id": "ponte-dei-tintori-di-san-polo",
+    "name": "Ponte dei Tintori di San Polo",
+    "english_name": "Bridge of the Dyers of San Polo",
+    "from": {
+      "x": -366.12,
+      "z": -370.95
+    },
+    "to": {
+      "x": -369.52,
+      "z": -375.05
+    },
+    "from_polygon": "polygon-1746072892556",
+    "to_polygon": "polygon-1746072788813",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -367.82,
+      "z": -373.0
+    }
+  },
+  {
+    "id": "ponte-della-regina",
+    "name": "Ponte della Regina",
+    "english_name": "Bridge of the Queen",
+    "from": {
+      "x": -309.13,
+      "z": -263.18
+    },
+    "to": {
+      "x": -307.24,
+      "z": -249.36
+    },
+    "from_polygon": "polygon-1746072917032",
+    "to_polygon": "polygon-1746072933644",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -308.19,
+      "z": -256.27
+    }
+  },
+  {
+    "id": "ponte-dei-coroneri",
+    "name": "Ponte dei Coroneri",
+    "english_name": "Bridge of the Rosary Makers",
+    "from": {
+      "x": -387.28,
+      "z": -252.28
+    },
+    "to": {
+      "x": -387.91,
+      "z": -259.44
+    },
+    "from_polygon": "polygon-1746072917032",
+    "to_polygon": "polygon-1746072892556",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -387.59,
+      "z": -255.86
+    }
+  },
+  {
+    "id": "ponte-della-botta",
+    "name": "Ponte della Botta",
+    "english_name": "Bridge of the Barrel",
+    "from": {
+      "x": -202.49,
+      "z": -201.52
+    },
+    "to": {
+      "x": -198.3,
+      "z": -199.07
+    },
+    "from_polygon": "polygon-1746072933644",
+    "to_polygon": "polygon-1746072967949",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -200.39,
+      "z": -200.29
+    }
+  },
+  {
+    "id": "ponte-dei-vinai",
+    "name": "Ponte dei Vinai",
+    "english_name": "Bridge of the Wine Merchants",
+    "from": {
+      "x": -336.47,
+      "z": -208.17
+    },
+    "to": {
+      "x": -332.6,
+      "z": -221.16
+    },
+    "from_polygon": "polygon-1746072933644",
+    "to_polygon": "polygon-1746072917032",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -334.53,
+      "z": -214.67
+    }
+  },
+  {
+    "id": "ponte-dei-velai",
+    "name": "Ponte dei Velai",
+    "english_name": "Bridge of the Sailmakers",
+    "from": {
+      "x": -295.09,
+      "z": 42.67
+    },
+    "to": {
+      "x": -296.5,
+      "z": 46.91
+    },
+    "from_polygon": "polygon-1746072967949",
+    "to_polygon": "polygon-1746072871983",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -295.79,
+      "z": 44.79
+    }
+  },
+  {
+    "id": "ponte-della-scuola-di-san-giovanni-evangelista",
+    "name": "Ponte della Scuola di San Giovanni Evangelista",
+    "english_name": "Bridge of the School of Saint John the Evangelist",
+    "from": {
+      "x": -198.3,
+      "z": -199.07
+    },
+    "to": {
+      "x": -202.49,
+      "z": -201.52
+    },
+    "from_polygon": "polygon-1746072967949",
+    "to_polygon": "polygon-1746072933644",
+    "style": "venetian-arch",
+    "width": 3,
+    "midpoint": {
+      "x": -200.39,
+      "z": -200.29
+    }
+  },
+  {
+    "id": "bridge-at-ponte-dellarsenale-vecchio",
+    "name": "Bridge at Ponte dell'Arsenale Vecchio",
+    "english_name": "Bridge at Ponte dell'Arsenale Vecchio",
+    "from": {
+      "x": 1618.94,
+      "z": 767.48
+    },
+    "to": {
+      "x": 1618.94,
+      "z": 767.48
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-velutai",
+    "name": "Bridge at Ponte dei Velutai",
+    "english_name": "Bridge at Ponte dei Velutai",
+    "from": {
+      "x": -395.39,
+      "z": 39.0
+    },
+    "to": {
+      "x": -395.39,
+      "z": 39.0
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-zingari",
+    "name": "Bridge at Ponte dei Zingari",
+    "english_name": "Bridge at Ponte dei Zingari",
+    "from": {
+      "x": -798.85,
+      "z": -115.51
+    },
+    "to": {
+      "x": -798.85,
+      "z": -115.51
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-barnabiti",
+    "name": "Bridge at Ponte dei Barnabiti",
+    "english_name": "Bridge at Ponte dei Barnabiti",
+    "from": {
+      "x": -909.38,
+      "z": 487.48
+    },
+    "to": {
+      "x": -909.38,
+      "z": 487.48
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-fondachi",
+    "name": "Bridge at Ponte dei Fondachi",
+    "english_name": "Bridge at Ponte dei Fondachi",
+    "from": {
+      "x": -423.05,
+      "z": 383.13
+    },
+    "to": {
+      "x": -423.05,
+      "z": 383.13
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-camerlenghi",
+    "name": "Bridge at Ponte dei Camerlenghi",
+    "english_name": "Bridge at Ponte dei Camerlenghi",
+    "from": {
+      "x": 465.0,
+      "z": 47.2
+    },
+    "to": {
+      "x": 465.0,
+      "z": 47.2
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-catecumeni",
+    "name": "Bridge at Ponte dei Catecumeni",
+    "english_name": "Bridge at Ponte dei Catecumeni",
+    "from": {
+      "x": -862.2,
+      "z": -1183.99
+    },
+    "to": {
+      "x": -862.2,
+      "z": -1183.99
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-della-basilica",
+    "name": "Bridge at Ponte della Basilica",
+    "english_name": "Bridge at Ponte della Basilica",
+    "from": {
+      "x": 796.74,
+      "z": -154.2
+    },
+    "to": {
+      "x": 796.74,
+      "z": -154.2
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-della-sacca",
+    "name": "Bridge at Ponte della Sacca",
+    "english_name": "Bridge at Ponte della Sacca",
+    "from": {
+      "x": -1673.62,
+      "z": 1225.78
+    },
+    "to": {
+      "x": -1673.62,
+      "z": 1225.78
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-falconieri",
+    "name": "Bridge at Ponte dei Falconieri",
+    "english_name": "Bridge at Ponte dei Falconieri",
+    "from": {
+      "x": -1235.34,
+      "z": -852.37
+    },
+    "to": {
+      "x": -1235.34,
+      "z": -852.37
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-granai",
+    "name": "Bridge at Ponte dei Granai",
+    "english_name": "Bridge at Ponte dei Granai",
+    "from": {
+      "x": -168.41,
+      "z": 1443.54
+    },
+    "to": {
+      "x": -168.41,
+      "z": 1443.54
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-varoteri-di-san-polo",
+    "name": "Bridge at Ponte dei Varoteri di San Polo",
+    "english_name": "Bridge at Ponte dei Varoteri di San Polo",
+    "from": {
+      "x": -325.65,
+      "z": -0.99
+    },
+    "to": {
+      "x": -325.65,
+      "z": -0.99
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-della-fontana",
+    "name": "Bridge at Ponte della Fontana",
+    "english_name": "Bridge at Ponte della Fontana",
+    "from": {
+      "x": 902.66,
+      "z": 164.48
+    },
+    "to": {
+      "x": 902.66,
+      "z": 164.48
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-delle-scuole",
+    "name": "Bridge at Ponte delle Scuole",
+    "english_name": "Bridge at Ponte delle Scuole",
+    "from": {
+      "x": 601.38,
+      "z": -78.04
+    },
+    "to": {
+      "x": 601.38,
+      "z": -78.04
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-merceri",
+    "name": "Bridge at Ponte dei Merceri",
+    "english_name": "Bridge at Ponte dei Merceri",
+    "from": {
+      "x": -246.99,
+      "z": 831.48
+    },
+    "to": {
+      "x": -246.99,
+      "z": 831.48
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-della-zecca",
+    "name": "Bridge at Ponte della Zecca",
+    "english_name": "Bridge at Ponte della Zecca",
+    "from": {
+      "x": 149.04,
+      "z": 331.95
+    },
+    "to": {
+      "x": 149.04,
+      "z": 331.95
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-della-corrente",
+    "name": "Bridge at Ponte della Corrente",
+    "english_name": "Bridge at Ponte della Corrente",
+    "from": {
+      "x": 62.49,
+      "z": -613.17
+    },
+    "to": {
+      "x": 62.49,
+      "z": -613.17
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-scrivani",
+    "name": "Bridge at Ponte dei Scrivani",
+    "english_name": "Bridge at Ponte dei Scrivani",
+    "from": {
+      "x": -1154.41,
+      "z": 1225.78
+    },
+    "to": {
+      "x": -1154.41,
+      "z": 1225.78
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-vascellari",
+    "name": "Bridge at Ponte dei Vascellari",
+    "english_name": "Bridge at Ponte dei Vascellari",
+    "from": {
+      "x": 1845.0,
+      "z": 805.17
+    },
+    "to": {
+      "x": 1845.0,
+      "z": 805.17
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-tintori-di-san-polo",
+    "name": "Bridge at Ponte dei Tintori di San Polo",
+    "english_name": "Bridge at Ponte dei Tintori di San Polo",
+    "from": {
+      "x": -366.11,
+      "z": -370.97
+    },
+    "to": {
+      "x": -366.11,
+      "z": -370.97
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-tessitori-di-lino",
+    "name": "Bridge at Ponte dei Tessitori di Lino",
+    "english_name": "Bridge at Ponte dei Tessitori di Lino",
+    "from": {
+      "x": -362.28,
+      "z": 491.35
+    },
+    "to": {
+      "x": -362.28,
+      "z": 491.35
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-scultori",
+    "name": "Bridge at Ponte dei Scultori",
+    "english_name": "Bridge at Ponte dei Scultori",
+    "from": {
+      "x": -772.29,
+      "z": 302.99
+    },
+    "to": {
+      "x": -772.29,
+      "z": 302.99
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-fornai",
+    "name": "Bridge at Ponte dei Fornai",
+    "english_name": "Bridge at Ponte dei Fornai",
+    "from": {
+      "x": -184.34,
+      "z": 1546.01
+    },
+    "to": {
+      "x": -184.34,
+      "z": 1546.01
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-bombaser",
+    "name": "Bridge at Ponte dei Bombaser",
+    "english_name": "Bridge at Ponte dei Bombaser",
+    "from": {
+      "x": 374.08,
+      "z": 45.87
+    },
+    "to": {
+      "x": 374.08,
+      "z": 45.87
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-fabbri-navali",
+    "name": "Bridge at Ponte dei Fabbri Navali",
+    "english_name": "Bridge at Ponte dei Fabbri Navali",
+    "from": {
+      "x": -289.17,
+      "z": -713.43
+    },
+    "to": {
+      "x": -289.17,
+      "z": -713.43
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-della-croce",
+    "name": "Bridge at Ponte della Croce",
+    "english_name": "Bridge at Ponte della Croce",
+    "from": {
+      "x": 1617.7,
+      "z": 778.42
+    },
+    "to": {
+      "x": 1617.7,
+      "z": 778.42
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-della-botta",
+    "name": "Bridge at Ponte della Botta",
+    "english_name": "Bridge at Ponte della Botta",
+    "from": {
+      "x": -202.47,
+      "z": -201.51
+    },
+    "to": {
+      "x": -202.47,
+      "z": -201.51
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-rossini",
+    "name": "Bridge at Ponte dei Rossini",
+    "english_name": "Bridge at Ponte dei Rossini",
+    "from": {
+      "x": 1635.82,
+      "z": 472.89
+    },
+    "to": {
+      "x": 1635.82,
+      "z": 472.89
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-virtuosi",
+    "name": "Bridge at Ponte dei Virtuosi",
+    "english_name": "Bridge at Ponte dei Virtuosi",
+    "from": {
+      "x": 202.86,
+      "z": 109.66
+    },
+    "to": {
+      "x": 202.86,
+      "z": 109.66
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-di-san-mois",
+    "name": "Bridge at Ponte di San Moisè",
+    "english_name": "Bridge at Ponte di San Moisè",
+    "from": {
+      "x": -894.61,
+      "z": -985.69
+    },
+    "to": {
+      "x": -894.61,
+      "z": -985.69
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-vetrari",
+    "name": "Bridge at Ponte dei Vetrari",
+    "english_name": "Bridge at Ponte dei Vetrari",
+    "from": {
+      "x": 807.83,
+      "z": 215.22
+    },
+    "to": {
+      "x": 807.83,
+      "z": 215.22
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-di-san-zulian",
+    "name": "Bridge at Ponte di San Zulian",
+    "english_name": "Bridge at Ponte di San Zulian",
+    "from": {
+      "x": 161.22,
+      "z": -573.7
+    },
+    "to": {
+      "x": 161.22,
+      "z": -573.7
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-delle-forbici",
+    "name": "Bridge at Ponte delle Forbici",
+    "english_name": "Bridge at Ponte delle Forbici",
+    "from": {
+      "x": -931.25,
+      "z": -348.42
+    },
+    "to": {
+      "x": -931.25,
+      "z": -348.42
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-remeri",
+    "name": "Bridge at Ponte dei Remeri",
+    "english_name": "Bridge at Ponte dei Remeri",
+    "from": {
+      "x": -315.57,
+      "z": -576.69
+    },
+    "to": {
+      "x": -315.57,
+      "z": -576.69
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-del-figareto",
+    "name": "Bridge at Ponte del Figareto",
+    "english_name": "Bridge at Ponte del Figareto",
+    "from": {
+      "x": 1606.84,
+      "z": 239.54
+    },
+    "to": {
+      "x": 1606.84,
+      "z": 239.54
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-canovai",
+    "name": "Bridge at Ponte dei Canovai",
+    "english_name": "Bridge at Ponte dei Canovai",
+    "from": {
+      "x": -614.51,
+      "z": 80.25
+    },
+    "to": {
+      "x": -614.51,
+      "z": 80.25
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-della-toletta-vecchia",
+    "name": "Bridge at Ponte della Toletta Vecchia",
+    "english_name": "Bridge at Ponte della Toletta Vecchia",
+    "from": {
+      "x": -343.61,
+      "z": -602.11
+    },
+    "to": {
+      "x": -343.61,
+      "z": -602.11
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-tessitori",
+    "name": "Bridge at Ponte dei Tessitori",
+    "english_name": "Bridge at Ponte dei Tessitori",
+    "from": {
+      "x": -1011.39,
+      "z": -15.37
+    },
+    "to": {
+      "x": -1011.39,
+      "z": -15.37
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-soranzo",
+    "name": "Bridge at Ponte dei Soranzo",
+    "english_name": "Bridge at Ponte dei Soranzo",
+    "from": {
+      "x": -933.51,
+      "z": 43.88
+    },
+    "to": {
+      "x": -933.51,
+      "z": 43.88
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-della-regina",
+    "name": "Bridge at Ponte della Regina",
+    "english_name": "Bridge at Ponte della Regina",
+    "from": {
+      "x": -309.13,
+      "z": -263.18
+    },
+    "to": {
+      "x": -309.13,
+      "z": -263.18
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-delle-coronelle",
+    "name": "Bridge at Ponte delle Coronelle",
+    "english_name": "Bridge at Ponte delle Coronelle",
+    "from": {
+      "x": 461.45,
+      "z": 47.28
+    },
+    "to": {
+      "x": 461.45,
+      "z": 47.28
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-dei-spezieri",
+    "name": "Bridge at Ponte dei Spezieri",
+    "english_name": "Bridge at Ponte dei Spezieri",
+    "from": {
+      "x": -832.67,
+      "z": 774.66
+    },
+    "to": {
+      "x": -832.67,
+      "z": 774.66
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-di-san-rocco",
+    "name": "Bridge at Ponte di San Rocco",
+    "english_name": "Bridge at Ponte di San Rocco",
+    "from": {
+      "x": -693.4,
+      "z": 1397.89
+    },
+    "to": {
+      "x": -693.4,
+      "z": 1397.89
+    },
+    "style": "venetian-arch",
+    "width": 3
+  },
+  {
+    "id": "bridge-at-ponte-del-fontego-piccolo",
+    "name": "Bridge at Ponte del Fontego Piccolo",
+    "english_name": "Bridge at Ponte del Fontego Piccolo",
+    "from": {
+      "x": -719.8,
+      "z": 184.6
+    },
+    "to": {
+      "x": -719.8,
+      "z": 184.6
+    },
+    "style": "venetian-arch",
+    "width": 3
+  }
+]

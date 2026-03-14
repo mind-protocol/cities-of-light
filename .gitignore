@@ -8,6 +8,7 @@
 # Node
 node_modules/
 dist/
+dist-engine/
 
 # OS
 .DS_Store
@@ -15,8 +16,8 @@ Thumbs.db
 services/__pycache__/
 **/__pycache__/
 
-# Data
-data/
+# Data (root level only, not worlds/*/data/)
+/data/
 
 # Runtime artifacts
 perception/

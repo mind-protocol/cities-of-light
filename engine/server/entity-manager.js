@@ -418,9 +418,26 @@ export class EntityManager {
     return Math.sqrt(dx * dx + dz * dz) < 1.0;
   }
 
+  _applySpawnState(entity) {
+    // Spawn entities that have a tier assigned but aren't spawned yet
+    if (entity.tier && !entity.spawned) {
+      entity.spawned = true;
+      this._broadcastEntityState(entity);
+    } else if (!entity.tier && entity.spawned) {
+      entity.spawned = false;
+      this.broadcast({
+        type: 'entity_despawned',
+        entityId: entity.id,
+      });
+    }
+  }
+
   _broadcastAllStates() {
+    // On startup, spawn all entities (no visitor proximity yet)
     for (const [id, entity] of this.entities) {
-      this._applySpawnState(entity);
+      entity.spawned = true;
+      entity.tier = entity.tier || 'AMBIENT';
+      this._broadcastEntityState(entity);
     }
   }
 

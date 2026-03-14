@@ -1,0 +1,106 @@
+{
+  "name": "venezia",
+  "display_name": "Venezia — Cities of Light",
+  "version": "0.2.0",
+  "description": "A shared virtual city built on real Venice geography. Canals, bridges, and sestieri where humans and AI citizens coexist at golden hour.",
+
+  "terrain": {
+    "generator": "geographic",
+    "reference": { "lat": 45.4375, "lng": 12.3358 },
+    "water_level": 0,
+    "island_height": 1.5,
+    "ocean": true,
+    "sky_model": "preetham",
+    "sun": { "elevation": 12, "azimuth": 220 },
+    "global_atmosphere": {
+      "turbidity": 4,
+      "rayleigh": 1.5,
+      "mie_coefficient": 0.005,
+      "mie_directional_g": 0.85
+    }
+  },
+
+  "zones": [
+    {
+      "id": "spawn",
+      "name": "Piazza San Marco",
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "mode": "spawn",
+      "note": "Default spawn point. Geographic generator creates real zones from lands data."
+    }
+  ],
+
+  "lands": {
+    "source": "local",
+    "path": "data/lands.json"
+  },
+
+  "buildings": {
+    "source": "local",
+    "path": "data/buildings.json",
+    "name_labels": true,
+    "label_height": 3.0,
+    "default_style": "venetian-procedural"
+  },
+
+  "bridges": {
+    "source": "local",
+    "path": "data/bridges.json",
+    "style": "venetian-arch",
+    "width": 3,
+    "rail_height": 1.0
+  },
+
+  "entities": {
+    "source": "local",
+    "path": "data/citizens.json",
+    "tier_config": {
+      "FULL": { "max": 20, "radius": 15, "voice": true, "llm": true },
+      "ACTIVE": { "max": 60, "radius": 50, "voice": "proximity", "llm": false },
+      "AMBIENT": { "max": 200, "radius": 200, "voice": false, "llm": false }
+    }
+  },
+
+  "physics": {
+    "engine": "ngram",
+    "graph_name": "venezia",
+    "tick_interval_ms": 300000,
+    "constants_path": "physics/constants.json"
+  },
+
+  "ai_config": {
+    "base_prompt_path": "prompts/citizen-base.md",
+    "memory_backend": "cascade",
+    "llm_model": "gpt-4o",
+    "llm_max_tokens": 150,
+    "llm_temperature": 0.9
+  },
+
+  "avatar": {
+    "style": "geometric",
+    "float_bob": true,
+    "glow_ring": true,
+    "tier_models": {
+      "FULL": { "detail": "high", "glow": true, "voice_indicator": true },
+      "ACTIVE": { "detail": "medium", "glow": true, "voice_indicator": false },
+      "AMBIENT": { "detail": "low", "glow": false, "voice_indicator": false }
+    },
+    "social_class_styles": {
+      "Patrician": { "palette": "gold-crimson", "ornament": "crest" },
+      "Cittadino": { "palette": "blue-silver", "ornament": "sash" },
+      "Popolano": { "palette": "earth-ochre", "ornament": "none" },
+      "Ecclesiastic": { "palette": "white-purple", "ornament": "halo" },
+      "Forestiero": { "palette": "teal-bronze", "ornament": "cloak" }
+    }
+  },
+
+  "portals": [
+    {
+      "id": "hub_return",
+      "zone": "spawn",
+      "position": { "x": 5, "y": 0, "z": 5 },
+      "target_manifest": "../lumina-prime/world-manifest.json",
+      "label": "Return to Lumina Prime"
+    }
+  ]
+}

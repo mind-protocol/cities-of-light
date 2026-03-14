@@ -1,0 +1,7 @@
+{
+  "generation_rate": 0.08,
+  "decay_rate": 0.05,
+  "tension_threshold": 0.7,
+  "max_energy": 1.0,
+  "homeostasis_target": 0.3
+}

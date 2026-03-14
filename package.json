@@ -1,14 +1,13 @@
 {
   "name": "cities-of-light",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Shared virtual world where humans and AIs coexist as embodied citizens",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
-    "build": "vite build",
-    "preview": "vite preview --host",
-    "server": "node src/server/canonical_server_entrypoint_router.js",
-    "server:engine:venezia": "bash scripts/bootstrap_engine_with_venezia_manifest_validation_runner.sh"
+    "dev": "vite --host --config engine/vite.config.js",
+    "build": "vite build --config engine/vite.config.js",
+    "start": "node engine/index.js --world worlds/venezia/world-manifest.json",
+    "preview": "npm run build && npm start"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.74.0",
@@ -23,5 +22,8 @@
   },
   "devDependencies": {
     "vite": "^6.0.0"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }

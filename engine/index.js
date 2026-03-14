@@ -8,6 +8,7 @@
  *   WORLD_MANIFEST=./worlds/venezia/world-manifest.json node engine/index.js
  */
 
+import express from 'express';
 import { readFileSync, existsSync, readdirSync } from 'fs';
 import { resolve, dirname, join } from 'path';
 import { createServer } from './server/state-server.js';
@@ -139,6 +140,24 @@ async function main() {
     res.json(entityManager.getAllStates());
   });
 
+  // 7b. Serve world data — client fetches /worlds/venezia/data/*.json
+  const worldsDir = resolve(basePath, '..');
+  app.use('/worlds', express.static(worldsDir));
+
+  // 7c. Serve built client (production) — Vite outputs to dist-engine/
+  const distDir = resolve(process.cwd(), 'dist-engine');
+  if (existsSync(distDir)) {
+    app.use(express.static(distDir));
+    // SPA fallback: serve index.html for all non-API routes
+    app.get('*', (req, res, next) => {
+      if (req.path.startsWith('/api') || req.path.startsWith('/worlds') || req.path.startsWith('/ws') || req.path.startsWith('/world') || req.path.startsWith('/health')) {
+        return next();
+      }
+      res.sendFile(resolve(distDir, 'index.html'));
+    });
+    console.log(`  Client: serving from ${distDir}`);
+  }
+
   // 8. Attach entity manager to app for voice routing and tier updates
   app.entityManager = entityManager;
 
@@ -157,19 +176,21 @@ async function main() {
     console.log(`  Voice: disabled (no LLM client)`);
   }
 
-  // 10. Physics bridge (if configured)
-
-  const physicsBridge = new NarrativeGraphSeedAndTickBridge({
-    manifest,
-    basePath,
-    broadcast,
-  });
-  physicsBridge.validateOrThrow();
-  await physicsBridge.seed();
-  physicsBridge.start();
-
+  // 10. Physics bridge (optional — requires FalkorDB)
   if (manifest.physics?.engine && manifest.physics.engine !== 'none') {
-    console.log(`  Physics: ${manifest.physics.engine} (tick: ${manifest.physics.tick_interval_ms}ms)`);
+    try {
+      const physicsBridge = new NarrativeGraphSeedAndTickBridge({
+        manifest,
+        basePath,
+        broadcast,
+      });
+      physicsBridge.validateOrThrow();
+      await physicsBridge.seed();
+      physicsBridge.start();
+      console.log(`  Physics: ${manifest.physics.engine} (tick: ${manifest.physics.tick_interval_ms}ms)`);
+    } catch (e) {
+      console.warn(`  Physics: skipped (${e.message})`);
+    }
   } else {
     console.log(`  Physics: none`);
   }
