@@ -8,7 +8,7 @@
 import { WebSocketServer } from 'ws';
 import express from 'express';
 import { createServer } from 'http';
-import { readFileSync, existsSync } from 'fs';
+import { readFileSync, existsSync, readdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { perceptionRoutes } from './perception.js';
@@ -253,21 +253,15 @@ app.get('/integration/state', (req, res) => {
   });
 });
 
-// ─── World data (Venezia JSON — lands, buildings, bridges, citizens) ──
+// ─── World data (serve ALL worlds from worlds/ directory) ──
 
-const veneziaDir = process.env.VENEZIA_DIR || join(__dirname, '..', '..', 'worlds', 'venezia');
-if (existsSync(veneziaDir)) {
-  app.use('/worlds/venezia', express.static(veneziaDir));
-  console.log(`Serving Venezia world data from ${veneziaDir}`);
+const worldsDir = join(__dirname, '..', '..', 'worlds');
+if (existsSync(worldsDir)) {
+  app.use('/worlds', express.static(worldsDir));
+  const worlds = readdirSync(worldsDir).filter(f => existsSync(join(worldsDir, f, 'world-manifest.json')));
+  console.log(`Serving ${worlds.length} world(s): ${worlds.join(', ')}`);
 } else {
-  // Try symlink or absolute path
-  const altDir = '/home/mind-protocol/venezia';
-  if (existsSync(altDir)) {
-    app.use('/worlds/venezia', express.static(altDir));
-    console.log(`Serving Venezia world data from ${altDir}`);
-  } else {
-    console.warn('Venezia world data not found — 3D client will not load world');
-  }
+  console.warn('No worlds/ directory found — 3D client will not load worlds');
 }
 
 // ─── Vault media (videos for memorial playback) ──────────

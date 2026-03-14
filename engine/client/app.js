@@ -431,9 +431,11 @@ async function init() {
   const statusEl = document.getElementById('status');
 
   try {
-    if (statusEl) statusEl.innerHTML = '<span>Loading Venice...</span>';
+    const params = new URLSearchParams(window.location.search);
+    const worldName = params.get('world') || 'venezia';
+    if (statusEl) statusEl.innerHTML = `<span>Loading ${worldName}...</span>`;
 
-    const world = await worldLoader.load('/worlds/venezia/world-manifest.json');
+    const world = await worldLoader.load(`/worlds/${worldName}/world-manifest.json`);
 
     // Render buildings
     if (world.buildings && world.buildings.length > 0) {
