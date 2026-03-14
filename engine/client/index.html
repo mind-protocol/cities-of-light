@@ -125,7 +125,9 @@
 </head>
 <body>
   <div id="status">Loading Venice...</div>
-  <div id="controls-hint">WASD — Move | Mouse — Look | Click citizen — Profile | Shift — Down | Space — Up</div>
+  <div id="controls-hint">WASD — Move | Mouse — Look | V — Talk | Click citizen — Profile</div>
+  <div id="voice-status" style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);font-size:14px;font-family:monospace;z-index:100;pointer-events:none;display:none;text-shadow:0 0 10px currentColor;background:rgba(0,0,0,0.6);padding:8px 16px;border-radius:6px;"></div>
+  <button id="mic-btn" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:56px;height:56px;border-radius:50%;border:2px solid rgba(255,100,100,0.5);background:rgba(255,50,50,0.15);color:#ff6666;font-size:24px;cursor:pointer;z-index:100;backdrop-filter:blur(8px);transition:all 0.2s;" title="Hold to talk (or press V)">🎤</button>
 
   <div id="citizen-panel">
     <button class="close-btn" onclick="document.getElementById('citizen-panel').style.display='none'">&times;</button>
@@ -138,6 +140,7 @@
       <div class="stat"><span class="stat-label">Guild</span><br><span class="stat-value" id="cp-guild"></span></div>
       <div class="stat"><span class="stat-label">Motto</span><br><span class="stat-value" id="cp-motto"></span></div>
     </div>
+    <div id="cp-connections" style="color:rgba(200,180,120,0.8);font-size:11px;margin:8px 0;font-style:italic;"></div>
     <button class="partner-btn" id="cp-partner-btn" onclick="window.choosePartner()">Choisir comme partenaire</button>
   </div>
 

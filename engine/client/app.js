@@ -689,6 +689,150 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
+// ─── Voice (push-to-talk) ─────────────────────────────
+
+let mediaRecorder = null;
+let audioChunks = [];
+let isRecording = false;
+let micStream = null;
+
+const voiceStatusEl = document.getElementById('voice-status');
+
+async function startRecording() {
+  if (isRecording) return;
+  try {
+    if (!micStream) {
+      micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    }
+    audioChunks = [];
+    mediaRecorder = new MediaRecorder(micStream, { mimeType: 'audio/webm;codecs=opus' });
+    mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) audioChunks.push(e.data); };
+    mediaRecorder.onstop = () => sendVoice();
+    mediaRecorder.start();
+    isRecording = true;
+    if (voiceStatusEl) {
+      voiceStatusEl.style.display = 'block';
+      voiceStatusEl.style.color = '#ff4444';
+      voiceStatusEl.textContent = '🎤 Recording...';
+    }
+  } catch (e) {
+    console.warn('Mic access denied:', e.message);
+  }
+}
+
+function stopRecording() {
+  if (!isRecording || !mediaRecorder) return;
+  mediaRecorder.stop();
+  isRecording = false;
+  if (voiceStatusEl) {
+    voiceStatusEl.style.color = '#ffcc44';
+    voiceStatusEl.textContent = '⏳ Processing...';
+  }
+}
+
+async function sendVoice() {
+  if (audioChunks.length === 0) return;
+  const blob = new Blob(audioChunks, { type: 'audio/webm' });
+  const buffer = await blob.arrayBuffer();
+  const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+
+  // Find nearest citizen to route the speech to
+  let nearestId = null;
+  let nearestGroup = null;
+  let nearestDist = Infinity;
+  for (const [id, group] of citizenMeshes) {
+    const dx = camera.position.x - group.position.x;
+    const dz = camera.position.z - group.position.z;
+    const dist = Math.sqrt(dx * dx + dz * dz);
+    if (dist < nearestDist) {
+      nearestDist = dist;
+      nearestId = id;
+      nearestGroup = group;
+    }
+  }
+
+  if (!nearestId || nearestDist > 15) {
+    if (voiceStatusEl) {
+      voiceStatusEl.textContent = 'No citizen nearby';
+      setTimeout(() => { voiceStatusEl.style.display = 'none'; }, 2000);
+    }
+    return;
+  }
+
+  // Show thinking bubble on the citizen
+  if (nearestGroup) {
+    showBubble(nearestGroup, '...');
+    nearestGroup.userData.state = 'talking';
+    nearestGroup.userData.stateTimer = 20;
+    // Face the player
+    const dx = camera.position.x - nearestGroup.position.x;
+    const dz = camera.position.z - nearestGroup.position.z;
+    nearestGroup.rotation.y = Math.atan2(dx, dz);
+  }
+
+  try {
+    // Send to server — STT + route to citizen
+    const resp = await fetch('/api/citizen/voice', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        audio_base64: base64,
+        citizen_id: nearestId,
+        player_name: visitorName,
+        player_position: { x: camera.position.x, y: camera.position.y, z: camera.position.z },
+      }),
+    });
+
+    if (resp.ok) {
+      const data = await resp.json();
+      if (nearestGroup && data.text) {
+        removeBubble(nearestGroup);
+        showBubble(nearestGroup, data.text.length > 80 ? data.text.slice(0, 77) + '...' : data.text);
+        nearestGroup.userData.stateTimer = 8;
+        console.log(`[Voice] ${data.citizen_name}: "${data.text}"`);
+      }
+      if (voiceStatusEl) {
+        voiceStatusEl.textContent = `💬 ${data.citizen_name || 'Citizen'} responded`;
+        setTimeout(() => { voiceStatusEl.style.display = 'none'; }, 3000);
+      }
+    } else {
+      if (voiceStatusEl) {
+        voiceStatusEl.textContent = '❌ No response';
+        setTimeout(() => { voiceStatusEl.style.display = 'none'; }, 2000);
+      }
+      if (nearestGroup) {
+        removeBubble(nearestGroup);
+        nearestGroup.userData.state = 'idle';
+      }
+    }
+  } catch (e) {
+    console.warn('[Voice] Send failed:', e.message);
+    if (voiceStatusEl) {
+      voiceStatusEl.style.display = 'none';
+    }
+    if (nearestGroup) {
+      removeBubble(nearestGroup);
+      nearestGroup.userData.state = 'idle';
+    }
+  }
+}
+
+// Push-to-talk: V key or mic button
+document.addEventListener('keydown', (e) => {
+  if (e.code === 'KeyV' && !e.repeat) startRecording();
+});
+document.addEventListener('keyup', (e) => {
+  if (e.code === 'KeyV') stopRecording();
+});
+
+// Mic button (for mobile/touch)
+const micBtn = document.getElementById('mic-btn');
+if (micBtn) {
+  micBtn.addEventListener('pointerdown', startRecording);
+  micBtn.addEventListener('pointerup', stopRecording);
+  micBtn.addEventListener('pointerleave', stopRecording);
+}
+
 // ─── Citizen Perception (AI sees you approach) ────────
 
 const PERCEPTION_DISTANCE = 8;  // meters — citizen "sees" you

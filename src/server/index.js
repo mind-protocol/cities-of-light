@@ -277,7 +277,7 @@ app.post('/api/citizens/thoughts', async (req, res) => {
 
 app.post('/api/citizen/:id/perceive', async (req, res) => {
   const citizenId = req.params.id;
-  const { screenshot_base64, player_name, location_name, nearby_building, time_of_day } = req.body || {};
+  const { screenshot_base64, player_name, location_name, nearby_building, time_of_day, speech_text } = req.body || {};
 
   // 1. Resolve citizen endpoint from L4 graph
   let citizenEndpoint = null;
@@ -375,7 +375,9 @@ app.post('/api/citizen/:id/perceive', async (req, res) => {
       content.push({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: screenshot_base64 } });
       content.push({ type: 'text', text: 'You see this approaching you. React in character.' });
     } else {
-      content.push({ type: 'text', text: 'Someone is approaching you. React in character.' });
+      content.push({ type: 'text', text: speech_text
+        ? `Someone says to you: "${speech_text}". Respond in character.`
+        : 'Someone is approaching you. React in character.' });
     }
 
     const response = await anthropic.messages.create({
@@ -385,7 +387,7 @@ app.post('/api/citizen/:id/perceive', async (req, res) => {
 ${citizen.synthesis || ''}
 Your current thoughts: ${thoughts || 'going about your day'}
 ${locationCtx} ${buildingCtx} It is ${timeCtx}.
-A person${player_name ? ` named ${player_name}` : ''} is approaching you. React naturally — busy with your life but notice them. Speak in character, in English (with occasional Italian words). Be brief (1-3 sentences).`,
+A person${player_name ? ` named ${player_name}` : ''} is nearby.${speech_text ? ` They say: "${speech_text}"` : ' They are approaching you.'} React naturally — busy with your life but engage. Speak in character, in English (with occasional Italian words). Be brief (1-3 sentences).`,
       messages: [{ role: 'user', content }],
     });
 
@@ -397,6 +399,57 @@ A person${player_name ? ` named ${player_name}` : ''} is approaching you. React 
     });
   } catch (e) {
     console.error(`[Perception] Fallback failed for ${citizenId}:`, e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// ─── Voice-to-Citizen (STT → route to citizen) ───────
+// Player speaks via mic → Whisper STT → text routed to nearest citizen
+
+app.post('/api/citizen/voice', async (req, res) => {
+  const { audio_base64, citizen_id, player_name, player_position } = req.body || {};
+  if (!audio_base64) return res.status(400).json({ error: 'audio_base64 required' });
+  if (!citizen_id) return res.status(400).json({ error: 'citizen_id required' });
+
+  try {
+    // 1. STT via Whisper
+    const audioBuffer = Buffer.from(audio_base64, 'base64');
+    const { writeFileSync, createReadStream } = await import('fs');
+    const { tmpdir } = await import('os');
+    const { join: joinPath } = await import('path');
+    const tempPath = joinPath(tmpdir(), `voice_${Date.now()}.webm`);
+    writeFileSync(tempPath, audioBuffer);
+
+    const transcription = await openai.audio.transcriptions.create({
+      file: createReadStream(tempPath),
+      model: 'whisper-1',
+    });
+
+    const text = transcription.text?.trim();
+    if (!text) return res.json({ error: 'Could not transcribe', text: '' });
+
+    console.log(`🗣️ ${player_name || 'Player'} → ${citizen_id}: "${text}"`);
+
+    // 2. Route to citizen's perceive endpoint with speech instead of screenshot
+    const perceiveResp = await fetch(`http://localhost:${PORT}/api/citizen/${encodeURIComponent(citizen_id)}/perceive`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        player_name,
+        location_name: 'Venice',
+        speech_text: text,
+        time_of_day: new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }),
+      }),
+    });
+
+    if (perceiveResp.ok) {
+      const data = await perceiveResp.json();
+      res.json(data);
+    } else {
+      res.status(502).json({ error: 'Citizen did not respond' });
+    }
+  } catch (e) {
+    console.error(`[Voice] Error:`, e.message);
     res.status(500).json({ error: e.message });
   }
 });
