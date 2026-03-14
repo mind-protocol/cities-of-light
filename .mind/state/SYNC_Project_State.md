@@ -2,7 +2,7 @@
 
 ```
 LAST_UPDATED: 2026-03-14
-UPDATED_BY: Tomaso Nervo (@nervo) — Space key cache added to JS + Python crypto stacks (LRU, 5-min TTL, 100 entries)
+UPDATED_BY: Tomaso Nervo (@nervo) — "Join Org" auto-grant trigger implemented (auto_grant_on_membership + process_pending_grants)
 ```
 
 ---
