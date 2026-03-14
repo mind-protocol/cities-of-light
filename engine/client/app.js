@@ -404,6 +404,87 @@ function removeBubble(group) {
   }
 }
 
+// ─── Click to Select Citizen ──────────────────────────
+
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+let selectedCitizen = null;
+
+window.addEventListener('click', (event) => {
+  // Don't raycast if clicking on UI
+  if (event.target.closest('#citizen-panel')) return;
+
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+
+  // Collect all citizen body meshes
+  const citizenObjects = [];
+  for (const [, group] of citizenMeshes) {
+    group.traverse((child) => {
+      if (child.isMesh) {
+        child.userData._citizenGroup = group;
+        citizenObjects.push(child);
+      }
+    });
+  }
+
+  const intersects = raycaster.intersectObjects(citizenObjects, false);
+  if (intersects.length > 0) {
+    const hit = intersects[0].object;
+    const group = hit.userData._citizenGroup;
+    if (group?.userData?.citizen) {
+      showCitizenPanel(group.userData.citizen);
+      selectedCitizen = group;
+    }
+  } else {
+    // Clicked empty space — close panel
+    const panel = document.getElementById('citizen-panel');
+    if (panel) panel.style.display = 'none';
+    selectedCitizen = null;
+  }
+});
+
+function showCitizenPanel(citizen) {
+  const panel = document.getElementById('citizen-panel');
+  if (!panel) return;
+
+  document.getElementById('cp-name').textContent = citizen.name || citizen.handle || 'Unknown';
+  document.getElementById('cp-class').textContent = citizen.social_class || '';
+  document.getElementById('cp-desc').textContent = citizen.description || citizen.personality || 'A citizen of Venice.';
+  document.getElementById('cp-ducats').textContent = citizen.ducats ? Math.floor(citizen.ducats).toLocaleString() + ' ₫' : '—';
+  document.getElementById('cp-influence').textContent = citizen.influence ? Math.floor(citizen.influence).toLocaleString() : '—';
+  document.getElementById('cp-guild').textContent = citizen.guild || '—';
+  document.getElementById('cp-motto').textContent = citizen.family_motto || '—';
+
+  const btn = document.getElementById('cp-partner-btn');
+  btn.classList.remove('chosen');
+  btn.textContent = 'Choisir comme partenaire';
+
+  panel.style.display = 'block';
+}
+
+window.choosePartner = function() {
+  if (!selectedCitizen?.userData?.citizen) return;
+  const citizen = selectedCitizen.userData.citizen;
+  const btn = document.getElementById('cp-partner-btn');
+  btn.classList.add('chosen');
+  btn.textContent = `${citizen.first_name || citizen.name} est votre partenaire`;
+
+  // Store choice
+  localStorage.setItem('venice_partner', JSON.stringify({
+    id: citizen.id,
+    name: citizen.name,
+    social_class: citizen.social_class,
+    chosen_at: new Date().toISOString(),
+  }));
+
+  console.log(`Partner chosen: ${citizen.name} (${citizen.id})`);
+};
+
+// ─── Labels ───────────────────────────────────────────
+
 function makeLabel(text) {
   const canvas = document.createElement('canvas');
   canvas.width = 256;
