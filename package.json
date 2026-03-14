@@ -7,7 +7,8 @@
     "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview --host",
-    "server": "node src/server/index.js"
+    "server": "node src/server/canonical_server_entrypoint_router.js",
+    "server:engine:venezia": "bash scripts/bootstrap_engine_with_venezia_manifest_validation_runner.sh"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.74.0",
