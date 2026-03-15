@@ -9,6 +9,7 @@
  */
 
 import express from 'express';
+import http from 'http';
 import { readFileSync, existsSync, readdirSync } from 'fs';
 import { resolve, dirname, join } from 'path';
 import { createServer } from './server/state-server.js';
@@ -138,6 +139,25 @@ async function main() {
 
   app.get('/api/entities', (req, res) => {
     res.json(entityManager.getAllStates());
+  });
+
+  // 7a-proxy. Forward unhandled /api/* to Python home_server on MIND_PORT
+  // (engine's own /api/manifest and /api/entities are registered above, matched first)
+  const MIND_PORT = process.env.MIND_PORT || '8765';
+  app.all('/api/*', (req, res) => {
+    const opts = {
+      hostname: '127.0.0.1',
+      port: MIND_PORT,
+      path: req.url,
+      method: req.method,
+      headers: { ...req.headers, host: `127.0.0.1:${MIND_PORT}` },
+    };
+    const proxy = http.request(opts, (upstream) => {
+      res.writeHead(upstream.statusCode, upstream.headers);
+      upstream.pipe(res);
+    });
+    proxy.on('error', () => res.status(502).json({ error: 'mind home_server unavailable' }));
+    req.pipe(proxy);
   });
 
   // 7b. Serve world data — client fetches /worlds/venezia/data/*.json
