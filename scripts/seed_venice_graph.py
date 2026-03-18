@@ -332,8 +332,8 @@ class VeniceGraphSeeder:
         for idx in indexes:
             try:
                 self.query(idx)
-            except Exception:
-                pass  # Index may already exist
+            except Exception as e:
+                logger.debug("Index creation skipped (may already exist): %s", e)
         logger.info("[Indexes] Created/verified")
 
     def seed_districts(self):

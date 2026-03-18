@@ -18,7 +18,8 @@ const openai = new OpenAI();
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
 const ELEVENLABS_VOICE_ID = process.env.ELEVENLABS_VOICE_ID || 'pNInz6obpgDQGcFmaJgB';
 const SERVICES_URL = process.env.CITIES_SERVICES_URL || 'http://localhost:8900';
-const DIALOGUE_LOG = join(process.env.HOME, 'manemus', 'shrine', 'state', 'dialogue.jsonl');
+const MIND_MCP_DIR = process.env.MIND_MCP_DIR || '/home/mind-protocol/mind-mcp';
+const DIALOGUE_LOG = join(MIND_MCP_DIR, 'shrine', 'state', 'dialogue.jsonl');
 
 /**
  * Process a biography voice query.
@@ -191,5 +192,5 @@ export async function processBiographyVoice(audioBuffer, donorId, interactantId,
         JSON.stringify({ ts: now, speaker: donorId, text: answer, source: 'biography-archive', donorId }) + '\n'
       );
     }
-  } catch {}
+  } catch (e) { console.warn('Failed to write dialogue log:', e?.message || e); }
 }

@@ -328,7 +328,7 @@ export class PlaceServer {
       for (const [actorId, p] of room.participants) {
         if (p.ws && p.ws.readyState !== 1) {
           room.participants.delete(actorId);
-          this.graphClient.removeLink(actorId, spaceId, 'AT').catch(() => {});
+          this.graphClient.removeLink(actorId, spaceId, 'AT').catch(e => console.debug(`Place reconcile: removeLink failed for ${actorId}:`, e?.message || e));
           console.log(`Place reconcile: pruned dead connection ${actorId} from ${spaceId}`);
         }
       }

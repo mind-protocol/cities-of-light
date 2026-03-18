@@ -2,7 +2,7 @@
  * Cities of Light — Spatial State Server
  *
  * Tracks citizen positions, zone states, and bridges
- * between the WebXR world and Manemus infrastructure.
+ * between the WebXR world and Mind infrastructure.
  */
 
 import { WebSocketServer } from 'ws';
@@ -67,7 +67,7 @@ app.get('/state', (req, res) => {
   res.json(state);
 });
 
-// Manemus perception endpoint — returns frame for AI processing
+// Mind perception endpoint — returns frame for AI processing
 app.get('/perception/:citizenId', (req, res) => {
   const citizen = citizens.get(req.params.citizenId);
   if (!citizen) {
@@ -531,7 +531,7 @@ app.get('/integration/health', async (req, res) => {
   try {
     const r = await fetch(`${SERVICES_URL}/health`);
     services = { ok: r.ok, status: r.status };
-  } catch {}
+  } catch (e) { console.debug('Services health check unreachable:', e?.message || e); }
 
   res.json({
     server: { ok: true, uptime: process.uptime() },
@@ -865,9 +865,9 @@ wss.on('connection', (ws) => {
           break;
         }
 
-        case 'manemus_camera': {
+        case 'mind_camera': {
           roomManager.broadcastFromCitizen(citizenId, {
-            type: 'manemus_camera',
+            type: 'mind_camera',
             position: msg.position,
             rotation: msg.rotation,
           }, ws);
