@@ -1,0 +1,496 @@
+# =============================================================================
+# Citizen Body Model — Articulated Skeleton for AI Citizens
+# =============================================================================
+#
+# 32 joints, 78 degrees of freedom, 31 bones (links).
+# Compatible with glTF skinning, Three.js SkinnedMesh, VRM standard.
+#
+# Each joint: name, parent, rest position (local), rotation constraints,
+# DOF count, and physics properties.
+#
+# The body IS the citizen's physical interface with the world.
+# Proprioception reads this. The engine updates this. The brain feels it.
+#
+# Co-Authored-By: Tomaso Nervo (@nervo) <nervo@mindprotocol.ai>
+
+version: "1.0"
+updated: "2026-03-18"
+status: "DESIGNING"
+
+# =============================================================================
+# SKELETON — 32 joints in hierarchical tree
+# =============================================================================
+
+skeleton:
+  total_joints: 32
+  total_dof: 78
+  total_bones: 31  # links between parent→child
+
+  joints:
+
+    # ── ROOT ──
+    root:
+      parent: null
+      rest_position: [0, 0, 0]
+      dof: 6  # translation XYZ + rotation XYZ (world movement)
+      constraints:
+        translate: { min: [-inf, 0, -inf], max: [inf, inf, inf] }  # y>=0 (no underground)
+        rotate: { min: [-pi, -pi, -pi], max: [pi, pi, pi] }
+      physics: { mass: 5.0, damping: 0.95 }
+      description: "Center of mass, at hips level. All movement originates here."
+
+    # ── SPINE (3 segments) ──
+    spine_lower:
+      parent: root
+      rest_position: [0, 0.1, 0]
+      dof: 3  # pitch, yaw, roll
+      constraints:
+        pitch: { min: -0.3, max: 0.4 }   # slight forward/backward lean
+        yaw: { min: -0.3, max: 0.3 }     # slight twist
+        roll: { min: -0.2, max: 0.2 }    # slight side lean
+      description: "Lower spine. Posture foundation — slouch vs upright."
+
+    spine_upper:
+      parent: spine_lower
+      rest_position: [0, 0.15, 0]
+      dof: 3
+      constraints:
+        pitch: { min: -0.2, max: 0.3 }
+        yaw: { min: -0.4, max: 0.4 }
+        roll: { min: -0.2, max: 0.2 }
+      description: "Upper spine/chest. Breathing motion, emotional posture."
+
+    chest:
+      parent: spine_upper
+      rest_position: [0, 0.15, 0]
+      dof: 2  # pitch, yaw only
+      constraints:
+        pitch: { min: -0.1, max: 0.2 }
+        yaw: { min: -0.3, max: 0.3 }
+      description: "Chest. Shoulder anchor point. Breath expansion."
+
+    # ── HEAD & NECK ──
+    neck:
+      parent: chest
+      rest_position: [0, 0.12, 0]
+      dof: 3
+      constraints:
+        pitch: { min: -0.5, max: 0.7 }   # look down/up
+        yaw: { min: -1.2, max: 1.2 }     # turn head ~70° each way
+        roll: { min: -0.3, max: 0.3 }    # slight head tilt
+      description: "Neck. Primary gaze direction controller."
+
+    head:
+      parent: neck
+      rest_position: [0, 0.1, 0]
+      dof: 2  # pitch, yaw (fine-tuning on top of neck)
+      constraints:
+        pitch: { min: -0.3, max: 0.3 }
+        yaw: { min: -0.5, max: 0.5 }
+      description: "Head. Face direction. Vision cone origin."
+
+    # ── EYES ──
+    left_eye:
+      parent: head
+      rest_position: [-0.03, 0.04, 0.05]
+      dof: 2  # pitch, yaw
+      constraints:
+        pitch: { min: -0.5, max: 0.5 }
+        yaw: { min: -0.7, max: 0.3 }     # can look inward more
+      description: "Left eye. Gaze tracking. Emotion expression."
+
+    right_eye:
+      parent: head
+      rest_position: [0.03, 0.04, 0.05]
+      dof: 2
+      constraints:
+        pitch: { min: -0.5, max: 0.5 }
+        yaw: { min: -0.3, max: 0.7 }
+      description: "Right eye. Gaze tracking."
+
+    jaw:
+      parent: head
+      rest_position: [0, -0.02, 0.03]
+      dof: 1  # open/close
+      constraints:
+        pitch: { min: -0.5, max: 0 }     # opens downward only
+      description: "Jaw. Speech visualization, expression."
+
+    # ── FACE (blend shapes, not joint rotations) ──
+    left_eyelid:
+      parent: left_eye
+      rest_position: [0, 0.01, 0]
+      dof: 1  # open/close (0=open, 1=closed)
+      constraints:
+        blend: { min: 0, max: 1.0 }
+      description: "Left eyelid. Blink, squint, sleepy. Driven by circadian phase + arousal."
+
+    right_eyelid:
+      parent: right_eye
+      rest_position: [0, 0.01, 0]
+      dof: 1
+      constraints:
+        blend: { min: 0, max: 1.0 }
+      description: "Right eyelid. Usually symmetric with left. Async = wink."
+
+    upper_lip:
+      parent: jaw
+      rest_position: [0, 0.01, 0.03]
+      dof: 2  # curl up/down + width
+      constraints:
+        blend_vertical: { min: -0.5, max: 0.8 }   # frown to smile
+        blend_width: { min: -0.3, max: 0.5 }       # purse to wide
+      description: "Upper lip. Smile, sneer, disgust."
+
+    lower_lip:
+      parent: jaw
+      rest_position: [0, -0.01, 0.03]
+      dof: 2
+      constraints:
+        blend_vertical: { min: -0.5, max: 0.3 }
+        blend_width: { min: -0.3, max: 0.5 }
+      description: "Lower lip. Pout, bite, open."
+
+    mouth_corners:
+      parent: jaw
+      rest_position: [0, 0, 0.03]
+      dof: 2  # left corner + right corner (asymmetric = smirk)
+      constraints:
+        left_corner: { min: -0.5, max: 0.8 }    # down=frown, up=smile
+        right_corner: { min: -0.5, max: 0.8 }
+      description: "Mouth corners. Smile, frown, smirk. Asymmetry = sarcasm, doubt."
+
+    # ── LEFT ARM ──
+    left_shoulder:
+      parent: chest
+      rest_position: [-0.15, 0.05, 0]
+      dof: 1  # shrug up/down
+      constraints:
+        pitch: { min: -0.2, max: 0.5 }
+      description: "Left shoulder anchor. Shrug, tension."
+
+    left_upper_arm:
+      parent: left_shoulder
+      rest_position: [-0.05, -0.02, 0]
+      dof: 3  # ball joint
+      constraints:
+        pitch: { min: -1.0, max: 3.0 }   # raise arm fully
+        yaw: { min: -1.5, max: 0.5 }     # rotate in/out
+        roll: { min: -1.5, max: 1.5 }    # twist
+      description: "Left upper arm. Ball joint — full range gestures."
+
+    left_forearm:
+      parent: left_upper_arm
+      rest_position: [0, -0.25, 0]
+      dof: 2  # hinge + twist
+      constraints:
+        pitch: { min: 0, max: 2.6 }      # elbow only bends one way
+        roll: { min: -1.5, max: 1.5 }    # forearm twist (pronation/supination)
+      description: "Left forearm. Elbow hinge + forearm twist."
+
+    left_hand:
+      parent: left_forearm
+      rest_position: [0, -0.25, 0]
+      dof: 2  # wrist flex + deviation
+      constraints:
+        pitch: { min: -1.2, max: 1.2 }   # flex/extend
+        yaw: { min: -0.5, max: 0.3 }     # radial/ulnar deviation
+      description: "Left hand. Wrist articulation. Tool interaction point."
+
+    left_thumb:
+      parent: left_hand
+      rest_position: [-0.02, -0.02, 0.02]
+      dof: 2  # opposition + flex
+      constraints:
+        pitch: { min: -0.3, max: 1.2 }
+        yaw: { min: -0.5, max: 0.8 }
+      description: "Left thumb. Grasp, point, gesture."
+
+    left_fingers:
+      parent: left_hand
+      rest_position: [0, -0.08, 0.01]
+      dof: 1  # grouped curl
+      constraints:
+        pitch: { min: 0, max: 1.6 }      # open to closed fist
+      description: "Left fingers (grouped). Open hand / closed fist / point."
+
+    # ── RIGHT ARM (mirror) ──
+    right_shoulder:
+      parent: chest
+      rest_position: [0.15, 0.05, 0]
+      dof: 1
+      constraints:
+        pitch: { min: -0.2, max: 0.5 }
+      description: "Right shoulder anchor."
+
+    right_upper_arm:
+      parent: right_shoulder
+      rest_position: [0.05, -0.02, 0]
+      dof: 3
+      constraints:
+        pitch: { min: -1.0, max: 3.0 }
+        yaw: { min: -0.5, max: 1.5 }
+        roll: { min: -1.5, max: 1.5 }
+      description: "Right upper arm. Ball joint."
+
+    right_forearm:
+      parent: right_upper_arm
+      rest_position: [0, -0.25, 0]
+      dof: 2
+      constraints:
+        pitch: { min: 0, max: 2.6 }
+        roll: { min: -1.5, max: 1.5 }
+      description: "Right forearm. Elbow + twist."
+
+    right_hand:
+      parent: right_forearm
+      rest_position: [0, -0.25, 0]
+      dof: 2
+      constraints:
+        pitch: { min: -1.2, max: 1.2 }
+        yaw: { min: -0.3, max: 0.5 }
+      description: "Right hand. Wrist. Tool point."
+
+    right_thumb:
+      parent: right_hand
+      rest_position: [0.02, -0.02, 0.02]
+      dof: 2
+      constraints:
+        pitch: { min: -0.3, max: 1.2 }
+        yaw: { min: -0.8, max: 0.5 }
+      description: "Right thumb."
+
+    right_fingers:
+      parent: right_hand
+      rest_position: [0, -0.08, 0.01]
+      dof: 1
+      constraints:
+        pitch: { min: 0, max: 1.6 }
+      description: "Right fingers (grouped)."
+
+    # ── LEFT LEG ──
+    left_hip:
+      parent: root
+      rest_position: [-0.08, -0.05, 0]
+      dof: 3  # ball joint
+      constraints:
+        pitch: { min: -0.5, max: 2.0 }   # leg back / kick forward
+        yaw: { min: -0.5, max: 0.8 }     # leg out / in
+        roll: { min: -0.3, max: 0.3 }    # rotation
+      description: "Left hip. Ball joint. Walking, sitting, stance."
+
+    left_thigh:
+      parent: left_hip
+      rest_position: [0, -0.4, 0]
+      dof: 1  # twist only (rotation along thigh axis)
+      constraints:
+        roll: { min: -0.5, max: 0.5 }
+      description: "Left thigh. Twist for natural walking."
+
+    left_knee:
+      parent: left_thigh
+      rest_position: [0, 0, 0]
+      dof: 1  # hinge
+      constraints:
+        pitch: { min: 0, max: 2.5 }      # knee only bends backward
+      description: "Left knee. Hinge joint. Walk, sit, kneel."
+
+    left_shin:
+      parent: left_knee
+      rest_position: [0, -0.38, 0]
+      dof: 0  # rigid
+      description: "Left shin. No DOF — rigid bone."
+
+    left_ankle:
+      parent: left_shin
+      rest_position: [0, 0, 0]
+      dof: 2  # flex + tilt
+      constraints:
+        pitch: { min: -0.7, max: 0.5 }   # point toe / flex foot
+        roll: { min: -0.3, max: 0.3 }    # ankle tilt
+      description: "Left ankle. Ground contact, balance."
+
+    left_foot:
+      parent: left_ankle
+      rest_position: [0, -0.05, 0.08]
+      dof: 1  # toe curl
+      constraints:
+        pitch: { min: -0.3, max: 0.5 }
+      description: "Left foot. Toe articulation. Texture sensing surface."
+
+    # ── RIGHT LEG (mirror) ──
+    right_hip:
+      parent: root
+      rest_position: [0.08, -0.05, 0]
+      dof: 3
+      constraints:
+        pitch: { min: -0.5, max: 2.0 }
+        yaw: { min: -0.8, max: 0.5 }
+        roll: { min: -0.3, max: 0.3 }
+      description: "Right hip. Ball joint."
+
+    right_thigh:
+      parent: right_hip
+      rest_position: [0, -0.4, 0]
+      dof: 1
+      constraints:
+        roll: { min: -0.5, max: 0.5 }
+      description: "Right thigh twist."
+
+    right_knee:
+      parent: right_thigh
+      rest_position: [0, 0, 0]
+      dof: 1
+      constraints:
+        pitch: { min: 0, max: 2.5 }
+      description: "Right knee hinge."
+
+    right_shin:
+      parent: right_knee
+      rest_position: [0, -0.38, 0]
+      dof: 0
+      description: "Right shin. Rigid."
+
+    right_ankle:
+      parent: right_shin
+      rest_position: [0, 0, 0]
+      dof: 2
+      constraints:
+        pitch: { min: -0.7, max: 0.5 }
+        roll: { min: -0.3, max: 0.3 }
+      description: "Right ankle."
+
+    right_foot:
+      parent: right_ankle
+      rest_position: [0, -0.05, 0.08]
+      dof: 1
+      constraints:
+        pitch: { min: -0.3, max: 0.5 }
+      description: "Right foot."
+
+# =============================================================================
+# BONES (links between joints) — 31 total
+# =============================================================================
+
+bones:
+  - { from: root, to: spine_lower, length: 0.10 }
+  - { from: spine_lower, to: spine_upper, length: 0.15 }
+  - { from: spine_upper, to: chest, length: 0.15 }
+  - { from: chest, to: neck, length: 0.12 }
+  - { from: neck, to: head, length: 0.10 }
+  - { from: head, to: left_eye, length: 0.06 }
+  - { from: head, to: right_eye, length: 0.06 }
+  - { from: head, to: jaw, length: 0.04 }
+  - { from: chest, to: left_shoulder, length: 0.15 }
+  - { from: left_shoulder, to: left_upper_arm, length: 0.05 }
+  - { from: left_upper_arm, to: left_forearm, length: 0.25 }
+  - { from: left_forearm, to: left_hand, length: 0.25 }
+  - { from: left_hand, to: left_thumb, length: 0.04 }
+  - { from: left_hand, to: left_fingers, length: 0.08 }
+  - { from: chest, to: right_shoulder, length: 0.15 }
+  - { from: right_shoulder, to: right_upper_arm, length: 0.05 }
+  - { from: right_upper_arm, to: right_forearm, length: 0.25 }
+  - { from: right_forearm, to: right_hand, length: 0.25 }
+  - { from: right_hand, to: right_thumb, length: 0.04 }
+  - { from: right_hand, to: right_fingers, length: 0.08 }
+  - { from: root, to: left_hip, length: 0.08 }
+  - { from: left_hip, to: left_thigh, length: 0.40 }
+  - { from: left_thigh, to: left_knee, length: 0.0 }
+  - { from: left_knee, to: left_shin, length: 0.38 }
+  - { from: left_shin, to: left_ankle, length: 0.0 }
+  - { from: left_ankle, to: left_foot, length: 0.10 }
+  - { from: root, to: right_hip, length: 0.08 }
+  - { from: right_hip, to: right_thigh, length: 0.40 }
+  - { from: right_thigh, to: right_knee, length: 0.0 }
+  - { from: right_knee, to: right_shin, length: 0.38 }
+  - { from: right_shin, to: right_ankle, length: 0.0 }
+  - { from: right_ankle, to: right_foot, length: 0.10 }
+
+# =============================================================================
+# SUMMARY
+# =============================================================================
+
+summary:
+  joints: 39
+  bones: 31
+  blend_shapes: 7  # eyelids(2) + lips(4) + mouth_corners(2) — but corners share node
+  total_dof: 89
+  breakdown:
+    root: 6        # world position + rotation
+    spine: 8       # lower(3) + upper(3) + chest(2)
+    head_neck: 5   # neck(3) + head(2)
+    eyes: 4        # left_eye(2) + right_eye(2)
+    eyelids: 2     # left(1) + right(1) — blink, squint, sleepy
+    jaw: 1         # open/close
+    mouth: 6       # upper_lip(2) + lower_lip(2) + corners(2)
+    left_arm: 11   # shoulder(1) + upper(3) + forearm(2) + hand(2) + thumb(2) + fingers(1)
+    right_arm: 11  # mirror
+    left_leg: 8    # hip(3) + thigh(1) + knee(1) + ankle(2) + foot(1)
+    right_leg: 8   # mirror
+
+  expressiveness:
+    gaze: "head(2) + neck(3) + eyes(4) = 9 DOF — precise gaze tracking"
+    blink: "eyelids(2) — blink rate from circadian phase, squint from concentration"
+    expression: "mouth(6) + jaw(1) = 7 DOF — smile, frown, smirk, surprise, speech"
+    gesture: "arms(22 DOF) — rich hand/arm gestures for communication"
+    posture: "spine(8) — slouch, lean, breathe, emotional expression"
+    locomotion: "legs(16) + root(6) = 22 DOF — walk, sit, stand, kneel"
+    speech: "jaw(1) + lips(4) — lip sync for voice, viseme mapping"
+
+  performance:
+    # At 464 citizens × 32 joints × 60fps
+    joint_updates_per_second: 890880  # 464 × 32 × 60
+    # Skinned mesh with 32 bones is standard — Three.js handles it
+    gpu_bones_per_citizen: 32
+    note: "Standard for real-time — VRChat uses 75-150 bones per avatar"
+
+# =============================================================================
+# PHYSICS BRIDGE — how the brain controls the body
+# =============================================================================
+
+physics_bridge:
+  description: |
+    The brain doesn't control individual joints. It expresses INTENTIONS
+    (orientation, action commands) and the body physics translates them
+    into joint rotations via inverse kinematics.
+
+  intention_to_motion:
+    look_at: "head + neck + eyes IK toward target position"
+    reach: "arm IK toward target, hand opens/closes"
+    walk_to: "procedural walk cycle, root follows path"
+    gesture: "predefined gesture animations (wave, point, shrug, nod)"
+    posture: "spine angles from drive state (slouch=rest, upright=alert)"
+
+  drive_to_face:
+    rest_high: "eyelids half-closed, mouth relaxed, slow blink rate"
+    achievement_high: "eyes wide, corners up (slight smile), jaw set"
+    curiosity_high: "eyes wide, eyebrows up (eyelids full open), mouth slightly open"
+    frustration_high: "eyes narrowed (eyelids 0.3), jaw clenched, corners down"
+    affiliation_high: "warm smile (corners up 0.6), eyes soft (eyelids 0.2)"
+    anxiety_high: "eyes darting (rapid eye movement), mouth tense, blink rate high"
+    satisfaction_high: "full smile (corners 0.8), eyes crinkled (eyelids 0.3)"
+    boredom_high: "eyelids heavy (0.6), jaw slack, mouth corners neutral"
+
+  blink_rate:
+    source: "circadian phase + arousal + boredom"
+    mechanism: "periodic eyelid close/open cycle"
+    rate: "15 + 5*boredom - 3*arousal blinks/min (normal 15, bored 20, alert 12)"
+    duration: "0.15s close + 0.15s open"
+
+  lip_sync:
+    source: "TTS audio stream or text output"
+    mechanism: "viseme mapping: phoneme → jaw + lip blend shapes"
+    visemes: 15  # standard viseme set (AA, EE, IH, OH, OO, etc.)
+
+  drive_to_posture:
+    rest_high: "spine slouched, arms relaxed, head slightly down"
+    achievement_high: "spine upright, chest forward, head level"
+    curiosity_high: "head tilted, eyes wide (jaw slightly open)"
+    frustration_high: "shoulders raised, fists closed, jaw clenched"
+    affiliation_high: "body angled toward nearest actor, arms open"
+    anxiety_high: "arms close to body, shoulders hunched, eyes darting"
+
+  breathing:
+    source: "circadian phase + arousal"
+    mechanism: "chest scale oscillation: 1.0 ± 0.02 at breath_rate Hz"
+    breath_rate: "12 + 8 × arousal breaths/min (12 calm, 20 stressed)"
