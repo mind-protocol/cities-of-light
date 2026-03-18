@@ -1,0 +1,61 @@
+#!/bin/bash
+# Post-push hook: fetch Render deploy log and display in terminal
+# Called after git push to show deploy status
+
+RENDER_API_KEY="${RENDER_API_KEY:-rnd_TCwcZUlEkijLULp7MOvTgVYi7ylK}"
+SERVICE_ID="${RENDER_SERVICE_ID:-srv-d6qginaa214c739erge0}"
+API="https://api.render.com/v1"
+
+echo ""
+echo "=== Render Deploy Status ==="
+
+# Get latest deploy
+DEPLOY=$(curl -s -H "Authorization: Bearer $RENDER_API_KEY" \
+  "$API/services/$SERVICE_ID/deploys?limit=1")
+
+DEPLOY_ID=$(echo "$DEPLOY" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d[0].get('deploy',d[0]).get('id',''))" 2>/dev/null)
+STATUS=$(echo "$DEPLOY" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d[0].get('deploy',d[0]).get('status',''))" 2>/dev/null)
+COMMIT=$(echo "$DEPLOY" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d[0].get('deploy',d[0]).get('commit',{}).get('message','')[:60])" 2>/dev/null)
+
+echo "  Deploy: $DEPLOY_ID"
+echo "  Status: $STATUS"
+echo "  Commit: $COMMIT"
+
+# If building, poll until done (max 5 min)
+if [ "$STATUS" = "build_in_progress" ] || [ "$STATUS" = "update_in_progress" ]; then
+  echo "  Building... (polling every 10s)"
+  for i in $(seq 1 30); do
+    sleep 10
+    STATUS=$(curl -s -H "Authorization: Bearer $RENDER_API_KEY" \
+      "$API/services/$SERVICE_ID/deploys/$DEPLOY_ID" | \
+      python3 -c "import json,sys; print(json.load(sys.stdin).get('status',''))" 2>/dev/null)
+    echo "  [$i] Status: $STATUS"
+    if [ "$STATUS" = "live" ] || [ "$STATUS" = "deactivated" ] || [ "$STATUS" = "build_failed" ]; then
+      break
+    fi
+  done
+fi
+
+# Fetch deploy logs
+if [ -n "$DEPLOY_ID" ]; then
+  echo ""
+  echo "=== Deploy Log (last 30 lines) ==="
+  curl -s -H "Authorization: Bearer $RENDER_API_KEY" \
+    "$API/services/$SERVICE_ID/deploys/$DEPLOY_ID/logs" 2>/dev/null | \
+    python3 -c "
+import json, sys
+try:
+    data = json.load(sys.stdin)
+    lines = data if isinstance(data, list) else data.get('logs', data.get('log', []))
+    for line in lines[-30:]:
+        if isinstance(line, dict):
+            print(f'  {line.get(\"message\", line.get(\"log\", str(line)))}')
+        else:
+            print(f'  {line}')
+except:
+    print('  (no logs available)')
+" 2>/dev/null
+fi
+
+echo ""
+echo "=== End Deploy Log ==="

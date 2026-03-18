@@ -29,11 +29,12 @@ export class EntityManager {
     this.broadcast = broadcast;
     this.llmClient = options.llmClient || null;
 
-    // Tier config from manifest
+    // Tier config from manifest (defaults: Quest 3 WebXR draw call budget)
+    // See: docs/citizens/embodiment/BUDGET_DrawCalls_Quest3.md
     this.tierConfig = manifest.entities?.tier_config || {
-      FULL: { max: 20, radius: 15, voice: true, llm: true },
-      ACTIVE: { max: 60, radius: 50, voice: false, llm: false },
-      AMBIENT: { max: 200, radius: 200, voice: false, llm: false },
+      FULL: { max: 5, radius: 12, voice: true, llm: true },
+      ACTIVE: { max: 20, radius: 40, voice: false, llm: false },
+      AMBIENT: { max: 200, radius: 150, voice: false, llm: false },
     };
 
     // AI config from manifest

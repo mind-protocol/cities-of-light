@@ -21,6 +21,7 @@ import { GraphClient } from './graph-client.js';
 import { PlaceServer } from './place-server.js';
 import { MomentPipeline } from './moment-pipeline.js';
 import { PhysicsBridge } from './physics-bridge.js';
+import { mountSSERoutes } from './sse-stream.js';
 import OpenAI from 'openai';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -142,6 +143,10 @@ app.post('/api/places/:id/notify', async (req, res) => {
   if (!placeServer) return res.status(503).json({ error: 'Living Places not available' });
   await placeServer.handleNotifyHTTP(req, res);
 });
+
+// ─── SSE Stream (narrative playthrough streaming) ─────
+const playthroughsDir = process.env.PLAYTHROUGHS_DIR || join(__dirname, '..', '..', 'playthroughs');
+const sseStreams = mountSSERoutes(app, playthroughsDir);
 
 // ─── Physics API ──────────────────────────────────────
 app.get('/api/physics', (req, res) => {
@@ -1013,12 +1018,19 @@ try {
     tickInterval,
   });
 
-  // Log physics events
+  // Log physics events + push to SSE streams
   physicsBridge.on('narrative.moment_flip', (payload) => {
     console.log(`[Physics] Moment flip: ${payload.count} moment(s) completed at tick #${payload.tick}`);
+    // Fan out to all active SSE streams
+    for (const [, stream] of sseStreams.streams) {
+      stream.push({ type: 'moment', ...payload });
+    }
   });
   physicsBridge.on('narrative.event', (payload) => {
     console.log(`[Physics] Narrative event: ${payload.type} — ${payload.description}`);
+    for (const [, stream] of sseStreams.streams) {
+      stream.push({ type: payload.type || 'narration', ...payload });
+    }
   });
   physicsBridge.on('error', (err) => {
     console.error(`[Physics] Error: ${err.message}`);
