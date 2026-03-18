@@ -21,7 +21,8 @@
 <div id="loading">Loading Lumina Prime...</div>
 <div id="ui" style="display:none"><h2>Lumina Prime</h2><div id="stats"></div><div id="types"></div><div id="districts"></div></div>
 <div id="hover"></div>
-<div id="lod-toggle" style="display:none">LOD: <span id="lod-label">points</span> [press M]</div>
+<div id="lod-toggle" style="display:none">LOD: <span id="lod-label">points</span> [M]</div>
+<div id="flight-toggle" style="position:absolute;top:10px;right:10px;color:#4488aa;font:12px monospace;z-index:10"><span id="flight-label">ORBIT (F=fly)</span></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
@@ -152,7 +153,7 @@ function init(data) {
   const scene=new THREE.Scene();
   scene.background=new THREE.Color(0x06060c);
   const camera=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,0.5,800);
-  camera.position.set(0,80,250);
+  camera.position.set(0,200,600);
   const renderer=new THREE.WebGLRenderer({antialias:true});
   renderer.setSize(innerWidth,innerHeight);
   renderer.setPixelRatio(Math.min(devicePixelRatio,2));
@@ -161,8 +162,59 @@ function init(data) {
   controls.enableDamping=true;
   controls.dampingFactor=0.05;
   controls.autoRotate=true;
-  controls.autoRotateSpeed=0.2;
-  controls.target.set(0,10,0);
+  controls.autoRotateSpeed=0.15;
+  controls.target.set(0,30,0);
+
+  // ── Flight Mode (F to toggle, WASD + mouse to navigate) ──
+  let flyMode=false;
+  const flySpeed=3.0;
+  const flyKeys={w:false,a:false,s:false,d:false,q:false,e:false,shift:false};
+  const euler=new THREE.Euler(0,0,0,'YXZ');
+
+  addEventListener('keydown',e=>{
+    if(e.key==='f'||e.key==='F'){
+      flyMode=!flyMode;
+      controls.enabled=!flyMode;
+      controls.autoRotate=!flyMode;
+      if(flyMode){
+        renderer.domElement.requestPointerLock();
+        document.getElementById('flight-label').textContent='FLY (WASD+mouse, F=exit)';
+      }else{
+        document.exitPointerLock();
+        document.getElementById('flight-label').textContent='ORBIT (F=fly)';
+      }
+    }
+    const k=e.key.toLowerCase();
+    if(k in flyKeys)flyKeys[k]=true;
+    if(e.key==='Shift')flyKeys.shift=true;
+  });
+  addEventListener('keyup',e=>{
+    const k=e.key.toLowerCase();
+    if(k in flyKeys)flyKeys[k]=false;
+    if(e.key==='Shift')flyKeys.shift=false;
+  });
+  document.addEventListener('mousemove',e=>{
+    if(!flyMode||document.pointerLockElement!==renderer.domElement)return;
+    euler.setFromQuaternion(camera.quaternion);
+    euler.y-=e.movementX*0.002;
+    euler.x-=e.movementY*0.002;
+    euler.x=Math.max(-Math.PI/2,Math.min(Math.PI/2,euler.x));
+    camera.quaternion.setFromEuler(euler);
+  });
+
+  function updateFlight(){
+    if(!flyMode)return;
+    const speed=flyKeys.shift?flySpeed*3:flySpeed;
+    const dir=new THREE.Vector3();
+    camera.getWorldDirection(dir);
+    const right=new THREE.Vector3().crossVectors(dir,camera.up).normalize();
+    if(flyKeys.w)camera.position.addScaledVector(dir,speed);
+    if(flyKeys.s)camera.position.addScaledVector(dir,-speed);
+    if(flyKeys.a)camera.position.addScaledVector(right,-speed);
+    if(flyKeys.d)camera.position.addScaledVector(right,speed);
+    if(flyKeys.q)camera.position.y-=speed;
+    if(flyKeys.e)camera.position.y+=speed;
+  }
 
   // Ground
   const ground=new THREE.Mesh(
@@ -371,7 +423,8 @@ function init(data) {
   (function animate(){
     requestAnimationFrame(animate);
     time+=0.016;
-    controls.update();
+    updateFlight();
+    if(!flyMode)controls.update();
     updateHover();
 
     // Update crystal shader time
