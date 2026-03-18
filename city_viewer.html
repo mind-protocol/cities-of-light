@@ -110,13 +110,13 @@ const crystalFrag = `
     // Layer 3: Energy pulse
     float pulse = 0.85 + 0.15 * sin(uTime * 4.66); // ~140 BPM
 
-    // Compose
-    vec3 base = vColor * (0.3 + crystal * 0.5);
-    vec3 glow = vColor * fresnel * 0.6;
-    vec3 emission = vColor * pulse * 0.3;
+    // Compose — balanced: visible but not blown out
+    vec3 base = vColor * (0.2 + crystal * 0.35);
+    vec3 rim = vColor * fresnel * 0.4;
+    vec3 emission = vColor * pulse * 0.12;
 
-    vec3 color = base + glow + emission;
-    float alpha = 0.5 + fresnel * 0.3;
+    vec3 color = base + rim + emission;
+    float alpha = 0.35 + fresnel * 0.25;
 
     gl_FragColor = vec4(color, alpha);
   }
@@ -238,8 +238,8 @@ function init(data) {
     vertexShader:crystalVert,
     fragmentShader:crystalFrag,
     transparent:true,
-    depthWrite:false,
-    blending:THREE.AdditiveBlending,
+    depthWrite:true,
+    blending:THREE.NormalBlending,
     side:THREE.DoubleSide
   });
 
@@ -259,8 +259,8 @@ function init(data) {
       // Position
       dummy.position.set(posArr[i*3],posArr[i*3+1],posArr[i*3+2]);
 
-      // Scale from size + weight
-      const baseScale=sizeArr[i]*0.5;
+      // Scale from size + weight — keep small to avoid overlap
+      const baseScale=sizeArr[i]*0.15;
       dummy.scale.setScalar(baseScale);
 
       // Rotation (deterministic from index)
