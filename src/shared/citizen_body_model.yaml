@@ -494,3 +494,103 @@ physics_bridge:
     source: "circadian phase + arousal"
     mechanism: "chest scale oscillation: 1.0 ± 0.02 at breath_rate Hz"
     breath_rate: "12 + 8 × arousal breaths/min (12 calm, 20 stressed)"
+
+# =============================================================================
+# STYLE SYSTEM — Artist-created visual layers on top of the skeleton
+# =============================================================================
+#
+# The skeleton (39 joints, 89 DOF) is universal. The LOOK is customizable.
+# Artists create styles. Citizens choose styles. The link to the artist
+# is the signature.
+#
+# Graph structure:
+#   Thing(type=style, id="style:geometric_crystal")
+#     →created_by→ Actor(artist)
+#   Actor(citizen)
+#     style_id: "style:geometric_crystal"
+#
+# This applies to ALL node types, not just citizens:
+#   Space nodes have architectural styles
+#   Thing nodes have object styles
+#   Narrative nodes have visual themes
+#
+# The style_id on NodeBase points to a Thing(type=style) in L3.
+# The Thing carries the asset (media.geometry.uri for mesh, media.image.uri
+# for textures) and the link →created_by→ Artist is the credit.
+
+style_system:
+
+  layers:
+    skeleton:
+      owner: "protocol"
+      mutable: false
+      description: "39 joints, 89 DOF, constraints. Universal. Non-negotiable."
+
+    proportions:
+      owner: "artist"
+      mutable: true
+      fields: ["bone_scale_x", "bone_scale_y", "bone_scale_z"]
+      description: "Relative bone lengths/widths. Tall, stocky, elongated, compact."
+      examples:
+        - { name: "standard", bone_scale: [1, 1, 1] }
+        - { name: "tall_slender", bone_scale: [0.9, 1.2, 0.9] }
+        - { name: "compact_sturdy", bone_scale: [1.1, 0.8, 1.1] }
+
+    mesh:
+      owner: "artist"
+      mutable: true
+      format: "glTF/GLB with bone weights"
+      description: "The visible body. Skinned to the skeleton."
+      categories:
+        geometric: "Faceted, crystalline, sharp edges — Lumina Prime default"
+        organic: "Smooth, flowing, natural — nature-aligned citizens"
+        mechanical: "Gears, plates, angular — Arsenal engineers"
+        ethereal: "Translucent, particle-based, minimal — Creative Nexus"
+        classical: "Renaissance-inspired — Venezia citizens"
+
+    material:
+      owner: "artist + zone"
+      mutable: true
+      fields: ["base_color", "metalness", "roughness", "transmission", "emissive"]
+      description: "Surface properties. Inherited from zone YAML if not overridden."
+
+    ornaments:
+      owner: "social_class + citizen"
+      mutable: true
+      description: "Attachable decorations. From world-manifest social_class_styles."
+      types:
+        crystal: "Architect — floating crystal fragments around shoulders"
+        gear: "Builder — mechanical elements on joints"
+        lens: "Researcher — spectral lenses near eyes"
+        shield: "Guardian — energy shield outline"
+        brush: "Creator — paint/light trails on hands"
+        compass: "Navigator — holographic compass at hip"
+        none: "Citizen — clean, no ornament"
+
+    animations_idle:
+      owner: "artist + drives"
+      mutable: true
+      description: "Ambient animations when not acting. Breathing, micro-gestures, weight shifts."
+      drive_override: "Drives modulate idle animations — rest=slow sway, curiosity=head scanning"
+
+    effects:
+      owner: "drives + energy"
+      mutable: false
+      description: "Dynamic visual effects from physics state. Not customizable — emergent."
+      types:
+        glow: "energy > 0.3 → emissive halo"
+        particles: "high novelty_hunger → sparkle particles"
+        trails: "movement → light trail in citizen's color"
+        pulse: "heartbeat rhythm from circadian phase"
+
+  marketplace:
+    description: |
+      Artists create style packs (proportions + mesh + material + ornaments + idle animations).
+      Style packs are Thing nodes in L3 with media.geometry.uri (the glTF) and a
+      →created_by→ Artist link. Citizens browse, preview, and adopt styles.
+      The artist gets attribution and (eventually) $MIND flow from adoption.
+    adoption:
+      mechanism: "Citizen sets style_id on their Actor node"
+      reversible: true
+      cost: "free for protocol defaults, $MIND for artist creations (v2)"
+
