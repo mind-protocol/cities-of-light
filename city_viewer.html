@@ -14,12 +14,14 @@
   .legend-section h3{font-size:10px;color:#888;margin-bottom:2px}
   #hover{position:absolute;bottom:10px;left:10px;z-index:10;background:rgba(8,8,16,.95);padding:8px 12px;border-radius:6px;border:1px solid rgba(255,255,255,.1);font-size:11px;display:none;max-width:350px;line-height:1.4}
   #loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:100;font-size:14px;color:#e0e0e8}
+  #lod-toggle{position:absolute;top:10px;right:10px;z-index:10;background:rgba(8,8,16,.92);padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,.08);font-size:10px;cursor:pointer;color:#c0c0c8}
 </style>
 </head>
 <body>
 <div id="loading">Loading Lumina Prime...</div>
 <div id="ui" style="display:none"><h2>Lumina Prime</h2><div id="stats"></div><div id="types"></div><div id="districts"></div></div>
 <div id="hover"></div>
+<div id="lod-toggle" style="display:none">LOD: <span id="lod-label">points</span> [press M]</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
@@ -28,14 +30,107 @@ fetch('city_data.json').then(r=>r.json()).then(init).catch(e=>{
   document.getElementById('loading').textContent='Error: '+e;
 });
 
-function init(data){
+// ── Geometry factory by node_type + subtype ────────────────
+function makeGeo(nodeType, subtype) {
+  switch(nodeType) {
+    case 'actor':
+      return new THREE.IcosahedronGeometry(1.8, 1);
+    case 'narrative':
+      switch(subtype) {
+        case 'vision':    return new THREE.IcosahedronGeometry(2.5, 0); // star-like
+        case 'mission':   return new THREE.CylinderGeometry(0.4, 0.8, 4, 6);
+        case 'objective': return new THREE.ConeGeometry(1.2, 2.5, 4);
+        case 'project':   return new THREE.BoxGeometry(2, 2, 2);
+        case 'task':      return new THREE.BoxGeometry(0.8, 0.8, 0.8);
+        case 'desire':    return new THREE.ConeGeometry(0.6, 2, 6);
+        case 'value':     return new THREE.OctahedronGeometry(1.2);
+        case 'process':   return new THREE.TorusGeometry(1, 0.3, 4, 12);
+        case 'thought':   return new THREE.SphereGeometry(1, 6, 6);
+        case 'fact':      return new THREE.BoxGeometry(1.8, 2.2, 0.2);
+        case 'role':      return new THREE.TorusGeometry(1, 0.25, 8, 16);
+        default:          return new THREE.DodecahedronGeometry(1);
+      }
+    case 'space':
+      return new THREE.IcosahedronGeometry(2, 1);
+    case 'moment':
+      return new THREE.SphereGeometry(0.3, 4, 4);
+    default: // thing
+      return new THREE.OctahedronGeometry(0.6);
+  }
+}
+
+// ── Crystal shader (smart texture lite — 3 layers for perf) ──
+const crystalVert = `
+  varying vec3 vNormal;
+  varying vec3 vViewDir;
+  varying vec3 vLocalPos;
+  varying vec3 vColor;
+  void main() {
+    vLocalPos = position;
+    vColor = instanceColor;
+    vec4 wp = modelMatrix * instanceMatrix * vec4(position, 1.0);
+    vNormal = normalize(mat3(modelMatrix * instanceMatrix) * normal);
+    vViewDir = normalize(cameraPosition - wp.xyz);
+    gl_Position = projectionMatrix * viewMatrix * wp;
+  }
+`;
+
+const crystalFrag = `
+  varying vec3 vNormal;
+  varying vec3 vViewDir;
+  varying vec3 vLocalPos;
+  varying vec3 vColor;
+  uniform float uTime;
+
+  float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+  }
+  float voronoi(vec2 p) {
+    vec2 i = floor(p); vec2 f = fract(p);
+    float d = 1.0;
+    for (int x=-1; x<=1; x++) for (int y=-1; y<=1; y++) {
+      vec2 n = vec2(float(x), float(y));
+      vec2 pt = n + hash(i+n) * 0.8;
+      d = min(d, length(f - pt));
+    }
+    return d;
+  }
+
+  void main() {
+    vec3 n = normalize(vNormal);
+    vec3 v = normalize(vViewDir);
+
+    // Layer 1: Crystal voronoi structure
+    vec2 uv = vLocalPos.xy * 2.0 + 0.5;
+    float crystal = voronoi(uv * 6.0);
+
+    // Layer 2: Fresnel edge glow
+    float fresnel = pow(1.0 - max(dot(n, v), 0.0), 2.5);
+
+    // Layer 3: Energy pulse
+    float pulse = 0.85 + 0.15 * sin(uTime * 4.66); // ~140 BPM
+
+    // Compose
+    vec3 base = vColor * (0.3 + crystal * 0.5);
+    vec3 glow = vColor * fresnel * 0.6;
+    vec3 emission = vColor * pulse * 0.3;
+
+    vec3 color = base + glow + emission;
+    float alpha = 0.5 + fresnel * 0.3;
+
+    gl_FragColor = vec4(color, alpha);
+  }
+`;
+
+function init(data) {
   document.getElementById('loading').style.display='none';
   document.getElementById('ui').style.display='block';
+  document.getElementById('lod-toggle').style.display='block';
   document.getElementById('stats').innerHTML=
     data.node_count.toLocaleString()+' nodes — '+data.link_count.toLocaleString()+' links'+
     (data.highways?' — '+data.highways.length+' highways':'');
 
-  // Node type legend
+  // Legends
   const typeColors={actor:'#FF6B6B',moment:'#4ECDC4',narrative:'#45B7D1',space:'#96CEB4',thing:'#FFEAA7'};
   const tEl=document.getElementById('types');
   tEl.innerHTML='<div class="legend-section"><h3>node types</h3></div>';
@@ -45,8 +140,6 @@ function init(data){
     div.innerHTML=`<span class="dot" style="background:${c}"></span>${t} (${cnt.toLocaleString()})`;
     tEl.appendChild(div);
   }
-
-  // Districts legend
   const dEl=document.getElementById('districts');
   dEl.innerHTML='<div class="legend-section"><h3>districts</h3></div>';
   for(const[id,d]of Object.entries(data.districts)){
@@ -58,15 +151,12 @@ function init(data){
   // Scene
   const scene=new THREE.Scene();
   scene.background=new THREE.Color(0x06060c);
-
-  const camera=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,1,800);
+  const camera=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,0.5,800);
   camera.position.set(0,80,250);
-
   const renderer=new THREE.WebGLRenderer({antialias:true});
   renderer.setSize(innerWidth,innerHeight);
   renderer.setPixelRatio(Math.min(devicePixelRatio,2));
   document.body.appendChild(renderer.domElement);
-
   const controls=new THREE.OrbitControls(camera,renderer.domElement);
   controls.enableDamping=true;
   controls.dampingFactor=0.05;
@@ -74,51 +164,44 @@ function init(data){
   controls.autoRotateSpeed=0.2;
   controls.target.set(0,10,0);
 
-  // Ground reference disc
-  const groundGeo=new THREE.RingGeometry(5,data.R_MAX*1.1,64);
-  const groundMat=new THREE.MeshBasicMaterial({color:0x0a0a18,side:THREE.DoubleSide,transparent:true,opacity:0.3});
-  const ground=new THREE.Mesh(groundGeo,groundMat);
+  // Ground
+  const ground=new THREE.Mesh(
+    new THREE.RingGeometry(5,data.R_MAX*1.1,64),
+    new THREE.MeshBasicMaterial({color:0x0a0a18,side:THREE.DoubleSide,transparent:true,opacity:0.3})
+  );
   ground.rotation.x=-Math.PI/2;
   scene.add(ground);
+  scene.add(new THREE.GridHelper(data.R_MAX*2,30,0x151530,0x0d0d20));
 
-  // Grid on ground
-  const grid=new THREE.GridHelper(data.R_MAX*2,30,0x151530,0x0d0d20);
-  scene.add(grid);
-
-  // Lights
-  scene.add(new THREE.AmbientLight(0x2a2a4e,0.6));
-  const sun=new THREE.DirectionalLight(0xffe8d0,1.2);
+  // Minimal lights (emission-first, lights are secondary fill)
+  scene.add(new THREE.AmbientLight(0x2a2a4e,0.4));
+  const sun=new THREE.DirectionalLight(0xffe8d0,0.6);
   sun.position.set(50,100,50);scene.add(sun);
-  const rim=new THREE.PointLight(0x4060a0,0.6,400);
-  rim.position.set(-100,50,-100);scene.add(rim);
 
-  // ── PointCloud for nodes ──
+  // ── Build position/color/size arrays ──
   const N=data.node_count;
   const posArr=new Float32Array(data.positions);
   const colArr=new Float32Array(data.colors);
   const sizeArr=new Float32Array(data.sizes);
 
-  const geo=new THREE.BufferGeometry();
-  geo.setAttribute('position',new THREE.BufferAttribute(posArr,3));
-  geo.setAttribute('color',new THREE.BufferAttribute(colArr,3));
-  geo.setAttribute('size',new THREE.Float32BufferAttribute(sizeArr,1));
-
-  const pointsMat=new THREE.ShaderMaterial({
-    uniforms:{
-      uPixelRatio:{value:renderer.getPixelRatio()},
-    },
+  // ══════════════════════════════════════════════════════════
+  // LOD LAYER 1: PointCloud (far view — always available)
+  // ══════════════════════════════════════════════════════════
+  const ptGeo=new THREE.BufferGeometry();
+  ptGeo.setAttribute('position',new THREE.BufferAttribute(posArr,3));
+  ptGeo.setAttribute('color',new THREE.BufferAttribute(colArr,3));
+  ptGeo.setAttribute('size',new THREE.Float32BufferAttribute(sizeArr,1));
+  const ptMat=new THREE.ShaderMaterial({
+    uniforms:{uPixelRatio:{value:renderer.getPixelRatio()}},
     vertexShader:`
-      attribute float size;
-      varying vec3 vColor;
-      uniform float uPixelRatio;
+      attribute float size; varying vec3 vColor; uniform float uPixelRatio;
       void main(){
         vColor=color;
         vec4 mv=modelViewMatrix*vec4(position,1.0);
         gl_Position=projectionMatrix*mv;
         gl_PointSize=size*uPixelRatio*300.0/(-mv.z);
         gl_PointSize=clamp(gl_PointSize,1.0,40.0);
-      }
-    `,
+      }`,
     fragmentShader:`
       varying vec3 vColor;
       void main(){
@@ -126,35 +209,96 @@ function init(data){
         if(d>1.0)discard;
         float a=1.0-smoothstep(0.0,1.0,d);
         float glow=exp(-d*d*3.0);
-        vec3 c=vColor*(0.6+glow*0.8);
-        gl_FragColor=vec4(c,a*0.85);
-      }
-    `,
-    transparent:true,
-    vertexColors:true,
-    depthWrite:false,
-    blending:THREE.AdditiveBlending,
+        gl_FragColor=vec4(vColor*(0.6+glow*0.8),a*0.85);
+      }`,
+    transparent:true,vertexColors:true,depthWrite:false,blending:THREE.AdditiveBlending
   });
+  const pointCloud=new THREE.Points(ptGeo,ptMat);
+  scene.add(pointCloud);
 
-  const points=new THREE.Points(geo,pointsMat);
-  scene.add(points);
+  // ══════════════════════════════════════════════════════════
+  // LOD LAYER 2: InstancedMesh per geometry bucket (close view)
+  // ══════════════════════════════════════════════════════════
+  const meshGroup=new THREE.Group();
+  meshGroup.name='instanced_meshes';
+  meshGroup.visible=false; // starts hidden, toggle with M
 
-  // ── Links as LineSegments ──
-  if(data.link_indices&&data.link_indices.length>0){
-    const linkPos=new Float32Array(data.link_indices.length*3);
-    for(let i=0;i<data.link_indices.length;i++){
-      const idx=data.link_indices[i];
-      linkPos[i*3]=posArr[idx*3];
-      linkPos[i*3+1]=posArr[idx*3+1];
-      linkPos[i*3+2]=posArr[idx*3+2];
-    }
-    const linkGeo=new THREE.BufferGeometry();
-    linkGeo.setAttribute('position',new THREE.BufferAttribute(linkPos,3));
-    const linkMat=new THREE.LineBasicMaterial({color:0x4466aa,transparent:true,opacity:0.25,blending:THREE.AdditiveBlending,depthWrite:false});
-    scene.add(new THREE.LineSegments(linkGeo,linkMat));
+  // Classify nodes into buckets
+  const buckets={};
+  for(let i=0;i<N;i++){
+    const m=data.meta[i];
+    const key=m.node_type+'_'+(m.subtype||'default');
+    if(!buckets[key])buckets[key]={type:m.node_type,subtype:m.subtype||'default',indices:[]};
+    buckets[key].indices.push(i);
   }
 
-  // ── Highway curves (bezier beams between districts) ──
+  // Crystal material (shared, smart texture lite)
+  const crystalMat=new THREE.ShaderMaterial({
+    uniforms:{uTime:{value:0}},
+    vertexShader:crystalVert,
+    fragmentShader:crystalFrag,
+    transparent:true,
+    depthWrite:false,
+    blending:THREE.AdditiveBlending,
+    side:THREE.DoubleSide
+  });
+
+  const dummy=new THREE.Object3D();
+  const color=new THREE.Color();
+  const instancedMeshes=[];
+
+  for(const[key,bucket]of Object.entries(buckets)){
+    const geo=makeGeo(bucket.type,bucket.subtype);
+    const mat=crystalMat.clone();
+    const mesh=new THREE.InstancedMesh(geo,mat,bucket.indices.length);
+
+    for(let j=0;j<bucket.indices.length;j++){
+      const i=bucket.indices[j];
+      const m=data.meta[i];
+
+      // Position
+      dummy.position.set(posArr[i*3],posArr[i*3+1],posArr[i*3+2]);
+
+      // Scale from size + weight
+      const baseScale=sizeArr[i]*0.5;
+      dummy.scale.setScalar(baseScale);
+
+      // Rotation (deterministic from index)
+      const h=((i*374761393)&0x7fffffff)/0x7fffffff;
+      dummy.rotation.set(h*0.5,h*1.7,h*0.3);
+
+      dummy.updateMatrix();
+      mesh.setMatrixAt(j,dummy.matrix);
+
+      // Color from data
+      color.setRGB(colArr[i*3],colArr[i*3+1],colArr[i*3+2]);
+      mesh.setColorAt(j,color);
+    }
+
+    mesh.instanceMatrix.needsUpdate=true;
+    mesh.name=key;
+    meshGroup.add(mesh);
+    instancedMeshes.push(mesh);
+  }
+
+  scene.add(meshGroup);
+  console.log(`Built ${Object.keys(buckets).length} instanced meshes (${instancedMeshes.length} groups)`);
+
+  // ── Links ──
+  if(data.link_indices&&data.link_indices.length>0){
+    const lp=new Float32Array(data.link_indices.length*3);
+    for(let i=0;i<data.link_indices.length;i++){
+      const idx=data.link_indices[i];
+      lp[i*3]=posArr[idx*3];lp[i*3+1]=posArr[idx*3+1];lp[i*3+2]=posArr[idx*3+2];
+    }
+    const lg=new THREE.BufferGeometry();
+    lg.setAttribute('position',new THREE.BufferAttribute(lp,3));
+    scene.add(new THREE.LineSegments(lg,
+      new THREE.LineBasicMaterial({color:0x4466aa,transparent:true,opacity:0.25,blending:THREE.AdditiveBlending,depthWrite:false})
+    ));
+  }
+
+  // ── Highways ──
   var hwGroup=null;
   if(data.highways&&data.highways.length>0){
     hwGroup=new THREE.Group();
@@ -167,73 +311,77 @@ function init(data){
         new THREE.Vector3(p[2][0],p[2][1],p[2][2])
       );
       const nw=hw.weight/maxW;
-      // Tube beam
-      const tubeGeo=new THREE.TubeGeometry(curve,24,0.3+nw*1.2,6,false);
-      const tubeMat=new THREE.MeshBasicMaterial({
-        color:0xffffff,transparent:true,opacity:0.04+nw*0.08,
-        blending:THREE.AdditiveBlending,depthWrite:false
-      });
-      hwGroup.add(new THREE.Mesh(tubeGeo,tubeMat));
-      // Particles along curve
-      const pCount=20+Math.floor(nw*40);
-      const pPos=new Float32Array(pCount*3);
-      const pOff=[];
-      for(let i=0;i<pCount;i++){
-        pOff.push(Math.random());
-        const pt=curve.getPoint(pOff[i]);
-        pPos[i*3]=pt.x;pPos[i*3+1]=pt.y;pPos[i*3+2]=pt.z;
-      }
-      const pGeo=new THREE.BufferGeometry();
-      pGeo.setAttribute('position',new THREE.BufferAttribute(pPos,3));
-      const pMat=new THREE.PointsMaterial({
-        size:0.5+nw*1.0,color:0xffffff,transparent:true,opacity:0.2+nw*0.4,
-        blending:THREE.AdditiveBlending,depthWrite:false,sizeAttenuation:true
-      });
-      const pts=new THREE.Points(pGeo,pMat);
-      pts.userData={curve,offsets:pOff,speed:0.02+nw*0.05};
+      hwGroup.add(new THREE.Mesh(
+        new THREE.TubeGeometry(curve,24,0.3+nw*1.2,6,false),
+        new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0.04+nw*0.08,blending:THREE.AdditiveBlending,depthWrite:false})
+      ));
+      const pc=20+Math.floor(nw*40);
+      const pp=new Float32Array(pc*3);const po=[];
+      for(let i=0;i<pc;i++){po.push(Math.random());const pt=curve.getPoint(po[i]);pp[i*3]=pt.x;pp[i*3+1]=pt.y;pp[i*3+2]=pt.z;}
+      const pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(pp,3));
+      const pts=new THREE.Points(pg,new THREE.PointsMaterial({size:0.5+nw,color:0xffffff,transparent:true,opacity:0.2+nw*0.4,blending:THREE.AdditiveBlending,depthWrite:false,sizeAttenuation:true}));
+      pts.userData={curve,offsets:po,speed:0.02+nw*0.05};
       hwGroup.add(pts);
     }
     scene.add(hwGroup);
   }
 
-  // ── Hover (raycasting on points) ──
+  // ── LOD Toggle (M key) ──
+  let lodMode='points'; // 'points' or 'meshes'
+  addEventListener('keydown',e=>{
+    if(e.key==='m'||e.key==='M'){
+      lodMode=lodMode==='points'?'meshes':'points';
+      pointCloud.visible=(lodMode==='points');
+      meshGroup.visible=(lodMode==='meshes');
+      document.getElementById('lod-label').textContent=lodMode;
+    }
+  });
+
+  // ── Hover ──
   const raycaster=new THREE.Raycaster();
   raycaster.params.Points.threshold=1.5;
   const mouse=new THREE.Vector2();
-  const hover=document.getElementById('hover');
-
+  const hoverEl=document.getElementById('hover');
   renderer.domElement.addEventListener('mousemove',e=>{
     mouse.x=(e.clientX/innerWidth)*2-1;
     mouse.y=-(e.clientY/innerHeight)*2+1;
   });
-
   function updateHover(){
     raycaster.setFromCamera(mouse,camera);
-    const hits=raycaster.intersectObject(points);
+    const hits=raycaster.intersectObject(pointCloud);
     if(hits.length>0){
-      const idx=hits[0].index;
-      const m=data.meta[idx];
+      const m=data.meta[hits[0].index];
       if(m){
-        hover.style.display='block';
-        hover.innerHTML=`<strong>${m.node_type}${m.subtype?':'+m.subtype:''}</strong> ${m.label}<br>`+
+        hoverEl.style.display='block';
+        hoverEl.innerHTML=`<strong>${m.node_type}${m.subtype?':'+m.subtype:''}</strong> ${m.label}<br>`+
           `<span style="color:#777">W=${m.weight} E=${m.energy} | ${m.district.replace(/_/g,' ')}</span>`;
       }
-    }else{
-      hover.style.display='none';
-    }
+    }else{hoverEl.style.display='none';}
   }
 
+  // ── Resize ──
   addEventListener('resize',()=>{
     camera.aspect=innerWidth/innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(innerWidth,innerHeight);
   });
 
+  // ── Animate ──
+  let time=0;
   (function animate(){
     requestAnimationFrame(animate);
+    time+=0.016;
     controls.update();
     updateHover();
-    // Animate highway particles
+
+    // Update crystal shader time
+    if(lodMode==='meshes'){
+      for(const mesh of instancedMeshes){
+        mesh.material.uniforms.uTime.value=time;
+      }
+    }
+
+    // Highway particles
     if(hwGroup){
       for(const child of hwGroup.children){
         if(!child.isPoints||!child.userData.curve)continue;
@@ -247,10 +395,11 @@ function init(data){
         child.geometry.attributes.position.needsUpdate=true;
       }
     }
+
     renderer.render(scene,camera);
   })();
 
-  console.log('Lumina Prime loaded:',N,'nodes');
+  console.log('Lumina Prime loaded:',N,'nodes,',Object.keys(buckets).length,'geometry types');
 }
 </script>
 </body>
