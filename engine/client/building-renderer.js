@@ -30,6 +30,7 @@ const CATEGORY_PARAMS = {
   Workshop:    { width: 4,  height: 4,  depth: 4, color: 0xB8860B },
   Residential: { width: 3,  height: 5,  depth: 4, color: 0xD2B48C },
   Government:  { width: 10, height: 8,  depth: 8, color: 0xC0C0C0 },
+  Monument:    { width: 2,  height: 12, depth: 2, color: 0x88CCFF },
 };
 
 const DEFAULT_PARAMS = { width: 4, height: 4, depth: 4, color: 0xBEBEBE };
@@ -187,8 +188,12 @@ export class BuildingRenderer {
     const bodyGeometry = new THREE.BoxGeometry(width, height, depth);
     const bodyMaterial = new THREE.MeshStandardMaterial({
       color: params.color,
-      roughness: 0.85,
-      metalness: 0.05,
+      roughness: b.category === 'Monument' ? 0.3 : 0.85,
+      metalness: b.category === 'Monument' ? 0.6 : 0.05,
+      ...(b.category === 'Monument' && {
+        emissive: 0x88CCFF,
+        emissiveIntensity: 0.2,
+      }),
     });
     const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
     // Position body so its bottom face sits at y=0 (local to group)
@@ -248,6 +253,24 @@ export class BuildingRenderer {
       return mesh;
     }
 
+    if (category === 'Monument') {
+      // Sharp obelisk point — emissive crystal tip
+      const roofHeight = Math.min(width, depth) * 1.5;
+      const roofRadius = Math.max(width, depth) * 0.45;
+      const geometry = new THREE.ConeGeometry(roofRadius, roofHeight, 4);
+      geometry.rotateY(Math.PI / 4);
+      const emissiveMaterial = new THREE.MeshStandardMaterial({
+        color,
+        emissive: 0x88CCFF,
+        emissiveIntensity: 0.4,
+        roughness: 0.3,
+        metalness: 0.6,
+      });
+      const mesh = new THREE.Mesh(geometry, emissiveMaterial);
+      mesh.position.y = roofHeight / 2;
+      return mesh;
+    }
+
     // Flat slab roof with slight overhang
     const overhang = 0.3;
     const roofThickness = 0.3;
@@ -273,6 +296,9 @@ export class BuildingRenderer {
   _getRoofHeight(category, width, depth) {
     if (category === 'Church') {
       return Math.min(width, depth) * 0.6;
+    }
+    if (category === 'Monument') {
+      return Math.min(width, depth) * 1.5;
     }
     return 0.3; // flat roof thickness
   }
