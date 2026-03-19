@@ -485,10 +485,12 @@ function removeBubble(group) {
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 let selectedCitizen = null;
+let activeBuildingRenderer = null; // set after init
 
 window.addEventListener('click', (event) => {
   // Don't raycast if clicking on UI
   if (event.target.closest('#citizen-panel')) return;
+  if (event.target.closest('#stele-reader')) return;
 
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -513,14 +515,123 @@ window.addEventListener('click', (event) => {
     if (group?.userData?.citizen) {
       showCitizenPanel(group.userData.citizen);
       selectedCitizen = group;
+      return;
     }
-  } else {
-    // Clicked empty space — close panel
-    const panel = document.getElementById('citizen-panel');
-    if (panel) panel.style.display = 'none';
-    selectedCitizen = null;
   }
+
+  // Check building clicks (monuments / steles)
+  if (activeBuildingRenderer) {
+    const buildingObjects = [];
+    for (const [, entry] of activeBuildingRenderer.buildings) {
+      entry.mesh.traverse((child) => {
+        if (child.isMesh) {
+          child.userData._buildingEntry = entry;
+          buildingObjects.push(child);
+        }
+      });
+    }
+
+    const bIntersects = raycaster.intersectObjects(buildingObjects, false);
+    if (bIntersects.length > 0) {
+      const entry = bIntersects[0].object.userData._buildingEntry;
+      if (entry?.data?.category === 'Monument') {
+        openSteleReader(entry.data);
+        return;
+      }
+    }
+  }
+
+  // Clicked empty space — close panels
+  const panel = document.getElementById('citizen-panel');
+  if (panel) panel.style.display = 'none';
+  selectedCitizen = null;
 });
+
+// ─── Stele Reader ────────────────────────────────────
+
+const STELE_CATALOG = {
+  'stele:contre-terre': {
+    title: 'Contre-Terre',
+    meta: 'NLR & MIND — 2026',
+    files: {
+      fr: '/world/steles/contre_terre_fr.md',
+      en: '/world/steles/counter_earth_en.md',
+    },
+    buy: {
+      fr: 'https://www.amazon.fr/dp/B0GT4H4R18',
+      en: 'https://www.amazon.co.uk/dp/B0GT4FCS6X',
+    },
+  },
+};
+
+let currentSteleLang = 'fr';
+let currentSteleId = null;
+
+async function openSteleReader(buildingData) {
+  const stele = STELE_CATALOG[buildingData.id];
+  if (!stele) return;
+
+  currentSteleId = buildingData.id;
+  currentSteleLang = 'fr';
+
+  document.getElementById('sr-title').textContent = stele.title;
+  document.getElementById('sr-meta').textContent = stele.meta;
+
+  await loadSteleContent(stele, 'fr');
+
+  const reader = document.getElementById('stele-reader');
+  reader.style.display = 'flex';
+}
+
+async function loadSteleContent(stele, lang) {
+  const body = document.getElementById('sr-body');
+  body.textContent = 'Loading...';
+
+  // Update language buttons
+  document.getElementById('sr-lang-fr').classList.toggle('active', lang === 'fr');
+  document.getElementById('sr-lang-en').classList.toggle('active', lang === 'en');
+
+  // Update buy link
+  const buyLink = document.getElementById('sr-buy-link');
+  buyLink.href = stele.buy[lang] || stele.buy.fr;
+
+  try {
+    const resp = await fetch(stele.files[lang]);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const md = await resp.text();
+    body.innerHTML = renderMarkdown(md);
+    body.scrollTop = 0;
+  } catch (e) {
+    body.textContent = `Could not load manuscript: ${e.message}`;
+  }
+}
+
+window.switchSteleLanguage = function(lang) {
+  if (!currentSteleId) return;
+  const stele = STELE_CATALOG[currentSteleId];
+  if (!stele) return;
+  currentSteleLang = lang;
+  loadSteleContent(stele, lang);
+};
+
+/** Minimal markdown → HTML (headings, italics, bold, hr, paragraphs) */
+function renderMarkdown(md) {
+  return md
+    .split('\n')
+    .map(line => {
+      if (line.match(/^---+$/)) return '<hr>';
+      if (line.match(/^### /)) return `<h3>${line.slice(4)}</h3>`;
+      if (line.match(/^## /)) return `<h2>${line.slice(3)}</h2>`;
+      if (line.match(/^# /)) return `<h1>${line.slice(2)}</h1>`;
+      if (line.trim() === '') return '<br>';
+      // Bold + italic
+      line = line.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>');
+      line = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      line = line.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      return `<p>${line}</p>`;
+    })
+    .join('\n');
+}
 
 async function showCitizenPanel(citizen) {
   const panel = document.getElementById('citizen-panel');
@@ -625,6 +736,7 @@ async function init() {
         labelHeight: world.manifest.buildings?.label_height ?? 3.0,
       });
       buildingRenderer.render(world.buildings);
+      activeBuildingRenderer = buildingRenderer;
       console.log(`Buildings rendered: ${world.buildings.length}`);
     }
 
@@ -1009,6 +1121,17 @@ function connectMultiplayer() {
         const v = visitors.get(msg.citizenId);
         if (v && msg.position) {
           v.position.set(msg.position.x, msg.position.y, msg.position.z);
+        }
+        break;
+      }
+
+      case 'citizen_pose': {
+        // Idle pose update from L1 drive state — animate body language
+        const v = visitors.get(msg.citizenId);
+        if (v && msg.pose) {
+          // Store pose data on the group for the animation loop to read
+          v.userData.idlePose = msg.pose;
+          v.userData.poseReceivedAt = performance.now();
         }
         break;
       }

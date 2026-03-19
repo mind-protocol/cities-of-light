@@ -121,13 +121,143 @@
       border-color: rgba(0,200,100,0.5);
       color: #80ffb0;
     }
+
+    /* Stele / Book Reader */
+    #stele-reader {
+      display: none;
+      position: fixed;
+      top: 5vh;
+      left: 10vw;
+      width: 80vw;
+      height: 90vh;
+      background: rgba(8, 10, 20, 0.96);
+      border: 1px solid rgba(136, 204, 255, 0.3);
+      border-radius: 16px;
+      z-index: 300;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 0 60px rgba(136, 204, 255, 0.15), 0 16px 48px rgba(0,0,0,0.6);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #stele-reader .stele-header {
+      padding: 20px 24px 12px;
+      border-bottom: 1px solid rgba(136, 204, 255, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    #stele-reader .stele-title {
+      font-size: 22px;
+      color: #88CCFF;
+      font-family: Georgia, serif;
+      flex: 1;
+    }
+    #stele-reader .stele-meta {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    #stele-reader .stele-lang {
+      display: flex;
+      gap: 4px;
+    }
+    #stele-reader .lang-btn {
+      padding: 4px 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(136, 204, 255, 0.2);
+      color: rgba(255,255,255,0.5);
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    #stele-reader .lang-btn:hover { border-color: rgba(136, 204, 255, 0.5); color: #88CCFF; }
+    #stele-reader .lang-btn.active {
+      background: rgba(136, 204, 255, 0.15);
+      border-color: #88CCFF;
+      color: #88CCFF;
+    }
+    #stele-reader .stele-close {
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      cursor: pointer;
+      color: rgba(255,255,255,0.5);
+      font-size: 24px;
+      background: none;
+      border: none;
+      z-index: 10;
+    }
+    #stele-reader .stele-close:hover { color: #fff; }
+    #stele-reader .stele-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px 48px;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 16px;
+      line-height: 1.9;
+      color: #d8cbb8;
+      white-space: pre-wrap;
+    }
+    #stele-reader .stele-body h1 { font-size: 28px; color: #88CCFF; margin: 32px 0 16px; text-align: center; }
+    #stele-reader .stele-body h2 { font-size: 20px; color: #a0c8e0; margin: 24px 0 12px; }
+    #stele-reader .stele-body h3 { font-size: 16px; color: #88CCFF; margin: 16px 0 8px; }
+    #stele-reader .stele-body p { margin-bottom: 12px; text-indent: 2em; }
+    #stele-reader .stele-body em { color: #c0a880; }
+    #stele-reader .stele-body hr { border: none; border-top: 1px solid rgba(136,204,255,0.15); margin: 32px 0; }
+    #stele-reader .stele-body::-webkit-scrollbar { width: 6px; }
+    #stele-reader .stele-body::-webkit-scrollbar-track { background: transparent; }
+    #stele-reader .stele-body::-webkit-scrollbar-thumb { background: rgba(136,204,255,0.2); border-radius: 3px; }
+    #stele-reader .stele-footer {
+      padding: 12px 24px;
+      border-top: 1px solid rgba(136, 204, 255, 0.15);
+      text-align: center;
+      flex-shrink: 0;
+    }
+    #stele-reader .stele-buy-btn {
+      display: inline-block;
+      padding: 8px 24px;
+      background: linear-gradient(135deg, rgba(136,204,255,0.2), rgba(136,204,255,0.05));
+      border: 1px solid rgba(136,204,255,0.4);
+      color: #88CCFF;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: all 0.3s;
+    }
+    #stele-reader .stele-buy-btn:hover {
+      background: rgba(136,204,255,0.3);
+      box-shadow: 0 0 20px rgba(136,204,255,0.2);
+    }
   </style>
 </head>
 <body>
   <div id="status">Loading Venice...</div>
-  <div id="controls-hint">WASD — Move | Mouse — Look | V — Talk | Click citizen — Profile</div>
+  <div id="controls-hint">WASD — Move | Mouse — Look | V — Talk | Click citizen — Profile | Click stele — Read</div>
   <div id="voice-status" style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%);font-size:14px;font-family:monospace;z-index:100;pointer-events:none;display:none;text-shadow:0 0 10px currentColor;background:rgba(0,0,0,0.6);padding:8px 16px;border-radius:6px;"></div>
   <button id="mic-btn" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:56px;height:56px;border-radius:50%;border:2px solid rgba(255,100,100,0.5);background:rgba(255,50,50,0.15);color:#ff6666;font-size:24px;cursor:pointer;z-index:100;backdrop-filter:blur(8px);transition:all 0.2s;" title="Hold to talk (or press V)">🎤</button>
+
+  <!-- Stele / Book Reader overlay -->
+  <div id="stele-reader">
+    <div class="stele-header">
+      <div class="stele-title" id="sr-title"></div>
+      <div class="stele-meta" id="sr-meta"></div>
+      <div class="stele-lang">
+        <button class="lang-btn active" id="sr-lang-fr" onclick="window.switchSteleLanguage('fr')">FR</button>
+        <button class="lang-btn" id="sr-lang-en" onclick="window.switchSteleLanguage('en')">EN</button>
+      </div>
+      <button class="stele-close" onclick="document.getElementById('stele-reader').style.display='none'">&times;</button>
+    </div>
+    <div class="stele-body" id="sr-body"></div>
+    <div class="stele-footer">
+      <a id="sr-buy-link" href="#" target="_blank" class="stele-buy-btn">Buy on Amazon</a>
+    </div>
+  </div>
 
   <div id="citizen-panel">
     <button class="close-btn" onclick="document.getElementById('citizen-panel').style.display='none'">&times;</button>
