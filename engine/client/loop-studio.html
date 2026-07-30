@@ -6,6 +6,7 @@
   <meta name="color-scheme" content="dark" />
   <title>Loop Studio — Cities of Light</title>
   <link rel="stylesheet" href="./loop-studio.css" />
+  <link rel="stylesheet" href="./loop-studio-physicalization.css" />
 </head>
 <body>
   <main class="studio-shell">
@@ -165,6 +166,28 @@
           </div>
         </section>
 
+        <section class="inspector-section" data-panel-mode="design simulate prove repair">
+          <div class="section-heading">
+            <h2>PhysicalizationPlan</h2>
+            <span class="small-label">renderer non autoritaire</span>
+          </div>
+          <div class="physicalization-preview">
+            <canvas id="physicalization-canvas" aria-label="Six physicalisations Three.js du rôle sélectionné"></canvas>
+            <div class="physicalization-state-labels" aria-hidden="true">
+              <span>healthy</span>
+              <span>degraded</span>
+              <span>stale</span>
+              <span>unknown</span>
+              <span>not measured</span>
+              <span>failed</span>
+            </div>
+          </div>
+          <div class="physicalization-manifest-row">
+            <span id="physicalization-manifest-status" data-health="not_measured">manifest not measured</span>
+            <span class="physicalization-authority-note">VisualDefinition → plan → Three.js</span>
+          </div>
+        </section>
+
         <section class="inspector-section">
           <div class="section-heading">
             <h2>Six états</h2>
@@ -195,5 +218,6 @@
   </main>
 
   <script type="module" src="./loop-studio.js"></script>
+  <script type="module" src="./loop-studio-physicalization-preview.js"></script>
 </body>
 </html>
