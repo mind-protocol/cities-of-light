@@ -70,6 +70,7 @@ async function decodeJson(response, operation) {
 }
 
 export function createHttpLoopStudioTransport({
+  kind = 'mind',
   graph = 'l2:mind-universe',
   loopId = 'space:l2:mind-universe:loop-studio-demo-v0',
   senseUrl = '/api/sense',
@@ -81,7 +82,7 @@ export function createHttpLoopStudioTransport({
   }
 
   return createLoopStudioTransport({
-    kind: 'mind',
+    kind,
     sense: async (request = {}) => {
       const response = await fetchImpl(senseUrl, {
         method: 'POST',
@@ -114,8 +115,19 @@ export function createLoopStudioTransportFromLocation(locationLike = globalThis.
   const params = new URLSearchParams(locationLike?.search ?? '');
   const transport = params.get('transport');
 
+  if (transport === 'server') {
+    return createHttpLoopStudioTransport({
+      kind: 'server',
+      graph: params.get('graph') || 'l2:mind-universe',
+      loopId: params.get('loop') || 'space:l2:mind-universe:loop-studio-demo-v0',
+      senseUrl: params.get('sense_url') || '/api/loop-studio/sense',
+      actUrl: params.get('act_url') || '/api/loop-studio/act',
+    });
+  }
+
   if (transport === 'mind') {
     return createHttpLoopStudioTransport({
+      kind: 'mind',
       graph: params.get('graph') || 'l2:mind-universe',
       loopId: params.get('loop') || 'space:l2:mind-universe:loop-studio-demo-v0',
       senseUrl: params.get('sense_url') || '/api/sense',
