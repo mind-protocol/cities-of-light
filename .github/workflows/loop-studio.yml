@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'engine/client/loop-studio*'
+      - 'engine/server/loop-studio*'
+      - 'engine/index.js'
       - 'engine/vite.config.js'
       - 'package.json'
       - 'package-lock.json'
@@ -13,6 +15,8 @@ on:
       - main
     paths:
       - 'engine/client/loop-studio*'
+      - 'engine/server/loop-studio*'
+      - 'engine/index.js'
       - 'engine/vite.config.js'
       - 'package.json'
       - 'package-lock.json'
