@@ -138,6 +138,23 @@ function disposeObject(object) {
   });
 }
 
+function visibleThroughHierarchy(object) {
+  let current = object;
+  while (current) {
+    if (current.visible === false) return false;
+    current = current.parent;
+  }
+  return true;
+}
+
+function countVisibleMeshes(root) {
+  let count = 0;
+  root.traverse((child) => {
+    if (child.isMesh && visibleThroughHierarchy(child)) count += 1;
+  });
+  return count;
+}
+
 function readNodeFromInspector() {
   const id = document.querySelector('#selected-id')?.textContent?.trim();
   const subtypeText = document.querySelector('#selected-subtype')?.textContent?.trim() ?? '';
@@ -235,11 +252,13 @@ export function createPhysicalizationPreview({ canvas, manifestElement }) {
       compiled.push(group);
     });
 
+    root.updateMatrixWorld(true);
     const expectedIds = compiledManifest.plans.flatMap((plan) =>
       plan.primitives.map((primitive) => `${plan.status}:${primitive.id}`));
     const materializedIds = materialized.map((primitive) => `${primitive.status}:${primitive.id}`);
     const materializedPrimitiveTypes = [...new Set(materialized.map((primitive) => primitive.type))];
     const drawnPrimitiveTypes = [...new Set(materialized.filter((primitive) => primitive.visible).map((primitive) => primitive.type))];
+    const actualDrawCallCount = countVisibleMeshes(root);
 
     manifest = {
       ...compiledManifest,
@@ -248,7 +267,8 @@ export function createPhysicalizationPreview({ canvas, manifestElement }) {
       materializedPrimitives: materialized,
       materializedPrimitiveTypes,
       drawnPrimitiveTypes,
-      drawCallCount: materialized.filter((primitive) => primitive.visible).length,
+      drawCallCount: actualDrawCallCount,
+      drawCallMeasurement: 'visible-mesh-count',
       observerClaims: {
         ...compiledManifest.observerClaims,
         renderedPlanParity: JSON.stringify(materializedIds.sort()) === JSON.stringify(expectedIds.sort()),
@@ -259,7 +279,7 @@ export function createPhysicalizationPreview({ canvas, manifestElement }) {
       const claims = Object.values(manifest.observerClaims);
       const passed = claims.every(Boolean);
       manifestElement.dataset.health = passed ? 'healthy' : 'degraded';
-      manifestElement.textContent = `${passed ? 'manifest verified' : 'manifest degraded'} · ${manifest.archetype} · ${manifest.drawCallCount} draw calls`;
+      manifestElement.textContent = `${passed ? 'manifest verified' : 'manifest degraded'} · ${manifest.archetype} · ${manifest.drawCallCount} visible meshes`;
       manifestElement.title = JSON.stringify(manifest.observerClaims, null, 2);
     }
   }
