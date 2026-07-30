@@ -1,4 +1,5 @@
 import {
+  INTENT_TYPES,
   createLocalLoopStudio,
 } from './loop-studio-intents.js';
 
@@ -31,6 +32,24 @@ function assertReceipt(receipt) {
   return receipt;
 }
 
+function clone(value) {
+  if (typeof structuredClone === 'function') return structuredClone(value);
+  return JSON.parse(JSON.stringify(value));
+}
+
+export function enrichRunProofIntent(intent, preview = globalThis.loopStudioPhysicalizationPreview) {
+  if (intent?.type !== INTENT_TYPES.RUN_PROOF) return intent;
+  const manifest = preview?.getManifest?.();
+  if (!manifest) return intent;
+  return {
+    ...clone(intent),
+    payload: {
+      ...(clone(intent.payload ?? {})),
+      physicalizationManifest: clone(manifest),
+    },
+  };
+}
+
 export function createLoopStudioTransport({ sense, act, kind = 'custom' }) {
   if (typeof sense !== 'function' || typeof act !== 'function') {
     throw new Error('Loop Studio transport requires exactly sense and act functions');
@@ -42,7 +61,8 @@ export function createLoopStudioTransport({ sense, act, kind = 'custom' }) {
       return assertSenseResult(await sense(request));
     },
     async act(intent) {
-      return assertReceipt(await act(intent));
+      const evidenceBearingIntent = enrichRunProofIntent(intent);
+      return assertReceipt(await act(evidenceBearingIntent));
     },
   });
 }
