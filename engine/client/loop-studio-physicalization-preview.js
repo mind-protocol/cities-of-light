@@ -104,19 +104,30 @@ function createFailureMarker(primitive, status) {
 }
 
 function createPrimitiveObject(primitive, status, plan) {
-  if (primitive.type === 'connector') return createConnector(primitive, status);
-  if (primitive.role === 'failure_front') return createFailureMarker(primitive, status);
+  let object;
+  if (primitive.type === 'connector') {
+    object = createConnector(primitive, status);
+  } else if (primitive.role === 'failure_front') {
+    object = createFailureMarker(primitive, status);
+  } else {
+    const geometryType = primitive.type === 'shell'
+      ? plan.primitives.find((item) => item.role === 'semantic_core')?.type ?? 'icosahedron'
+      : primitive.type;
+    object = new THREE.Mesh(
+      geometryFor(geometryType, plan.parameters.roundness),
+      materialFor(primitive, status),
+    );
+    applyTransform(object, primitive.transform);
+    object.visible = primitive.properties?.visible !== false && (primitive.material?.opacity ?? 1) > 0;
+  }
 
-  const geometryType = primitive.type === 'shell'
-    ? plan.primitives.find((item) => item.role === 'semantic_core')?.type ?? 'icosahedron'
-    : primitive.type;
-  const mesh = new THREE.Mesh(
-    geometryFor(geometryType, plan.parameters.roundness),
-    materialFor(primitive, status),
-  );
-  applyTransform(mesh, primitive.transform);
-  mesh.visible = primitive.properties?.visible !== false && (primitive.material?.opacity ?? 1) > 0;
-  return mesh;
+  object.userData.physicalizationPrimitive = {
+    id: primitive.id,
+    type: primitive.type,
+    role: primitive.role,
+    status,
+  };
+  return object;
 }
 
 function disposeObject(object) {
@@ -203,29 +214,52 @@ export function createPhysicalizationPreview({ canvas, manifestElement }) {
 
   function update(node) {
     clear();
-    manifest = compilePhysicalizationManifest(node);
+    const compiledManifest = compilePhysicalizationManifest(node);
+    const materialized = [];
     const positions = [
       [-3.5, 1.45, 0], [0, 1.45, 0], [3.5, 1.45, 0],
       [-3.5, -1.55, 0], [0, -1.55, 0], [3.5, -1.55, 0],
     ];
 
-    manifest.plans.forEach((plan, index) => {
+    compiledManifest.plans.forEach((plan, index) => {
       const group = new THREE.Group();
       group.position.set(...positions[index]);
       group.userData.plan = plan;
       group.userData.phase = index * 0.7;
       for (const primitive of plan.primitives) {
-        group.add(createPrimitiveObject(primitive, plan.status, plan));
+        const object = createPrimitiveObject(primitive, plan.status, plan);
+        group.add(object);
+        materialized.push({ ...object.userData.physicalizationPrimitive, visible: object.visible !== false });
       }
       root.add(group);
       compiled.push(group);
     });
 
+    const expectedIds = compiledManifest.plans.flatMap((plan) =>
+      plan.primitives.map((primitive) => `${plan.status}:${primitive.id}`));
+    const materializedIds = materialized.map((primitive) => `${primitive.status}:${primitive.id}`);
+    const materializedPrimitiveTypes = [...new Set(materialized.map((primitive) => primitive.type))];
+    const drawnPrimitiveTypes = [...new Set(materialized.filter((primitive) => primitive.visible).map((primitive) => primitive.type))];
+
+    manifest = {
+      ...compiledManifest,
+      renderer: 'three-js-preview-v0',
+      observedAt: new Date().toISOString(),
+      materializedPrimitives: materialized,
+      materializedPrimitiveTypes,
+      drawnPrimitiveTypes,
+      drawCallCount: materialized.filter((primitive) => primitive.visible).length,
+      observerClaims: {
+        ...compiledManifest.observerClaims,
+        renderedPlanParity: JSON.stringify(materializedIds.sort()) === JSON.stringify(expectedIds.sort()),
+      },
+    };
+
     if (manifestElement) {
       const claims = Object.values(manifest.observerClaims);
       const passed = claims.every(Boolean);
       manifestElement.dataset.health = passed ? 'healthy' : 'degraded';
-      manifestElement.textContent = `${passed ? 'manifest verified' : 'manifest degraded'} · ${manifest.archetype} · ${manifest.primitiveTypes.length} primitive types`;
+      manifestElement.textContent = `${passed ? 'manifest verified' : 'manifest degraded'} · ${manifest.archetype} · ${manifest.drawCallCount} draw calls`;
       manifestElement.title = JSON.stringify(manifest.observerClaims, null, 2);
     }
   }
@@ -253,7 +287,7 @@ export function createPhysicalizationPreview({ canvas, manifestElement }) {
 
   return Object.freeze({
     update,
-    getManifest: () => manifest,
+    getManifest: () => manifest ? structuredClone(manifest) : null,
     destroy() {
       resizeObserver.disconnect();
       clear();
@@ -269,6 +303,7 @@ function autoload() {
     canvas,
     manifestElement: document.querySelector('#physicalization-manifest-status'),
   });
+  globalThis.loopStudioPhysicalizationPreview = preview;
 
   let scheduled = false;
   const scheduleUpdate = () => {
