@@ -7,7 +7,8 @@
     "dev": "vite --host --config engine/vite.config.js",
     "build": "vite build --config engine/vite.config.js",
     "start": "node engine/index.js --world worlds/venezia/world-manifest.json",
-    "preview": "npm run build && npm start"
+    "preview": "npm run build && npm start",
+    "test:loop-studio": "node --test engine/client/loop-studio-core.test.mjs engine/client/loop-studio-intents.test.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.74.0",
