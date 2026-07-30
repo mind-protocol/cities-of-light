@@ -16,6 +16,7 @@ import { createServer } from './server/state-server.js';
 import { EntityManager } from './server/entity-manager.js';
 import { VoicePipeline } from './server/voice-pipeline.js';
 import { NarrativeGraphSeedAndTickBridge } from './server/narrative_graph_seed_and_tick_bridge.js';
+import { attachLoopStudioApi } from './server/loop-studio-api.js';
 
 function getManifestPath() {
   // CLI arg: --world <path>
@@ -141,8 +142,13 @@ async function main() {
     res.json(entityManager.getAllStates());
   });
 
-  // 7a-proxy. Forward unhandled /api/* to Python home_server on MIND_PORT
-  // (engine's own /api/manifest and /api/entities are registered above, matched first)
+  // 7a. Shared Loop Studio adapter. This is engine-memory authority,
+  // not yet the canonical Mind Universe graph.
+  const { routes: loopStudioRoutes } = attachLoopStudioApi(app);
+  console.log(`  Loop Studio: ${loopStudioRoutes.sensePath} + ${loopStudioRoutes.actPath} (engine-memory-v0)`);
+
+  // 7b-proxy. Forward unhandled /api/* to Python home_server on MIND_PORT
+  // (engine-owned routes are registered above and matched first)
   const MIND_PORT = process.env.MIND_PORT || '8765';
   app.all('/api/*', (req, res) => {
     const opts = {
@@ -160,11 +166,11 @@ async function main() {
     req.pipe(proxy);
   });
 
-  // 7b. Serve world data — client fetches /worlds/venezia/data/*.json
+  // 7c. Serve world data — client fetches /worlds/venezia/data/*.json
   const worldsDir = resolve(basePath, '..');
   app.use('/worlds', express.static(worldsDir));
 
-  // 7c. Serve built client (production) — Vite outputs to dist-engine/
+  // 7d. Serve built client (production) — Vite outputs to dist-engine/
   const distDir = resolve(process.cwd(), 'dist-engine');
   if (existsSync(distDir)) {
     app.use(express.static(distDir));
