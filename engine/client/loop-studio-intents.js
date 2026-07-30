@@ -7,6 +7,10 @@ import {
   executeProof,
   validateStructure,
 } from './loop-studio-core.js';
+import {
+  ALLOWED_VISUAL_PRIMITIVES,
+  PHYSICALIZATION_STATUSES,
+} from './loop-studio-physicalization.js';
 
 export const INTENT_TYPES = Object.freeze({
   MODIFY_ROLE: 'ModifyRoleIntent',
@@ -32,6 +36,14 @@ const VISUAL_LIMITS = Object.freeze({
 const SCENARIOS = new Set([
   'not_measured',
   'healthy',
+  'observer_failure',
+  'stale',
+  'unknown',
+  'degraded',
+  'built_precedence',
+  'unmeasured_energy',
+]);
+const FIXTURE_SCENARIOS = new Set([
   'observer_failure',
   'stale',
   'unknown',
@@ -149,6 +161,128 @@ function validateFiniteNumber(name, value, [minimum, maximum]) {
   }
 }
 
+function validatePhysicalizationManifest(manifest) {
+  if (!manifest || typeof manifest !== 'object' || Array.isArray(manifest)) {
+    throw new Error('RunProofIntent physicalizationManifest must be an object');
+  }
+  if (manifest.schema !== 'mind.physicalization_manifest.v0') {
+    throw new Error(`Unsupported physicalization manifest schema: ${manifest.schema}`);
+  }
+  if (!manifest.semanticTarget || !manifest.semanticRole) {
+    throw new Error('Physicalization manifest requires semanticTarget and semanticRole');
+  }
+  if (!Array.isArray(manifest.plans) || manifest.plans.length === 0) {
+    throw new Error('Physicalization manifest requires plans');
+  }
+  if (manifest.materializedPrimitives && !Array.isArray(manifest.materializedPrimitives)) {
+    throw new Error('materializedPrimitives must be an array');
+  }
+  for (const plan of manifest.plans) {
+    if (!PHYSICALIZATION_STATUSES.includes(plan.status)) {
+      throw new Error(`Unknown physicalization status in manifest: ${plan.status}`);
+    }
+    if (!Array.isArray(plan.primitives)) {
+      throw new Error(`Physicalization plan ${plan.status} requires primitives`);
+    }
+  }
+}
+
+export function observePhysicalizationManifest(manifest) {
+  validatePhysicalizationManifest(manifest);
+  const expected = manifest.plans.flatMap((plan) =>
+    plan.primitives.map((primitive) => ({
+      id: primitive.id,
+      type: primitive.type,
+      role: primitive.role,
+      status: plan.status,
+      visible: primitive.properties?.visible !== false && (primitive.material?.opacity ?? 1) > 0,
+      emission: primitive.material?.emission ?? 0,
+      pulse: primitive.properties?.pulse ?? 0,
+    })));
+  const materialized = manifest.materializedPrimitives?.length
+    ? manifest.materializedPrimitives
+    : expected;
+  const primitiveTypes = [...new Set(materialized.map((primitive) => primitive.type))];
+  const forbiddenPrimitives = primitiveTypes.filter((type) => !ALLOWED_VISUAL_PRIMITIVES.includes(type));
+  const expectedIds = expected.map((primitive) => `${primitive.status}:${primitive.id}`).sort();
+  const actualIds = materialized.map((primitive) => `${primitive.status}:${primitive.id}`).sort();
+  const statusCoverage = new Set(manifest.plans.map((plan) => plan.status));
+  const notMeasuredExpected = expected.filter((primitive) => primitive.status === 'not_measured');
+  const notMeasuredActual = materialized.filter((primitive) => primitive.status === 'not_measured');
+  const falseEnergyDisplays = notMeasuredExpected.filter((primitive) =>
+    primitive.role === 'semantic_core' && (primitive.emission > 0 || primitive.pulse > 0)).length;
+  const unmeasuredSignalsRendered = notMeasuredActual.filter((primitive) =>
+    primitive.role === 'semantic_core' && primitive.visible === true).length;
+  const renderedPlanParity = stableStringify(expectedIds) === stableStringify(actualIds);
+  const completeStatusCoverage = PHYSICALIZATION_STATUSES.every((status) => statusCoverage.has(status));
+  const drawCalls = Number.isFinite(manifest.drawCallCount)
+    ? manifest.drawCallCount
+    : materialized.filter((primitive) => primitive.visible !== false).length;
+  const hardFailures = [];
+
+  if (!renderedPlanParity) hardFailures.push('renderer_plan_mismatch');
+  if (!completeStatusCoverage) hardFailures.push('missing_status_physicalization');
+  if (forbiddenPrimitives.length > 0) hardFailures.push('forbidden_primitive');
+  if (falseEnergyDisplays > 0) hardFailures.push('false_energy_display');
+  if (unmeasuredSignalsRendered > 0) hardFailures.push('unmeasured_signal_fabrication');
+
+  return {
+    informationStatus: 'measured',
+    observedAt: manifest.observedAt || nowIso(),
+    renderer: manifest.renderer || 'unknown-renderer',
+    semanticTarget: manifest.semanticTarget,
+    primitiveTypes,
+    forbiddenPrimitives,
+    drawCalls,
+    falseEnergyDisplays,
+    unmeasuredSignalsRendered,
+    renderedPlanParity,
+    completeStatusCoverage,
+    evidenceComplete: hardFailures.length === 0,
+    hardFailures,
+    failureFront: hardFailures.length ? 'renderer_manifest' : null,
+  };
+}
+
+function applyPhysicalizationEvidence(snapshot, manifest) {
+  const observed = observePhysicalizationManifest(manifest);
+  const preserveFixture = FIXTURE_SCENARIOS.has(snapshot.scenario);
+  const existingFailures = preserveFixture ? snapshot.observation.hardFailures : [];
+  const combinedFailures = [...new Set([...existingFailures, ...observed.hardFailures])];
+
+  snapshot.rendererManifest = {
+    ...snapshot.rendererManifest,
+    primitives: [...observed.primitiveTypes],
+    allowedPrimitives: [...ALLOWED_VISUAL_PRIMITIVES],
+    falseEnergyDisplays: observed.falseEnergyDisplays,
+    unmeasuredSignalsRendered: observed.unmeasuredSignalsRendered,
+    drawCalls: observed.drawCalls,
+    physicalizationEvidence: deepClone(manifest),
+    independentObservation: observed,
+  };
+
+  if (!preserveFixture) {
+    snapshot.observation.executionStatus = 'success';
+    snapshot.observation.evidenceComplete = observed.evidenceComplete;
+    snapshot.observation.observedAt = observed.observedAt;
+    snapshot.observation.hardFailures = combinedFailures;
+    snapshot.observation.failureFront = observed.failureFront;
+  } else {
+    snapshot.observation.hardFailures = combinedFailures;
+    snapshot.observation.failureFront = snapshot.observation.failureFront || observed.failureFront;
+  }
+
+  snapshot.history.push({
+    at: nowIso(),
+    action: 'observe_physicalization',
+    renderer: observed.renderer,
+    semanticTarget: observed.semanticTarget,
+    result: observed.evidenceComplete ? 'measured' : 'degraded',
+    hardFailures: [...observed.hardFailures],
+  });
+  return observed;
+}
+
 export function createIntent(type, payload = {}, expectedRevision = null) {
   if (!Object.values(INTENT_TYPES).includes(type)) {
     throw new Error(`Unknown intent type: ${type}`);
@@ -223,6 +357,8 @@ export function validateIntent(snapshot, intent) {
       }
       break;
     case INTENT_TYPES.RUN_PROOF:
+      if (payload.physicalizationManifest) validatePhysicalizationManifest(payload.physicalizationManifest);
+      break;
     case INTENT_TYPES.RESET_LOOP:
       break;
     default:
@@ -279,6 +415,9 @@ function reduceIntent(snapshot, intent) {
       applyScenario(next, payload.scenario);
       break;
     case INTENT_TYPES.RUN_PROOF:
+      if (payload.physicalizationManifest) {
+        applyPhysicalizationEvidence(next, payload.physicalizationManifest);
+      }
       executeProof(next);
       break;
     case INTENT_TYPES.APPLY_MAINTENANCE:
