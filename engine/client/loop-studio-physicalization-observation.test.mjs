@@ -81,6 +81,8 @@ test('visible unmeasured core becomes a measured degradation', () => {
   unmeasuredCore.visible = true;
 
   const observed = observePhysicalizationManifest(manifest);
+  assert.equal(observed.informationStatus, 'measured');
+  assert.equal(observed.evidenceComplete, true);
   assert.equal(observed.unmeasuredSignalsRendered, 1);
   assert.ok(observed.hardFailures.includes('unmeasured_signal_fabrication'));
 
@@ -96,6 +98,30 @@ test('visible unmeasured core becomes a measured degradation', () => {
   assert.equal(health.health, 'degraded');
 });
 
+test('missing status evidence remains unknown rather than degraded', () => {
+  const manifest = observedManifest();
+  manifest.plans = manifest.plans.filter((plan) => plan.status !== 'measurement_failed');
+  manifest.materializedPrimitives = manifest.materializedPrimitives
+    .filter((primitive) => primitive.status !== 'measurement_failed');
+
+  const observed = observePhysicalizationManifest(manifest);
+  assert.equal(observed.informationStatus, 'unknown');
+  assert.equal(observed.evidenceComplete, false);
+  assert.equal(observed.completeStatusCoverage, false);
+  assert.ok(observed.hardFailures.includes('missing_status_physicalization'));
+
+  const studio = createLocalLoopStudio();
+  const receipt = studio.act(createIntent(
+    INTENT_TYPES.RUN_PROOF,
+    { physicalizationManifest: manifest },
+    0,
+  ));
+  const health = studio.sense().snapshot.nodes.find((candidate) => candidate.subtype === 'health');
+
+  assert.equal(receipt.status, 'committed');
+  assert.equal(health.health, 'unknown');
+});
+
 test('forbidden materialized primitive is observed rather than rejected', () => {
   const manifest = observedManifest();
   manifest.materializedPrimitives.push({
@@ -107,6 +133,7 @@ test('forbidden materialized primitive is observed rather than rejected', () => 
   });
 
   const observed = observePhysicalizationManifest(manifest);
+  assert.equal(observed.evidenceComplete, true);
   assert.ok(observed.forbiddenPrimitives.includes('glow-orb'));
   assert.ok(observed.hardFailures.includes('forbidden_primitive'));
   assert.ok(observed.hardFailures.includes('renderer_plan_mismatch'));
