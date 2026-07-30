@@ -192,7 +192,6 @@ export function validateIntent(snapshot, intent) {
       if ('epistemic' in patch && !EPISTEMIC_SET.has(patch.epistemic)) {
         throw new Error(`Unknown epistemic state: ${patch.epistemic}`);
       }
-      if ('health' in patch) throw new Error('Health is derived and cannot be authored');
       break;
     }
     case INTENT_TYPES.MODIFY_VISUAL: {
@@ -233,6 +232,25 @@ export function validateIntent(snapshot, intent) {
   return true;
 }
 
+function invalidateProof(snapshot, cause) {
+  const hasAssessment = (snapshot.runtimeMoments ?? [])
+    .some((moment) => moment.subtype === 'health_assessment');
+  const nextHealth = hasAssessment ? 'stale' : 'not_measured';
+
+  snapshot.observation = {
+    ...snapshot.observation,
+    evidenceComplete: false,
+    failureFront: 'unverified_change',
+    invalidatedBy: cause,
+    invalidatedAt: nowIso(),
+  };
+
+  for (const node of snapshot.nodes) {
+    node.health = nextHealth;
+    node.evidenceRefs = [];
+  }
+}
+
 function reduceIntent(snapshot, intent) {
   const next = deepClone(snapshot);
   const payload = intent.payload ?? {};
@@ -241,17 +259,20 @@ function reduceIntent(snapshot, intent) {
     case INTENT_TYPES.MODIFY_ROLE: {
       const node = nodeOrThrow(next, payload.targetId);
       Object.assign(node, deepClone(payload.patch));
+      invalidateProof(next, intent.type);
       break;
     }
     case INTENT_TYPES.MODIFY_VISUAL: {
       const node = nodeOrThrow(next, payload.targetId);
       node.visual = { ...node.visual, ...deepClone(payload.patch) };
+      invalidateProof(next, intent.type);
       break;
     }
     case INTENT_TYPES.MOVE_VISUAL: {
       const node = nodeOrThrow(next, payload.targetId);
       node.position = deepClone(payload.position);
       node.derivedPosition = null;
+      invalidateProof(next, intent.type);
       break;
     }
     case INTENT_TYPES.APPLY_SCENARIO:
@@ -307,6 +328,7 @@ export function createLocalLoopStudio(initialSnapshot = createInitialLoop()) {
   const receipts = [];
 
   function sense() {
+    const receiptChain = verifyReceiptChain(genesis, receipts);
     return {
       revision,
       snapshot: deepClone(snapshot),
@@ -316,6 +338,13 @@ export function createLocalLoopStudio(initialSnapshot = createInitialLoop()) {
         observedAt: nowIso(),
         stateDigest: stateDigest(snapshot),
         informationStatus: 'observed',
+        receiptChain: {
+          status: receiptChain.passed ? 'measured' : 'measurement_failed',
+          passed: receiptChain.passed,
+          replayRevision: receiptChain.revision,
+          replayDigest: receiptChain.stateDigest,
+          failures: deepClone(receiptChain.failures),
+        },
       },
     };
   }
