@@ -9,33 +9,33 @@ import {
 import {
   INTENT_TYPES,
   createIntent,
-  createLocalLoopStudio,
-  serializeStudioBundle,
   verifyReceiptChain,
 } from './loop-studio-intents.js';
+import { createLoopStudioTransportFromLocation } from './loop-studio-transport.js';
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
-const studio = createLocalLoopStudio();
-let sensed = studio.sense();
-let loop = sensed.snapshot;
-let revision = sensed.revision;
-let receipts = sensed.receipts;
-let selectedNodeId = loop.id;
+const transport = createLoopStudioTransportFromLocation();
+let sensed = null;
+let loop = null;
+let revision = 0;
+let receipts = [];
+let selectedNodeId = null;
 let mode = 'define';
 let zoom = 1;
 let drag = null;
 let visualPreview = null;
 let toastTimer = null;
+let actionPending = false;
 
 const nodeLayer = $('#node-layer');
 const relationLayer = $('#relation-layer');
 const canvasWorld = $('#canvas-world');
 const canvasViewport = $('#canvas-viewport');
 
-function refreshSense({ preserveSelection = true } = {}) {
-  sensed = studio.sense();
+async function refreshSense({ preserveSelection = true } = {}) {
+  sensed = await transport.sense();
   loop = sensed.snapshot;
   revision = sensed.revision;
   receipts = sensed.receipts;
@@ -90,7 +90,15 @@ function toast(message) {
   element.textContent = message;
   element.classList.add('visible');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => element.classList.remove('visible'), 2600);
+  toastTimer = setTimeout(() => element.classList.remove('visible'), 3200);
+}
+
+function setBusy(busy) {
+  actionPending = busy;
+  document.body.dataset.busy = busy ? 'true' : 'false';
+  $$('#prove-loop, #reset-loop, [data-scenario], [data-maintenance]').forEach((button) => {
+    button.disabled = busy;
+  });
 }
 
 function setMode(nextMode) {
@@ -99,22 +107,31 @@ function setMode(nextMode) {
   $$('.mode-tab').forEach((tab) => tab.classList.toggle('active', tab.dataset.mode === mode));
 }
 
-function act(type, payload, successMessage) {
-  const intent = createIntent(type, payload, revision);
-  const receipt = studio.act(intent);
-  refreshSense();
-  visualPreview = null;
-  render();
+async function act(type, payload, successMessage) {
+  if (actionPending) return null;
+  setBusy(true);
+  try {
+    const intent = createIntent(type, payload, revision);
+    const receipt = await transport.act(intent);
+    await refreshSense();
+    visualPreview = null;
+    render();
 
-  if (receipt.status === 'committed') {
-    toast(successMessage ?? `${type} committed · revision ${receipt.revisionAfter}`);
-  } else if (receipt.status === 'conflict') {
-    toast(`Conflit de révision : ${receipt.error}`);
-  } else {
-    toast(`Intent rejeté : ${receipt.error}`);
+    if (receipt.status === 'committed') {
+      toast(successMessage ?? `${type} committed · revision ${receipt.revisionAfter}`);
+    } else if (receipt.status === 'conflict') {
+      toast(`Conflit de révision : ${receipt.error}`);
+    } else {
+      toast(`Intent rejeté : ${receipt.error}`);
+    }
+
+    return receipt;
+  } catch (error) {
+    toast(`Transport ${transport.kind} indisponible : ${error.message}`);
+    return null;
+  } finally {
+    setBusy(false);
   }
-
-  return receipt;
 }
 
 function effectiveVisual(node) {
@@ -172,7 +189,7 @@ function createNodeElement(node) {
 }
 
 function beginDrag(event, nodeId, element) {
-  if (event.button !== 0) return;
+  if (event.button !== 0 || actionPending) return;
   const node = loop.nodes.find((candidate) => candidate.id === nodeId);
   if (!node) return;
 
@@ -206,7 +223,7 @@ function moveDrag(event) {
   drawRelations();
 }
 
-function endDrag() {
+async function endDrag() {
   window.removeEventListener('pointermove', moveDrag);
   if (!drag) return;
 
@@ -214,7 +231,7 @@ function endDrag() {
   drag = null;
 
   if (completed.moved) {
-    act(
+    await act(
       INTENT_TYPES.MOVE_VISUAL,
       { targetId: completed.nodeId, position: completed.previewPosition },
       'Position Built committée.',
@@ -421,9 +438,13 @@ function renderScenarios() {
 
 function renderAuthorityStatus() {
   const latest = receipts.at(-1);
+  const replay = sensed?.observation?.receiptChain;
+  const replayLabel = replay
+    ? ` · replay ${replay.passed ? 'verified' : 'failed'}`
+    : '';
   $('#canvas-subtitle').textContent = latest
-    ? `revision ${revision} · ${latest.status} ${latest.intentType} · sense → act → receipt → sense`
-    : `revision ${revision} · authority observed through sense`;
+    ? `${transport.kind} · revision ${revision} · ${latest.status} ${latest.intentType}${replayLabel}`
+    : `${transport.kind} · revision ${revision} · authority observed through sense${replayLabel}`;
 }
 
 function render() {
@@ -444,30 +465,30 @@ function setZoom(next) {
 }
 
 function bindInspector() {
-  $('#selected-title').addEventListener('change', (event) => {
-    act(
+  $('#selected-title').addEventListener('change', async (event) => {
+    await act(
       INTENT_TYPES.MODIFY_ROLE,
       { targetId: selectedNodeId, patch: { title: event.target.value } },
       'Titre committé.',
     );
   });
-  $('#selected-content').addEventListener('change', (event) => {
+  $('#selected-content').addEventListener('change', async (event) => {
     const node = selectedNode();
-    act(
+    await act(
       INTENT_TYPES.MODIFY_ROLE,
       { targetId: selectedNodeId, patch: { content: parseContentText(event.target.value, node.content) } },
       'Autorité sémantique committée.',
     );
   });
-  $('#selected-lifecycle').addEventListener('change', (event) => {
-    act(
+  $('#selected-lifecycle').addEventListener('change', async (event) => {
+    await act(
       INTENT_TYPES.MODIFY_ROLE,
       { targetId: selectedNodeId, patch: { lifecycle: event.target.value } },
       'Lifecycle committé.',
     );
   });
-  $('#selected-epistemic').addEventListener('change', (event) => {
-    act(
+  $('#selected-epistemic').addEventListener('change', async (event) => {
+    await act(
       INTENT_TYPES.MODIFY_ROLE,
       { targetId: selectedNodeId, patch: { epistemic: event.target.value } },
       'Statut épistémique committé.',
@@ -491,11 +512,11 @@ function bindInspector() {
       $(`#${outputId}`).textContent = value.toFixed(property === 'roundness' ? 0 : 2);
       drawNodes();
     });
-    input.addEventListener('change', () => {
+    input.addEventListener('change', async () => {
       if (!visualPreview || visualPreview.nodeId !== selectedNodeId) return;
       const patch = { ...visualPreview.patch };
       visualPreview = null;
-      act(
+      await act(
         INTENT_TYPES.MODIFY_VISUAL,
         { targetId: selectedNodeId, patch },
         'VisualDefinition committée.',
@@ -507,8 +528,8 @@ function bindInspector() {
 function bindActions() {
   $$('.mode-tab').forEach((tab) => tab.addEventListener('click', () => setMode(tab.dataset.mode)));
 
-  $$('[data-scenario]').forEach((button) => button.addEventListener('click', () => {
-    act(
+  $$('[data-scenario]').forEach((button) => button.addEventListener('click', async () => {
+    await act(
       INTENT_TYPES.APPLY_SCENARIO,
       { scenario: button.dataset.scenario },
       `Scénario committé : ${button.textContent.trim()}`,
@@ -516,42 +537,54 @@ function bindActions() {
     setMode('simulate');
   }));
 
-  $$('[data-maintenance]').forEach((button) => button.addEventListener('click', () => {
-    act(
+  $$('[data-maintenance]').forEach((button) => button.addEventListener('click', async () => {
+    await act(
       INTENT_TYPES.APPLY_MAINTENANCE,
       { action: button.dataset.maintenance },
       'Maintenance committée et réobservée.',
     );
   }));
 
-  $('#prove-loop').addEventListener('click', () => {
-    const receipt = act(INTENT_TYPES.RUN_PROOF, {}, 'Proof exécutée.');
-    if (receipt.status === 'committed') {
+  $('#prove-loop').addEventListener('click', async () => {
+    const receipt = await act(INTENT_TYPES.RUN_PROOF, {}, 'Proof exécutée.');
+    if (receipt?.status === 'committed') {
       const assessment = latestAssessment();
       toast(`HealthAssessment produit : ${assessment?.derivedState ?? 'not_measured'}`);
       setMode('prove');
     }
   });
 
-  $('#reset-loop').addEventListener('click', () => {
-    selectedNodeId = loop.id;
-    act(INTENT_TYPES.RESET_LOOP, {}, 'Loop restaurée par transaction.');
-    selectedNodeId = loop.id;
+  $('#reset-loop').addEventListener('click', async () => {
+    const receipt = await act(INTENT_TYPES.RESET_LOOP, {}, 'Loop restaurée par transaction.');
+    if (receipt?.status === 'committed') {
+      selectedNodeId = loop.id;
+      render();
+    }
   });
 
   $('#export-loop').addEventListener('click', () => {
-    const bundle = studio.exportBundle();
-    const replay = verifyReceiptChain(bundle.genesis, bundle.receipts);
-    const blob = new Blob([serializeStudioBundle(studio)], { type: 'application/json' });
+    const bundle = {
+      schema: 'mind.loop_studio.transport_bundle.v0',
+      transport: transport.kind,
+      genesis: sensed.genesis ?? null,
+      revision,
+      snapshot: loop,
+      receipts,
+      observation: sensed.observation,
+    };
+    const replay = bundle.genesis ? verifyReceiptChain(bundle.genesis, bundle.receipts) : null;
+    const blob = new Blob([JSON.stringify(bundle, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
     link.download = 'self-verifying-loop.universe-bundle.json';
     link.click();
     URL.revokeObjectURL(url);
-    toast(replay.passed
-      ? `Bundle exporté · receipt chain vérifiée à r${replay.revision}.`
-      : `Bundle exporté · ${replay.failures.length} rupture(s) de replay.`);
+    toast(replay
+      ? replay.passed
+        ? `Bundle exporté · receipt chain vérifiée à r${replay.revision}.`
+        : `Bundle exporté · ${replay.failures.length} rupture(s) de replay.`
+      : 'Bundle distant exporté · replay local non mesuré.');
   });
 
   $('#zoom-in').addEventListener('click', () => setZoom(zoom + 0.1));
@@ -569,13 +602,22 @@ function bindActions() {
   });
 }
 
-function init() {
+async function init() {
   document.body.dataset.mode = mode;
-  const evidenceHeading = $('.evidence-section h2');
-  if (evidenceHeading) evidenceHeading.textContent = 'Receipts & preuves';
-  bindInspector();
-  bindActions();
-  render();
+  setBusy(true);
+  try {
+    await refreshSense({ preserveSelection: false });
+    const evidenceHeading = $('.evidence-section h2');
+    if (evidenceHeading) evidenceHeading.textContent = 'Receipts & preuves';
+    bindInspector();
+    bindActions();
+    render();
+  } finally {
+    setBusy(false);
+  }
 }
 
-init();
+init().catch((error) => {
+  toast(`Impossible d'observer le Loop Studio via ${transport.kind} : ${error.message}`);
+  $('#canvas-subtitle').textContent = `sense failed · ${error.message}`;
+});
