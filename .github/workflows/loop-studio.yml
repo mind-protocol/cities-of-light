@@ -1,0 +1,42 @@
+name: Loop Studio
+
+on:
+  pull_request:
+    paths:
+      - 'engine/client/loop-studio*'
+      - 'engine/vite.config.js'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/loop-studio.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'engine/client/loop-studio*'
+      - 'engine/vite.config.js'
+      - 'package.json'
+      - 'package-lock.json'
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test Loop Studio
+        run: npm run test:loop-studio
+
+      - name: Build Vite entries
+        run: npm run build
