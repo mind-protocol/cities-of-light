@@ -1,0 +1,87 @@
+.physicalization-preview {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(136, 204, 255, 0.18);
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(91, 117, 158, 0.13), transparent 56%),
+    rgba(5, 9, 18, 0.78);
+}
+
+#physicalization-canvas {
+  display: block;
+  width: 100%;
+  height: 270px;
+  cursor: grab;
+}
+
+.physicalization-state-labels {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  pointer-events: none;
+}
+
+.physicalization-state-labels span {
+  align-self: end;
+  justify-self: center;
+  margin-bottom: 8px;
+  padding: 2px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  background: rgba(5, 8, 15, 0.72);
+  color: rgba(226, 235, 246, 0.76);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
+}
+
+.physicalization-manifest-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+  color: rgba(210, 221, 237, 0.66);
+  font-size: 10px;
+}
+
+#physicalization-manifest-status {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#physicalization-manifest-status::before {
+  width: 7px;
+  height: 7px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: #708090;
+  content: '';
+}
+
+#physicalization-manifest-status[data-health='healthy']::before {
+  background: #68d7a0;
+}
+
+#physicalization-manifest-status[data-health='degraded']::before {
+  background: #e0b25e;
+}
+
+.physicalization-authority-note {
+  flex: 0 0 auto;
+  color: rgba(160, 174, 194, 0.52);
+}
+
+@media (max-width: 1100px) {
+  #physicalization-canvas {
+    height: 230px;
+  }
+}
