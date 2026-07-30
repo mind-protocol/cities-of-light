@@ -8,7 +8,7 @@
     "build": "vite build --config engine/vite.config.js",
     "start": "node engine/index.js --world worlds/venezia/world-manifest.json",
     "preview": "npm run build && npm start",
-    "test:loop-studio": "node --test engine/client/loop-studio-core.test.mjs engine/client/loop-studio-intents.test.mjs engine/client/loop-studio-invalidation.test.mjs engine/client/loop-studio-transport.test.mjs engine/server/loop-studio-api.test.mjs"
+    "test:loop-studio": "node --test engine/client/loop-studio-core.test.mjs engine/client/loop-studio-intents.test.mjs engine/client/loop-studio-invalidation.test.mjs engine/client/loop-studio-transport.test.mjs engine/server/loop-studio-api.test.mjs engine/server/loop-studio-http.test.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.74.0",
