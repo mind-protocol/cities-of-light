@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <title>Loop Studio — Cities of Light</title>
+  <link rel="stylesheet" href="./loop-studio.css" />
+</head>
+<body>
+  <main class="studio-shell">
+    <header class="studio-header">
+      <div>
+        <p class="eyebrow">Cities of Light · Universe authoring</p>
+        <h1>Loop Studio</h1>
+      </div>
+
+      <nav class="mode-tabs" aria-label="Modes du studio">
+        <button type="button" class="mode-tab active" data-mode="define">Define</button>
+        <button type="button" class="mode-tab" data-mode="design">Design</button>
+        <button type="button" class="mode-tab" data-mode="simulate">Simulate</button>
+        <button type="button" class="mode-tab" data-mode="prove">Prove</button>
+        <button type="button" class="mode-tab" data-mode="repair">Repair</button>
+      </nav>
+
+      <div class="header-actions">
+        <span id="global-health" class="health-pill" data-health="not_measured">not measured</span>
+        <button id="reset-loop" type="button" class="secondary-button">Reset</button>
+        <button id="export-loop" type="button" class="secondary-button">Export JSON</button>
+        <button id="prove-loop" type="button" class="primary-button">Prove</button>
+      </div>
+    </header>
+
+    <section class="studio-body">
+      <aside class="left-panel" aria-label="Simulation et contrat">
+        <section class="panel-section">
+          <div class="section-heading">
+            <h2>Contrat</h2>
+            <span id="contract-completion" class="small-badge">0 / 12</span>
+          </div>
+          <div id="contract-checks" class="contract-checks"></div>
+        </section>
+
+        <section class="panel-section" data-panel-mode="simulate prove repair">
+          <div class="section-heading">
+            <h2>Scénarios</h2>
+            <span class="small-label">preuves contrôlées</span>
+          </div>
+          <div class="scenario-list">
+            <button type="button" data-scenario="not_measured">Jamais mesuré</button>
+            <button type="button" data-scenario="healthy">Preuve fraîche</button>
+            <button type="button" data-scenario="observer_failure">Observer cassé</button>
+            <button type="button" data-scenario="stale">Preuve stale</button>
+            <button type="button" data-scenario="unknown">Preuve incomplète</button>
+            <button type="button" data-scenario="degraded">Primitive interdite</button>
+            <button type="button" data-scenario="built_precedence">Built vs Derived</button>
+            <button type="button" data-scenario="unmeasured_energy">Énergie non mesurée</button>
+          </div>
+        </section>
+
+        <section class="panel-section" data-panel-mode="repair">
+          <div class="section-heading">
+            <h2>Maintenance</h2>
+            <span id="failure-front-badge" class="small-badge">aucun front</span>
+          </div>
+          <div class="maintenance-list">
+            <button type="button" data-maintenance="retry_observer">Retry observer</button>
+            <button type="button" data-maintenance="suspend_modulation">Suspend modulation</button>
+            <button type="button" data-maintenance="recalibrate">Recalibrate bounds</button>
+            <button type="button" data-maintenance="relink">Relink semantic type</button>
+            <button type="button" data-maintenance="rematerialize">Rematerialize catalog</button>
+            <button type="button" data-maintenance="restore_built">Restore Built state</button>
+          </div>
+        </section>
+
+        <section class="panel-section evidence-section">
+          <div class="section-heading">
+            <h2>Dernière preuve</h2>
+            <span id="evidence-age" class="small-label">aucune</span>
+          </div>
+          <div id="runtime-moments" class="moment-list empty-state">
+            Aucun moment runtime. La santé ne peut pas encore être déclarée.
+          </div>
+        </section>
+      </aside>
+
+      <section class="canvas-region">
+        <div class="canvas-toolbar">
+          <div>
+            <span class="canvas-title">Health chain canonique</span>
+            <span id="canvas-subtitle" class="canvas-subtitle">Les relations visibles sont des relations réelles.</span>
+          </div>
+          <div class="canvas-legend" aria-label="Légende des états">
+            <span data-health="healthy">healthy</span>
+            <span data-health="degraded">degraded</span>
+            <span data-health="stale">stale</span>
+            <span data-health="unknown">unknown</span>
+            <span data-health="not_measured">not measured</span>
+            <span data-health="measurement_failed">failed</span>
+          </div>
+        </div>
+
+        <div id="canvas-viewport" class="canvas-viewport">
+          <div id="canvas-world" class="canvas-world" aria-label="Canvas causal de la loop">
+            <svg id="relation-layer" class="relation-layer" viewBox="0 0 1180 790" role="img" aria-label="Relations canoniques de la loop">
+              <defs>
+                <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L8,4 L0,8 z" />
+                </marker>
+              </defs>
+            </svg>
+            <div id="node-layer" class="node-layer"></div>
+          </div>
+        </div>
+
+        <footer class="canvas-footer">
+          <div id="failure-path" class="failure-path">Aucune rupture mesurée.</div>
+          <div class="zoom-controls">
+            <button id="zoom-out" type="button" aria-label="Dézoomer">−</button>
+            <output id="zoom-value">100%</output>
+            <button id="zoom-in" type="button" aria-label="Zoomer">+</button>
+          </div>
+        </footer>
+      </section>
+
+      <aside class="right-panel" aria-label="Inspecteur de rôle">
+        <section class="inspector-header">
+          <p id="selected-subtype" class="eyebrow">space</p>
+          <input id="selected-title" class="title-input" aria-label="Titre du rôle" />
+          <code id="selected-id" class="selected-id"></code>
+        </section>
+
+        <section class="inspector-section" data-panel-mode="define simulate prove repair">
+          <label for="selected-content">Autorité sémantique</label>
+          <textarea id="selected-content" rows="7"></textarea>
+        </section>
+
+        <section class="inspector-section status-grid">
+          <label>
+            Lifecycle
+            <select id="selected-lifecycle"></select>
+          </label>
+          <label>
+            Epistemic
+            <select id="selected-epistemic"></select>
+          </label>
+          <label>
+            Health
+            <select id="selected-health" disabled></select>
+          </label>
+        </section>
+
+        <section class="inspector-section" data-panel-mode="design">
+          <div class="section-heading">
+            <h2>VisualDefinition</h2>
+            <span class="small-label">instance override</span>
+          </div>
+          <div class="slider-grid">
+            <label>Scale <output id="scale-output"></output><input id="visual-scale" type="range" min="0.75" max="1.35" step="0.01" /></label>
+            <label>Roundness <output id="roundness-output"></output><input id="visual-roundness" type="range" min="0" max="40" step="1" /></label>
+            <label>Shell <output id="shell-output"></output><input id="visual-shell" type="range" min="0.5" max="3" step="0.1" /></label>
+            <label>Emission <output id="emission-output"></output><input id="visual-emission" type="range" min="0" max="1" step="0.01" /></label>
+            <label>Pulse <output id="pulse-output"></output><input id="visual-pulse" type="range" min="0" max="2" step="0.05" /></label>
+            <label>Opacity <output id="opacity-output"></output><input id="visual-opacity" type="range" min="0.2" max="1" step="0.01" /></label>
+          </div>
+        </section>
+
+        <section class="inspector-section">
+          <div class="section-heading">
+            <h2>Six états</h2>
+            <span class="small-label">identité préservée</span>
+          </div>
+          <div id="state-preview-grid" class="state-preview-grid"></div>
+        </section>
+
+        <section class="inspector-section">
+          <div class="section-heading">
+            <h2>Evidence refs</h2>
+            <span id="evidence-count" class="small-badge">0</span>
+          </div>
+          <div id="selected-evidence" class="evidence-list empty-state">Aucune preuve.</div>
+        </section>
+
+        <section class="inspector-section metrics-section" data-panel-mode="prove repair simulate">
+          <div class="section-heading">
+            <h2>Metric vector</h2>
+            <span class="small-label">pas de score opaque</span>
+          </div>
+          <div id="metric-vector" class="metric-vector empty-state">Non mesuré.</div>
+        </section>
+      </aside>
+    </section>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </main>
+
+  <script type="module" src="./loop-studio.js"></script>
+</body>
+</html>
