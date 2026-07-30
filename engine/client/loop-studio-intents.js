@@ -199,7 +199,9 @@ export function observePhysicalizationManifest(manifest) {
       emission: primitive.material?.emission ?? 0,
       pulse: primitive.properties?.pulse ?? 0,
     })));
-  const materialized = manifest.materializedPrimitives?.length
+  const hasMaterializedEvidence = Array.isArray(manifest.materializedPrimitives)
+    && manifest.materializedPrimitives.length > 0;
+  const materialized = hasMaterializedEvidence
     ? manifest.materializedPrimitives
     : expected;
   const primitiveTypes = [...new Set(materialized.map((primitive) => primitive.type))];
@@ -215,6 +217,9 @@ export function observePhysicalizationManifest(manifest) {
     primitive.role === 'semantic_core' && primitive.visible === true).length;
   const renderedPlanParity = stableStringify(expectedIds) === stableStringify(actualIds);
   const completeStatusCoverage = PHYSICALIZATION_STATUSES.every((status) => statusCoverage.has(status));
+  const measurementComplete = completeStatusCoverage
+    && expected.length > 0
+    && materialized.length > 0;
   const drawCalls = Number.isFinite(manifest.drawCallCount)
     ? manifest.drawCallCount
     : materialized.filter((primitive) => primitive.visible !== false).length;
@@ -227,7 +232,7 @@ export function observePhysicalizationManifest(manifest) {
   if (unmeasuredSignalsRendered > 0) hardFailures.push('unmeasured_signal_fabrication');
 
   return {
-    informationStatus: 'measured',
+    informationStatus: measurementComplete ? 'measured' : 'unknown',
     observedAt: manifest.observedAt || nowIso(),
     renderer: manifest.renderer || 'unknown-renderer',
     semanticTarget: manifest.semanticTarget,
@@ -238,7 +243,8 @@ export function observePhysicalizationManifest(manifest) {
     unmeasuredSignalsRendered,
     renderedPlanParity,
     completeStatusCoverage,
-    evidenceComplete: hardFailures.length === 0,
+    materializedEvidencePresent: hasMaterializedEvidence,
+    evidenceComplete: measurementComplete,
     hardFailures,
     failureFront: hardFailures.length ? 'renderer_manifest' : null,
   };
@@ -277,7 +283,11 @@ function applyPhysicalizationEvidence(snapshot, manifest) {
     action: 'observe_physicalization',
     renderer: observed.renderer,
     semanticTarget: observed.semanticTarget,
-    result: observed.evidenceComplete ? 'measured' : 'degraded',
+    result: !observed.evidenceComplete
+      ? 'unknown'
+      : observed.hardFailures.length > 0
+        ? 'degraded'
+        : 'measured',
     hardFailures: [...observed.hardFailures],
   });
   return observed;
