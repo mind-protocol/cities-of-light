@@ -4,21 +4,29 @@ import {
   LIFECYCLE_STATES,
   REQUIRED_RELATIONS,
   REQUIRED_ROLE_SUBTYPES,
-  applyMaintenance,
-  applyScenario,
-  createInitialLoop,
-  executeProof,
-  serializeLoop,
   validateStructure,
 } from './loop-studio-core.js';
+import {
+  INTENT_TYPES,
+  createIntent,
+  createLocalLoopStudio,
+  serializeStudioBundle,
+  verifyReceiptChain,
+} from './loop-studio-intents.js';
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
-let loop = createInitialLoop();
+const studio = createLocalLoopStudio();
+let sensed = studio.sense();
+let loop = sensed.snapshot;
+let revision = sensed.revision;
+let receipts = sensed.receipts;
+let selectedNodeId = loop.id;
 let mode = 'define';
 let zoom = 1;
 let drag = null;
+let visualPreview = null;
 let toastTimer = null;
 
 const nodeLayer = $('#node-layer');
@@ -26,12 +34,23 @@ const relationLayer = $('#relation-layer');
 const canvasWorld = $('#canvas-world');
 const canvasViewport = $('#canvas-viewport');
 
+function refreshSense({ preserveSelection = true } = {}) {
+  sensed = studio.sense();
+  loop = sensed.snapshot;
+  revision = sensed.revision;
+  receipts = sensed.receipts;
+
+  if (!preserveSelection || !loop.nodes.some((node) => node.id === selectedNodeId)) {
+    selectedNodeId = loop.id;
+  }
+}
+
 function selectedNode() {
-  return loop.nodes.find((node) => node.id === loop.selectedNodeId) || loop.nodes[0];
+  return loop.nodes.find((node) => node.id === selectedNodeId) || loop.nodes[0];
 }
 
 function statusLabel(status) {
-  return status.replaceAll('_', ' ');
+  return String(status).replaceAll('_', ' ');
 }
 
 function toContentText(content) {
@@ -71,7 +90,7 @@ function toast(message) {
   element.textContent = message;
   element.classList.add('visible');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => element.classList.remove('visible'), 2400);
+  toastTimer = setTimeout(() => element.classList.remove('visible'), 2600);
 }
 
 function setMode(nextMode) {
@@ -80,21 +99,53 @@ function setMode(nextMode) {
   $$('.mode-tab').forEach((tab) => tab.classList.toggle('active', tab.dataset.mode === mode));
 }
 
+function act(type, payload, successMessage) {
+  const intent = createIntent(type, payload, revision);
+  const receipt = studio.act(intent);
+  refreshSense();
+  visualPreview = null;
+  render();
+
+  if (receipt.status === 'committed') {
+    toast(successMessage ?? `${type} committed · revision ${receipt.revisionAfter}`);
+  } else if (receipt.status === 'conflict') {
+    toast(`Conflit de révision : ${receipt.error}`);
+  } else {
+    toast(`Intent rejeté : ${receipt.error}`);
+  }
+
+  return receipt;
+}
+
+function effectiveVisual(node) {
+  if (visualPreview?.nodeId === node.id) {
+    return { ...node.visual, ...visualPreview.patch };
+  }
+  return node.visual;
+}
+
+function displayPosition(node) {
+  if (drag?.nodeId === node.id && drag.previewPosition) return drag.previewPosition;
+  return node.position;
+}
+
 function createNodeElement(node) {
+  const position = displayPosition(node);
+  const visual = effectiveVisual(node);
   const element = document.createElement('article');
   element.className = 'loop-node';
   element.dataset.nodeId = node.id;
   element.dataset.health = node.health;
-  element.style.left = `${node.position.x}px`;
-  element.style.top = `${node.position.y}px`;
-  element.style.setProperty('--node-scale', node.visual.scale);
-  element.style.setProperty('--node-roundness', `${node.visual.roundness}px`);
-  element.style.setProperty('--node-shell', `${node.visual.shell}px`);
-  element.style.setProperty('--node-emission', node.visual.emission);
-  element.style.setProperty('--node-pulse', node.visual.pulse);
-  element.style.setProperty('--node-opacity', node.visual.opacity);
-  element.classList.toggle('pulsing', node.visual.pulse > 0.05 && node.health !== 'stale');
-  element.classList.toggle('selected', node.id === loop.selectedNodeId);
+  element.style.left = `${position.x}px`;
+  element.style.top = `${position.y}px`;
+  element.style.setProperty('--node-scale', visual.scale);
+  element.style.setProperty('--node-roundness', `${visual.roundness}px`);
+  element.style.setProperty('--node-shell', `${visual.shell}px`);
+  element.style.setProperty('--node-emission', visual.emission);
+  element.style.setProperty('--node-pulse', visual.pulse);
+  element.style.setProperty('--node-opacity', visual.opacity);
+  element.classList.toggle('pulsing', visual.pulse > 0.05 && node.health !== 'stale');
+  element.classList.toggle('selected', node.id === selectedNodeId);
 
   const summary = toContentText(node.content).replace(/\s+/g, ' ').slice(0, 175);
   element.innerHTML = `
@@ -107,55 +158,76 @@ function createNodeElement(node) {
     <div class="node-footer">
       <span class="node-chip">${escapeHtml(node.lifecycle)}</span>
       <span class="node-chip">${escapeHtml(node.epistemic)}</span>
-      <span class="node-chip node-origin">${escapeHtml(node.position.source)}</span>
+      <span class="node-chip node-origin">${escapeHtml(position.source)}</span>
     </div>`;
 
-  element.addEventListener('pointerdown', (event) => beginDrag(event, node.id));
+  element.addEventListener('pointerdown', (event) => beginDrag(event, node.id, element));
   element.addEventListener('click', (event) => {
     event.stopPropagation();
-    loop.selectedNodeId = node.id;
+    selectedNodeId = node.id;
+    visualPreview = null;
     render();
   });
   return element;
 }
 
-function beginDrag(event, nodeId) {
+function beginDrag(event, nodeId, element) {
   if (event.button !== 0) return;
   const node = loop.nodes.find((candidate) => candidate.id === nodeId);
   if (!node) return;
+
   drag = {
-    node,
+    nodeId,
+    element,
     startX: event.clientX,
     startY: event.clientY,
     originX: node.position.x,
     originY: node.position.y,
+    previewPosition: { ...node.position },
+    moved: false,
   };
-  event.currentTarget.setPointerCapture(event.pointerId);
+  element.setPointerCapture?.(event.pointerId);
+  window.addEventListener('pointermove', moveDrag);
+  window.addEventListener('pointerup', endDrag, { once: true });
 }
 
 function moveDrag(event) {
   if (!drag) return;
   const dx = (event.clientX - drag.startX) / zoom;
   const dy = (event.clientY - drag.startY) / zoom;
-  drag.node.position = {
+  drag.previewPosition = {
     x: Math.max(0, Math.min(1000, drag.originX + dx)),
     y: Math.max(0, Math.min(680, drag.originY + dy)),
     source: 'Built',
   };
-  drag.node.derivedPosition = null;
-  drawNodes();
+  drag.moved = drag.moved || Math.abs(dx) + Math.abs(dy) > 2;
+  drag.element.style.left = `${drag.previewPosition.x}px`;
+  drag.element.style.top = `${drag.previewPosition.y}px`;
   drawRelations();
 }
 
 function endDrag() {
+  window.removeEventListener('pointermove', moveDrag);
   if (!drag) return;
-  loop.history.push({ at: new Date().toISOString(), action: 'move_node', nodeId: drag.node.id, source: 'Built' });
+
+  const completed = drag;
   drag = null;
-  renderInspector();
+
+  if (completed.moved) {
+    act(
+      INTENT_TYPES.MOVE_VISUAL,
+      { targetId: completed.nodeId, position: completed.previewPosition },
+      'Position Built committée.',
+    );
+  } else {
+    drawNodes();
+    drawRelations();
+  }
 }
 
 function nodeCenter(node) {
-  return { x: node.position.x + 90, y: node.position.y + 48 };
+  const position = displayPosition(node);
+  return { x: position.x + 90, y: position.y + 48 };
 }
 
 function edgePath(source, target) {
@@ -221,6 +293,7 @@ function populateSelect(select, values) {
 
 function renderInspector() {
   const node = selectedNode();
+  const visual = effectiveVisual(node);
   $('#selected-subtype').textContent = `${node.node_type} · ${node.subtype}`;
   $('#selected-title').value = node.title;
   $('#selected-id').textContent = node.id;
@@ -242,7 +315,7 @@ function renderInspector() {
     ['visual-opacity', 'opacity', 'opacity-output'],
   ];
   for (const [inputId, property, outputId] of sliders) {
-    const value = node.visual[property];
+    const value = visual[property];
     $(`#${inputId}`).value = value;
     $(`#${outputId}`).textContent = Number(value).toFixed(property === 'roundness' ? 0 : 2);
   }
@@ -284,20 +357,33 @@ function latestObserverRun() {
 }
 
 function renderRuntime() {
-  const moments = loop.runtimeMoments.slice(-5).reverse();
+  const momentEntries = loop.runtimeMoments.slice(-4).reverse().map((moment) => ({
+    kind: 'moment',
+    id: moment.id,
+    label: moment.subtype,
+    result: moment.derivedState || moment.executionStatus || (moment.passed ? 'passed' : 'failed'),
+  }));
+  const receiptEntries = receipts.slice(-4).reverse().map((receipt) => ({
+    kind: 'receipt',
+    id: receipt.id,
+    label: `${receipt.intentType} · r${receipt.revisionBefore}→r${receipt.revisionAfter}`,
+    result: receipt.status,
+  }));
+  const entries = [...receiptEntries, ...momentEntries].slice(0, 7);
   const container = $('#runtime-moments');
-  container.classList.toggle('empty-state', moments.length === 0);
-  container.innerHTML = moments.length
-    ? moments.map((moment) => `
-      <div class="moment-item">
-        <strong>${escapeHtml(moment.subtype)}</strong>
-        <code>${escapeHtml(moment.id)}</code>
-        <div>${escapeHtml(moment.derivedState || moment.executionStatus || (moment.passed ? 'passed' : 'failed'))}</div>
+  container.classList.toggle('empty-state', entries.length === 0);
+  container.innerHTML = entries.length
+    ? entries.map((entry) => `
+      <div class="moment-item" data-entry-kind="${entry.kind}">
+        <strong>${escapeHtml(entry.label)}</strong>
+        <code>${escapeHtml(entry.id)}</code>
+        <div>${escapeHtml(entry.result)}</div>
       </div>`).join('')
-    : 'Aucun moment runtime. La santé ne peut pas encore être déclarée.';
+    : 'Aucun reçu ni moment runtime. La santé ne peut pas encore être déclarée.';
 
   const assessment = latestAssessment();
-  const health = assessment?.derivedState || selectedNode().health || 'not_measured';
+  const healthNode = loop.nodes.find((node) => node.subtype === 'health');
+  const health = assessment?.derivedState || healthNode?.health || 'not_measured';
   const globalHealth = $('#global-health');
   globalHealth.dataset.health = health;
   globalHealth.textContent = statusLabel(health);
@@ -333,6 +419,13 @@ function renderScenarios() {
   $$('[data-scenario]').forEach((button) => button.classList.toggle('active', button.dataset.scenario === loop.scenario));
 }
 
+function renderAuthorityStatus() {
+  const latest = receipts.at(-1);
+  $('#canvas-subtitle').textContent = latest
+    ? `revision ${revision} · ${latest.status} ${latest.intentType} · sense → act → receipt → sense`
+    : `revision ${revision} · authority observed through sense`;
+}
+
 function render() {
   drawNodes();
   drawRelations();
@@ -340,6 +433,7 @@ function render() {
   renderContract();
   renderRuntime();
   renderScenarios();
+  renderAuthorityStatus();
   canvasWorld.style.transform = `scale(${zoom})`;
   $('#zoom-value').textContent = `${Math.round(zoom * 100)}%`;
 }
@@ -349,18 +443,36 @@ function setZoom(next) {
   render();
 }
 
-function mutateSelected(mutator) {
-  mutator(selectedNode());
-  render();
-}
-
 function bindInspector() {
-  $('#selected-title').addEventListener('input', (event) => mutateSelected((node) => { node.title = event.target.value; }));
-  $('#selected-content').addEventListener('change', (event) => mutateSelected((node) => {
-    node.content = parseContentText(event.target.value, node.content);
-  }));
-  $('#selected-lifecycle').addEventListener('change', (event) => mutateSelected((node) => { node.lifecycle = event.target.value; }));
-  $('#selected-epistemic').addEventListener('change', (event) => mutateSelected((node) => { node.epistemic = event.target.value; }));
+  $('#selected-title').addEventListener('change', (event) => {
+    act(
+      INTENT_TYPES.MODIFY_ROLE,
+      { targetId: selectedNodeId, patch: { title: event.target.value } },
+      'Titre committé.',
+    );
+  });
+  $('#selected-content').addEventListener('change', (event) => {
+    const node = selectedNode();
+    act(
+      INTENT_TYPES.MODIFY_ROLE,
+      { targetId: selectedNodeId, patch: { content: parseContentText(event.target.value, node.content) } },
+      'Autorité sémantique committée.',
+    );
+  });
+  $('#selected-lifecycle').addEventListener('change', (event) => {
+    act(
+      INTENT_TYPES.MODIFY_ROLE,
+      { targetId: selectedNodeId, patch: { lifecycle: event.target.value } },
+      'Lifecycle committé.',
+    );
+  });
+  $('#selected-epistemic').addEventListener('change', (event) => {
+    act(
+      INTENT_TYPES.MODIFY_ROLE,
+      { targetId: selectedNodeId, patch: { epistemic: event.target.value } },
+      'Statut épistémique committé.',
+    );
+  });
 
   const sliders = [
     ['visual-scale', 'scale', 'scale-output'],
@@ -370,55 +482,78 @@ function bindInspector() {
     ['visual-pulse', 'pulse', 'pulse-output'],
     ['visual-opacity', 'opacity', 'opacity-output'],
   ];
+
   for (const [inputId, property, outputId] of sliders) {
-    $(`#${inputId}`).addEventListener('input', (event) => {
+    const input = $(`#${inputId}`);
+    input.addEventListener('input', (event) => {
       const value = Number(event.target.value);
-      selectedNode().visual[property] = value;
+      visualPreview = { nodeId: selectedNodeId, patch: { ...(visualPreview?.patch ?? {}), [property]: value } };
       $(`#${outputId}`).textContent = value.toFixed(property === 'roundness' ? 0 : 2);
       drawNodes();
+    });
+    input.addEventListener('change', () => {
+      if (!visualPreview || visualPreview.nodeId !== selectedNodeId) return;
+      const patch = { ...visualPreview.patch };
+      visualPreview = null;
+      act(
+        INTENT_TYPES.MODIFY_VISUAL,
+        { targetId: selectedNodeId, patch },
+        'VisualDefinition committée.',
+      );
     });
   }
 }
 
 function bindActions() {
   $$('.mode-tab').forEach((tab) => tab.addEventListener('click', () => setMode(tab.dataset.mode)));
+
   $$('[data-scenario]').forEach((button) => button.addEventListener('click', () => {
-    applyScenario(loop, button.dataset.scenario);
+    act(
+      INTENT_TYPES.APPLY_SCENARIO,
+      { scenario: button.dataset.scenario },
+      `Scénario committé : ${button.textContent.trim()}`,
+    );
     setMode('simulate');
-    render();
-    toast(`Scénario chargé : ${button.textContent.trim()}`);
   }));
+
   $$('[data-maintenance]').forEach((button) => button.addEventListener('click', () => {
-    const result = applyMaintenance(loop, button.dataset.maintenance);
-    render();
-    toast(result ? `Réparation mesurée : ${result.healthAssessment.derivedState}` : 'Affordance de maintenance appliquée.');
+    act(
+      INTENT_TYPES.APPLY_MAINTENANCE,
+      { action: button.dataset.maintenance },
+      'Maintenance committée et réobservée.',
+    );
   }));
+
   $('#prove-loop').addEventListener('click', () => {
-    if (loop.observation.executionStatus === 'not_run') {
-      loop.observation.executionStatus = 'success';
-      loop.observation.evidenceComplete = true;
-      loop.observation.observedAt = new Date().toISOString();
+    const receipt = act(INTENT_TYPES.RUN_PROOF, {}, 'Proof exécutée.');
+    if (receipt.status === 'committed') {
+      const assessment = latestAssessment();
+      toast(`HealthAssessment produit : ${assessment?.derivedState ?? 'not_measured'}`);
+      setMode('prove');
     }
-    const result = executeProof(loop);
-    setMode('prove');
-    render();
-    toast(`HealthAssessment produit : ${result.healthAssessment.derivedState}`);
   });
+
   $('#reset-loop').addEventListener('click', () => {
-    loop = createInitialLoop();
-    render();
-    toast('Loop restaurée. Aucun moment runtime précréé.');
+    selectedNodeId = loop.id;
+    act(INTENT_TYPES.RESET_LOOP, {}, 'Loop restaurée par transaction.');
+    selectedNodeId = loop.id;
   });
+
   $('#export-loop').addEventListener('click', () => {
-    const blob = new Blob([serializeLoop(loop)], { type: 'application/json' });
+    const bundle = studio.exportBundle();
+    const replay = verifyReceiptChain(bundle.genesis, bundle.receipts);
+    const blob = new Blob([serializeStudioBundle(studio)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'self-verifying-loop.snapshot.json';
+    link.download = 'self-verifying-loop.universe-bundle.json';
     link.click();
     URL.revokeObjectURL(url);
-    toast('Snapshot JSON exporté.');
+    toast(replay.passed
+      ? `Bundle exporté · receipt chain vérifiée à r${replay.revision}.`
+      : `Bundle exporté · ${replay.failures.length} rupture(s) de replay.`);
   });
+
   $('#zoom-in').addEventListener('click', () => setZoom(zoom + 0.1));
   $('#zoom-out').addEventListener('click', () => setZoom(zoom - 0.1));
   canvasViewport.addEventListener('wheel', (event) => {
@@ -426,17 +561,18 @@ function bindActions() {
     event.preventDefault();
     setZoom(zoom + (event.deltaY < 0 ? 0.06 : -0.06));
   }, { passive: false });
-  nodeLayer.addEventListener('pointermove', moveDrag);
-  nodeLayer.addEventListener('pointerup', endDrag);
-  nodeLayer.addEventListener('pointercancel', endDrag);
+
   canvasViewport.addEventListener('click', () => {
-    loop.selectedNodeId = loop.id;
+    selectedNodeId = loop.id;
+    visualPreview = null;
     render();
   });
 }
 
 function init() {
   document.body.dataset.mode = mode;
+  const evidenceHeading = $('.evidence-section h2');
+  if (evidenceHeading) evidenceHeading.textContent = 'Receipts & preuves';
   bindInspector();
   bindActions();
   render();
