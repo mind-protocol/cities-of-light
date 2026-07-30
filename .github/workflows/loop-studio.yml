@@ -39,6 +39,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Check engine entry
+        run: node --check engine/index.js
+
       - name: Test Loop Studio
         run: npm run test:loop-studio
 
