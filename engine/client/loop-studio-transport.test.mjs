@@ -90,6 +90,7 @@ test('HTTP transport calls only sense and act endpoints', async () => {
   };
 
   const transport = createHttpLoopStudioTransport({
+    kind: 'server',
     graph: 'l2:test',
     loopId: 'space:l2:test:loop-v0',
     senseUrl: '/custom/sense',
@@ -100,6 +101,7 @@ test('HTTP transport calls only sense and act endpoints', async () => {
   await transport.sense();
   await transport.act({ id: 'intent:test', type: 'ModifyRoleIntent' });
 
+  assert.equal(transport.kind, 'server');
   assert.deepEqual(calls.map((call) => call.url), ['/custom/sense', '/custom/act']);
   assert.deepEqual(calls[0].body, {
     graph: 'l2:test',
@@ -124,10 +126,14 @@ test('HTTP transport preserves failure instead of fabricating success', async ()
   await assert.rejects(() => transport.sense(), /mind unavailable/);
 });
 
-test('location selects local transport by default and Mind explicitly', () => {
+test('location selects local, shared server and Mind transports explicitly', () => {
   assert.equal(
     createLoopStudioTransportFromLocation({ search: '' }).kind,
     'local',
+  );
+  assert.equal(
+    createLoopStudioTransportFromLocation({ search: '?transport=server' }).kind,
+    'server',
   );
   assert.equal(
     createLoopStudioTransportFromLocation({ search: '?transport=mind' }).kind,
