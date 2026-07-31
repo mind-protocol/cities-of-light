@@ -1,0 +1,141 @@
+name: Rename self-verifying construct
+
+on:
+  push:
+    branches:
+      - feat/loop-studio-v0
+    paths:
+      - '.github/workflows/rename-self-verifying-construct.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  rename:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/loop-studio-v0
+          fetch-depth: 0
+
+      - name: Apply canonical rename
+        shell: python
+        run: |
+          from pathlib import Path
+          import subprocess
+
+          replacements = (
+              ('self_verifying_loop', 'self_verifying_construct'),
+              ('SelfVerifyingLoop', 'SelfVerifyingConstruct'),
+              ('Self-verifying loop', 'Self-verifying construct'),
+              ('self-verifying loop', 'self-verifying construct'),
+              ('self-verifying-loop', 'self-verifying-construct'),
+              ('root_loop', 'root_construct'),
+          )
+
+          files = subprocess.check_output(['git', 'ls-files'], text=True).splitlines()
+          for relative in files:
+              path = Path(relative)
+              try:
+                  text = path.read_text(encoding='utf-8')
+              except (UnicodeDecodeError, IsADirectoryError):
+                  continue
+              updated = text
+              for old, new in replacements:
+                  updated = updated.replace(old, new)
+              if updated != text:
+                  path.write_text(updated, encoding='utf-8')
+
+          core_path = Path('engine/client/loop-studio-core.js')
+          core = core_path.read_text(encoding='utf-8')
+          core = core.replace(
+              "  const root = loop.nodes.find((node) => node.id === loop.id);\n  const missingRoles =",
+              "  const root = loop.nodes.find((node) => node.id === loop.id);\n  const contractKind = root?.content?.contractKind;\n  const validContractKind = contractKind === 'self_verifying_construct';\n  const missingRoles =",
+          )
+          core = core.replace(
+              "    passed: missingRoles.length === 0 && missingRelations.length === 0 && validScope && precreatedMoments.length === 0,",
+              "    passed: validContractKind && missingRoles.length === 0 && missingRelations.length === 0 && validScope && precreatedMoments.length === 0,",
+          )
+          core = core.replace(
+              "    missingRelations,\n    validScope,",
+              "    missingRelations,\n    contractKind,\n    validContractKind,\n    validScope,",
+          )
+          core_path.write_text(core, encoding='utf-8')
+
+          ui_path = Path('engine/client/loop-studio.js')
+          ui = ui_path.read_text(encoding='utf-8')
+          ui = ui.replace(
+              "    ...REQUIRED_RELATIONS.map((predicate) => ({ label: predicate, code: 'relation', pass: !validation.missingRelations.includes(predicate) })),\n    { label: 'parent scope'",
+              "    ...REQUIRED_RELATIONS.map((predicate) => ({ label: predicate, code: 'relation', pass: !validation.missingRelations.includes(predicate) })),\n    { label: 'self_verifying_construct', code: 'contract', pass: validation.validContractKind },\n    { label: 'parent scope'",
+          )
+          ui_path.write_text(ui, encoding='utf-8')
+
+          test_path = Path('engine/client/loop-studio-core.test.mjs')
+          tests = test_path.read_text(encoding='utf-8')
+          anchor = "test('forbidden primitive is independently detected as degraded', () => {"
+          new_test = """test('construct contract is canonical and legacy contract is rejected', () => {
+            const construct = createInitialLoop();
+            const root = construct.nodes.find((node) => node.id === construct.id);
+
+            assert.equal(root.content.contractKind, 'self_verifying_construct');
+            assert.equal(validateStructure(construct).validContractKind, true);
+
+            root.content.contractKind = ['self', 'verifying', 'loop'].join('_');
+            assert.equal(validateStructure(construct).validContractKind, false);
+            assert.equal(validateStructure(construct).passed, false);
+
+            root.content.contractKind = 'self_verifying_construct';
+            root.content.parent_scope = { classification: 'root_construct' };
+            assert.equal(validateStructure(construct).validScope, true);
+          });
+
+          """
+          if new_test not in tests:
+              tests = tests.replace(anchor, new_test + anchor)
+          test_path.write_text(tests, encoding='utf-8')
+
+          forbidden = (
+              'self_verifying_loop',
+              'SelfVerifyingLoop',
+              'Self-verifying loop',
+              'self-verifying loop',
+              'self-verifying-loop',
+              'root_loop',
+          )
+          failures = []
+          for relative in subprocess.check_output(['git', 'ls-files'], text=True).splitlines():
+              path = Path(relative)
+              try:
+                  text = path.read_text(encoding='utf-8')
+              except (UnicodeDecodeError, IsADirectoryError):
+                  continue
+              for term in forbidden:
+                  if term in text:
+                      failures.append(f'{relative}: {term}')
+          if failures:
+              raise SystemExit('Legacy names remain:\n' + '\n'.join(failures))
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify rename
+        run: |
+          node --check engine/index.js
+          npm run test:loop-studio
+          npm run build
+
+      - name: Commit canonical rename
+        run: |
+          git config user.name "nlr-ai"
+          git config user.email "nlr-ai@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No rename changes to commit"
+            exit 0
+          fi
+          git commit -m "refactor: rename self-verifying loop contract to construct"
+          git push origin HEAD:feat/loop-studio-v0

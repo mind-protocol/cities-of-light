@@ -1,11 +1,21 @@
 import { defineConfig } from 'vite';
 import basicSsl from '@vitejs/plugin-basic-ssl';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const engineDir = fileURLToPath(new URL('.', import.meta.url));
 
 export default defineConfig({
   root: 'engine/client',
   build: {
     outDir: '../../dist-engine',
     emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        world: resolve(engineDir, 'client/index.html'),
+        loopStudio: resolve(engineDir, 'client/loop-studio.html'),
+      },
+    },
   },
   plugins: [basicSsl()],
   server: {
